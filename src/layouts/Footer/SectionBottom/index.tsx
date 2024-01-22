@@ -20,7 +20,7 @@ export default function SectionBottom() {
       {DATA_FOOTER_BOTTOM.map((item, index) => {
         const isActive = index === 0
         return (
-          <div className={s.itemBottom} key={item.title}>
+          <div className={`${s.itemBottom} ${isActive && s.itemBottom_isActive}`} key={item.title}>
             <IconDots />
             <p className={s.itemBottom_text}>{item.title}</p>
           </div>

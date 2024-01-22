@@ -17,9 +17,10 @@ const DATA_FOOTER_TOP = [
 export default function SectionTop() {
   return (
     <section className={s.footer_top}>
-      {DATA_FOOTER_TOP.map((item) => {
+      {DATA_FOOTER_TOP.map((item, index) => {
+        const isActive = index === 0
         return (
-          <div className={s.itemTop}>
+          <div className={`${s.itemTop} ${isActive && s.itemTop_isActive}`}>
             <p className={s.itemTop_timeline}>{item.time}</p>
             <h5 className={s.itemTop_title}>{item.title}</h5>
           </div>
