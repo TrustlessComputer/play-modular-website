@@ -1,8 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "./font";
-
+@import './font';
+@import './root.scss';
 
 @layer base {
   * {
@@ -24,7 +24,6 @@ body {
   margin-right: auto;
 }
 
-
 .btn {
   display: flex;
   padding: 6px 32px;
@@ -32,10 +31,10 @@ body {
   align-items: center;
   gap: 8px;
   border-radius: 100px;
-  background: #FFF;
+  background: #fff;
   color: black;
   text-transform: uppercase;
-  transition: background-color .4s ease-out;
+  transition: background-color 0.4s ease-out;
   height: 48px;
   font-size: 16px;
   font-style: normal;
@@ -43,11 +42,11 @@ body {
   line-height: (20/16);
 
   &:hover {
-    background: #F8F0AC;
+    background: #f8f0ac;
   }
 
   &__secondary {
-    background: rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.1);
     color: white;
 
     &:hover {
