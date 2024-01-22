@@ -3,7 +3,11 @@
     @content;
   }
 }
-
+@mixin tablet {
+  @media (max-width: 1199px) {
+    @content;
+  }
+}
 @mixin min-tablet {
   @media (min-width: 768px) {
     @content;
@@ -16,10 +20,8 @@
   }
 }
 
-
 @mixin min-pc-wide {
   @media screen and (min-width: 2000px) {
     @content;
   }
 }
-

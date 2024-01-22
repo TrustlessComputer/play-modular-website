@@ -4,14 +4,22 @@
   width: 100%;
   position: absolute;
   bottom: 50px;
-  padding: 0 240px;
   gap: 20px;
+  padding: 0 240px;
+
+  @include tablet {
+    padding: 0 80px;
+  }
+
+  @include mobile {
+    padding: 0 10px;
+    gap: 10px;
+  }
 
   &_top {
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
   }
 
   &_bottom {
@@ -24,24 +32,39 @@
   width: 33.33%;
   display: flex;
   flex-direction: column;
-  align-items: start;
   &_timeline {
     color: var(--gray);
-    font-family: 'Space Mono';
+    font-family: var(--font-spacemono);
     font-size: 12px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     text-transform: uppercase;
     padding-bottom: 8px;
+    @include mobile {
+      font-size: 10px;
+    }
   }
 
   &_title {
     color: var(--white);
-    text-align: center;
+    text-align: left;
     font-size: 20px;
     font-weight: 600;
     line-height: normal;
+
+    @include mobile {
+      font-size: 12px;
+    }
+  }
+
+  &_isActive {
+    .itemTop_timeline {
+      background: linear-gradient(90deg, #00f5a0 0%, #00d9f5 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
   }
 }
 
@@ -53,5 +76,47 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 2px;
+  gap: 8px;
+  padding: 12px 16px;
+
+  @include mobile {
+    padding: 8px 12px;
+  }
+  &_text {
+    color: var(--gray-2);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+    font-family: var(--font-spacemono);
+    @include mobile {
+      font-size: 10px;
+    }
+  }
+
+  &_isActive {
+    position: relative;
+    &::after {
+      position: absolute;
+      content: '';
+      width: 50%;
+      z-index: 2;
+      height: 100%;
+      left: 0;
+      top: 0;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .itemBottom_text {
+      color: var(--white);
+    }
+
+    rect {
+      fill: var(--white);
+      fill-opacity: 1;
+    }
+    circle {
+      fill: var(--black);
+    }
+  }
 }
