@@ -1,0 +1,59 @@
+.nav {
+  position: relative;
+
+  &_btn {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.10);
+    transition: background-color .4s ease-out;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.20);
+    }
+
+    font-size: 12px;
+    @include min-tablet {
+      font-size: 14px;
+    }
+  }
+
+  &_list {
+    position: absolute;
+    background-color: #171926;
+    top: calc(100% + 12px);
+    right: 0;
+    width: max-content;
+    height: auto;
+    z-index: 5;
+    border-radius: 30px;
+    padding: 10px 20px;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all .4s ease-out;
+
+    &.isShow {
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible;
+    }
+
+    &_btn {
+      width: 100%;
+      margin-bottom: 10px;
+      margin-top: 10px;
+    }
+  }
+}
+
+
+.itemMobile {
+  display: block;
+  @include min-tablet {
+    display: none;
+  }
+}

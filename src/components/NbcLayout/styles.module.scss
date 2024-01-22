@@ -1,0 +1,136 @@
+
+.layout {
+  --gap-screen: 32px;
+  @include min-tablet {
+    --gap-screen: 40px;
+  }
+
+  &_header {
+    position: sticky;
+    background: #000000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 5;
+    padding: 12px 0;
+
+    @include min-tablet {
+      padding: 20px 0;
+    }
+
+    :global(.container) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &_logo {
+      color: #FFF;
+      display: flex;
+      text-align: center;
+      align-items: center;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 20px;
+      text-transform: uppercase;
+      gap: 16px;
+      position: relative;
+      z-index: 5;
+
+      img{
+        width: 29px;
+        height: auto;
+        object-fit: contain;
+      }
+
+      &_text {
+        display: none;
+        @include min-tablet {
+          display: block;
+        }
+      }
+    }
+
+    &_social {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+  }
+
+  &_footer {
+    position: fixed;
+    bottom: var(--gap-screen);
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--color-newsystem-white-100, #FFF);
+
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+    text-transform: uppercase;
+    text-align: center;
+    width: max-content;
+
+    font-size: 12px;
+    @include min-tablet {
+      font-size: 14px;
+    }
+  }
+}
+
+.header_btn {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.10);
+  transition: background-color .4s ease-out;
+
+  font-size: 12px;
+  @include min-tablet {
+    font-size: 14px;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.20);
+  }
+
+  &__play {
+    padding: 12px;
+    width: max-content;
+    color: #FFF;
+    text-align: center;
+
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    text-transform: uppercase;
+    gap: 8px;
+
+  }
+}
+
+.footer {
+  padding-bottom: 44px;
+  width: 100%;
+  left: 0;
+  text-align: center;
+  color: white;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 19.6px */
+  text-transform: uppercase;
+}
+
+
+.hideMobile {
+  display: none;
+  @include min-tablet {
+    display: block;
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "extends": [
+    "next",
+    "prettier"
+  ],
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    // ... other rules
+    "@typescript-eslint/no-non-null-assertion": "off"
+  }
+}
