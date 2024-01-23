@@ -1,0 +1,26 @@
+.button {
+  text-align: center;
+  color: #fff;
+  display: flex;
+  width: 140px;
+  height: 48px;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  @include mobile {
+    font-size: 12px;
+    height: 40px;
+    width: 120px;
+  }
+
+  &__purple {
+    background: #703efc;
+  }
+  &__grey {
+    background: #ffffff1a;
+  }
+}
