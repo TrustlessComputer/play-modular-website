@@ -1,38 +1,25 @@
+'use client'
+
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/display-name */
 
+import { useStoreGlobal } from '@/stores'
+import { viewMapToPosition, views } from '@/utils'
 import { Canvas, useThree } from '@react-three/fiber'
 import React from 'react'
-
-import { useStore } from '../../store'
-import { viewMapToPosition, views } from '../../utils'
-import { useStoreGlobal } from '../../store/store'
-import { Lights } from './Lights'
-import { OrthographicCamera } from '@react-three/drei'
-import { previewCanvasConfig } from '../../utils/config'
-import PreviewScene from './PreviewScene'
-
-const PreviewRoomLights = () => {
-  return (
-    <>
-      <ambientLight intensity={10} />
-      {/* <directionalLight position={[10, 0, 0]} intensity={1.5} />
-      <directionalLight position={[0, 10, 0]} intensity={1.5} />
-      <directionalLight position={[0, 0, 10]} intensity={1.5} /> */}
-    </>
-  )
-}
+import { Lights } from '../Lights'
+import PreviewScene from './PreviewSence'
 
 const CameraController = () => {
   const { view } = useStoreGlobal()
-  const { camera } = useThree()
+  const { camera } = useThree() as any
 
   React.useEffect(() => {
-    const wrapperDom = document.querySelector('.canvas-wrapper')
+    const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
     const position = viewMapToPosition[view]
-    camera.position.set(...position)
+    camera.position.set(position[0], position[1], position[2])
 
     if (view === views.Isometric) {
       const aspect = wrapperDom.clientWidth / wrapperDom.clientHeight
@@ -57,7 +44,7 @@ const CameraController = () => {
     camera.lookAt(0, 0, 0)
   }, [camera, view])
 
-  return <orthographicCamera makeDefault={true} />
+  return <orthographicCamera />
 }
 
 const PreviewRoom = () => {
@@ -70,17 +57,14 @@ const PreviewRoom = () => {
         alpha: false,
         antialias: true,
         powerPreference: 'high-performance',
-        // toneMapping: LinearToneMapping,
       }}
-      colormanagement={'true'}
       shadows={true}
-      dpr={Math.min(2, window.devicePixelRatio)}
+      dpr={Math.min(2, window ? window.devicePixelRatio : 1)}
       linear
     >
       <color attach='background' args={['#000325']} />
 
       <CameraController />
-      {/* <PreviewRoomLights /> */}
       <Lights />
       <PreviewScene />
     </Canvas>

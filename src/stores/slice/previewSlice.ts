@@ -3,7 +3,7 @@ import { views } from '../../utils'
 import { StateCreator } from 'zustand'
 
 export const createPreviewSlice: StateCreator<TPreviewSlice> = (set) => ({
-  view: 'Isometric',
+  view: views.Isometric,
   viewPreview: false,
 
   setViewPreview: (bool: boolean) => set({ viewPreview: bool }),

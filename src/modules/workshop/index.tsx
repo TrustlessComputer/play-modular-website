@@ -10,7 +10,9 @@ export default function WorkShop() {
         <UI />
         <Three3D />
       </div>
-      <div className={s.workshop_preview}>{/* <PreviewRoom /> */}</div>
+      <div className={s.workshop_preview}>
+        <PreviewRoom />
+      </div>
     </main>
   )
 }
