@@ -1,4 +1,11 @@
-export default function WorkShop(){
+import Three3D from './Three3D'
+import UI from './UI'
 
-  return <div>Workshop page</div>
+export default function WorkShop() {
+  return (
+    <main>
+      <UI />
+      <Three3D />
+    </main>
+  )
 }

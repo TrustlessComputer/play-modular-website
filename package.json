@@ -28,7 +28,9 @@
     "three": "^0.156.1",
     "three-stdlib": "^2.24.2",
     "tunnel-rat": "^0.1.2",
-    "valtio": "^1.13.0"
+    "valtio": "^1.13.0",
+    "framer-motion": "^10.15.1",
+    "framer-motion-3d": "^10.15.1"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^13.4.13",
