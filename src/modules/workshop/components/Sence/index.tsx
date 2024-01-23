@@ -1,19 +1,14 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/no-unknown-property */
 import { useEffect, useRef, useState, useMemo } from 'react'
 import { Vector3, Box3, Mesh } from 'three'
-// import { uID, getMeasurementsFromDimensions, base, useAnchorShorcuts, minWorkSpaceSize, EDIT_MODE } from '../../utils'
-// import { ChangeColor } from './ChangeColor'
-// import { useStore } from '../../store'
-// import { useStoreGlobal } from '../../store/store'
 import { Select } from '@react-three/drei'
 import { Brick } from '../Brick'
 import { BrickCursor } from '../BrickCursor'
 import { Lights } from '../Light'
 import { Workspace } from '../Workpage'
 import { useStoreGlobal } from '@/stores'
-import { EDIT_MODE, base, getMeasurementsFromDimensions, minWorkSpaceSize, uID, useAnchorShorcuts } from '@/utils'
+import { EDIT_MODE, base, getMeasurementsFromDimensions, minWorkSpaceSize, uID } from '@/utils'
 import { DeleteBrick } from '../DeleteBrick'
+import { useAnchorShorcuts } from '@/hooks/useShortcuts'
 
 const mousePoint = new Vector3()
 const normal = new Vector3()
@@ -84,7 +79,7 @@ export const Scene = () => {
           translation: { x: anchorX, z: anchorZ },
         }
 
-        setBricks((prevBricks) => [...prevBricks, brickData])
+        // setBricks((prevBricks) => [...prevBricks, brickData])
         addBlocks(brickData)
       }
     } else {

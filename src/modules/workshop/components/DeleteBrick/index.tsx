@@ -1,6 +1,6 @@
 import React from 'react'
-import { useDeleteShortcut } from '@/utils'
 import { useStoreGlobal } from '@/stores'
+import { useDeleteShortcut } from '@/hooks/useShortcuts'
 
 export const DeleteBrick = ({ setBricks }) => {
   const selected = useStoreGlobal((state) => state.selectedBricks).map((sel) => sel.userData.uID)

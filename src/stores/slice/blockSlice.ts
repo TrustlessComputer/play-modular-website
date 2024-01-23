@@ -1,4 +1,3 @@
-import { TBlockData } from '@/types'
 import { TBlockSlice } from '@/types/store'
 import { StateCreator } from 'zustand'
 
