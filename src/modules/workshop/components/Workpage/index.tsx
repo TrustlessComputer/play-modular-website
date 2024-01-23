@@ -1,4 +1,5 @@
-import { Environment, Lightformer } from '@react-three/drei'
+import { Environment, Grid, Lightformer } from '@react-three/drei'
+import { Bloom, EffectComposer, ToneMapping } from '@react-three/postprocessing'
 import React from 'react'
 
 export const Workspace = ({ onClick = (e: any) => {}, mouseMove = (e: any) => {}, workspaceSize }) => {
@@ -6,9 +7,8 @@ export const Workspace = ({ onClick = (e: any) => {}, mouseMove = (e: any) => {}
 
   return (
     <>
-      <gridHelper position={[0, -0.05, 0]} args={[workspaceSize, gridSize]} />
+      <gridHelper position={[0, -0.05, 0]} args={[workspaceSize, gridSize, 0xd3d3d3]} />
 
-      {/* Control mask cube */}
       <mesh
         rotation={[-Math.PI / 2, 0, 0]}
         onClick={onClick}

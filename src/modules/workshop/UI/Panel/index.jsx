@@ -1,15 +1,13 @@
-import React from 'react'
-import { Checkbox } from './Checkbox'
-import ItemData from './ItemData'
-import { ListTexture } from './Texture'
+import { ListBlocks } from './ListBlocks'
 import './styles.css'
 
 export default function Panel() {
   return (
     <div className='Panel'>
-      {/* <Checkbox />
-      <ListTexture />
-      <ItemData /> */}
+      {/* {<Checkbox />
+      // <ListTexture />
+      <ItemData />} */}
+      <ListBlocks />
     </div>
   )
 }

@@ -8,7 +8,7 @@ export default function UI() {
     <>
       {/* <DialogBox /> */}
       {/* <ModeToggleBar /> */}
-      {/* <Panel /> */}
+      {<Panel />}
       <BottomBar />
     </>
   )
