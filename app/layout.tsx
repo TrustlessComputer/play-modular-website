@@ -20,7 +20,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang='en' className='antialiased'>
-      <head />
       <body className={`${manrope.variable} ${space_mono.variable}`}>
         <Layout>{children}</Layout>
       </body>
