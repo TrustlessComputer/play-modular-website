@@ -1,0 +1,17 @@
+name: Docker develop build
+
+on:
+  push:
+    branches:
+      - 'develop'
+
+jobs:
+  build-alpha-lite-develop:
+    uses: TrustlessComputer/tc-github-action-templates/.github/workflows/docker-build-and-push.yaml@main
+    with:
+      DOCKER_IMAGE_NAME: play-modular-website
+      DOCKERFILE_NAME: Dockerfile
+      CONCURRENCY_GROUP: docker_build_develop
+      RUNNER_TAG: ubuntu-latest-m
+    secrets:
+      GCLOUD_DEV_SERVICE_ACCOUNT_JSON: ${{ secrets.GCLOUD_DEV_SERVICE_ACCOUNT_JSON }}
