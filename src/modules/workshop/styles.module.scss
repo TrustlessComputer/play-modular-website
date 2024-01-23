@@ -1,16 +1,17 @@
 .workshop {
   position: relative;
+  display: flex;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+
   &_main {
-    width: 100%;
+    flex: 1;
     height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
   }
 
   &_preview {
+    flex: 1;
+    height: 100%;
   }
 }
