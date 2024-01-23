@@ -3,8 +3,8 @@
 import React from 'react'
 import { listMaterial } from '@/constant/mock-data'
 import { IconCheck } from '@/components/IconSvgs'
-import './styles.css'
 import { useStoreGlobal } from '@/stores'
+import s from './styles.module.scss'
 
 export const ListBlocks = () => {
   const { setWidth, setDepth, setColor, setTexture, texture, setTrait } = useStoreGlobal()
@@ -23,9 +23,9 @@ export const ListBlocks = () => {
   }
 
   return (
-    <div className='SliderInputContainer'>
-      <label className='SliderLabel'>Traits</label>
-      <div className='ListTexture'>
+    <div className={s.wrapper}>
+      <label className={s.label}>List Blocks</label>
+      <div className={s.wrapper_listBlocks}>
         {listMaterial.map((item, index) => {
           const isActive = item.texture === texture
           return (
@@ -33,17 +33,17 @@ export const ListBlocks = () => {
               onMouseEnter={() => setIsHover(index)}
               onMouseLeave={() => setIsHover(-1)}
               key={index}
-              className={`texture_wrapper ${isActive && 'isActive'}`}
+              className={`${s.wrapper_item} ${isActive && s['wrapper_item__isActive']}`}
             >
               <img src={item.texture} onClick={() => handleChangeTexture(item)} />
               {isActive && (
-                <span className={'icon_check'}>
+                <span className={s.iconCheck}>
                   <IconCheck />
                 </span>
               )}
 
               {isHover === index && (
-                <div className='tooltip'>
+                <div className={s.wrapper_tooltip}>
                   <span>Color: {item.color}</span>
                   <span>Shape: {item.shape}</span>
                   <span>Texture: {item.texture.split('/')[3]}</span>

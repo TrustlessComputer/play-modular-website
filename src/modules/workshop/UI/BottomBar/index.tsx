@@ -1,67 +1,55 @@
 'use client'
-
-import React from 'react'
-import './styles.css'
-// import { views, EDIT_MODE } from '@/utils'
-import { useStoreGlobal } from '@/stores'
 import { useUndoRedoShortcut } from '@/hooks/useShortcuts'
+import { useStoreGlobal } from '@/stores'
 import { views } from '@/utils'
-
+import s from './styles.module.scss'
 export default function BottomBar() {
   const { undo, redo, mode, viewPreview, setViewPreview } = useStoreGlobal()
-
-  // const isEditMode = mode === EDIT_MODE
-  // const selectedBricks = useStore((state) => state.selectedBricks).map((sel) => sel.userData.uID)
-  // const setBricks = useStore((state) => state.setBricks)
-  // const setSelection = useStore((state) => state.setSelectedBricks)
-
-  // const deleteSelectedBricks = () => {
-  //   setBricks((bricks) => {
-  //     const newBricks = bricks.filter((brick) => {
-  //       const selectedClone = [...selectedBricks]
-  //       const uID = brick.uID
-  //       let should = true
-  //       for (let i = 0; i < selectedClone.length; i++) {
-  //         const selectedUID = selectedClone[i]
-  //         if (uID === selectedUID) {
-  //           should = false
-  //           selectedClone.splice(i, 1)
-  //         }
+  // setBricks((bricks) => {
+  //   const newBricks = bricks.filter((brick) => {
+  //     const selectedClone = [...selectedBricks]
+  //     const uID = brick.uID
+  //     let should = true
+  //     for (let i = 0; i < selectedClone.length; i++) {
+  //       const selectedUID = selectedClone[i]
+  //       if (uID === selectedUID) {
+  //         should = false
+  //         selectedClone.splice(i, 1)
   //       }
-  //       return should
-  //     })
-  //     return newBricks
+  //     }
+  //     return should
   //   })
-  //   setSelection({})
-  // }
+  //   return newBricks
+  // })
 
   const undoAction = () => {
-    // setSelection({});
     undo()
   }
 
   const redoAction = () => {
-    // setSelection({});
     redo()
   }
 
   useUndoRedoShortcut(undo, redo)
 
   return (
-    <div className='BottomBar'>
-      <button className='Button violet' onClick={undoAction}>
+    <div className={s.bottomBar}>
+      <button className={s.bottomBar_btn} onClick={undoAction}>
         Undo
       </button>
 
-      <button className='Button violet' onClick={redoAction}>
+      <button className={s.bottomBar_btn} onClick={redoAction}>
         Redo
       </button>
 
-      {/* <button onClick={deleteSelectedBricks} className='Button violet'>
+      <button
+        //onClick={deleteSelectedBricks}
+        className={s.bottomBar_btn}
+      >
         Delete
-      </button> */}
+      </button>
 
-      <button onClick={() => setViewPreview(!viewPreview)} className='Button violet'>
+      <button onClick={() => setViewPreview(!viewPreview)} className={s.bottomBar_btn}>
         Preview
       </button>
     </div>

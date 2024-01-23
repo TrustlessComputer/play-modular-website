@@ -1,0 +1,25 @@
+.bottomBar {
+  position: absolute;
+  bottom: 20px;
+  padding: 10px 20px;
+  gap: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background-color: white;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+
+  &_button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    padding: 8px 15px;
+    font-size: 15px;
+    line-height: 1;
+    font-weight: 500;
+    color: #000;
+  }
+}

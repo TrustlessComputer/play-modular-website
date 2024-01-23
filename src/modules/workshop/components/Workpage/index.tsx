@@ -1,6 +1,4 @@
-import { Environment, Grid, Lightformer } from '@react-three/drei'
-import { Bloom, EffectComposer, ToneMapping } from '@react-three/postprocessing'
-import React from 'react'
+import { Environment, Lightformer } from '@react-three/drei'
 
 export const Workspace = ({ onClick = (e: any) => {}, mouseMove = (e: any) => {}, workspaceSize }) => {
   const gridSize = workspaceSize / 25

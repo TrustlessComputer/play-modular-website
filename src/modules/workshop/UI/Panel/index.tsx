@@ -1,12 +1,9 @@
 import { ListBlocks } from './ListBlocks'
-import './styles.css'
+import s from './styles.module.scss'
 
 export default function Panel() {
   return (
-    <div className='Panel'>
-      {/* {<Checkbox />
-      // <ListTexture />
-      <ItemData />} */}
+    <div className={s.panel}>
       <ListBlocks />
     </div>
   )

@@ -1,14 +1,13 @@
-import { useEffect, useRef, useState, useMemo } from 'react'
-import { Vector3, Box3, Mesh, Group } from 'three'
+import { useAnchorShorcuts } from '@/hooks/useShortcuts'
+import { useStoreGlobal } from '@/stores'
+import { EDIT_MODE, base, getMeasurementsFromDimensions, minWorkSpaceSize, uID } from '@/utils'
 import { Select } from '@react-three/drei'
+import { useEffect, useRef } from 'react'
+import { Box3, Group, Vector3 } from 'three'
 import { Brick } from '../Brick'
 import { BrickCursor } from '../BrickCursor'
 import { Lights } from '../Lights'
 import { Workspace } from '../Workpage'
-import { useStoreGlobal } from '@/stores'
-import { EDIT_MODE, base, getMeasurementsFromDimensions, minWorkSpaceSize, uID } from '@/utils'
-import { DeleteBrick } from '../DeleteBrick'
-import { useAnchorShorcuts } from '@/hooks/useShortcuts'
 
 const mousePoint = new Vector3()
 const normal = new Vector3()
@@ -176,7 +175,6 @@ export const Scene = () => {
           })}
         {/* <DeleteBrick setBricks={setBricks} /> */}
         {/* <BrickOutline /> */}
-        {/* <ChangeColor color={color} setBricks={setBricks} /> */}
       </Select>
       <Lights />
       <Workspace onClick={onClick} mouseMove={mouseMove} workspaceSize={minWorkSpaceSize} />
