@@ -4,6 +4,7 @@ import { motion } from 'framer-motion-3d'
 import { useLoader } from '@react-three/fiber'
 import { base, createGeometry, getMeasurementsFromDimensions } from '@/utils'
 import { TBlockData } from '@/types'
+import { Outlines } from '@react-three/drei'
 
 type TBrickAction = {
   onClick: (e: any) => void
@@ -110,10 +111,9 @@ export const Brick = ({
                 translation,
               }}
               geometry={geo.cube}
-              // transparent={true}
             >
               <meshPhysicalMaterial {...props} metalness={0.2} roughness={0.75} color={color} />
-              {/* <Outlines angle={0} thickness={0.5} color="black" /> */}
+              <Outlines angle={0} thickness={0.5} color='black' />
             </mesh>
             <mesh
               castShadow
@@ -130,10 +130,9 @@ export const Brick = ({
                 translation,
               }}
               geometry={geo.cylinder}
-              // transparent={true}
             >
               <meshStandardMaterial metalness={0.2} roughness={0.75} color={color} />
-              {/* <Outlines angle={0} thickness={0.5} color="black" /> */}
+              <Outlines angle={0} thickness={0.5} color='black' />
             </mesh>
           </group>
         ))}
