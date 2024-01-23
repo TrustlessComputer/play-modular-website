@@ -1,5 +1,6 @@
-import { ApplicationEnvironment } from '@/config/types';
-import { APP_ENV } from '@/config';
+import {ApplicationEnvironment} from "@/constant/types";
+import {APP_ENV} from "@/constant/constant";
+
 
 export const isProduction = (): boolean => {
   return APP_ENV === ApplicationEnvironment.PRODUCTION;

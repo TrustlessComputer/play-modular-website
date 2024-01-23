@@ -9,6 +9,10 @@
   align-items: center;
   justify-content: center;
 
+  &.hide {
+    display: none;
+  }
+
   &_bg {
     background-color: black;
     position: absolute;

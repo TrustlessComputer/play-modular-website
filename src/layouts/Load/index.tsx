@@ -22,7 +22,7 @@ export default function Load() {
                 const rectLogoCenter = refLogo.current.getBoundingClientRect();
 
                 const x = rectLogo.x - rectLogoCenter.x;
-                const y =  rectLogo.y - rectLogoCenter.y;
+                const y = rectLogo.y - rectLogoCenter.y;
 
                 gsap.to(refLogo.current, {
                     x, y, ease: 'power3.inOut', duration: .8, onComplete: () => {
@@ -32,7 +32,10 @@ export default function Load() {
             }
 
             gsap.to(refLoad.current, {
-                opacity: 0, ease: 'power3.inOut', duration: .8, delay: .4,
+                opacity: 0, ease: 'power3.inOut', pointerEvents: 'none', duration: .8, delay: .4,
+                onComplete: ()=>{
+                    refLoad.current.classList.add(s.hide)
+                }
             });
         }
     }, [play]);

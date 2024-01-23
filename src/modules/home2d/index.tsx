@@ -2,7 +2,7 @@
 
 import s from './styles.module.scss'
 import Button from '@/components/Button'
-import {CDN_URL_VIDEOS} from "@/modules/constant";
+import {CDN_URL_VIDEOS} from "@/constant/constant";
 import TimeLine from "@/modules/home2d/TimeLine";
 import Load from "@/layouts/Load";
 import {useEffect, useRef, useState} from "react";
