@@ -7,7 +7,7 @@ export default function UI() {
   return (
     <>
       {/* <DialogBox /> */}
-      {/* <ModeToggleBar /> */}
+      <ModeToggleBar />
       {<Panel />}
       <BottomBar />
     </>
