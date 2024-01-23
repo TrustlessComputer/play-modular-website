@@ -6,21 +6,21 @@ import { base, createGeometry, getMeasurementsFromDimensions } from '@/utils'
 import { TBlockData } from '@/types'
 
 type TBrickAction = {
-  onClick: () => void
-  mouseMove: () => void
+  onClick: (e: any) => void
+  mouseMove: (e: any) => void
 }
 
 export const Brick = ({
   intersect,
   color,
   texture,
-  dimensions = { x: 1, y: 1, z: 1 },
+  dimensions = { x: 1, z: 1 },
   rotation = 0,
   translation = { x: 0, z: 0 },
   bricksBoundBox = { current: [] },
   uID = '',
-  onClick = () => {},
-  mouseMove = () => {},
+  onClick = (e: any) => {},
+  mouseMove = (e: any) => {},
 }: TBrickAction & TBlockData) => {
   const brickRef = useRef()
   const texturez = useLoader(TextureLoader, texture)

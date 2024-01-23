@@ -1,11 +1,7 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unknown-property */
-import { useEffect, useRef, useState, useMemo } from 'react'
+
+import { useEffect, useRef } from 'react'
 import { Vector3, Box3, Mesh } from 'three'
-// import { uID, getMeasurementsFromDimensions, base, useAnchorShorcuts, minWorkSpaceSize, EDIT_MODE } from '../../utils'
-// import { ChangeColor } from './ChangeColor'
-// import { useStore } from '../../store'
-// import { useStoreGlobal } from '../../store/store'
 import { Select } from '@react-three/drei'
 import { Brick } from '../Brick'
 import { BrickCursor } from '../BrickCursor'
@@ -23,8 +19,7 @@ const offsetVec = new Vector3()
 export const Scene = () => {
   useAnchorShorcuts()
 
-  const { blockCurrent, addBlocks, setBricks, mode, width, depth, anchorX, anchorZ, rotate, color, texture } =
-    useStoreGlobal()
+  const { blockCurrent, addBlocks, mode, width, depth, anchorX, anchorZ, rotate, color, texture } = useStoreGlobal()
   const bricksBoundBox = useRef([])
   const brickCursorRef = useRef<Mesh>()
   const isEditMode = mode === EDIT_MODE
@@ -38,7 +33,6 @@ export const Scene = () => {
     if (!isDrag.current) {
       const dimensions = getMeasurementsFromDimensions({
         x: width,
-        y: 1,
         z: depth,
       })
       const boundingBoxOfBrickToBeAdded = new Box3().setFromObject(brickCursorRef.current)
@@ -84,7 +78,7 @@ export const Scene = () => {
           translation: { x: anchorX, z: anchorZ },
         }
 
-        setBricks((prevBricks) => [...prevBricks, brickData])
+        // setBricks((prevBricks) => [...prevBricks, brickData])
         addBlocks(brickData)
       }
     } else {
@@ -97,7 +91,6 @@ export const Scene = () => {
     if (!brickCursorRef.current) return
     const { height } = getMeasurementsFromDimensions({
       x: width,
-      y: 1,
       z: depth,
     })
 
@@ -118,11 +111,11 @@ export const Scene = () => {
       .add(offsetVec)
   }
 
-  const onClick = (e): void => {
+  const onClick = (e) => {
     if (!isEditMode) addBrick(e)
   }
 
-  const mouseMove = (e): void => {
+  const mouseMove = (e) => {
     setBrickCursorPosition(e)
   }
 
@@ -152,7 +145,7 @@ export const Scene = () => {
 
   return (
     <>
-      {/* <color attach='background' args={['#202025']} /> */}
+      <color attach='background' args={['#202025']} />
       <Select box multiple>
         {blockCurrent?.length > 0 &&
           blockCurrent.map((b, i) => {
@@ -181,7 +174,7 @@ export const Scene = () => {
               />
             )
           })}
-        <DeleteBrick setBricks={setBricks} />
+        {/* <DeleteBrick setBricks={setBricks} /> */}
         {/* <BrickOutline /> */}
         {/* <ChangeColor color={color} setBricks={setBricks} /> */}
       </Select>
@@ -190,7 +183,7 @@ export const Scene = () => {
       <BrickCursor
         ref={brickCursorRef}
         rotation={rotate ? Math.PI / 2 : 0}
-        dimensions={{ x: width, y: 1, z: depth }}
+        dimensions={{ x: width, z: depth }}
         translation={{ x: anchorX, z: anchorZ }}
       />
     </>

@@ -8,7 +8,7 @@ type BrickCursorProps = {
     point: Vector3
     face: { normal: Vector3 }
   }
-  dimensions?: { x: number; y: number; z: number }
+  dimensions?: { x: number; y?: number; z: number }
   rotation?: number
   translation?: { x: number; z: number }
 }
@@ -20,7 +20,7 @@ export const BrickCursor = forwardRef(
         point: new Vector3(),
         face: { normal: new Vector3(0, 0, 1) },
       },
-      dimensions = { x: 1, y: 1, z: 1 },
+      dimensions = { x: 1, z: 1 },
       rotation = 0,
       translation = { x: 0, z: 0 },
     }: BrickCursorProps,

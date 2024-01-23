@@ -6,7 +6,7 @@ export function CSSToHex(cssColor) {
   return parseInt(`0x${cssColor.substring(1)}`, 16)
 }
 
-export function getMeasurementsFromDimensions({ x, y, z }: { x: number; y: number; z: number }) {
+export function getMeasurementsFromDimensions({ x, y, z }: { x: number; y?: number; z: number }) {
   return {
     width: base * x,
     height: base * y || (base * 2) / 1.5,

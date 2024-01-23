@@ -16,6 +16,7 @@ const PreviewScene = () => {
       {blockCurrent.map((b, i) => {
         const { dimensions, rotation, intersect } = b
         const height = 1
+
         const position = () => {
           const evenWidth = rotation === 0 ? dimensions.x % 2 === 0 : dimensions.z % 2 === 0
           const evenDepth = rotation === 0 ? dimensions.z % 2 === 0 : dimensions.x % 2 === 0

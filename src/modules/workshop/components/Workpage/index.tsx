@@ -1,7 +1,7 @@
 import { Environment, Lightformer } from '@react-three/drei'
 import React from 'react'
 
-export const Workspace = ({ onClick = () => {}, mouseMove = () => {}, workspaceSize }) => {
+export const Workspace = ({ onClick = (e: any) => {}, mouseMove = (e: any) => {}, workspaceSize }) => {
   const gridSize = workspaceSize / 25
 
   return (
