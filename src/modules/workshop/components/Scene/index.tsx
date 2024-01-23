@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useMemo } from 'react'
-import { Vector3, Box3, Mesh } from 'three'
+import { Vector3, Box3, Mesh, Group } from 'three'
 import { Select } from '@react-three/drei'
 import { Brick } from '../Brick'
 import { BrickCursor } from '../BrickCursor'
@@ -20,7 +20,7 @@ export const Scene = () => {
 
   const { blockCurrent, addBlocks, mode, width, depth, anchorX, anchorZ, rotate, color, texture } = useStoreGlobal()
   const bricksBoundBox = useRef([])
-  const brickCursorRef = useRef<Mesh>()
+  const brickCursorRef = useRef<Group>()
   const isEditMode = mode === EDIT_MODE
 
   const addBrick = (e) => {

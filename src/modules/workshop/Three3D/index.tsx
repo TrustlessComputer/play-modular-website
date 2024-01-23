@@ -12,16 +12,14 @@ export default function Three3D() {
         alpha: false,
         antialias: true,
         powerPreference: 'high-performance',
-        // toneMapping: LinearToneMapping,
       }}
       camera={{
-        position: [17.43, 657.76, 943.51],
+        position: [0, 600, 900],
         near: 0.1,
         far: 20000,
       }}
-      // colormanagement={''}
       shadows={true}
-      dpr={Math.min(2, window.devicePixelRatio)}
+      dpr={Math.min(2, window ? window.devicePixelRatio : 1)}
       linear
     >
       <Suspense fallback={null}>
