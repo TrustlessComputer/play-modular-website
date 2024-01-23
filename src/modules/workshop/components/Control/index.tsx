@@ -1,3 +1,4 @@
+'use client'
 import React, { useRef } from 'react'
 import { useThree } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'

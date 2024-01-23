@@ -1,8 +1,8 @@
 import React from 'react'
 import { Vector3 } from 'three'
-import { Brick } from './Brick'
-import { useStoreGlobal } from '../../store/store'
+import { useStoreGlobal } from '@/stores'
 import { base } from '@/utils'
+import { Brick } from '../../Brick'
 
 const PreviewScene = () => {
   const { blockCurrent } = useStoreGlobal()

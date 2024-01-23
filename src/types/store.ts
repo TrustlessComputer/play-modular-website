@@ -1,6 +1,7 @@
 import { TBlockData } from '.'
 
 export type TBlockSlice = {
+    selectedBricks: any
     blockCurrent: TBlockData[]
     blocksState: TBlockData[][]
     currentStateIndex: number
@@ -32,6 +33,7 @@ export type TAtributeBlock = {
     color: string
     texture: string
     trait: { color: string; texture: string; shape: string }
+    selectedBricks: []
 
     setMode: (mode: string) => void
     setWidth: (w: number) => void
@@ -44,4 +46,5 @@ export type TAtributeBlock = {
     setColor: (color: string) => void
     setTexture: (t: string) => void
     setTrait: ({ color, texture, shape }: { color: string; texture: string; shape: string }) => void
+    setSelectedBricks: (b: any) => void
 }

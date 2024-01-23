@@ -1,26 +1,27 @@
-/* eslint-disable react/no-unknown-property */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/display-name */
 import React, { useMemo, useEffect, useRef } from 'react'
-import { CSSToHex, getMeasurementsFromDimensions, base, createGeometry } from '../../utils'
 import { Vector3, Box3, TextureLoader } from 'three'
 import { motion } from 'framer-motion-3d'
 import { useLoader } from '@react-three/fiber'
-// import { Outlines } from '@react-three/drei';
+import { base, createGeometry, getMeasurementsFromDimensions } from '@/utils'
+import { TBlockData } from '@/types'
+
+type TBrickAction = {
+  onClick: () => void
+  mouseMove: () => void
+}
 
 export const Brick = ({
   intersect,
   color,
   texture,
-  dimensions = { x: 1, z: 1 },
+  dimensions = { x: 1, y: 1, z: 1 },
   rotation = 0,
   translation = { x: 0, z: 0 },
   bricksBoundBox = { current: [] },
   uID = '',
   onClick = () => {},
   mouseMove = () => {},
-}) => {
+}: TBrickAction & TBlockData) => {
   const brickRef = useRef()
   const texturez = useLoader(TextureLoader, texture)
   const props = {
@@ -109,7 +110,7 @@ export const Brick = ({
                 translation,
               }}
               geometry={geo.cube}
-              transparent={true}
+              // transparent={true}
             >
               <meshPhysicalMaterial {...props} metalness={0.2} roughness={0.75} color={color} />
               {/* <Outlines angle={0} thickness={0.5} color="black" /> */}
@@ -129,7 +130,7 @@ export const Brick = ({
                 translation,
               }}
               geometry={geo.cylinder}
-              transparent={true}
+              // transparent={true}
             >
               <meshStandardMaterial metalness={0.2} roughness={0.75} color={color} />
               {/* <Outlines angle={0} thickness={0.5} color="black" /> */}

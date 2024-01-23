@@ -1,7 +1,7 @@
 import React, { forwardRef, useMemo } from 'react'
 import { Vector3 } from 'three'
-import { getMeasurementsFromDimensions, base, CREATE_MODE } from '../../utils'
-import { useStoreGlobal } from '../../store/store'
+import { getMeasurementsFromDimensions, base, CREATE_MODE } from '@/utils'
+import { useStoreGlobal } from '@/stores'
 
 export const BrickCursor = forwardRef(
   (

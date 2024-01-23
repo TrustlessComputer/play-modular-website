@@ -8,7 +8,7 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
     currentStateIndex: 0,
     isUndo: false,
     isRedo: false,
-
+    selectedBricks: [],
     addBlocks: (getBrick) =>
         set((state) => {
             const currentStateIndex = state.currentStateIndex
@@ -48,6 +48,17 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
             } else {
                 return { ...state, isRedo: false }
             }
+        }),
+    setSelectedBricks: ({ object, shift }) =>
+        set((state) => {
+            if (object === undefined) return { selectedBricks: [] }
+            else if (Array.isArray(object)) return { selectedBricks: object }
+            else if (!shift) return state.selectedBricks[0] === object ? { selectedBricks: [] } : { selectedBricks: [object] }
+            else if (state.selectedBricks.includes(object))
+                return {
+                    selectedBricks: state.selectedBricks.filter((o) => o !== object),
+                }
+            else return { selectedBricks: [object, ...state.selectedBricks] }
         }),
     // setBricks: (getBricks) => set((state) => ({ blockCurrent: getBricks(state.blockCurrent) })),
 })
