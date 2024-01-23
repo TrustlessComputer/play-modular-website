@@ -2,7 +2,7 @@ import React from 'react'
 import s from './styles.module.scss'
 
 type TButton = {
-  bg: 'purple' | 'grey'
+  bg: 'purple' | 'grey' | 'white'
   children: React.ReactNode
 }
 
