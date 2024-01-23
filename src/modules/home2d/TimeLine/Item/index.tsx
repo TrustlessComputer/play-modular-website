@@ -2,7 +2,6 @@ import s from "@/modules/home2d/TimeLine/styles.module.scss";
 import React, {useEffect, useRef} from "react";
 import IconDots from "@/components/NbcLayout/Ioncs/IcDot";
 import {gsap} from 'gsap';
-import Fade from "@/interactive/Fade";
 
 type IItem = {
     isActive: boolean,
