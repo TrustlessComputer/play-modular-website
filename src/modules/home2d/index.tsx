@@ -24,11 +24,19 @@ export default function Home2d() {
         }, 800);
     }, [play]);
 
+    const onTimeUpdate = () => {
+        //todo
+        // if(refPlay.current.currentTime %3 === 0){
+        //
+        // }
+    }
+
     return (
         <>
             <div className={s.homepage}>
                 <div className={s.homepage_bg}>
-                    <video ref={refPlay} width={1920} height={1080} preload={'metadata'} playsInline loop muted
+                    <video ref={refPlay} width={1920} height={1080} preload={'metadata'} onTimeUpdate={onTimeUpdate}
+                           playsInline loop muted
                            onPlaying={() => {
                                setVidIsPlay(true)
                            }}>
