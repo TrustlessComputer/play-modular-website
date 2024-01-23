@@ -2,7 +2,7 @@
 
 import React, { Suspense } from 'react'
 import { ControlsWrapper } from '../components/Control'
-import { Scene } from '../components/Sence'
+import { Scene } from '../components/Scene'
 import { Canvas } from '@react-three/fiber'
 
 export default function Three3D() {
