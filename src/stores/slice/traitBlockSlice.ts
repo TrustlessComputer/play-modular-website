@@ -15,7 +15,7 @@ export const createTraitBlockSlice: StateCreator<TAtributeBlock> = (set) => ({
     color: colors[Math.floor(Math.random() * colors.length - 1)],
     texture: 'assets/patterns/sand.svg',
     trait: { color: '#ff0000', texture: 'assets/patterns/sand.svg', shape: '1x1' },
-
+    selectedBricks: [],
     setMode: (newMode) => set({ mode: newMode }),
     setWidth: (newWidth) => set({ width: newWidth }),
     setDepth: (newDepth) => set({ depth: newDepth }),
@@ -30,4 +30,5 @@ export const createTraitBlockSlice: StateCreator<TAtributeBlock> = (set) => ({
         set({
             trait: { color: color, texture: texture, shape: shape },
         }),
+    setSelectedBricks: (b: any) => set((state) => state),
 })

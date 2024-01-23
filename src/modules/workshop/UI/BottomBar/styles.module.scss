@@ -22,4 +22,27 @@
     font-weight: 500;
     color: #000;
   }
+
+  &_changeView {
+    position: absolute;
+    right: 100px;
+    bottom: 100px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+
+    &_btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: #000;
+      background-color: #fff;
+      border-radius: 10px;
+      border: 1px solid #000;
+    }
+  }
+}
+.active {
+  border: 1px solid #fff;
+  color: #fff;
+  background: #000;
 }

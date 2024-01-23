@@ -61,12 +61,12 @@ BottomBar.PreviewScene = function BottomBarPreviewScene() {
   const { view, setView } = useStoreGlobal()
 
   return (
-    <div className='BottomBar'>
+    <div className={s.bottomBar_changeView}>
       {allViews.map((v) => (
         <button
           key={v}
-          className={`Button violet ${view === v ? 'active' : ''}`}
-          onClick={() => (setView(v), console.log('hee'))}
+          className={`${s.bottomBar_changeView_btn} ${view === v ? s.active : ''}`}
+          onClick={() => setView(v)}
         >
           {v}
         </button>
