@@ -47,7 +47,7 @@ export default function TimeLine() {
             setIndexActive(reIndex.current);
         }
 
-        refTime.current = setInterval(next, 3000);
+        refTime.current = setInterval(next, 3050);
         return () => {
             if (refTime.current) clearInterval(refTime.current);
         }
