@@ -35,17 +35,10 @@ export default function TimeLine() {
     const [indexActive, setIndexActive] = useState(0);
     const reIndex = useRef<number>(0);
     const refTime = useRef<NodeJS.Timeout>(null);
-    const [isReady, setIsReady] = useState<boolean>(false);
-    const {play} = useAnimationStore();
+    const {vidIsPlay} = useAnimationStore();
 
     useEffect(() => {
-        if (!play) return;
-        setTimeout(() => {
-            setIsReady(true);
-        }, 800);
-    }, [play]);
-    useEffect(() => {
-        if (!isReady) return;
+        if (!vidIsPlay) return;
         const next = () => {
             reIndex.current++;
             if (reIndex.current >= 3) {
@@ -58,14 +51,13 @@ export default function TimeLine() {
         return () => {
             if (refTime.current) clearInterval(refTime.current);
         }
-    }, [isReady]);
+    }, [vidIsPlay]);
 
-    if(!isReady) return <></>;
     return (
         <div className={s.timeLine}>
             {
                 DATA_CONTENTS.map((item, idx) => {
-                    return <ItemTimeLine key={item.id} timeLine={item} isActive={idx === indexActive}/>
+                    return <ItemTimeLine key={item.id} timeLine={item} isActive={vidIsPlay && idx === indexActive}/>
                 })
             }
         </div>

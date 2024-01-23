@@ -11,7 +11,7 @@ import useAnimationStore from "@/stores/useAnimationStore";
 export default function Home2d() {
 
     const refPlay = useRef<HTMLVideoElement>(null);
-    const {setPlay, play} = useAnimationStore();
+    const {setPlay, play, setVidIsPlay} = useAnimationStore();
 
     useEffect(() => {
         setTimeout(setPlay, 300);
@@ -28,8 +28,11 @@ export default function Home2d() {
         <>
             <div className={s.homepage}>
                 <div className={s.homepage_bg}>
-                    <video ref={refPlay} width={1920} height={1080} preload={'metadata'} playsInline loop muted>
-                        <source src={`${CDN_URL_VIDEOS}/original-33532573c947eaea79d5ffbd86bfddbe.mp4`}/>
+                    <video ref={refPlay} width={1920} height={1080} preload={'metadata'} playsInline loop muted
+                           onPlaying={() => {
+                               setVidIsPlay(true)
+                           }}>
+                        <source src={`${CDN_URL_VIDEOS}/dragon-compress.mp4`}/>
                     </video>
                 </div>
                 <div className={s.homepage_inner}>
