@@ -17,6 +17,8 @@
     "@react-three/postprocessing": "^2.15.1",
     "@react-three/rapier": "^1.1.2",
     "@react-three/xr": "^5.7.1",
+    "framer-motion": "^10.15.1",
+    "framer-motion-3d": "^10.18.0",
     "glsl-random": "^0.0.5",
     "gsap": "^3.12.2",
     "leva": "^0.9.35",
@@ -28,9 +30,8 @@
     "three": "^0.156.1",
     "three-stdlib": "^2.24.2",
     "tunnel-rat": "^0.1.2",
-    "valtio": "^1.13.0",
-    "framer-motion": "^10.15.1",
-    "framer-motion-3d": "^10.15.1"
+    "use-keyboard-shortcut": "^1.1.6",
+    "valtio": "^1.13.0"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^13.4.13",

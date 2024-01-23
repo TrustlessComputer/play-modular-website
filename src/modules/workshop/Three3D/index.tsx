@@ -1,7 +1,9 @@
+'use client'
+
 import React, { Suspense } from 'react'
-import { Canvas } from '@react-three/fiber'
 import { ControlsWrapper } from '../components/Control'
 import { Scene } from '../components/Sence'
+import { Canvas } from '@react-three/fiber'
 
 export default function Three3D() {
   return (

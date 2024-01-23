@@ -1,20 +1,30 @@
+import { useStoreGlobal } from '@/stores'
+import { CREATE_MODE, base, getMeasurementsFromDimensions } from '@/utils'
 import React, { forwardRef, useMemo } from 'react'
-import { Vector3 } from 'three'
-import { getMeasurementsFromDimensions, base, CREATE_MODE } from '../../utils'
-import { useStoreGlobal } from '../../store/store'
+import { Group, Mesh, Object3DEventMap, Vector3 } from 'three'
+
+type BrickCursorProps = {
+  intersect?: {
+    point: Vector3
+    face: { normal: Vector3 }
+  }
+  dimensions?: { x: number; y: number; z: number }
+  rotation?: number
+  translation?: { x: number; z: number }
+}
 
 export const BrickCursor = forwardRef(
   (
     {
       intersect = {
         point: new Vector3(),
-        face: { normal: { x: 0, y: 0, z: 1 } },
+        face: { normal: new Vector3(0, 0, 1) },
       },
-      dimensions = { x: 1, z: 1 },
+      dimensions = { x: 1, y: 1, z: 1 },
       rotation = 0,
       translation = { x: 0, z: 0 },
-    },
-    ref,
+    }: BrickCursorProps,
+    ref?: React.Ref<Group<Object3DEventMap>>,
   ) => {
     const mode = useStoreGlobal((state) => state.mode)
 

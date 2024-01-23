@@ -2,18 +2,19 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/display-name */
+
 import React, { useMemo, useEffect, useRef } from 'react'
-import { CSSToHex, getMeasurementsFromDimensions, base, createGeometry } from '../../utils'
 import { Vector3, Box3, TextureLoader } from 'three'
 import { motion } from 'framer-motion-3d'
 import { useLoader } from '@react-three/fiber'
+import { base, createGeometry, getMeasurementsFromDimensions } from '@/utils'
 // import { Outlines } from '@react-three/drei';
 
 export const Brick = ({
   intersect,
   color,
   texture,
-  dimensions = { x: 1, z: 1 },
+  dimensions = { x: 1, y: 1, z: 1 },
   rotation = 0,
   translation = { x: 0, z: 0 },
   bricksBoundBox = { current: [] },
