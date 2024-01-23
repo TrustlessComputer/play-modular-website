@@ -6,10 +6,11 @@
   height: 48px;
   justify-content: center;
   align-items: center;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  text-transform: uppercase;
 
   @include mobile {
     font-size: 12px;
@@ -18,8 +19,15 @@
   }
 
   &__purple {
-    background: #703efc;
+    background: #703EFC;
+    color: white;
   }
+
+  &__white {
+    background: #FFFFFF;
+    color: black;
+  }
+
   &__grey {
     background: #ffffff1a;
   }

@@ -3,11 +3,19 @@
     @content;
   }
 }
+
 @mixin tablet {
+  @media (min-width: 768px) and (max-width: 1199px) {
+    @content;
+  }
+}
+
+@mixin max-tablet {
   @media (max-width: 1199px) {
     @content;
   }
 }
+
 @mixin min-tablet {
   @media (min-width: 768px) {
     @content;
@@ -15,13 +23,51 @@
 }
 
 @mixin min-pc {
-  @media screen and (min-width: 1280px) {
+  @media screen and (min-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin min-pc-mid{
+  @media screen and (min-width: 1440px) {
     @content;
   }
 }
 
 @mixin min-pc-wide {
-  @media screen and (min-width: 2000px) {
+  @media screen and (min-width: 1920px) {
     @content;
   }
+}
+
+@function rem($px, $base: 16px) {
+  @if  unitless($px) {
+    $px: $px * 1px;
+  }
+
+  @if  unitless($base) {
+    $base: $base * 1px;
+  }
+
+  @return ($px / $base) * 1rem;
+}
+
+@function em($px, $base: 16px) {
+  @if  unitless($px) {
+    $px: $px * 1px;
+  }
+
+  @if  unitless($base) {
+    $base: $base * 1px;
+  }
+
+  @return ($px / $base) * 1em;
+}
+
+@function vh($px, $base: 1080px) {
+  @return ($px / $base) * 100vh;
+}
+
+@function vw($px, $base: 1920px) {
+  @return ($px / $base) * 100vw;
 }

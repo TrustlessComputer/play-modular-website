@@ -1,7 +1,7 @@
-import Image from 'next/image'
 import s from './styles.module.scss'
 import Button from '@/components/Button'
 import {CDN_URL_VIDEOS} from "@/modules/constant";
+import TimeLine from "@/modules/home2d/TimeLine";
 
 export default function Home2d() {
   return (
@@ -12,13 +12,18 @@ export default function Home2d() {
         </video>
       </div>
       <div className={s.homepage_inner}>
-        <div className={s.homepage_content}>
-          <h1 className={s.homepage_title}>Modular</h1>
-          <p className={s.homepage_desc}>Modular is a fully on-chain digital lego</p>
-          <div className={s.homepage_groupBtn}>
-            <Button bg='purple'>Collect</Button>
-            <Button bg='grey'>Learn more</Button>
+        <div className={s.containerContent}>
+          <div className={s.left}>
+            <div className={s.homepage_content}>
+              <h1 className={s.homepage_title}>Modular</h1>
+              <p className={s.homepage_desc}>Modular is a fully on-chain digital lego</p>
+              <div className={s.homepage_groupBtn}>
+                <Button bg='purple'>Collect</Button>
+                <Button bg='white'>Learn more</Button>
+              </div>
+            </div>
           </div>
+          <TimeLine/>
         </div>
       </div>
     </div>
