@@ -13,7 +13,7 @@ type BrickCursorProps = {
   translation?: { x: number; z: number }
 }
 
-export const BrickCursor = forwardRef(
+ const BrickCursor = forwardRef(
   (
     {
       intersect = {
@@ -71,5 +71,6 @@ export const BrickCursor = forwardRef(
     )
   },
 )
-
 BrickCursor.displayName = 'BrickCursor'
+
+export {BrickCursor};
