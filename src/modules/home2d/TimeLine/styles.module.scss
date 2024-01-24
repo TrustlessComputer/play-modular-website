@@ -87,7 +87,7 @@
   box-shadow: 1px 1px 3px 0px rgba(255, 255, 255, 0.12) inset;
 
   .po {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.3);
     position: absolute;
     top: 0;
     left: 0;
@@ -136,6 +136,7 @@
 
     circle {
       fill: var(--black);
+      opacity: 1;
     }
   }
 }

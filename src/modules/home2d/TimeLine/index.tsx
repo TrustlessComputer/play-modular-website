@@ -32,32 +32,12 @@ const DATA_CONTENTS: {
 ]
 
 export default function TimeLine() {
-    const [indexActive, setIndexActive] = useState(0);
-    const reIndex = useRef<number>(0);
-    const refTime = useRef<NodeJS.Timeout>(null);
-    const {vidIsPlay} = useAnimationStore();
-
-    useEffect(() => {
-        if (!vidIsPlay) return;
-        const next = () => {
-            reIndex.current++;
-            if (reIndex.current >= 3) {
-                reIndex.current = 0;
-            }
-            setIndexActive(reIndex.current);
-        }
-
-        refTime.current = setInterval(next, 3050);
-        return () => {
-            if (refTime.current) clearInterval(refTime.current);
-        }
-    }, [vidIsPlay]);
-
+  const {vidIndexActive, vidIsPlay} = useAnimationStore();
     return (
         <div className={s.timeLine}>
             {
                 DATA_CONTENTS.map((item, idx) => {
-                    return <ItemTimeLine key={item.id} timeLine={item} isActive={vidIsPlay && idx === indexActive}/>
+                    return <ItemTimeLine key={item.id} timeLine={item} isActive={vidIsPlay && idx === vidIndexActive}/>
                 })
             }
         </div>
