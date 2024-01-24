@@ -48,8 +48,22 @@ const CameraController = () => {
 }
 
 const PreviewRoom = () => {
-  const { view } = useStoreGlobal()
-  const position = viewMapToPosition[view]
+  const [aspect, setAspect] = React.useState(1)
+
+  React.useEffect(() => {
+    const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
+
+    const resize = () => {
+      setAspect(wrapperDom.clientWidth / wrapperDom.clientHeight)
+    }
+
+    resize()
+
+    window.addEventListener('resize', resize)
+    return () => {
+      window.removeEventListener('resize', resize)
+    }
+  }, [])
 
   return (
     <Canvas
@@ -59,7 +73,7 @@ const PreviewRoom = () => {
         powerPreference: 'high-performance',
       }}
       shadows={true}
-      dpr={Math.min(2, window ? window.devicePixelRatio : 1)}
+      dpr={Math.min(2, aspect)}
       linear
     >
       <color attach='background' args={['#000325']} />
