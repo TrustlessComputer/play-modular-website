@@ -10,11 +10,11 @@ type TSelect = {
   box: any
   multiple: boolean
   children: React.ReactNode
-  onChange: () => void
-  onChangePointerUp: () => void
-  border: string
-  backgroundColor: string
-  filter: (item: any) => void
+  onChange?: () => void
+  onChangePointerUp?: () => void
+  border?: string
+  backgroundColor?: string
+  filter?: (item: any) => void
 }
 
 export function Select({
@@ -29,7 +29,7 @@ export function Select({
   ...props
 }: TSelect) {
   const [downed, down] = React.useState(false)
-  const { setEvents, camera, raycaster, gl, controls, size, get } = useThree()
+  const { setEvents, camera, raycaster, gl, controls, size, get } = useThree() as any
 
   const { mode, setSelectedBricks } = useStoreGlobal()
 
@@ -78,7 +78,7 @@ export function Select({
     const pointBottomRight = new THREE.Vector2()
 
     const oldRaycasterEnabled = get().events.enabled
-    const oldControlsEnabled = controls?.enabled
+    const oldControlsEnabled = controls?.enabled as any
 
     let isDown = false
 
@@ -160,7 +160,7 @@ export function Select({
         prepareRay(event, selBox.endPoint)
         const allSelected = selBox
           .select()
-          .sort((o) => o.uuid)
+          .sort((o) => Number(o.uuid))
           .filter((o) => o.isMesh)
         if (!shallow(allSelected, previous)) {
           previous = allSelected
