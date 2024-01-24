@@ -7,8 +7,8 @@ import { TBlockData } from '@/types'
 import { Outlines } from '@react-three/drei'
 
 type TBrickAction = {
-  onClick: (e: any) => void
-  mouseMove: (e: any) => void
+  onClick?: (e: any) => void
+  mouseMove?: (e: any) => void
 }
 
 export const Brick = ({
