@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   },
   manifest: '/icons/site.webmanifest',
   themeColor: '#101010',
-  title: 'Play Modular',
+  title: 'Modular',
   description: 'Playing with Lego at BVM network.',
   openGraph: {
     images: [`/imgs/metadata.jpg`],

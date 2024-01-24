@@ -10,7 +10,7 @@ export default function Header() {
                 <div className={`${s.logo} js-header-logo`}>
                     <Image width={40} height={40} src={'imgs/logo.svg'} alt={'logo'}/>
                     <Fade delay={1}>
-                        PlayModular
+                        Modular
                     </Fade>
                 </div>
             </div>
