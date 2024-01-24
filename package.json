@@ -20,6 +20,7 @@
     "@reduxjs/toolkit": "^2.0.1",
     "@types/bignumber.js": "^5.0.0",
     "@types/crypto-js": "^4.2.2",
+    "classnames": "^2.5.1",
     "crypto-js": "^4.2.0",
     "ethers": "^6.10.0",
     "framer-motion": "^10.15.1",
