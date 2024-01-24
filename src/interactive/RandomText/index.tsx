@@ -61,4 +61,6 @@ const RandomText = forwardRef(
   }
 );
 
+RandomText.displayName = 'RandomText';
+
 export default RandomText;
