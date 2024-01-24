@@ -6,7 +6,8 @@ export type TypeCapabilityState = 'loading' | 'loaded' | 'missing' | 'cancelled'
 export interface IXverseState {
   capabilityMessage: string | undefined
   network: string
-  capabilities: Set<Capability>
+  capabilities: Set<Capability>,
+  capabilityState: TypeCapabilityState
 }
 
 const useXverseState = (): IXverseState => {
@@ -39,9 +40,11 @@ const useXverseState = (): IXverseState => {
           onFinish(response) {
             setCapabilities(new Set(response))
             setCapabilityState('loaded')
+            runs = MAX_RUNS + 1;
           },
           onCancel() {
             setCapabilityState('cancelled')
+            runs = MAX_RUNS + 1;
           },
           payload: {
             network: {
@@ -61,12 +64,13 @@ const useXverseState = (): IXverseState => {
 
   React.useEffect(() => {
     runCapabilityCheck().then()
-  }, [network])
+  }, [])
 
   return {
     capabilityMessage,
     network,
     capabilities,
+    capabilityState
   }
 }
 
