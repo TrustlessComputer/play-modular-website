@@ -59,5 +59,5 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
         }
       else return { selectedBricks: [object, ...state.selectedBricks] }
     }),
-  setBricks: (getBricks) => set((state) => ({ blockCurrent: getBricks(state.blockCurrent) })),
+  setBricks: (getBricks) => set((state) => state),
 })

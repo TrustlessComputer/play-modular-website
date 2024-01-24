@@ -7,8 +7,8 @@ import { TBlockData } from '@/types'
 import { Outlines } from '@react-three/drei'
 
 type TBrickAction = {
-  onClick: (e: any) => void
-  mouseMove: (e: any) => void
+  onClick?: (e: any) => void
+  mouseMove?: (e: any) => void
 }
 
 export const Brick = ({
@@ -113,7 +113,7 @@ export const Brick = ({
               geometry={geo.cube}
             >
               <meshPhysicalMaterial {...props} metalness={0.2} roughness={0.75} color={color} />
-              <Outlines angle={0} thickness={0.5} color='black' />
+              <Outlines angle={0} thickness={1} color='black' />
             </mesh>
             <mesh
               castShadow
@@ -132,7 +132,7 @@ export const Brick = ({
               geometry={geo.cylinder}
             >
               <meshStandardMaterial metalness={0.2} roughness={0.75} color={color} />
-              <Outlines angle={0} thickness={0.5} color='black' />
+              <Outlines angle={0} thickness={1} color='black' />
             </mesh>
           </group>
         ))}
