@@ -2,6 +2,7 @@ import '@/styles/style.scss'
 import {Metadata} from 'next'
 import Layout from '@/layouts'
 import {manrope, space_mono} from '@/constant/font'
+import StoreProvider from "@/providers/store";
 
 export const metadata: Metadata = {
   icons: {
@@ -20,9 +21,13 @@ export const metadata: Metadata = {
 export default function RootLayout({children}) {
   return (
     <html lang='en' className='antialiased'>
-    <body className={`${manrope.variable} ${space_mono.variable}`}>
-    <Layout>{children}</Layout>
-    </body>
+      <body className={`${manrope.variable} ${space_mono.variable}`}>
+      <StoreProvider>
+        <Layout>
+          {children}
+        </Layout>
+      </StoreProvider>
+      </body>
     </html>
   )
 }
