@@ -4,7 +4,7 @@ import { motion } from 'framer-motion-3d'
 import { useLoader } from '@react-three/fiber'
 import { base, createGeometry, getMeasurementsFromDimensions } from '@/utils'
 import { TBlockData } from '@/types'
-import { Outlines } from '@react-three/drei'
+import { Decal, Outlines } from '@react-three/drei'
 import { Select } from '../Select'
 
 type TBrickAction = {
@@ -115,8 +115,27 @@ export const Brick = ({
                 }}
                 geometry={geo.cube}
               >
-                <meshPhysicalMaterial map={props.map} metalness={0.7} roughness={1} />
+                <meshPhysicalMaterial color={color} roughness={1} />
                 <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
+                <Decal
+                  map={texturez}
+                  // position={[0, 0, 0.05]}
+                  position={[0, 0, brickGeometry.length > 1 ? 0.05 : 0.05]}
+                  rotation={[0, 0, 0]}
+                  scale={[
+                    brickGeometry.length > 1 ? base * 2 : base,
+                    (base * 2) / 1.5,
+                    brickGeometry.length > 1 ? base * 2 : base,
+                  ]}
+                >
+                  <meshPhysicalMaterial
+                    map={texturez}
+                    metalness={0.485}
+                    roughness={1}
+                    polygonOffset
+                    polygonOffsetFactor={-1} // The material should take precedence over the original
+                  />
+                </Decal>
               </mesh>
               <mesh
                 castShadow
@@ -134,7 +153,7 @@ export const Brick = ({
                 }}
                 geometry={geo.cylinder}
               >
-                <meshStandardMaterial metalness={0.2} roughness={1} color={color} />
+                <meshPhysicalMaterial color={color} opacity={1} />
                 <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
               </mesh>
             </group>

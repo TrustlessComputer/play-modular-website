@@ -30,7 +30,7 @@ export const DATA_FETCH = [
         ShapeObject: '2x2',
         texture: '/assets/patterns/optimic.svg',
         img: '/assets/patterns/images/shape8.png',
-        color: '#C00015',
+        color: '#FF010A',
         number: 10,
     },
     {
@@ -46,7 +46,7 @@ export const DATA_FETCH = [
         ShapeObject: '2x2',
         texture: '/assets/patterns/polygon.svg',
         img: '/assets/patterns/images/shape5.png',
-        color: '#AC5AFE',
+        color: '#BA3FF4',
         number: 3,
     },
     {
@@ -54,7 +54,7 @@ export const DATA_FETCH = [
         ShapeObject: '1x1',
         texture: '/assets/patterns/uni.svg',
         img: '/assets/patterns/images/shape9.png',
-        color: '#B1565C',
+        color: '#cb7b81',
         number: 20,
     },
     {
@@ -63,7 +63,7 @@ export const DATA_FETCH = [
         texture: '/assets/patterns/ord.svg',
         img: '/assets/patterns/images/shape10.png',
         color: '#000',
-        number: 0,
+        number: 10,
     },
 ]
 
