@@ -55,7 +55,7 @@ export default function Home2d() {
 
               <div className={s.homepage_content}>
                 <h1 className={s.homepage_title}>Modular</h1>
-                <p className={s.homepage_desc}>Modular is a fully on-chain digital lego</p>
+                <p className={s.homepage_desc}>Build whatever on Bitcoin.</p>
                 {/*<div className={s.homepage_groupBtn}>*/}
                 {/*  <Button bg='purple'>Collect</Button>*/}
                 {/*  <Button bg='white'>Learn more</Button>*/}
