@@ -71,3 +71,5 @@ export const BrickCursor = forwardRef(
     )
   },
 )
+
+BrickCursor.displayName = 'BrickCursor'
