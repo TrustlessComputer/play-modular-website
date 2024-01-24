@@ -5,6 +5,7 @@ import { useLoader } from '@react-three/fiber'
 import { base, createGeometry, getMeasurementsFromDimensions } from '@/utils'
 import { TBlockData } from '@/types'
 import { Outlines } from '@react-three/drei'
+import { Select } from '../Select'
 
 type TBrickAction = {
   onClick?: (e: any) => void
@@ -20,6 +21,7 @@ export const Brick = ({
   translation = { x: 0, z: 0 },
   bricksBoundBox = { current: [] },
   uID = '',
+  isSelected = false,
   onClick = (e: any) => {},
   mouseMove = (e: any) => {},
 }: TBrickAction & TBlockData) => {
@@ -89,53 +91,55 @@ export const Brick = ({
           uID,
         }}
       >
-        {brickGeometry.map((geo, i) => (
-          <group
-            key={i}
-            position={[(offset.x * width) / dimensions.x, 0, (offset.z * depth) / dimensions.z]}
-            onClick={onClick}
-            onPointerMove={mouseMove}
-          >
-            <mesh
-              castShadow
-              receiveShadow
-              userData={{
-                uID,
-                dimensions,
-                offset,
-                width,
-                depth,
-                type: `${dimensions.x}-${dimensions.z}`,
-                position,
-                rotation,
-                translation,
-              }}
-              geometry={geo.cube}
+        <Select box multiple>
+          {brickGeometry.map((geo, i) => (
+            <group
+              key={i}
+              position={[(offset.x * width) / dimensions.x, 0, (offset.z * depth) / dimensions.z]}
+              onClick={onClick}
+              onPointerMove={mouseMove}
             >
-              <meshPhysicalMaterial {...props} metalness={0.2} roughness={0.75} color={color} />
-              <Outlines angle={0} thickness={1} color='black' />
-            </mesh>
-            <mesh
-              castShadow
-              receiveShadow
-              userData={{
-                uID,
-                dimensions,
-                offset,
-                width,
-                depth,
-                type: `${dimensions.x}-${dimensions.z}`,
-                position,
-                rotation,
-                translation,
-              }}
-              geometry={geo.cylinder}
-            >
-              <meshStandardMaterial metalness={0.2} roughness={0.75} color={color} />
-              <Outlines angle={0} thickness={1} color='black' />
-            </mesh>
-          </group>
-        ))}
+              <mesh
+                castShadow
+                receiveShadow
+                userData={{
+                  uID,
+                  dimensions,
+                  offset,
+                  width,
+                  depth,
+                  type: `${dimensions.x}-${dimensions.z}`,
+                  position,
+                  rotation,
+                  translation,
+                }}
+                geometry={geo.cube}
+              >
+                <meshPhysicalMaterial {...props} metalness={0.2} roughness={0.75} color={color} />
+                <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
+              </mesh>
+              <mesh
+                castShadow
+                receiveShadow
+                userData={{
+                  uID,
+                  dimensions,
+                  offset,
+                  width,
+                  depth,
+                  type: `${dimensions.x}-${dimensions.z}`,
+                  position,
+                  rotation,
+                  translation,
+                }}
+                geometry={geo.cylinder}
+              >
+                <meshStandardMaterial metalness={0.2} roughness={0.75} color={color} />
+                <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
+              </mesh>
+            </group>
+          ))}
+        </Select>
       </motion.group>
     </>
   )

@@ -10,6 +10,7 @@ export type TBlockData = {
   intersect: { point: any; face: any }
   uID: string
   bricksBoundBox?: { current: any[] }
+  isSelected?: boolean
 }
 export type TBlocks = {
   blockCurrent: TBlockData[]

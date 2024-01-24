@@ -17,9 +17,12 @@ const offsetVec = new Vector3()
 export const Scene = () => {
   useAnchorShorcuts()
 
-  const { blockCurrent, addBlocks, mode, width, depth, anchorX, anchorZ, rotate, color, texture } = useStoreGlobal()
+  const { blockCurrent, addBlocks, mode, width, depth, anchorX, anchorZ, rotate, color, texture, selectedBricks } =
+    useStoreGlobal()
   const bricksBoundBox = useRef([])
   const brickCursorRef = useRef<Group>()
+  const isDrag = useRef(false)
+  const timeoutID = useRef(null)
   const isEditMode = mode === EDIT_MODE
 
   const addBrick = (e) => {
@@ -118,9 +121,6 @@ export const Scene = () => {
     setBrickCursorPosition(e)
   }
 
-  const isDrag = useRef(false)
-  const timeoutID = useRef(null)
-
   useEffect(() => {
     const pointerDown = () => {
       timeoutID.current && clearTimeout(timeoutID.current)
@@ -148,6 +148,8 @@ export const Scene = () => {
       <Select box multiple>
         {blockCurrent?.length > 0 &&
           blockCurrent.map((b, i) => {
+            console.log(selectedBricks)
+
             const { dimensions, rotation, intersect } = b
             const height = 1
             const position = () => {
