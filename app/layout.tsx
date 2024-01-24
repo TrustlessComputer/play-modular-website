@@ -1,28 +1,28 @@
 import '@/styles/style.scss'
-import { CDN_URL_IMAGES } from '@/modules/constant'
-import { Metadata } from 'next'
+import {Metadata} from 'next'
 import Layout from '@/layouts'
-import { manrope, space_mono } from '@/constant/font'
+import {manrope, space_mono} from '@/constant/font'
 
 export const metadata: Metadata = {
   icons: {
-    icon: [{ url: `${CDN_URL_IMAGES}/logo.svg` }],
-    apple: [{ url: `${CDN_URL_IMAGES}/logo.svg` }],
+    icon: [{url: `/icons/favicon.ico`}],
+    apple: [{url: `/icons/favicon.ico`}],
   },
+  manifest: '/icons/site.webmanifest',
   themeColor: '#101010',
-  title: 'New Bitcoin City',
-  description: 'New Bitcoin City is a radically new way to explore Bitcoin.',
+  title: 'Play Modular',
+  description: 'Playing with Lego at BVM network.',
   openGraph: {
-    images: [`${CDN_URL_IMAGES}/New%20Bitcoin%20City.jpg`],
+    images: [`/imgs/metadata.jpg`],
   },
 }
 
-export default function RootLayout({ children }) {
+export default function RootLayout({children}) {
   return (
     <html lang='en' className='antialiased'>
-      <body className={`${manrope.variable} ${space_mono.variable}`}>
-        <Layout>{children}</Layout>
-      </body>
+    <body className={`${manrope.variable} ${space_mono.variable}`}>
+    <Layout>{children}</Layout>
+    </body>
     </html>
   )
 }

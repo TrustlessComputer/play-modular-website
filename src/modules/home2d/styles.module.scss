@@ -14,6 +14,7 @@
   position: relative;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 
   &_bg {
     top: 0;
@@ -33,16 +34,9 @@
 
   &_inner {
     width: 100%;
-    display: flex;
-    align-items: center;
-  }
-
-  &_content {
-    display: flex;
-    flex-direction: column;
-    padding-top: 108px;
-    margin-left: auto;
-    margin-right: auto;
+    position: absolute;
+    bottom: 60px;
+    left: 0;
   }
 
   &_title {
@@ -52,17 +46,15 @@
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    text-align: center;
     @include mobile {
       font-size: 32px;
     }
   }
 
   &_desc {
-    padding-top: 12px;
-    padding-bottom: 28px;
+
     font-family: var(--font-spacemono);
-    color: rgba($color: #fff, $alpha: 0.7);
+    color: #FFFFFF;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -71,12 +63,58 @@
     @include mobile {
       font-size: 12px;
     }
+
+    padding-top: 8px;
+    padding-bottom: 16px;
+
+    @include min-tablet{
+      padding-top: 12px;
+      padding-bottom: 28px;
+    }
   }
 
   &_groupBtn {
     display: flex;
-    flex-direction: row;
     gap: 12px;
     justify-content: center;
+
+    @include min-pc {
+      justify-content: left;
+    }
+
+  }
+}
+
+.containerContent {
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+
+  padding-left: 16px;
+  padding-right: 16px;
+
+ @include min-tablet{
+   padding-left: 24px;
+   padding-right: 24px;
+ }
+
+  @include min-pc {
+    display: flex;
+    gap: 64px;
+    justify-content: space-between;
+  }
+}
+
+.left {
+  margin-bottom: 32px;
+  @include min-pc {
+    margin-bottom: 0;
+  }
+}
+
+.homepage_content {
+  text-align: center;
+  @include min-pc {
+    text-align: left;
   }
 }

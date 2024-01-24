@@ -1,22 +1,21 @@
 'use client'
 
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useEffect } from 'react'
 import Header from './Header'
-import Footer from './Footer'
 import { usePathname } from 'next/navigation'
+import useAnimationStore from '@/stores/useAnimationStore'
 
 export default function Layout({ children }: { children: ReactNode }) {
   const pathName = usePathname()
-  console.log(pathName)
+  const { resetPlay } = useAnimationStore()
+  useEffect(() => {
+    resetPlay()
+  }, [pathName])
 
-  const isWorkShopPage = pathName === '/workshop'
-  return isWorkShopPage ? (
-    children
-  ) : (
+  return (
     <>
       <Header />
       {children}
-      <Footer />
     </>
   )
 }

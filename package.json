@@ -17,6 +17,10 @@
     "@react-three/postprocessing": "^2.15.1",
     "@react-three/rapier": "^1.1.2",
     "@react-three/xr": "^5.7.1",
+    "@types/bignumber.js": "^5.0.0",
+    "@types/crypto-js": "^4.2.2",
+    "crypto-js": "^4.2.0",
+    "ethers": "^6.10.0",
     "framer-motion": "^10.15.1",
     "framer-motion-3d": "^10.18.0",
     "glsl-random": "^0.0.5",
@@ -27,11 +31,13 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sass": "^1.66.1",
+    "split-type": "^0.3.4",
     "three": "^0.156.1",
     "three-stdlib": "^2.24.2",
     "tunnel-rat": "^0.1.2",
     "use-keyboard-shortcut": "^1.1.6",
-    "valtio": "^1.13.0"
+    "valtio": "^1.13.0",
+    "zustand": "^4.5.0"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^13.4.13",
