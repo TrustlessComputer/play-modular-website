@@ -12,7 +12,8 @@ import {ApplicationEnvironment} from "@/constant/types";
 export default function Home2d() {
 
   const refPlay = useRef<HTMLVideoElement>(null);
-  const {setPlay, play, setVidIsPlay} = useAnimationStore();
+  const reIndex = useRef<number>(0);
+  const {setPlay, play, setVidIsPlay, setVidIndexActive} = useAnimationStore();
 
   useEffect(() => {
     setTimeout(setPlay, 300);
@@ -26,10 +27,13 @@ export default function Home2d() {
   }, [play]);
 
   const onTimeUpdate = () => {
-    //todo
-    // if(refPlay.current.currentTime %3 === 0){
-    //
-    // }
+    if (Math.floor(refPlay.current.currentTime) === 0) {
+      setVidIndexActive(0);
+    } else if (Math.floor(refPlay.current.currentTime) === 3) {
+      setVidIndexActive(1);
+    } else if (Math.floor(refPlay.current.currentTime) === 6) {
+      setVidIndexActive(2);
+    }
   }
 
   const isProduct = useMemo((): boolean => {
