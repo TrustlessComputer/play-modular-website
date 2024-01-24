@@ -36,7 +36,7 @@ export default function Three3D() {
         far: 20000,
       }}
       shadows={true}
-      dpr={Math.min(2, window ? window.devicePixelRatio : 1)}
+      dpr={Math.min(2, aspect)}
       linear
     >
       <Suspense fallback={null}>

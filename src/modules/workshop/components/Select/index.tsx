@@ -29,7 +29,7 @@ export function Select({
   ...props
 }: TSelect) {
   const [downed, down] = React.useState(false)
-  const { setEvents, camera, raycaster, gl, controls, size, get } = useThree()
+  const { setEvents, camera, raycaster, gl, controls, size, get } = useThree() as any
 
   const { mode, setSelectedBricks } = useStoreGlobal()
 
@@ -160,7 +160,7 @@ export function Select({
         prepareRay(event, selBox.endPoint)
         const allSelected = selBox
           .select()
-          .sort((o) => o.uuid)
+          .sort((o) => Number(o.uuid))
           .filter((o) => o.isMesh)
         if (!shallow(allSelected, previous)) {
           previous = allSelected
