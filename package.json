@@ -29,6 +29,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sass": "^1.66.1",
+    "sats-connect": "^1.1.2",
     "split-type": "^0.3.4",
     "three": "^0.156.1",
     "three-stdlib": "^2.24.2",
