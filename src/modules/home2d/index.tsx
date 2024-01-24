@@ -1,7 +1,7 @@
 'use client'
 
 import s from './styles.module.scss'
-import Button from '@/components/Button'
+// import Button from '@/components/Button'
 import {APP_ENV, CDN_URL_VIDEOS} from "@/constant/constant";
 import TimeLine from "@/modules/home2d/TimeLine";
 import Load from "@/layouts/Load";
@@ -36,10 +36,6 @@ export default function Home2d() {
     }
   }
 
-  const isProduct = useMemo((): boolean => {
-    return APP_ENV === ApplicationEnvironment.PRODUCTION
-  }, []);
-
   return (
     <>
       <div className={s.homepage}>
@@ -60,13 +56,10 @@ export default function Home2d() {
               <div className={s.homepage_content}>
                 <h1 className={s.homepage_title}>Modular</h1>
                 <p className={s.homepage_desc}>Modular is a fully on-chain digital lego</p>
-                {
-                  !isProduct && <div className={s.homepage_groupBtn}>
-                    <Button bg='purple'>Collect</Button>
-                    <Button bg='white'>Learn more</Button>
-                  </div>
-                }
-
+                {/*<div className={s.homepage_groupBtn}>*/}
+                {/*  <Button bg='purple'>Collect</Button>*/}
+                {/*  <Button bg='white'>Learn more</Button>*/}
+                {/*</div>*/}
               </div>
             </div>
             <TimeLine/>
