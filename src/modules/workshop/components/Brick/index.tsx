@@ -115,7 +115,7 @@ export const Brick = ({
                 }}
                 geometry={geo.cube}
               >
-                <meshPhysicalMaterial {...props} metalness={0.2} roughness={0.75} color={color} />
+                <meshPhysicalMaterial map={props.map} metalness={0.7} roughness={1} />
                 <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
               </mesh>
               <mesh
@@ -134,7 +134,7 @@ export const Brick = ({
                 }}
                 geometry={geo.cylinder}
               >
-                <meshStandardMaterial metalness={0.2} roughness={0.75} color={color} />
+                <meshStandardMaterial metalness={0.2} roughness={1} color={color} />
                 <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
               </mesh>
             </group>
