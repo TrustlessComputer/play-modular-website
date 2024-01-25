@@ -7,6 +7,16 @@
     margin-left: auto;
     margin-right: auto;
     padding: 15px 16px;
+    &_heading {
+      font-size: rem(18px);
+      font-weight: 800;
+      h2 {
+        color: var(--purple);
+      }
+      p {
+        margin-left: rem(30px);
+      }
+    }
 
     @include min-tablet {
       padding-right: 24px;
@@ -31,3 +41,45 @@
     }
   }
 }
+
+#picture__input {
+  display: none;
+}
+
+.picture {
+  width: 256px;
+  height: 253px;
+  aspect-ratio: 16/9;
+  background: #313131;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  font-family: sans-serif;
+  transition: color 300ms ease-in-out, background 300ms ease-in-out;
+  outline: none;
+  overflow: hidden;
+}
+
+.picture:hover {
+  color: #777;
+  background: #ccc;
+}
+
+.picture:active {
+  border-color: turquoise;
+  color: turquoise;
+  background: #eee;
+}
+
+.picture:focus {
+  color: #777;
+  background: #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.picture__img {
+  max-width: 100%;
+}
+
