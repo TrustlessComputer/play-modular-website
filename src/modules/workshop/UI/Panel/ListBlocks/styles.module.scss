@@ -1,12 +1,42 @@
 .wrapper {
+  position: absolute;
+  z-index: 1;
+  top: 108px;
+  height: 750px;
+  background: #ffffff1a;
+  padding: 0 20px;
+  pointer-events: all;
+
+  .title {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 24px 0;
+  }
+  .inner {
+    overflow-y: overlay;
+    overflow-x: hidden;
+    height: 100%;
+
+    &::-webkit-scrollbar {
+      opacity: 0;
+    }
+  }
+
   &_listBlocks {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-    gap: 1px;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 240px;
+
     img {
-      width: 100px;
-      height: 100px;
+      width: 100%;
+      aspect-ratio: 1;
       object-fit: cover;
     }
   }
@@ -17,23 +47,12 @@
     left: 50%;
     transform: translateX(-50%);
   }
-  &_tooltip {
-    position: absolute;
-    top: -80px;
-    padding: 10px 20px;
-    left: 0;
-    width: 200px;
-    z-index: 2222;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    border-radius: 20px;
-  }
 
   &_item {
     position: relative;
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
     &_isActive {
       width: 100%;
       height: 100%;

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Vector3 } from 'three'
-import { useStoreGlobal } from '@/stores'
+import { useStoreGlobal } from '@/stores/blocks'
 import { base } from '@/utils'
 import { Brick } from '../../Brick'
 

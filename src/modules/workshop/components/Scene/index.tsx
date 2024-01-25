@@ -1,5 +1,5 @@
 import { useAnchorShorcuts } from '@/hooks/useShortcuts'
-import { useStoreGlobal } from '@/stores'
+import { useStoreGlobal } from '@/stores/blocks'
 import { EDIT_MODE, base, getMeasurementsFromDimensions, minWorkSpaceSize, uID } from '@/utils'
 import { useEffect, useRef } from 'react'
 import { Box3, Group, Vector3 } from 'three'
@@ -17,13 +17,30 @@ const offsetVec = new Vector3()
 export const Scene = () => {
   useAnchorShorcuts()
 
-  const { blockCurrent, addBlocks, mode, width, depth, anchorX, anchorZ, rotate, color, texture, selectedBricks } =
-    useStoreGlobal()
+  const {
+    blockCurrent,
+    createdBricks,
+    addBlocks,
+    mode,
+    width,
+    depth,
+    anchorX,
+    anchorZ,
+    rotate,
+    color,
+    texture,
+    trait,
+    selectedBricks,
+  } = useStoreGlobal()
+
   const bricksBoundBox = useRef([])
   const brickCursorRef = useRef<Group>()
   const isDrag = useRef(false)
   const timeoutID = useRef(null)
   const isEditMode = mode === EDIT_MODE
+
+  console.log('BRICKS :::: ', blockCurrent)
+  console.log('CREATED BRICKS :::: ', createdBricks)
 
   const addBrick = (e) => {
     e.stopPropagation()
@@ -43,24 +60,12 @@ export const Scene = () => {
       for (let index = 0; index < bricksBoundBox.current.length; index++) {
         const brickBoundingBox = bricksBoundBox.current[index].brickBoundingBox
         const collision = boundingBoxOfBrickToBeAdded.intersectsBox(brickBoundingBox)
-        for (let index = 0; index < bricksBoundBox.current.length; index++) {
-          const brickBoundingBox = bricksBoundBox.current[index].brickBoundingBox
-          const collision = boundingBoxOfBrickToBeAdded.intersectsBox(brickBoundingBox)
 
-          if (collision) {
-            const dx = Math.abs(brickBoundingBox.max.x - boundingBoxOfBrickToBeAdded.max.x)
-            const dz = Math.abs(brickBoundingBox.max.z - boundingBoxOfBrickToBeAdded.max.z)
-            const yIntsersect = brickBoundingBox.max.y - 9 > boundingBoxOfBrickToBeAdded.min.y
-            if (yIntsersect && dx !== dimensions.width && dz !== dimensions.depth) {
-              canCreate = false
-              break
-            }
-          }
-        }
         if (collision) {
           const dx = Math.abs(brickBoundingBox.max.x - boundingBoxOfBrickToBeAdded.max.x)
           const dz = Math.abs(brickBoundingBox.max.z - boundingBoxOfBrickToBeAdded.max.z)
           const yIntsersect = brickBoundingBox.max.y - 9 > boundingBoxOfBrickToBeAdded.min.y
+
           if (yIntsersect && dx !== dimensions.width && dz !== dimensions.depth) {
             canCreate = false
             break
@@ -77,16 +82,22 @@ export const Scene = () => {
           color: color,
           texture: texture,
           translation: { x: anchorX, z: anchorZ },
+          id: trait.id,
         }
 
-        // setBricks((prevBricks) => [...prevBricks, brickData])
-        // setBricks((prevBricks) => [...prevBricks, brickData])
-        addBlocks(brickData)
+        if (trait?.texture || trait?.color) {
+          console.log('brickData', brickData)
+
+          addBlocks(brickData)
+        } else {
+          window.alert('Select your block')
+        }
       }
     } else {
       isDrag.current = false
     }
   }
+
   const setBrickCursorPosition = (e): void => {
     e.stopPropagation()
     if (isEditMode) return
@@ -148,8 +159,6 @@ export const Scene = () => {
       <Select box multiple>
         {blockCurrent?.length > 0 &&
           blockCurrent.map((b, i) => {
-            console.log(selectedBricks)
-
             const { dimensions, rotation, intersect } = b
             const height = 1
             const position = () => {

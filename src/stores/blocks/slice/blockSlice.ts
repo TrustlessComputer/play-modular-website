@@ -1,4 +1,4 @@
-import { TBlockSlice } from '@/types/store'
+import { TBlockSlice, TListBlocksSlice } from '@/types/store'
 import { StateCreator } from 'zustand'
 
 export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
@@ -14,6 +14,11 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
       const stateCurrent = state.blocksState[currentStateIndex] || []
       const newState = [...stateCurrent, getBrick]
       const blocksState = [...state.blocksState.slice(0, currentStateIndex + 1), newState]
+      // const listBlocks = [...state.listCurrent]
+      const id = getBrick.id
+      // const spliceListBlocks = listBlocks.filter((item) => item.id === id)
+      // const listUpdate = spliceListBlocks[0].count--
+      // console.log(listUpdate)
 
       return {
         blocksState,
@@ -21,7 +26,18 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
         blockCurrent: newState,
       }
     }),
+  deleteAlls: () =>
+    set((state) => {
+      const currentStateIndex = state.currentStateIndex
+      const newState = []
+      const blocksState = [...state.blocksState.slice(0, currentStateIndex + 1), newState]
 
+      return {
+        blocksState,
+        currentStateIndex: blocksState.length - 1,
+        blockCurrent: newState,
+      }
+    }),
   undo: () =>
     set((state) => {
       let prevStateIndex = state.currentStateIndex

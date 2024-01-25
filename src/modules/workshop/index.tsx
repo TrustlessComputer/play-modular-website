@@ -1,6 +1,6 @@
 'use client'
 
-import { useStoreGlobal } from '@/stores'
+import { useStoreGlobal } from '@/stores/blocks'
 import Three3D from './Three3D'
 import UI from './UI'
 import PreviewRoom from './components/Preview'
@@ -8,7 +8,7 @@ import s from './styles.module.scss'
 
 export default function WorkShop() {
   const { viewPreview } = useStoreGlobal()
-  console.log('DISPLAY PREVIEW: ', viewPreview)
+
   return (
     <main className={s.workshop}>
       <div className={s.workshop_main}>

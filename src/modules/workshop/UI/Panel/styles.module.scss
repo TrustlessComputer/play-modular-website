@@ -1,9 +1,10 @@
 .panel {
   position: absolute;
-  bottom: 20px;
-  left: 50px;
-  /* transform: translateY(-50%); */
-  z-index: 1000;
+  top: 0;
+  left: 0;
+  padding-left: 55px;
+  z-index: 2;
   border-radius: 4px;
-  padding: 10px;
+  height: 100%;
+  pointer-events: none;
 }

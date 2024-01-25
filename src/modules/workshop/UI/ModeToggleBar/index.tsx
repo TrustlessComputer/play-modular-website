@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { useStoreGlobal } from '@/stores'
+import { useStoreGlobal } from '@/stores/blocks'
 import { CREATE_MODE, EDIT_MODE } from '@/utils'
 import s from './styles.module.scss'
 

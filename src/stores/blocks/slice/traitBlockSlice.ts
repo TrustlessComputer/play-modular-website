@@ -1,6 +1,5 @@
 import { TAtributeBlock } from '@/types/store'
-import { CREATE_MODE, defaultAnchor, defaultWidth } from '../../utils'
-import { colors } from '../../utils'
+import { CREATE_MODE, defaultAnchor, defaultWidth, colors } from '@/utils'
 import { StateCreator } from 'zustand'
 
 export const createTraitBlockSlice: StateCreator<TAtributeBlock> = (set) => ({
@@ -13,8 +12,8 @@ export const createTraitBlockSlice: StateCreator<TAtributeBlock> = (set) => ({
     anchorY: defaultAnchor,
     rotate: false,
     color: colors[Math.floor(Math.random() * colors.length - 1)],
-    texture: 'assets/patterns/sand.svg',
-    trait: { color: '#ff0000', texture: 'assets/patterns/sand.svg', shape: '1x1' },
+    texture: '',
+    trait: { color: '', texture: '', shape: '', id: '' },
     selectedBricks: [],
     setMode: (newMode) => set({ mode: newMode }),
     setWidth: (newWidth) => set({ width: newWidth }),
@@ -26,9 +25,9 @@ export const createTraitBlockSlice: StateCreator<TAtributeBlock> = (set) => ({
     setRotate: (bool) => set({ rotate: bool }),
     setColor: (newColor) => set({ color: newColor }),
     setTexture: (texture) => set({ texture: texture }),
-    setTrait: ({ color, texture, shape }) =>
+    setTrait: ({ color, texture, shape, id }) =>
         set({
-            trait: { color: color, texture: texture, shape: shape },
+            trait: { color: color, texture: texture, shape: shape, id: id },
         }),
     setSelectedBricks: (b: any) => set((state) => state),
 })

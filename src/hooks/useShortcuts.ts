@@ -1,4 +1,4 @@
-import { useStoreGlobal } from '@/stores'
+import { useStoreGlobal } from '@/stores/blocks'
 import useKeyboardShortcut from 'use-keyboard-shortcut'
 
 export const useAnchorShorcuts = () => {
