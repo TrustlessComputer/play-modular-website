@@ -38,7 +38,7 @@ export const DATA_FETCH = [
         ShapeObject: '1x1',
         texture: '/assets/patterns/coin.svg',
         img: '/assets/patterns/images/shape2.png',
-        color: '#B97C19',
+        color: '#F37E11',
         number: 2,
     },
     {

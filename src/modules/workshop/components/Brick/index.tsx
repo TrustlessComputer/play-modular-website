@@ -119,22 +119,22 @@ export const Brick = ({
                 }}
                 geometry={geo.cube}
               >
-                <meshPhysicalMaterial color={color} roughness={1} />
-                <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
+                <meshPhysicalMaterial color={color} roughness={1}  metalness={0} polygonOffset/>
+                {/*<Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />*/}
                 <Decal
                   map={texturez}
-                  // position={[0, 0, 0.05]}
-                  position={[0, 0, brickGeometry.length > 1 ? 0.05 : 0.05]}
+                  position={[0, 0, 0.05]}
+                  // position={[0, 0, brickGeometry.length > 1 ? 0.05 : 0.05]}
                   rotation={[0, 0, 0]}
                   scale={[
-                    brickGeometry.length > 1 ? base * 2 : base,
-                    (base * 2) / 1.5,
-                    brickGeometry.length > 1 ? base * 2 : base,
+                    brickGeometry.length > 1 ? base * 2.3 : base * 2.3,
+                    (base * 2.3) / 1.5,
+                    brickGeometry.length > 1 ? base * 2.3 : base * 2.3,
                   ]}
                 >
                   <meshPhysicalMaterial
                     map={texturez}
-                    metalness={0.485}
+                    metalness={0.5}
                     roughness={1}
                     polygonOffset
                     polygonOffsetFactor={-1} // The material should take precedence over the original
@@ -157,8 +157,22 @@ export const Brick = ({
                 }}
                 geometry={geo.cylinder}
               >
-                <meshPhysicalMaterial color={color} opacity={1} />
-                <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
+
+                {/*<Decal*/}
+                {/*  map={texturez}*/}
+                {/*  debug*/}
+                {/*  position={[(offset.x * width) / dimensions.x, 0, (offset.z * depth) / dimensions.z]}*/}
+                {/*  rotation={[0, 0, 0]}*/}
+                {/*  scale={[*/}
+                {/*    brickGeometry.length > 1 ? 7 * 2 : 7 * 2,*/}
+                {/*    (7 * 2) / 1.5,*/}
+                {/*    brickGeometry.length > 1 ? 7 * 2 : 7 * 2,*/}
+                {/*  ]}*/}
+                {/*>*/}
+                {/*</Decal>*/}
+                <meshPhysicalMaterial map={texturez} color={color} roughness={1} metalness={0} polygonOffset />
+
+                {/*<Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />*/}
               </mesh>
             </group>
           ))}
