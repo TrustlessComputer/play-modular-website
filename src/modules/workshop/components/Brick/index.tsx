@@ -28,7 +28,8 @@ export const Brick = ({
   // const { setCreatedBricks } = useStoreGlobal()
   const [resetKey, setResetKey] = React.useState(generateUId())
   const brickRef = useRef(null)
-  const texturez = texture && useLoader(TextureLoader, texture)
+  const texturez = useLoader(TextureLoader, texture)
+  const isNontTexture = texture === '/assets/patterns/images/Btc.jpg'
 
   const compansate = {
     x: dimensions.x % 2 === 0 ? dimensions.x / 2 : (dimensions.x - 1) / 2,
@@ -153,7 +154,7 @@ export const Brick = ({
                 <meshPhysicalMaterial color={color} roughness={1} />
                 <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
                 <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
-                {texturez ? (
+                {!isNontTexture ? (
                   <>
                     <meshPhysicalMaterial color={color} roughness={1} />
                     <Decal
@@ -204,7 +205,7 @@ export const Brick = ({
                 }}
                 geometry={geo.cylinder}
               >
-                {texturez ? (
+                {!isNontTexture ? (
                   <Decal
                     map={texturez}
                     rotation={[0, 0, 0]}

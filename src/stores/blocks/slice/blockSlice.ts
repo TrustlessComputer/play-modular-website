@@ -14,11 +14,11 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
       const stateCurrent = state.blocksState[currentStateIndex] || []
       const newState = [...stateCurrent, getBrick]
       const blocksState = [...state.blocksState.slice(0, currentStateIndex + 1), newState]
-      const listBlocks = [...state.listCurrent]
+      // const listBlocks = [...state.listCurrent]
       const id = getBrick.id
-      const spliceListBlocks = listBlocks.filter((item) => item.id === id)
-      const listUpdate = spliceListBlocks[0].count--
-      console.log(listUpdate)
+      // const spliceListBlocks = listBlocks.filter((item) => item.id === id)
+      // const listUpdate = spliceListBlocks[0].count--
+      // console.log(listUpdate)
 
       return {
         blocksState,
