@@ -6,6 +6,7 @@ import { base, createGeometry, getMeasurementsFromDimensions } from '@/utils'
 import { TBlockData } from '@/types'
 import { Outlines } from '@react-three/drei'
 import { Select } from '../Select'
+import { useStoreGlobal } from '@/stores'
 
 type TBrickAction = {
   onClick?: (e: any) => void
@@ -25,6 +26,7 @@ export const Brick = ({
   onClick = (e: any) => {},
   mouseMove = (e: any) => {},
 }: TBrickAction & TBlockData) => {
+  const { setCreatedBricks } = useStoreGlobal()
   const brickRef = useRef()
   const texturez = useLoader(TextureLoader, texture)
   const props = {
@@ -42,13 +44,15 @@ export const Brick = ({
     const evenWidth = rotation === 0 ? dimensions.x % 2 === 0 : dimensions.z % 2 === 0
     const evenDepth = rotation === 0 ? dimensions.z % 2 === 0 : dimensions.x % 2 === 0
 
-    return new Vector3()
+    const vec3 = new Vector3()
       .copy(intersect.point)
       .add(intersect.face.normal)
       .divide(new Vector3(base, height, base))
       .floor()
       .multiply(new Vector3(base, height, base))
       .add(new Vector3(evenWidth ? base : base / 2, height / 2, evenDepth ? base : base / 2))
+
+    return vec3
   }, [intersect, dimensions.x, dimensions.z, height, rotation])
 
   useEffect(() => {

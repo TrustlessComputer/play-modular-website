@@ -31,6 +31,10 @@ export default function BottomBar() {
     redo()
   }
 
+  const saveAction = () => {
+    console.log('save')
+  }
+
   useUndoRedoShortcut(undo, redo)
 
   return (
@@ -44,6 +48,10 @@ export default function BottomBar() {
       <button className={s.bottomBar_btn}>Clear</button>
 
       <button className={s.bottomBar_btn}>Delete</button>
+
+      <button className={s.bottomBar_btn} onClick={saveAction}>
+        Save
+      </button>
 
       {/* <button onClick={() => setViewPreview(!viewPreview)} className={s.bottomBar_btn}>
         Preview

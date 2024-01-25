@@ -5,7 +5,7 @@ import { createPreviewSlice } from './slice/previewSlice'
 import { TAtributeBlock, TBlockSlice, TPreviewSlice } from '@/types/store'
 
 export const useStoreGlobal = create<TBlockSlice & TPreviewSlice & TAtributeBlock>((...a) => ({
-    ...createBlocksSlice(...a),
-    ...createTraitBlockSlice(...a),
-    ...createPreviewSlice(...a),
+  ...createBlocksSlice(...a),
+  ...createTraitBlockSlice(...a),
+  ...createPreviewSlice(...a),
 }))
