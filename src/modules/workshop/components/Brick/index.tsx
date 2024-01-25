@@ -41,7 +41,7 @@ export const Brick = ({
     z: Math.sign(translation.z) < 0 ? Math.max(translation.z, -compansate.z) : Math.min(translation.z, compansate.z),
   }
 
-  const [position, setPosition] = React.useState(new Vector3(99999999, 99999999, 99999999))
+  const [position, setPosition] = React.useState<Vector3 | null>(null)
   const [prevL, setPrevL] = React.useState(new Vector3(0, 0, 0))
   const [draggedOffset, setDraggedOffset] = React.useState({ x: 0, z: 0 })
 
@@ -68,6 +68,11 @@ export const Brick = ({
   }
 
   useEffect(() => {
+    if (!brickRef.current) return
+    if (!uID) return
+    if (!bricksBoundBox.current) return
+    if (!position) return
+
     const brickBoundingBox = new Box3().setFromObject(brickRef.current)
 
     bricksBoundBox.current.push({ uID, brickBoundingBox })
@@ -82,7 +87,7 @@ export const Brick = ({
       }
       bricksBoundBox.current = newA
     }
-  }, [uID, bricksBoundBox])
+  }, [uID, bricksBoundBox, position])
 
   useEffect(() => {
     const evenWidth = rotation === 0 ? dimensions.x % 2 === 0 : dimensions.z % 2 === 0
