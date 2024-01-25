@@ -45,7 +45,7 @@ export default function Home2d() {
                  onPlaying={() => {
                    setVidIsPlay(true)
                  }}>
-            <source src={`${CDN_URL_VIDEOS}/dragon_2-compress.mp4`}/>
+            <source src={`${CDN_URL_VIDEOS}/dragon_3-compress.mp4`}/>
           </video>
         </div>
         <div className={s.homepage_inner}>
