@@ -70,6 +70,33 @@ export const DATA_FETCH = [
         color: '#000',
         count: 10,
     },
+    {
+        id: '6',
+        PatternObject: 'Solid Dark',
+        ShapeObject: '2x2',
+        texture: undefined,
+        img: '/assets/patterns/images/shape11.png',
+        color: '#222222',
+        count: 10,
+    },
+    {
+        id: '7',
+        PatternObject: 'Solid Light Gray',
+        ShapeObject: '2x2',
+        texture: undefined,
+        img: '/assets/patterns/images/shape12.png',
+        color: '#E0E0E0',
+        count: 10,
+    },
+    {
+        id: '8',
+        PatternObject: 'Solid  Bright Green',
+        ShapeObject: '1x1',
+        texture: undefined,
+        img: '/assets/patterns/images/shape13.png',
+        color: '#00D05E',
+        count: 10,
+    },
 ]
 
 const handleSplitSize = (shape: string) => {

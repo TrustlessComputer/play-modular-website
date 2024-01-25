@@ -29,7 +29,7 @@ export const ListBlocks = () => {
         <h3 className={s.title}>Bricks</h3>
         <div className={s.wrapper_listBlocks}>
           {DATA_FETCH.map((item, index) => {
-            const isActive = item.texture === trait.texture
+            const isActive = item.id === trait.id
             // const isHaventBlocks = item.count === 0
             return (
               <>
