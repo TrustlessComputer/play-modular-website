@@ -8,7 +8,7 @@ import s from './styles.module.scss'
 
 export default function WorkShop() {
   const { viewPreview } = useStoreGlobal()
-  // console.log('DISPLAY PREVIEW: ', viewPreview)
+
   return (
     <main className={s.workshop}>
       <div className={s.workshop_main}>

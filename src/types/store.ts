@@ -52,14 +52,13 @@ export type TAtributeBlock = {
 }
 
 type TBrickResponse = {
-  id: string
   shape: string
-  patterns: [string, string]
-  positions: { x: number; y: number; z: string }[]
+  patterns: string[]
+  positions: { [uId: string]: { x: number; y: number; z: number } }
 }
 
 export type TCreatedBrickSlice = {
-  createdBricks: TBrickResponse[]
+  createdBricks: { [key: string]: TBrickResponse }
   setCreatedBricks: (b: TBrickResponse) => void
 }
 
