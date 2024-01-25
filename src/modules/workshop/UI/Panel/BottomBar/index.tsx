@@ -3,6 +3,7 @@ import { useUndoRedoShortcut } from '@/hooks/useShortcuts'
 import { useStoreGlobal } from '@/stores'
 import { views } from '@/utils'
 import s from './styles.module.scss'
+
 export default function BottomBar() {
   const { undo, redo, mode, viewPreview, setViewPreview } = useStoreGlobal()
   // setBricks((bricks) => {
@@ -37,40 +38,35 @@ export default function BottomBar() {
       <button className={s.bottomBar_btn} onClick={undoAction}>
         Undo
       </button>
-
       <button className={s.bottomBar_btn} onClick={redoAction}>
         Redo
       </button>
+      <button className={s.bottomBar_btn}>Clear</button>
 
-      <button
-        //onClick={deleteSelectedBricks}
-        className={s.bottomBar_btn}
-      >
-        Delete
-      </button>
+      <button className={s.bottomBar_btn}>Delete</button>
 
-      <button onClick={() => setViewPreview(!viewPreview)} className={s.bottomBar_btn}>
+      {/* <button onClick={() => setViewPreview(!viewPreview)} className={s.bottomBar_btn}>
         Preview
-      </button>
+      </button> */}
     </div>
   )
 }
-const allViews = Object.values(views)
+// const allViews = Object.values(views)
 
-BottomBar.PreviewScene = function BottomBarPreviewScene() {
-  const { view, setView } = useStoreGlobal()
+// BottomBar.PreviewScene = function BottomBarPreviewScene() {
+//   const { view, setView } = useStoreGlobal()
 
-  return (
-    <div className={s.bottomBar_changeView}>
-      {allViews.map((v) => (
-        <button
-          key={v}
-          className={`${s.bottomBar_changeView_btn} ${view === v ? s.active : ''}`}
-          onClick={() => setView(v)}
-        >
-          {v}
-        </button>
-      ))}
-    </div>
-  )
-}
+//   return (
+//     <div className={s.bottomBar_changeView}>
+//       {allViews.map((v) => (
+//         <button
+//           key={v}
+//           className={`${s.bottomBar_changeView_btn} ${view === v ? s.active : ''}`}
+//           onClick={() => setView(v)}
+//         >
+//           {v}
+//         </button>
+//       ))}
+//     </div>
+//   )
+// }

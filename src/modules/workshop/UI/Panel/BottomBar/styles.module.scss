@@ -1,26 +1,26 @@
 .bottomBar {
-  position: absolute;
   bottom: 20px;
-  padding: 10px 20px;
+  left: 55px;
   gap: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  padding-bottom: 20px;
   z-index: 1000;
-  background-color: white;
   border-radius: 4px;
   display: flex;
   align-items: center;
 
-  &_button {
+  &_btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
-    padding: 8px 15px;
-    font-size: 15px;
-    line-height: 1;
     font-weight: 500;
     color: #000;
+    width: 240px;
+    height: 48px;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    background: #fff;
   }
 
   &_changeView {
