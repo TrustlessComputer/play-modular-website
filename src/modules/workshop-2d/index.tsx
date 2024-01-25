@@ -106,7 +106,7 @@ export default function Workshop2D() {
                       <input
                         type='range'
                         // value='50'
-                        class='w-[117px] h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700'
+                        className='w-[117px] h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700'
                       />
                     </div>
                   </div>
