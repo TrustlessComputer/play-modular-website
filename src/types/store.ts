@@ -1,4 +1,4 @@
-import { TBlockData } from '.'
+import { TBlockData, TListCurrent } from '.'
 
 export type TBlockSlice = {
   selectedBricks: any
@@ -9,6 +9,7 @@ export type TBlockSlice = {
   isRedo: boolean
 
   addBlocks: (d: TBlockData) => void
+  deleteAlls: () => void
   undo: () => void
   redo: () => void
   setBricks: (d: TBlockData) => void
@@ -60,4 +61,9 @@ type TBrickResponse = {
 export type TCreatedBrickSlice = {
   createdBricks: TBrickResponse[]
   setCreatedBricks: (b: TBrickResponse) => void
+}
+
+export type TListBlocksSlice = {
+  listCurrent: TListCurrent[]
+  setListCurrent: (list: TListCurrent[]) => void
 }

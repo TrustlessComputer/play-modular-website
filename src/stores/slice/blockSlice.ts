@@ -21,7 +21,18 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
         blockCurrent: newState,
       }
     }),
+  deleteAlls: () =>
+    set((state) => {
+      const currentStateIndex = state.currentStateIndex
+      const newState = []
+      const blocksState = [...state.blocksState.slice(0, currentStateIndex + 1), newState]
 
+      return {
+        blocksState,
+        currentStateIndex: blocksState.length - 1,
+        blockCurrent: newState,
+      }
+    }),
   undo: () =>
     set((state) => {
       let prevStateIndex = state.currentStateIndex

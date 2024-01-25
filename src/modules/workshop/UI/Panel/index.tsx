@@ -6,7 +6,6 @@ export default function Panel() {
   return (
     <div className={s.panel}>
       <BottomBar />
-      <ListBlocks />
     </div>
   )
 }

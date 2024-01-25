@@ -17,8 +17,21 @@ const offsetVec = new Vector3()
 export const Scene = () => {
   useAnchorShorcuts()
 
-  const { blockCurrent, addBlocks, mode, width, depth, anchorX, anchorZ, rotate, color, texture, selectedBricks } =
-    useStoreGlobal()
+  const {
+    blockCurrent,
+    addBlocks,
+    mode,
+    width,
+    depth,
+    anchorX,
+    anchorZ,
+    rotate,
+    color,
+    texture,
+    trait,
+    selectedBricks,
+  } = useStoreGlobal()
+
   const bricksBoundBox = useRef([])
   const brickCursorRef = useRef<Group>()
   const isDrag = useRef(false)
@@ -82,6 +95,7 @@ export const Scene = () => {
         // setBricks((prevBricks) => [...prevBricks, brickData])
         // setBricks((prevBricks) => [...prevBricks, brickData])
         addBlocks(brickData)
+        console.log(trait)
       }
     } else {
       isDrag.current = false

@@ -19,3 +19,13 @@ export type TBlocks = {
   isUndo: false
   isRedo: false
 }
+
+export type TListCurrent = {
+  id: string
+  PatternObject: string
+  ShapeObject: string
+  texture: string
+  img: string
+  color: string
+  count: number
+}

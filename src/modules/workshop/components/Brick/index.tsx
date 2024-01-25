@@ -26,7 +26,6 @@ export const Brick = ({
   onClick = (e: any) => {},
   mouseMove = (e: any) => {},
 }: TBrickAction & TBlockData) => {
-  const { setCreatedBricks } = useStoreGlobal()
   const brickRef = useRef()
   const texturez = useLoader(TextureLoader, texture)
   const props = {
