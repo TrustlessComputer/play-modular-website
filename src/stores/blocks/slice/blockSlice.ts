@@ -1,4 +1,4 @@
-import { TBlockSlice } from '@/types/store'
+import { TBlockSlice, TListBlocksSlice } from '@/types/store'
 import { StateCreator } from 'zustand'
 
 export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
@@ -14,7 +14,7 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
       const stateCurrent = state.blocksState[currentStateIndex] || []
       const newState = [...stateCurrent, getBrick]
       const blocksState = [...state.blocksState.slice(0, currentStateIndex + 1), newState]
-
+      console.log('state')
       return {
         blocksState,
         currentStateIndex: blocksState.length - 1,

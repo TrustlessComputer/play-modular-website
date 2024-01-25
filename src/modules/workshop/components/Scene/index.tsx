@@ -1,5 +1,5 @@
 import { useAnchorShorcuts } from '@/hooks/useShortcuts'
-import { useStoreGlobal } from '@/stores'
+import { useStoreGlobal } from '@/stores/blocks'
 import { EDIT_MODE, base, getMeasurementsFromDimensions, minWorkSpaceSize, uID } from '@/utils'
 import { useEffect, useRef } from 'react'
 import { Box3, Group, Vector3 } from 'three'
@@ -92,10 +92,11 @@ export const Scene = () => {
           translation: { x: anchorX, z: anchorZ },
         }
 
-        // setBricks((prevBricks) => [...prevBricks, brickData])
-        // setBricks((prevBricks) => [...prevBricks, brickData])
-        addBlocks(brickData)
-        console.log(trait)
+        if (trait.texture) {
+          addBlocks(brickData)
+        } else {
+          window.alert('Select your block')
+        }
       }
     } else {
       isDrag.current = false

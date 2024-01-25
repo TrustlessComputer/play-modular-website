@@ -2,20 +2,20 @@
 
 import React, { useEffect } from 'react'
 import { IconCheck } from '@/components/IconSvgs'
-import { useStoreGlobal } from '@/stores'
+import { useStoreGlobal } from '@/stores/blocks'
 import s from './styles.module.scss'
 import { DATA_FETCH } from '@/constant/trait-data'
 
 export const ListBlocks = () => {
   const { setWidth, setDepth, setColor, setTexture, texture, setTrait, trait, setListCurrent } = useStoreGlobal()
   const [isHover, setIsHover] = React.useState<number>(-1)
-  const handleChangeTexture = ({ PatternObject, texture, ShapeObject, color }) => {
+  const handleChangeTexture = ({ PatternObject, texture, ShapeObject, color, id }) => {
     const sizeArray = ShapeObject.split('x')
     const size = {
       w: Number(sizeArray[0]),
       d: Number(sizeArray[1]),
     }
-    setTrait({ color: color, shape: ShapeObject, texture: texture })
+    setTrait({ color: color, shape: ShapeObject, texture: texture, id: id })
     setTexture(texture)
     setColor(color)
     setWidth(size.w)

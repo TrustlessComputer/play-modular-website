@@ -1,6 +1,6 @@
 'use client'
 import { useUndoRedoShortcut } from '@/hooks/useShortcuts'
-import { useStoreGlobal } from '@/stores'
+import { useStoreGlobal } from '@/stores/blocks'
 import { views } from '@/utils'
 import s from './styles.module.scss'
 import { IconClear, IconPreview, IconRedo, IconTrash, IconUndo } from '@/components/IconSvgs'

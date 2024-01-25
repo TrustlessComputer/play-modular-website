@@ -6,7 +6,7 @@ import { base, createGeometry, getMeasurementsFromDimensions } from '@/utils'
 import { TBlockData } from '@/types'
 import { Decal, Outlines } from '@react-three/drei'
 import { Select } from '../Select'
-import { useStoreGlobal } from '@/stores'
+import { useStoreGlobal } from '@/stores/blocks'
 
 type TBrickAction = {
   onClick?: (e: any) => void
