@@ -150,6 +150,8 @@ export const Brick = ({
                 }}
                 geometry={geo.cube}
               >
+                <meshPhysicalMaterial color={color} roughness={1} />
+                <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
                 <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
                 {texturez ? (
                   <>
@@ -158,8 +160,13 @@ export const Brick = ({
                       map={texturez}
                       position={[0, 0, brickGeometry.length > 1 ? 0.05 : 0.05]}
                       rotation={[0, 0, 0]}
+                      // scale={[
+                      //   brickGeometry.length > 1 ? base * 2 : base,
+                      //   (base * 2) / 1.5,
+                      //   brickGeometry.length > 1 ? base * 2 : base,
+                      // ]}
                       scale={[
-                        brickGeometry.length > 1 ? base * 2 : base,
+                        brickGeometry.length > 1 ? base * 2.5 : base * 2.5,
                         (base * 2) / 1.5,
                         brickGeometry.length > 1 ? base * 2 : base,
                       ]}
@@ -197,7 +204,27 @@ export const Brick = ({
                 }}
                 geometry={geo.cylinder}
               >
-                <meshPhysicalMaterial color={color} opacity={1} />
+                {texturez ? (
+                  <Decal
+                    map={texturez}
+                    rotation={[0, 0, 0]}
+                    scale={[
+                      brickGeometry.length > 1 ? base * 3 : base * 3,
+                      (base * 3) / 1.5,
+                      brickGeometry.length > 1 ? base * 3 : base * 3,
+                    ]}
+                  >
+                    <meshPhysicalMaterial
+                      map={texturez}
+                      metalness={0.585}
+                      roughness={1}
+                      polygonOffset
+                      polygonOffsetFactor={-1} // The material should take precedence over the original
+                    />
+                  </Decal>
+                ) : (
+                  <meshPhysicalMaterial color={color} opacity={1} />
+                )}
                 <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
               </mesh>
             </group>
