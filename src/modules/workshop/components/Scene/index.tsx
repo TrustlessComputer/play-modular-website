@@ -19,6 +19,7 @@ export const Scene = () => {
 
   const {
     blockCurrent,
+    createdBricks,
     addBlocks,
     mode,
     width,
@@ -38,6 +39,9 @@ export const Scene = () => {
   const timeoutID = useRef(null)
   const isEditMode = mode === EDIT_MODE
 
+  console.log('BRICKS :::: ', blockCurrent)
+  console.log('CREATED BRICKS :::: ', createdBricks)
+
   const addBrick = (e) => {
     e.stopPropagation()
 
@@ -56,24 +60,12 @@ export const Scene = () => {
       for (let index = 0; index < bricksBoundBox.current.length; index++) {
         const brickBoundingBox = bricksBoundBox.current[index].brickBoundingBox
         const collision = boundingBoxOfBrickToBeAdded.intersectsBox(brickBoundingBox)
-        for (let index = 0; index < bricksBoundBox.current.length; index++) {
-          const brickBoundingBox = bricksBoundBox.current[index].brickBoundingBox
-          const collision = boundingBoxOfBrickToBeAdded.intersectsBox(brickBoundingBox)
 
-          if (collision) {
-            const dx = Math.abs(brickBoundingBox.max.x - boundingBoxOfBrickToBeAdded.max.x)
-            const dz = Math.abs(brickBoundingBox.max.z - boundingBoxOfBrickToBeAdded.max.z)
-            const yIntsersect = brickBoundingBox.max.y - 9 > boundingBoxOfBrickToBeAdded.min.y
-            if (yIntsersect && dx !== dimensions.width && dz !== dimensions.depth) {
-              canCreate = false
-              break
-            }
-          }
-        }
         if (collision) {
           const dx = Math.abs(brickBoundingBox.max.x - boundingBoxOfBrickToBeAdded.max.x)
           const dz = Math.abs(brickBoundingBox.max.z - boundingBoxOfBrickToBeAdded.max.z)
           const yIntsersect = brickBoundingBox.max.y - 9 > boundingBoxOfBrickToBeAdded.min.y
+
           if (yIntsersect && dx !== dimensions.width && dz !== dimensions.depth) {
             canCreate = false
             break
@@ -103,6 +95,7 @@ export const Scene = () => {
       isDrag.current = false
     }
   }
+
   const setBrickCursorPosition = (e): void => {
     e.stopPropagation()
     if (isEditMode) return
@@ -164,8 +157,6 @@ export const Scene = () => {
       <Select box multiple>
         {blockCurrent?.length > 0 &&
           blockCurrent.map((b, i) => {
-            console.log(selectedBricks)
-
             const { dimensions, rotation, intersect } = b
             const height = 1
             const position = () => {
