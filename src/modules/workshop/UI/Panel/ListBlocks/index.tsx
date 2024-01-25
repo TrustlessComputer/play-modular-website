@@ -26,6 +26,7 @@ export const ListBlocks = () => {
   return (
     <div className={s.wrapper}>
       <div className={s.inner}>
+        <h3 className={s.title}>Bricks</h3>
         <div className={s.wrapper_listBlocks}>
           {DATA_FETCH.map((item, index) => {
             const isActive = item.texture === trait.texture
