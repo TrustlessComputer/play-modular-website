@@ -1,5 +1,5 @@
 import { TPreviewSlice } from '@/types/store'
-import { views } from '../../utils'
+import { views } from '@/utils'
 import { StateCreator } from 'zustand'
 
 export const createPreviewSlice: StateCreator<TPreviewSlice> = (set) => ({

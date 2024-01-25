@@ -1,4 +1,4 @@
-import { TBlockData } from '.'
+import { TBlockData, TListCurrent } from '.'
 
 export type TBlockSlice = {
   selectedBricks: any
@@ -9,6 +9,7 @@ export type TBlockSlice = {
   isRedo: boolean
 
   addBlocks: (d: TBlockData) => void
+  deleteAlls: () => void
   undo: () => void
   redo: () => void
   setBricks: (d: TBlockData) => void
@@ -33,7 +34,7 @@ export type TAtributeBlock = {
   rotate: boolean
   color: string
   texture: string
-  trait: { color: string; texture: string; shape: string }
+  trait: { color: string; texture: string; shape: string; id: string }
   selectedBricks: []
 
   setMode: (mode: string) => void
@@ -46,7 +47,7 @@ export type TAtributeBlock = {
   setRotate: (b: boolean) => void
   setColor: (color: string) => void
   setTexture: (t: string) => void
-  setTrait: ({ color, texture, shape }: { color: string; texture: string; shape: string }) => void
+  setTrait: ({ color, texture, shape, id }: { color: string; texture: string; shape: string; id: string }) => void
   setSelectedBricks: (b: any) => void
 }
 
@@ -60,4 +61,9 @@ type TBrickResponse = {
 export type TCreatedBrickSlice = {
   createdBricks: TBrickResponse[]
   setCreatedBricks: (b: TBrickResponse) => void
+}
+
+export type TListBlocksSlice = {
+  listCurrent: TListCurrent[]
+  setListCurrent: (list: TListCurrent[]) => void
 }

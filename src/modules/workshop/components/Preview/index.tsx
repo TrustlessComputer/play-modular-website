@@ -5,7 +5,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/display-name */
 
-import { useStoreGlobal } from '@/stores'
+import { useStoreGlobal } from '@/stores/blocks'
 import { viewMapToPosition, views } from '@/utils'
 import { Canvas, useThree } from '@react-three/fiber'
 import React from 'react'

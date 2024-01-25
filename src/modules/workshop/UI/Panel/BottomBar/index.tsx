@@ -1,11 +1,12 @@
 'use client'
 import { useUndoRedoShortcut } from '@/hooks/useShortcuts'
-import { useStoreGlobal } from '@/stores'
+import { useStoreGlobal } from '@/stores/blocks'
 import { views } from '@/utils'
 import s from './styles.module.scss'
+import { IconClear, IconPreview, IconRedo, IconTrash, IconUndo } from '@/components/IconSvgs'
 
 export default function BottomBar() {
-  const { undo, redo, mode, viewPreview, setViewPreview } = useStoreGlobal()
+  const { undo, redo, mode, viewPreview, setViewPreview, deleteAlls } = useStoreGlobal()
   // setBricks((bricks) => {
   //   const newBricks = bricks.filter((brick) => {
   //     const selectedClone = [...selectedBricks]
@@ -35,27 +36,36 @@ export default function BottomBar() {
     console.log('save')
   }
 
+  const handleDeleteAll = () => {
+    deleteAlls()
+  }
+
   useUndoRedoShortcut(undo, redo)
 
   return (
     <div className={s.bottomBar}>
       <button className={s.bottomBar_btn} onClick={undoAction}>
-        Undo
+        <IconUndo /> Undo
       </button>
       <button className={s.bottomBar_btn} onClick={redoAction}>
-        Redo
+        <IconRedo /> Redo
       </button>
-      <button className={s.bottomBar_btn}>Clear</button>
+      <button className={s.bottomBar_btn}>
+        <IconClear />
+        Clear
+      </button>
 
-      <button className={s.bottomBar_btn}>Delete</button>
+      <button className={s.bottomBar_btn} onClick={() => handleDeleteAll()}>
+        <IconTrash /> Delete
+      </button>
 
       <button className={s.bottomBar_btn} onClick={saveAction}>
         Save
       </button>
 
-      {/* <button onClick={() => setViewPreview(!viewPreview)} className={s.bottomBar_btn}>
-        Preview
-      </button> */}
+      <button onClick={() => setViewPreview(!viewPreview)} className={`${s.bottomBar_btn} ${s.bottomBar_btn_preview}`}>
+        Preview: {viewPreview ? 'On' : 'Off'} <IconPreview />
+      </button>
     </div>
   )
 }

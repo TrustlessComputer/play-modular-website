@@ -1,6 +1,7 @@
 import { Vector3 } from 'three'
 
 export type TBlockData = {
+  id: string
   color: string
   texture: string
   dimensions: { x: number; y?: number; z: number }
@@ -18,4 +19,14 @@ export type TBlocks = {
   currentStateIndex: number
   isUndo: false
   isRedo: false
+}
+
+export type TListCurrent = {
+  id: string
+  PatternObject: string
+  ShapeObject: string
+  texture: string
+  img: string
+  color: string
+  count: number
 }

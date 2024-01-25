@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStoreGlobal } from '@/stores'
+import { useStoreGlobal } from '@/stores/blocks'
 import { useDeleteShortcut } from '@/hooks/useShortcuts'
 
 export const DeleteBrick = ({ setBricks }) => {
