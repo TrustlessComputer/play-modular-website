@@ -1,21 +1,32 @@
 .workshop2d {
-  color: white;
   padding-top: rem(100px);
 
   .container {
+    border-radius: rem(20px);
+    background: var(--white);
     max-width: 1520px;
     margin-left: auto;
     margin-right: auto;
     padding: 15px 16px;
+    font-size: rem(18px);
+
     &_heading {
+      padding-top: rem(30px);
       font-size: rem(18px);
-      font-weight: 800;
+      font-weight: 700;
+      margin-bottom: rem(40px);
+
       h2 {
         color: var(--purple);
       }
+
       p {
         margin-left: rem(30px);
       }
+    }
+
+    &_content {
+      padding-bottom: rem(30px);
     }
 
     @include min-tablet {
@@ -24,12 +35,57 @@
     }
 
     .box {
-      img {
-        width: rem(300px);
-        height: rem(300px);
+      display: flex;
+      flex-direction: column;
+      gap: rem(40px);
+
+      .uploadImg {
+        position: relative;
+
+        &_input {
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 2;
+        }
+
+        &_img {
+          z-index: 1;
+        }
+
+        label {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: rem(300px);
+          height: rem(300px);
+          background: #313131;
+          color: white;
+          cursor: pointer;
+          transition: .2s all ease-in-out;
+
+          &:hover {
+            opacity: 0.8;
+          }
+        }
+
+        input {
+          display: none;
+        }
       }
 
-         
+      .pixelateImg {
+        &_placeholder {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: rem(300px);
+          height: rem(300px);
+          background: #313131;
+          color: white;
+        }
+      }
+
       canvas {
         image-rendering: optimizeSpeed;
         image-rendering: -moz-crisp-edges;
@@ -37,49 +93,122 @@
         image-rendering: -o-crisp-edges;
         image-rendering: crisp-edges;
         -ms-interpolation-mode: nearest-neighbor;
+      }
     }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: rem(50px);
+
+      h5 {
+        font-size: rem(18px);
+        margin-bottom: rem(20px);
+      }
+
+      &_buttons {
+        margin-bottom: rem(8px);
+        display: flex;
+        gap: rem(40px);
+        margin-bottom: rem(20px);
+      }
+
+      &_input {
+        margin-top: rem(20px);
+        display: flex;
+        gap: rem(10px);
+        align-items: center;
+
+        input {
+          cursor: grab;
+        }
+      }
+
+      &_brick {
+        flex: 1;
+
+        .totalBricks {
+          margin-bottom: rem(30px);
+
+          p {
+            margin-bottom: rem(5px);
+          }
+
+          .totalList {
+            display: flex;
+            gap: rem(13px);
+          }
+
+          &_item {
+            display: flex;
+            gap: rem(10px);
+
+            .color {
+              width: rem(20px);
+              height: rem(20px);
+            }
+          }
+        }
+
+        .lackBricks {
+          margin-bottom: rem(30px);
+
+          p {
+            margin-bottom: rem(5px);
+          }
+
+          .lackList {
+            display: flex;
+            gap: rem(13px);
+          }
+
+          &_item {
+            display: flex;
+            gap: rem(10px);
+
+            .color {
+              width: rem(20px);
+              height: rem(20px);
+            }
+          }
+        }
+      }
+    }
+
+    .create {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    button {
+      font-size: rem(14px);
+      line-height: rem(19.12px);
+      padding: rem(15px) rem(40px);
+      background: #703EFC;
+      text-transform: uppercase;
+      color: white;
+      width: fit-content;
+      transition: .2s all ease-in-out;
+
+      &:hover {
+        opacity: .8;
+      }
     }
   }
 }
 
-#picture__input {
-  display: none;
+.show {
+  display: block;
 }
 
-.picture {
-  width: 256px;
-  height: 253px;
-  aspect-ratio: 16/9;
-  background: #313131;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  cursor: pointer;
-  font-family: sans-serif;
-  transition: color 300ms ease-in-out, background 300ms ease-in-out;
-  outline: none;
-  overflow: hidden;
+.hide {
+  display: none !important;
 }
 
-.picture:hover {
-  color: #777;
-  background: #ccc;
+.display {
+  opacity: 1;
 }
 
-.picture:active {
-  border-color: turquoise;
-  color: turquoise;
-  background: #eee;
+.none {
+  opacity: 0;
 }
-
-.picture:focus {
-  color: #777;
-  background: #ccc;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-.picture__img {
-  max-width: 100%;
-}
-

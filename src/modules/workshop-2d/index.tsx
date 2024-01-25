@@ -1,12 +1,14 @@
+/* eslint-disable @next/next/no-img-element */
 // @ts-nocheck
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
-import style from './styles.module.scss'
-import Img from 'next/image'
+import { useEffect, useRef, useState } from 'react'
+import s from './styles.module.scss'
+import { totalArray, currentArray } from './data'
 
 export default function Workshop2D() {
-  const [valueRange, setValueRange] = useState<number>(0)
+  const [uploaded, setUploaded] = useState<boolean>(false)
+  const [valueRange, setValueRange] = useState<number>(100)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const rangePixelRef = useRef<any | null>(null)
   const uploadImageRef = useRef<any | null>(null)
@@ -22,9 +24,14 @@ export default function Workshop2D() {
 
   const uploadInput = async (e) => {
     const [file] = e.target.files
+    setUploaded(true)
 
     uploadImageRef.current.src = await fileToDataUri(file)
-    rangePixelRef.current.value = 0
+    rangePixelRef.current.value = 100
+
+    let ctx = pixelatedImageRef.current.getContext('2d')
+    pixelate(ctx)
+
     return false
   }
 
@@ -66,89 +73,91 @@ export default function Workshop2D() {
   }
 
   return (
-    <div className={style.workshop2d}>
-      <div className={style.container}>
-        <div className={`${style.container_heading} flex items-center`}>
+    <div className={s.workshop2d}>
+      <div className={s.container}>
+        <div className={`${s.container_heading} flex items-center`}>
           <h2>Use image</h2>
           <p>Project you have build</p>
         </div>
 
-        <div className={`grid grid-cols-12 mt-5`}>
-          <div className='col-span-5'>
-            <div className='flex flex-row items-start'>
-              <div className='flex flex-col pr-20'>
-                <div className=''>
-                  <label className={`${style.picture}`} htmlFor='picture__input' tabIndex='0'>
-                    <span className={`${style.picture__image}`}>Upload image</span>
-                  </label>
-                  <input type='file' name='picture__input' id={`${style.picture__input}`} />
-                </div>
-                <div className='mt-14'>
-                  <label className={`${style.picture}`} htmlFor='picture__input' tabIndex='0'>
-                    <span className={`${style.picture__image}`}>Upload image</span>
-                  </label>
-                  <input type='file' name='picture__input' id={`${style.picture__input}`} />
-                </div>
+        <div className={`${s.container_content} grid grid-cols-12`}>
+          <div className={`${s.box} col-span-5`}>
+            <div className={`${s.uploadImg}`}>
+              <div className={`${s.uploadImg_input} ${uploaded ? s.none : s.display}`}>
+                <label htmlFor='upload_image'>Upload Image</label>
+                <input id={'upload_image'} ref={inputRef} type='file' accept='image/*' onChange={uploadInput} />
               </div>
-              <div className='flex flex-col'>
-                <div className=''>
-                  <p className=''>Options</p>
-                  <div>
-                    <p className='mt-8'>Bricks</p>
-                    <span className='flex flex-row items-start mt-4'>
-                      <p className='mr-8'>All</p>
-                      <p>Only you have</p>
-                    </span>
-                  </div>
-                  <div className='resolution'>
-                    <p className='mt-14'>Longest Dimension/resolution</p>
-                    <div className=''>
-                      <input
-                        type='range'
-                        // value='50'
-                        className='w-[117px] h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700'
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className='mt-14'>
-                  <label className={`${style.picture}`} htmlFor='picture__input' tabIndex='0'>
-                    <span className={`${style.picture__image}`}>Upload image</span>
-                  </label>
-                  <input type='file' name='picture__input' id={`${style.picture__input}`} />
-                </div>
-              </div>
+              <img
+                className={`${s.uploadImg_img} ${uploaded ? s.display : s.none}`}
+                src=''
+                width={300}
+                height={300}
+                alt='uploaded image'
+                ref={uploadImageRef}
+              />
+            </div>
+            <div className={`${s.pixelateImg_placeholder} ${uploaded ? s.hide : s.show}`}>
+              <span>Result image</span>
+            </div>
+            <div className={`${s.pixelateImg} ${uploaded ? s.show : s.hide}`}>
+              <canvas width={300} height={300} ref={pixelatedImageRef} />
             </div>
           </div>
-          {/* <div className="col-span-7">
-            <div className="flex flex-col items-start">
-              <div className="">
-                <label className={`${style.picture}`} htmlFor="picture__input" tabIndex="0">
-                  <span className={`${style.picture__image}`}>Upload image</span>
-                </label>
-                <input type="file" name="picture__input" id={`${style.picture__input}`} />
+          <div className={`${s.options} col-span-7`}>
+            <div className={`${s.options_top}`}>
+              <h5>Options</h5>
+              <p>Bricks</p>
+              <div className={s.options_buttons}>
+                <p>All</p>
+                <p>Only you have</p>
               </div>
-              <div className="mt-14">
-                <label className={`${style.picture}`} htmlFor="picture__input" tabIndex="0">
-                  <span className={`${style.picture__image}`}>Upload image</span>
-                </label>
-                <input type="file" name="picture__input" id={`${style.picture__input}`} />
-              </div>
-            </div>
-          </div> */}
-        </div>
+              <p>Longest Dimension/resolution</p>
+              <div className={s.options_input}>
+                <input
+                  type='range'
+                  min={1}
+                  max={100}
+                  value={valueRange}
+                  ref={rangePixelRef}
+                  onInput={pixelRangeHandler}
+                  disabled={!uploaded && true}
+                />
 
-        <div className={`grid grid-cols-12`}>
-          <div className={`${style.box} col-span-6`}>
-            <p>Original Image:</p>
-            <Img src='' width={256} height={253} alt='uploaded image' ref={uploadImageRef} />
-            <p>Pixelated Image: </p>
-            <canvas width={300} height={300} ref={pixelatedImageRef} />
+                <span>{valueRange}</span>
+              </div>
+            </div>
+            <button>Get Brick result</button>
+            <div className={`${s.options_brick}`}>
+              <div className={s.totalBricks}>
+                <p>Total: </p>
+                <div className={s.totalList}>
+                  {totalArray.map((item, index) => (
+                    <div key={index} className={s.totalBricks_item}>
+                      <span className={s.color} style={{ backgroundColor: item.color }} />
+                      <span className={s.qty}>x{item.quatity}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className={s.lackBricks}>
+                <p>You lacks: </p>
+                <div className={s.lackList}>
+                  {currentArray.map((item, index) => (
+                    <div
+                      key={index}
+                      className={`${s.lackBricks_item} ${totalArray[index].quatity - item.quatity === 0 && s.hide}`}
+                    >
+                      <span className={s.color} style={{ backgroundColor: item.color }} />
+                      <span className={s.qty}>x{totalArray[index].quatity - item.quatity}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <button>Mint</button>
+            </div>
           </div>
-          <div className={`${style.input} col-span-6`}>
-            <input ref={inputRef} type='file' accept='image/*' onChange={uploadInput} />
-            <p>Pixelation: </p>
-            <input type='range' min={1} max={100} value={valueRange} ref={rangePixelRef} onInput={pixelRangeHandler} />
+          <div className={`${s.create} col-span-2 col-start-11`}>
+            <button>Create Sketch</button>
           </div>
         </div>
       </div>
