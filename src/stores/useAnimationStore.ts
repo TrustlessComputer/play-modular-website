@@ -9,6 +9,7 @@ interface IProp {
   setPlay: () => void
   setPlayed: () => void
   setVidIsPlay: (b: boolean) => void
+  setVidIndexActive: (index: number) => void
 }
 
 const useAnimationStore = create<IProp>((set) => ({
