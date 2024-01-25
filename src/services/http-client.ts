@@ -2,6 +2,7 @@ import axios from 'axios'
 
 import LocalStorage from '@/utils/storage/local-storage'
 import { STORAGE_KEY_TOKEN } from '@/constant/storage-key'
+import { camelCaseKeys } from '@/utils/normalize'
 
 export const TIMEOUT = 5 * 60000
 export const HEADERS = { 'Content-Type': 'application/json' }
@@ -30,7 +31,8 @@ const createAxiosInstance = ({ baseURL = '' }: { baseURL: string }) => {
 
   instance.interceptors.response.use(
     (res) => {
-      const result = res?.data?.data || res?.data?.result
+      let result = res?.data?.data || res?.data?.result
+      result = Object(camelCaseKeys(result)) // force convert to camel case
       if (res?.data?.count !== undefined) {
         result.count = res.data.count
       }
