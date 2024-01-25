@@ -13,20 +13,20 @@ const DATA_CONTENTS: {
 }[] = [
     {
         id: 'phase-1',
-        time: 'JAN 2024',
+        time: 'Jan 2024',
         title: 'The Module Factory',
         label: 'Phase I'
     },
     {
         id: 'phase-2',
-        time: 'March 2024',
-        title: 'Build whatever',
+        time: 'Feb 2024',
+        title: 'Build Whatever',
         label: 'Phase II'
     },
     {
         id: 'phase-3',
-        time: 'May 2024',
-        title: 'Buy Sale whatever',
+        time: 'mar 2024',
+        title: 'Trade Whatever',
         label: 'Phase III'
     },
 ]

@@ -5,7 +5,6 @@ import Three3D from './Three3D'
 import UI from './UI'
 import PreviewRoom from './components/Preview'
 import s from './styles.module.scss'
-import BottomBar from './UI/BottomBar'
 
 export default function WorkShop() {
   const { viewPreview } = useStoreGlobal()
@@ -22,8 +21,6 @@ export default function WorkShop() {
           <div className={s.preview_inner}>
             <PreviewRoom />
           </div>
-
-          <BottomBar.PreviewScene />
         </div>
       )}
     </main>
