@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { BareFetcher, SWRConfiguration, unstable_serialize } from 'swr'
 import useSWR from 'swr/infinite'
 import axios from 'axios'

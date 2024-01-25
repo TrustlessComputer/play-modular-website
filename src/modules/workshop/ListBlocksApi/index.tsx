@@ -20,7 +20,7 @@ const ListBlocks: React.FunctionComponent = () => {
   } = useApiInfinite(
     getListModularByWallet,
     {
-      ownerAddress: 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er', //account?.address,
+      ownerAddress: 'bc1pvtvqjx4yx9nzceunsppvav3h90nkdd2up7hkyv32nf08y7hwgn7qkfsva8', //account?.address,
       page: 1,
       limit: 20,
     },
