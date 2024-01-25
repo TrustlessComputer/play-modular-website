@@ -63,11 +63,11 @@ export const DATA_FETCH = [
     },
     {
         id: '5',
-        PatternObject: 'Uniswap',
+        PatternObject: 'Ordinals',
         ShapeObject: '2x2',
         texture: '/assets/patterns/ord.svg',
         img: '/assets/patterns/images/shape10.png',
-        color: '#000',
+        color: '#535555',
         count: 10,
     },
 ]
