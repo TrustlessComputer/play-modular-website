@@ -31,9 +31,10 @@ export default function Three3D() {
         powerPreference: 'high-performance',
       }}
       camera={{
-        position: [0, 600, 900],
+        position: [0, 300, 900],
         near: 0.1,
         far: 20000,
+        fov: 50,
       }}
       shadows={true}
       dpr={Math.min(2, aspect)}

@@ -39,8 +39,8 @@ export const Scene = () => {
   const timeoutID = useRef(null)
   const isEditMode = mode === EDIT_MODE
 
-  console.log('BRICKS :::: ', blockCurrent)
-  console.log('CREATED BRICKS :::: ', createdBricks)
+  // console.log('BRICKS :::: ', blockCurrent)
+  // console.log('CREATED BRICKS :::: ', createdBricks)
 
   const addBrick = (e) => {
     e.stopPropagation()
@@ -86,7 +86,7 @@ export const Scene = () => {
         }
 
         if (trait?.texture || trait?.color) {
-          console.log('brickData', brickData)
+          // console.log('brickData', brickData)
 
           addBlocks(brickData)
         } else {

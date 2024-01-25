@@ -157,12 +157,10 @@ export const Brick = ({
                   }}
                   geometry={geo.cube}
                 >
-                  <meshPhysicalMaterial color={color} roughness={1} />
-                  <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
                   <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
                   {!isNontTexture ? (
                     <>
-                      <meshPhysicalMaterial color={color} roughness={1} />
+                      <meshPhysicalMaterial color={color} roughness={0.9} metalness={0.94} />
                       <Decal
                         map={texturez}
                         position={[0, 0, brickGeometry.length > 1 ? 0.05 : 0.05]}
@@ -180,8 +178,8 @@ export const Brick = ({
                       >
                         <meshPhysicalMaterial
                           map={texturez}
-                          metalness={0.485}
-                          roughness={1}
+                          metalness={0.94}
+                          roughness={0.9}
                           polygonOffset
                           polygonOffsetFactor={-1} // The material should take precedence over the original
                         />
@@ -223,8 +221,8 @@ export const Brick = ({
                     >
                       <meshPhysicalMaterial
                         map={texturez}
-                        metalness={0.585}
-                        roughness={1}
+                        metalness={0.94}
+                        roughness={0.9}
                         polygonOffset
                         polygonOffsetFactor={-1} // The material should take precedence over the original
                       />
