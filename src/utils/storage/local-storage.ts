@@ -14,4 +14,6 @@ class LocalStorage {
   }
 }
 
-export { LocalStorage }
+const instance = new LocalStorage()
+
+export default instance

@@ -1,9 +1,10 @@
-import WorkShop from "@/modules/workshop";
+import WorkShop from '@/modules/workshop'
+import { WalletProvider } from '@/providers/wallet'
 
 export default function Page() {
-    return (
-        <>
-            <WorkShop/>
-        </>
-    )
+  return (
+    <WalletProvider>
+      <WorkShop />
+    </WalletProvider>
+  )
 }
