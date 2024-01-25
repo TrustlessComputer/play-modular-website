@@ -27,10 +27,10 @@ const ListBlocks: React.FunctionComponent = () => {
     {
       revalidateOnFocus: true,
       parallel: true,
-      shouldFetch: !!account?.address,
+      // shouldFetch: !!account?.address,
     },
   )
-
+  console.log('dataInfinite', dataInfinite)
   return (
     <Virtuoso
       className={s.listBlocks}

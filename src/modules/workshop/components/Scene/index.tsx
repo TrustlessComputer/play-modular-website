@@ -90,6 +90,7 @@ export const Scene = () => {
           color: color,
           texture: texture,
           translation: { x: anchorX, z: anchorZ },
+          id: trait.id,
         }
 
         if (trait.texture) {

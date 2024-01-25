@@ -1,6 +1,7 @@
 import { Vector3 } from 'three'
 
 export type TBlockData = {
+  id: string
   color: string
   texture: string
   dimensions: { x: number; y?: number; z: number }
