@@ -83,9 +83,9 @@ export default function BottomBar() {
         Save
       </button>
 
-      <button onClick={() => setViewPreview(!viewPreview)} className={`${s.bottomBar_btn} ${s.bottomBar_btn_preview}`}>
+      {/* <button onClick={() => setViewPreview(!viewPreview)} className={`${s.bottomBar_btn} ${s.bottomBar_btn_preview}`}>
         Preview: {viewPreview ? 'On' : 'Off'} <IconPreview />
-      </button>
+      </button> */}
     </div>
   )
 }
