@@ -1,0 +1,1 @@
+export const STORAGE_KEY_TOKEN = 'STORAGE_KEY_TOKEN'

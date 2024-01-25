@@ -1,4 +1,4 @@
-import { useStoreGlobal } from '@/stores'
+import { useStoreGlobal } from '@/stores/blocks'
 import { CREATE_MODE, base, getMeasurementsFromDimensions } from '@/utils'
 import React, { forwardRef, useMemo } from 'react'
 import { Group, Mesh, Object3DEventMap, Vector3 } from 'three'
@@ -13,7 +13,7 @@ type BrickCursorProps = {
   translation?: { x: number; z: number }
 }
 
- const BrickCursor = forwardRef(
+const BrickCursor = forwardRef(
   (
     {
       intersect = {
@@ -73,4 +73,4 @@ type BrickCursorProps = {
 )
 BrickCursor.displayName = 'BrickCursor'
 
-export {BrickCursor};
+export { BrickCursor }

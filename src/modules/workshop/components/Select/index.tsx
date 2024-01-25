@@ -3,7 +3,7 @@ import * as THREE from 'three'
 import { SelectionBox } from 'three-stdlib'
 import { useThree } from '@react-three/fiber'
 import { shallow } from 'zustand/shallow'
-import { useStoreGlobal } from '@/stores'
+import { useStoreGlobal } from '@/stores/blocks'
 import { EDIT_MODE } from '@/utils'
 
 type TSelect = {

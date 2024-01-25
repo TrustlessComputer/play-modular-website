@@ -1,5 +1,5 @@
 import { useAnchorShorcuts } from '@/hooks/useShortcuts'
-import { useStoreGlobal } from '@/stores'
+import { useStoreGlobal } from '@/stores/blocks'
 import { EDIT_MODE, base, getMeasurementsFromDimensions, minWorkSpaceSize, uID } from '@/utils'
 import { useEffect, useRef } from 'react'
 import { Box3, Group, Vector3 } from 'three'
@@ -17,8 +17,21 @@ const offsetVec = new Vector3()
 export const Scene = () => {
   useAnchorShorcuts()
 
-  const { blockCurrent, addBlocks, mode, width, depth, anchorX, anchorZ, rotate, color, texture, selectedBricks } =
-    useStoreGlobal()
+  const {
+    blockCurrent,
+    addBlocks,
+    mode,
+    width,
+    depth,
+    anchorX,
+    anchorZ,
+    rotate,
+    color,
+    texture,
+    trait,
+    selectedBricks,
+  } = useStoreGlobal()
+
   const bricksBoundBox = useRef([])
   const brickCursorRef = useRef<Group>()
   const isDrag = useRef(false)
@@ -77,11 +90,14 @@ export const Scene = () => {
           color: color,
           texture: texture,
           translation: { x: anchorX, z: anchorZ },
+          id: trait.id,
         }
 
-        // setBricks((prevBricks) => [...prevBricks, brickData])
-        // setBricks((prevBricks) => [...prevBricks, brickData])
-        addBlocks(brickData)
+        if (trait.texture) {
+          addBlocks(brickData)
+        } else {
+          window.alert('Select your block')
+        }
       }
     } else {
       isDrag.current = false
