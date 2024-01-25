@@ -1,11 +1,10 @@
 import axios from 'axios'
 
 import LocalStorage from '@/utils/storage/local-storage'
+import { STORAGE_KEY_TOKEN } from '@/constant/storage-key'
 
 export const TIMEOUT = 5 * 60000
 export const HEADERS = { 'Content-Type': 'application/json' }
-
-const TOKEN_KEY = 'TOKEN_KEY'
 
 const createAxiosInstance = ({ baseURL = '' }: { baseURL: string }) => {
   const instance = axios.create({
@@ -18,7 +17,7 @@ const createAxiosInstance = ({ baseURL = '' }: { baseURL: string }) => {
 
   instance.interceptors.request.use(
     (config) => {
-      const token = LocalStorage.get(TOKEN_KEY)
+      const token = LocalStorage.get(STORAGE_KEY_TOKEN)
       if (token) {
         config.headers.Authorization = `Bearer ${token}`
       }
