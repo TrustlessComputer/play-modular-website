@@ -1,9 +1,10 @@
 'use client'
 
-import {gsap} from 'gsap';
-import Image from 'next/image';
-import s from './styles.module.scss';
 import {useEffect, useRef} from "react";
+
+import Image from 'next/image';
+import {gsap} from 'gsap';
+import s from './styles.module.scss';
 import useAnimationStore from "@/stores/useAnimationStore";
 
 export default function Load() {
