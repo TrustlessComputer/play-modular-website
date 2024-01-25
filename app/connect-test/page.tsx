@@ -1,27 +1,23 @@
-"use client";
-import styles from "./styles.module.scss";
-import useWalletContext from "@/providers/wallet/useWalletContext";
-import { WalletProvider } from "@/providers/wallet";
-import { WalletType } from "@/providers/wallet/types";
-import StoreProvider from "@/providers/store";
-import { useAppSelector } from "@/stores/hooks";
-import { accountSelector } from "@/stores/states/wallet/selector";
+'use client'
+import styles from './styles.module.scss'
+import useWalletContext from '@/providers/wallet/useWalletContext'
+import { WalletProvider } from '@/providers/wallet'
+import { WalletType } from '@/providers/wallet/types'
+import StoreProvider from '@/providers/store'
+import { useAppSelector } from '@/stores/hooks'
+import { accountSelector } from '@/stores/states/wallet/selector'
 
 const ConnectTest = () => {
-  const walletCtx = useWalletContext();
+  const walletCtx = useWalletContext()
 
-  const account = useAppSelector(accountSelector);
+  const account = useAppSelector(accountSelector)
 
   return (
     <div className={styles.container}>
       {!!account && (
         <>
-          <div className={styles.account}>
-            Address: {account.address}
-          </div>
-          <div className={styles.account}>
-            Public Key: {account.publicKey}
-          </div>
+          <div className={styles.account}>Address: {account.address}</div>
+          <div className={styles.account}>Public Key: {account.publicKey}</div>
         </>
       )}
       <button
@@ -50,7 +46,6 @@ const ConnectTest = () => {
     </div>
   )
 }
-
 
 const Page = () => {
   return (

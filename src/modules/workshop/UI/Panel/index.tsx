@@ -1,5 +1,7 @@
 import BottomBar from './BottomBar'
 import { ListBlocks } from './ListBlocks'
+import ListBlocksApi from '@/modules/workshop/ListBlocksApi'
+
 import s from './styles.module.scss'
 
 export default function Panel() {
@@ -7,6 +9,7 @@ export default function Panel() {
     <div className={s.panel}>
       <BottomBar />
       <ListBlocks />
+      <ListBlocksApi />
     </div>
   )
 }
