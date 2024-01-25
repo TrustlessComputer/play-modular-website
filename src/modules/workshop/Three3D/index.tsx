@@ -41,8 +41,8 @@ export default function Three3D() {
     >
       <Suspense fallback={null}>
         <Scene />
-        <ControlsWrapper />
       </Suspense>
+      <ControlsWrapper />
     </Canvas>
   )
 }
