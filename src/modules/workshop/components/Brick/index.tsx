@@ -1,10 +1,10 @@
-import React, { useMemo, useEffect, useRef } from 'react'
-import { Vector3, Box3, TextureLoader } from 'three'
+import React, { useMemo, useEffect, useRef, useCallback } from 'react'
+import { Vector3, Box3, TextureLoader, Matrix4 } from 'three'
 import { motion } from 'framer-motion-3d'
 import { useLoader } from '@react-three/fiber'
-import { base, createGeometry, getMeasurementsFromDimensions } from '@/utils'
+import { base, createGeometry, getMeasurementsFromDimensions, uID as generateUId } from '@/utils'
 import { TBlockData } from '@/types'
-import { Decal, Outlines } from '@react-three/drei'
+import { Decal, Outlines, PivotControls } from '@react-three/drei'
 import { Select } from '../Select'
 import { useStoreGlobal } from '@/stores'
 
@@ -26,13 +26,28 @@ export const Brick = ({
   onClick = (e: any) => {},
   mouseMove = (e: any) => {},
 }: TBrickAction & TBlockData) => {
-  const { setCreatedBricks } = useStoreGlobal()
-  const brickRef = useRef()
+  // const { setCreatedBricks } = useStoreGlobal()
+  const [resetKey, setResetKey] = React.useState(generateUId())
+  const brickRef = useRef(null)
   const texturez = useLoader(TextureLoader, texture)
   const props = {
     ...(texturez && { map: texturez }),
     ...(color && { color: color }),
   }
+
+  const compansate = {
+    x: dimensions.x % 2 === 0 ? dimensions.x / 2 : (dimensions.x - 1) / 2,
+    z: dimensions.z % 2 === 0 ? dimensions.z / 2 : (dimensions.z - 1) / 2,
+  }
+
+  const offset = {
+    x: Math.sign(translation.x) < 0 ? Math.max(translation.x, -compansate.x) : Math.min(translation.x, compansate.x),
+    z: Math.sign(translation.z) < 0 ? Math.max(translation.z, -compansate.z) : Math.min(translation.z, compansate.z),
+  }
+
+  const [position, setPosition] = React.useState(new Vector3(99999999, 99999999, 99999999))
+  const [prevL, setPrevL] = React.useState(new Vector3(0, 0, 0))
+  const [draggedOffset, setDraggedOffset] = React.useState({ x: 0, z: 0 })
 
   const { height, width, depth } = getMeasurementsFromDimensions(dimensions)
 
@@ -40,20 +55,21 @@ export const Brick = ({
     return createGeometry({ width, height, depth, dimensions })
   }, [width, height, depth, dimensions])
 
-  const position = useMemo(() => {
-    const evenWidth = rotation === 0 ? dimensions.x % 2 === 0 : dimensions.z % 2 === 0
-    const evenDepth = rotation === 0 ? dimensions.z % 2 === 0 : dimensions.x % 2 === 0
+  const onDrag = (l: Matrix4) => {
+    const newL = new Vector3(l.elements[12], l.elements[13], l.elements[14])
+    setPrevL(newL)
+  }
 
-    const vec3 = new Vector3()
-      .copy(intersect.point)
-      .add(intersect.face.normal)
-      .divide(new Vector3(base, height, base))
-      .floor()
-      .multiply(new Vector3(base, height, base))
-      .add(new Vector3(evenWidth ? base : base / 2, height / 2, evenDepth ? base : base / 2))
+  const onDragEnd = () => {
+    // Make prevL awalys diveded by base to set the draggedOffset
+    const newOffset = {
+      x: draggedOffset.x + Math.round(prevL.x / base) * base,
+      z: draggedOffset.z + Math.round(prevL.z / base) * base,
+    }
 
-    return vec3
-  }, [intersect, dimensions.x, dimensions.z, height, rotation])
+    setDraggedOffset(newOffset)
+    setResetKey(generateUId())
+  }
 
   useEffect(() => {
     const brickBoundingBox = new Box3().setFromObject(brickRef.current)
@@ -72,15 +88,26 @@ export const Brick = ({
     }
   }, [uID, bricksBoundBox])
 
-  const compansate = {
-    x: dimensions.x % 2 === 0 ? dimensions.x / 2 : (dimensions.x - 1) / 2,
-    z: dimensions.z % 2 === 0 ? dimensions.z / 2 : (dimensions.z - 1) / 2,
-  }
+  useEffect(() => {
+    const evenWidth = rotation === 0 ? dimensions.x % 2 === 0 : dimensions.z % 2 === 0
+    const evenDepth = rotation === 0 ? dimensions.z % 2 === 0 : dimensions.x % 2 === 0
 
-  const offset = {
-    x: Math.sign(translation.x) < 0 ? Math.max(translation.x, -compansate.x) : Math.min(translation.x, compansate.x),
-    z: Math.sign(translation.z) < 0 ? Math.max(translation.z, -compansate.z) : Math.min(translation.z, compansate.z),
-  }
+    const vec3 = new Vector3()
+      .copy(intersect.point)
+      .add(intersect.face.normal)
+      .divide(new Vector3(base, height, base))
+      .floor()
+      .multiply(new Vector3(base, height, base))
+      .add(
+        new Vector3(
+          (evenWidth ? base : base / 2) + draggedOffset.x,
+          height / 2,
+          (evenDepth ? base : base / 2) + draggedOffset.z,
+        ),
+      )
+
+    setPosition(vec3)
+  }, [intersect, dimensions.x, dimensions.z, height, rotation, draggedOffset])
 
   return (
     <>
@@ -96,72 +123,81 @@ export const Brick = ({
         }}
       >
         <Select box multiple>
-          {brickGeometry.map((geo, i) => (
-            <group
-              key={i}
-              position={[(offset.x * width) / dimensions.x, 0, (offset.z * depth) / dimensions.z]}
-              onClick={onClick}
-              onPointerMove={mouseMove}
-            >
-              <mesh
-                castShadow
-                receiveShadow
-                userData={{
-                  uID,
-                  dimensions,
-                  offset,
-                  width,
-                  depth,
-                  type: `${dimensions.x}-${dimensions.z}`,
-                  position,
-                  rotation,
-                  translation,
-                }}
-                geometry={geo.cube}
+          <PivotControls
+            key={resetKey}
+            activeAxes={[true, false, true]}
+            scale={base + 5}
+            disableRotations
+            onDrag={onDrag}
+            onDragEnd={onDragEnd}
+          >
+            {brickGeometry.map((geo, i) => (
+              <group
+                key={i}
+                position={[(offset.x * width) / dimensions.x, 0, (offset.z * depth) / dimensions.z]}
+                onClick={onClick}
+                onPointerMove={mouseMove}
               >
-                <meshPhysicalMaterial color={color} roughness={1} />
-                <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
-                <Decal
-                  map={texturez}
-                  // position={[0, 0, 0.05]}
-                  position={[0, 0, brickGeometry.length > 1 ? 0.05 : 0.05]}
-                  rotation={[0, 0, 0]}
-                  scale={[
-                    brickGeometry.length > 1 ? base * 2 : base,
-                    (base * 2) / 1.5,
-                    brickGeometry.length > 1 ? base * 2 : base,
-                  ]}
+                <mesh
+                  castShadow
+                  receiveShadow
+                  userData={{
+                    uID,
+                    dimensions,
+                    offset,
+                    width,
+                    depth,
+                    type: `${dimensions.x}-${dimensions.z}`,
+                    position,
+                    rotation,
+                    translation,
+                  }}
+                  geometry={geo.cube}
                 >
-                  <meshPhysicalMaterial
+                  <meshPhysicalMaterial color={color} roughness={1} />
+                  <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
+                  <Decal
                     map={texturez}
-                    metalness={0.485}
-                    roughness={1}
-                    polygonOffset
-                    polygonOffsetFactor={-1} // The material should take precedence over the original
-                  />
-                </Decal>
-              </mesh>
-              <mesh
-                castShadow
-                receiveShadow
-                userData={{
-                  uID,
-                  dimensions,
-                  offset,
-                  width,
-                  depth,
-                  type: `${dimensions.x}-${dimensions.z}`,
-                  position,
-                  rotation,
-                  translation,
-                }}
-                geometry={geo.cylinder}
-              >
-                <meshPhysicalMaterial color={color} opacity={1} />
-                <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
-              </mesh>
-            </group>
-          ))}
+                    // position={[0, 0, 0.05]}
+                    position={[0, 0, brickGeometry.length > 1 ? 0.05 : 0.05]}
+                    rotation={[0, 0, 0]}
+                    scale={[
+                      brickGeometry.length > 1 ? base * 2 : base,
+                      (base * 2) / 1.5,
+                      brickGeometry.length > 1 ? base * 2 : base,
+                    ]}
+                  >
+                    <meshPhysicalMaterial
+                      map={texturez}
+                      metalness={0.485}
+                      roughness={1}
+                      polygonOffset
+                      polygonOffsetFactor={-1} // The material should take precedence over the original
+                    />
+                  </Decal>
+                </mesh>
+                <mesh
+                  castShadow
+                  receiveShadow
+                  userData={{
+                    uID,
+                    dimensions,
+                    offset,
+                    width,
+                    depth,
+                    type: `${dimensions.x}-${dimensions.z}`,
+                    position,
+                    rotation,
+                    translation,
+                  }}
+                  geometry={geo.cylinder}
+                >
+                  <meshPhysicalMaterial color={color} opacity={1} />
+                  <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
+                </mesh>
+              </group>
+            ))}
+          </PivotControls>
         </Select>
       </motion.group>
     </>
