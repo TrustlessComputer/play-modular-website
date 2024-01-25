@@ -29,11 +29,7 @@ export const Brick = ({
   const { createdBricks, setCreatedBricks } = useStoreGlobal()
   const [resetKey, setResetKey] = React.useState(generateUId())
   const brickRef = useRef(null)
-  const texturez = useLoader(TextureLoader, texture)
-  const props = {
-    ...(texturez && { map: texturez }),
-    ...(color && { color: color }),
-  }
+  const texturez = texture && useLoader(TextureLoader, texture)
 
   const compansate = {
     x: dimensions.x % 2 === 0 ? dimensions.x / 2 : (dimensions.x - 1) / 2,

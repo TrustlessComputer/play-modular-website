@@ -4,9 +4,12 @@
   gap: 20px;
   padding: 20px 0;
   z-index: 1000;
+  height: 200px;
   border-radius: 4px;
   display: flex;
   align-items: center;
+  pointer-events: all;
+
   &_btn {
     display: inline-flex;
     align-items: center;

@@ -85,7 +85,9 @@ export const Scene = () => {
           id: trait.id,
         }
 
-        if (trait.texture) {
+        if (trait?.texture || trait?.color) {
+          console.log('brickData', brickData)
+
           addBlocks(brickData)
         } else {
           window.alert('Select your block')
