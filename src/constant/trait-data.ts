@@ -98,16 +98,122 @@ export const DATA_FETCH = [
     count: 10,
   },
 ]
+export const NONT_TEXTURE = '/assets/patterns/images/nontexture.jpg'
 
-const handleSplitSize = (shape: string) => {
-  const sizeArray = shape.split('x')
-  const size = {
-    w: Number(sizeArray[0]),
-    d: Number(sizeArray[1]),
+type TAtribute = { traitType: string; value: string }[]
+
+const TEXTURE_LIST = [
+  {
+    name: 'Bitcoin',
+    src: '/assets/patterns/coin.svg',
+  },
+  {
+    name: 'Optimism',
+    src: '/assets/patterns/optimic.svg',
+  },
+  {
+    name: 'Polygon',
+    src: '/assets/patterns/polygon.svg',
+  },
+  {
+    name: 'Uniswap',
+    src: '/assets/patterns/uni.svg',
+  },
+  {
+    name: 'Celestia',
+    src: '/assets/patterns/ces.svg',
+  },
+  {
+    name: 'Ordinals',
+    src: '/assets/patterns/ord.svg',
+  },
+  {
+    name: 'Eigen Da',
+    src: '/assets/patterns/eigen.svg',
+  },
+  {
+    name: 'Solid Orange',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Red',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Yellow',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Azure',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Pink',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Blue',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Yellow Green',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Bright Green',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Brown',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Nougat',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Light Gray',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Dark Gray',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Dark',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Purple',
+    src: NONT_TEXTURE,
+  },
+]
+
+const handleConverTrait = (traits: TAtribute) => {
+  const SHAPE = "Modular's Shape"
+  const TYPE = "Modular's Pattern"
+  const shape = traits.find((item) => item.traitType === SHAPE)
+  const size = shape.value.slice(1)
+  const type = traits.find((item) => item.traitType === TYPE)
+  return {
+    shape: size,
+    type: type.value,
   }
 }
 
-// const handleInputData = (pattern: string, shape: string) => {
-//     const
+export const handleInputData = (attributes: TAtribute) => {
+  const trait = handleConverTrait(attributes)
+  const color = handleGetColor(trait.type)
+  const texture = TEXTURE_LIST.find((item) => item.name === trait.type)
+  console.log(trait.type)
+  return {
+    ...trait,
+    color,
+    texture: texture?.src,
+  }
+}
 
-//  }
+const handleGetColor = (type: string, dataTrait = patterns) => {
+  const dataTraitFilter = dataTrait.filter((item) => item[0] === type)[0]
+  return dataTraitFilter[4][0]
+}
