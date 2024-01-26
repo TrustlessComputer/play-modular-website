@@ -1,25 +1,41 @@
 'use client'
+import { IconClear, IconRedo, IconTrash, IconUndo } from '@/components/IconSvgs'
 import { useUndoRedoShortcut } from '@/hooks/useShortcuts'
-import { useStoreGlobal } from '@/stores/blocks'
-import { views } from '@/utils'
+import IcOpen from '@/icons/workshop/ic-open.svg'
+import { default as IcCreate, default as IcSave } from '@/icons/workshop/ic-save.svg'
+import { useProjectStore, useStoreGlobal } from '@/stores/blocks'
 import s from './styles.module.scss'
-import { IconClear, IconPreview, IconRedo, IconTrash, IconUndo } from '@/components/IconSvgs'
-import ListBlocksApi from '@/modules/workshop/ListBlocksApi'
-import { useAppSelector } from '@/stores/hooks'
-import { accountSelector } from '@/stores/states/wallet/selector'
+
 import useApiInfinite from '@/hooks/useApiInfinite'
 import { getListModularByWallet } from '@/services/api/generative'
-import { useEffect } from 'react'
+import { useAppSelector } from '@/stores/hooks'
+import { accountSelector } from '@/stores/states/wallet/selector'
 import { TListCurrent } from '@/types'
 import { handleConvertData } from '@/utils/convertTraits'
+import { useEffect } from 'react'
 
 type TDataFetch = {
   list: TListCurrent
 }
 
+import SavedProjectsModal from '@/modules/workshop/components/Modal/SavedProjectsModal'
+import { useId, useState } from 'react'
+import { Toaster } from 'react-hot-toast'
+import jsonFile from './mock.json'
+
+const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
+
 export default function BottomBar() {
-  const { undo, redo, mode, viewPreview, setViewPreview, deleteAlls, blockCurrent, setDataCurrent } = useStoreGlobal()
+  const { undo, redo, mode, viewPreview, setViewPreview, deleteAlls, blocksState, setDataCurrent } = useStoreGlobal()
+
+  const { projectId, saveProject, createProject } = useProjectStore()
+
+  const [showModal, setShowModal] = useState(false)
+
   const account = useAppSelector(accountSelector)
+
+  const id = useId()
+
   const {
     dataInfinite = [],
     isReachingEnd,
@@ -27,7 +43,7 @@ export default function BottomBar() {
   } = useApiInfinite(
     getListModularByWallet,
     {
-      ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn', //account?.address,
+      ownerAddress: MOCK_ADDRESS, //account?.address,
       page: 1,
       limit: 20,
     },
@@ -46,13 +62,18 @@ export default function BottomBar() {
     redo()
   }
 
-  const saveAction = () => {
-    console.log('DATA', JSON.stringify(blockCurrent))
+  const saveAction = async () => {
+    saveProject({
+      projectId: id,
+      projectName: 'test',
+      jsonFile: jsonFile,
+    })
   }
 
   const handleDeleteAll = () => {
     deleteAlls()
   }
+
   const handleGetData = async () => {
     const data = (await getListModularByWallet({
       ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
@@ -68,37 +89,70 @@ export default function BottomBar() {
     setDataCurrent(convertData)
   }
 
+  const handleOpenSavedProjectModal = () => {}
+
   useUndoRedoShortcut(undo, redo)
 
   useEffect(() => {
     handleGetData()
   }, [])
 
+  // First load, trigger create new project
+  useEffect(() => {
+    if (!projectId) {
+      createProject()
+    }
+  }, [projectId, createProject])
+
   return (
-    <div className={s.bottomBar}>
-      <button className={s.bottomBar_btn} onClick={undoAction}>
-        <IconUndo /> Undo
-      </button>
-      <button className={s.bottomBar_btn} onClick={redoAction}>
-        <IconRedo /> Redo
-      </button>
-      <button className={s.bottomBar_btn} onClick={() => handleDeleteAll()}>
-        <IconClear />
-        Clear
-      </button>
+    <>
+      <Toaster />
+      <div className={s.wrapper}>
+        <div className={s.bottomBar}>
+          <button className={s.bottomBar_btn} onClick={undoAction}>
+            <IconUndo /> Undo
+          </button>
+          <button className={s.bottomBar_btn} onClick={redoAction}>
+            <IconRedo /> Redo
+          </button>
+          <button className={s.bottomBar_btn} onClick={() => handleDeleteAll()}>
+            <IconClear />
+            Clear
+          </button>
+          <button className={s.bottomBar_btn}>
+            <IconTrash /> Delete
+          </button>
 
-      <button className={s.bottomBar_btn}>
-        <IconTrash /> Delete
-      </button>
-
-      <button className={s.bottomBar_btn} onClick={saveAction}>
-        Save
-      </button>
-
-      {/* <button onClick={() => setViewPreview(!viewPreview)} className={`${s.bottomBar_btn} ${s.bottomBar_btn_preview}`}>
+          {/* <button onClick={() => setViewPreview(!viewPreview)} className={`${s.bottomBar_btn} ${s.bottomBar_btn_preview}`}>
         Preview: {viewPreview ? 'On' : 'Off'} <IconPreview />
       </button> */}
-    </div>
+        </div>
+        <div className={s.bottomBar}>
+          <button className={s.bottomBar_btn} onClick={saveAction}>
+            <IcSave /> Save Project
+          </button>
+          <button className={s.bottomBar_btn} onClick={saveAction}>
+            <IcSave /> Save As
+          </button>
+          <button className={s.bottomBar_btn} onClick={createProject}>
+            <IcCreate /> Create New
+          </button>
+          <button
+            className={s.bottomBar_btn}
+            onClick={() => {
+              setShowModal(true)
+            }}
+          >
+            <IcOpen /> Open Project
+          </button>
+
+          {/* <button onClick={() => setViewPreview(!viewPreview)} className={`${s.bottomBar_btn} ${s.bottomBar_btn_preview}`}>
+        Preview: {viewPreview ? 'On' : 'Off'} <IconPreview />
+      </button> */}
+        </div>
+      </div>
+      <SavedProjectsModal show={showModal} setIsOpen={setShowModal} />
+    </>
   )
 }
 // const allViews = Object.values(views)

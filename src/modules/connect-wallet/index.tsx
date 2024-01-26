@@ -16,6 +16,7 @@ const ConnectWallet: React.FunctionComponent = () => {
   const BodyModal = () => {
     return (
       <>
+        <div className={s.title}>Choose wallet</div>
         <div className={s.caption}>Please connect your Taproot wallet address.</div>
         <div className='flex flex-col gap-[12px]'>
           <div
@@ -53,7 +54,9 @@ const ConnectWallet: React.FunctionComponent = () => {
       <button className={s.connectWallet_btn} onClick={() => setIsOpen(true)}>
         Connect Wallet
       </button>
-      <AlertDialog isOpen={isOpen} setIsOpen={setIsOpen} title='Choose wallet' description={<BodyModal />} />
+      <AlertDialog isOpen={isOpen} setIsOpen={setIsOpen}>
+        <BodyModal />
+      </AlertDialog>
     </div>
   )
 }

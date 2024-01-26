@@ -4,7 +4,8 @@
     "paths": {
       "@/*": [
         "app/*",
-        "src/*"
+        "src/*",
+        "public/*",
       ]
     },
     "target": "es5",
