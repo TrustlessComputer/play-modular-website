@@ -13,13 +13,21 @@ export default function Workshop2D() {
   const rangePixelRef = useRef<any | null>(null)
   const uploadImageRef = useRef<any | null>(null)
   const pixelatedImageRef = useRef<any | null>(null)
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null)
 
   useEffect(() => {
-    let ctx = pixelatedImageRef.current.getContext('2d')
-    ctx.mozImageSmoothingEnabled = false
-    ctx.webkitImageSmoothingEnabled = false
-    ctx.imageSmoothingEnabled = false
-    pixelate(ctx)
+    if (pixelatedImageRef.current) {
+      ctxRef.current = pixelatedImageRef.current.getContext('2d')
+      ctxRef.current.mozImageSmoothingEnabled = false
+      ctxRef.current.webkitImageSmoothingEnabled = false
+      ctxRef.current.imageSmoothingEnabled = false
+    }
+  }, [])
+
+  useEffect(() => {
+    if (ctxRef.current) {
+      pixelate(ctxRef.current)
+    }
   }, [valueRange])
 
   const uploadInput = async (e) => {
@@ -70,6 +78,11 @@ export default function Workshop2D() {
         pixelatedImageRef.current.height,
       )
     }
+  }
+
+  const getResultHandler = () => {
+    const imageData = ctxRef.current.getImageData(0, 0, pixelatedImageRef.current.width, pixelatedImageRef.current.height)
+    console.log(imageData)
   }
 
   return (
@@ -126,7 +139,7 @@ export default function Workshop2D() {
                 <span>{valueRange}</span>
               </div>
             </div>
-            <button>Get Brick result</button>
+            <button onClick={getResultHandler}>Get Brick result</button>
             <div className={`${s.options_brick}`}>
               <div className={s.totalBricks}>
                 <p>Total: </p>
