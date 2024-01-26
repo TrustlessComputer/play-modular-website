@@ -27,3 +27,19 @@ export const getListModularByWallet = async (payload: {
     }
   }
 }
+
+// Save actions
+export const getListSavedProject = async (payload: {}): Promise<unknown> => {}
+
+export const getSavedProject = async (payload: {}): Promise<unknown> => {}
+
+export const createNewProject = async (payload: {}): Promise<unknown> => {}
+
+export const saveProject = async (payload: { id: string; jsonFile: string }): Promise<unknown> => {
+  try {
+    const res = (await apiClient.post(`save`, payload)) as any
+    return res
+  } catch (err: unknown) {
+    return err
+  }
+}
