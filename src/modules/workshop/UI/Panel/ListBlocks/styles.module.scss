@@ -23,6 +23,7 @@
 
     &::-webkit-scrollbar {
       opacity: 0;
+      width: 0;
     }
   }
 
@@ -33,7 +34,7 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
     width: 240px;
-
+    align-items: center;
     img {
       width: 100%;
       aspect-ratio: 1;
