@@ -10,10 +10,18 @@ import { minWorkSpaceSize } from '@/utils'
 const IsometricCamera = () => {
   const { camera } = useThree() as any
 
+  const bindCamera = () => {
+    requestAnimationFrame(bindCamera)
+
+    camera.position.y = camera.position.y !== 500 ? 500 : camera.position.y
+    camera.lookAt(0, 0, 0)
+
+    camera.updateProjectionMatrix()
+  }
+
   React.useEffect(() => {
     const wrapperDom = document.querySelector('.styles_workshop_main__CrQRd') // TODO: Pass ref to
 
-    // const aspect = 1.5
     const aspect = wrapperDom.clientWidth / wrapperDom.clientHeight
     camera.position.x = 500
     camera.position.y = 500
@@ -34,6 +42,8 @@ const IsometricCamera = () => {
     camera.far = 10000
     camera.updateProjectionMatrix()
     camera.lookAt(0, 0, 0)
+
+    bindCamera()
   }, [camera])
 
   return <OrthographicCamera makeDefault />
@@ -65,18 +75,33 @@ export default function Three3D() {
         powerPreference: 'high-performance',
       }}
       dpr={Math.min(2, aspect)}
-      shadows
       linear
-      // camera={{
-      //   position: [3000, 2500, 3000],
-      //   near: 0.1,
-      //   far: 10000,
-      //   fov: 10,
-      // }}
+      camera={{
+        position: [3000, 2500, 3000],
+        near: 10,
+        far: 100000,
+        fov: 10,
+      }}
     >
       <color attach='background' args={['#202025']} />
       <Environment preset='city' />
-      <IsometricCamera />
+      {/* <IsometricCamera /> */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[minWorkSpaceSize, minWorkSpaceSize]} />
+        <MeshReflectorMaterial
+          mirror={0.5}
+          blur={[25, 25]}
+          resolution={720}
+          mixBlur={100}
+          mixStrength={100}
+          depthScale={1.2}
+          minDepthThreshold={0.4}
+          maxDepthThreshold={1.6}
+          color='#050505'
+          roughness={0.5}
+          metalness={1}
+        />
+      </mesh>
       <Suspense fallback={null}>
         <Scene />
       </Suspense>

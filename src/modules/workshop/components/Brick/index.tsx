@@ -157,7 +157,7 @@ export const Brick = ({
                   }}
                   geometry={geo.cube}
                 >
-                  <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
+                  {/* <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} /> */}
                   {!isNontTexture ? (
                     <>
                       <meshPhysicalMaterial color={color} roughness={0.9} metalness={0.94} />
@@ -216,7 +216,7 @@ export const Brick = ({
                   ) : (
                     <meshPhysicalMaterial color={color} opacity={1} />
                   )}
-                  <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
+                  {/* <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} /> */}
                 </mesh>
               </group>
             ))}
