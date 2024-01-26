@@ -5,6 +5,8 @@ import { getListSavedProject } from '@/services/api/generative'
 import { Virtuoso } from 'react-virtuoso'
 import { useProjectStore } from '@/stores/blocks'
 import AlertDialog from '@/components/AlertDialog'
+import { MOCK_ADDRESS } from '@/constant/mock-data'
+import ProjectItem from './ProjectItem'
 
 type Props = {
   show: boolean
@@ -17,7 +19,7 @@ const SavedProjectsModal = ({ show, setIsOpen }: Props) => {
   const { dataInfinite, isReachingEnd, loadMore, hasFirstFetching } = useApiInfinite(
     getListSavedProject,
     {
-      ownerAddress: 'bc1pvtvqjx4yx9nzceunsppvav3h90nkdd2up7hkyv32nf08y7hwgn7qkfsva8', //account?.address,
+      address: MOCK_ADDRESS,
       page: 1,
       limit: 20,
     },
@@ -66,7 +68,11 @@ const SavedProjectsModal = ({ show, setIsOpen }: Props) => {
             overscan={200}
             itemContent={(index, block) => {
               return (
-                <div key={index} {...block} onClick={() => handleLoadProject(block.projectId, block.projectName)} />
+                <ProjectItem
+                  key={index}
+                  {...block}
+                  onClick={() => handleLoadProject(block.projectId, block.projectName)}
+                />
               )
             }}
           />

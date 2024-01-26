@@ -22,15 +22,18 @@ import SavedProjectsModal from '@/modules/workshop/components/Modal/SavedProject
 import { useId, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import jsonFile from './mock.json'
+import UnsaveWarningModal from '@/modules/workshop/components/Modal/UnsaveWarningModal'
 
 const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
 
 export default function BottomBar() {
   const { undo, redo, mode, viewPreview, setViewPreview, deleteAlls, blocksState, setDataCurrent } = useStoreGlobal()
+  console.log('🚀 ~ BottomBar ~ blocksState:', blocksState)
 
-  const { projectId, saveProject, createProject } = useProjectStore()
+  const { projectId, saveProject, createProject, projectName } = useProjectStore()
 
   const [showModal, setShowModal] = useState(false)
+  const [showUnsaveModal, setShowUnsaveModal] = useState(false)
 
   const account = useAppSelector(accountSelector)
 
@@ -63,11 +66,27 @@ export default function BottomBar() {
   }
 
   const saveAction = async () => {
-    saveProject({
-      projectId: id,
-      projectName: 'test',
+    if (blocksState.length < 2) return
+
+    const payload: {
+      jsonFile: any
+      projectId?: string
+      projectName?: string
+      ownerAddress: string
+    } = {
       jsonFile: jsonFile,
-    })
+      ownerAddress: MOCK_ADDRESS, //account?.address,
+    }
+
+    if (projectId) {
+      payload.projectId = projectId
+    }
+
+    if (projectName) {
+      payload.projectName = projectName
+    }
+
+    saveProject(payload)
   }
 
   const handleDeleteAll = () => {
@@ -89,7 +108,13 @@ export default function BottomBar() {
     setDataCurrent(convertData)
   }
 
-  const handleOpenSavedProjectModal = () => {}
+  const handleClickCreateNewProject = () => {
+    if (blocksState.length > 2) {
+      setShowUnsaveModal(true)
+    }
+
+    // createProject()
+  }
 
   useUndoRedoShortcut(undo, redo)
 
@@ -134,7 +159,7 @@ export default function BottomBar() {
           <button className={s.bottomBar_btn} onClick={saveAction}>
             <IcSave /> Save As
           </button>
-          <button className={s.bottomBar_btn} onClick={createProject}>
+          <button className={s.bottomBar_btn} onClick={handleClickCreateNewProject}>
             <IcCreate /> Create New
           </button>
           <button
@@ -152,6 +177,7 @@ export default function BottomBar() {
         </div>
       </div>
       <SavedProjectsModal show={showModal} setIsOpen={setShowModal} />
+      <UnsaveWarningModal show={showUnsaveModal} setIsOpen={setShowUnsaveModal} />
     </>
   )
 }
