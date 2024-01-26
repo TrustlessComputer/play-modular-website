@@ -4,13 +4,14 @@ import useApiInfinite from '@/hooks/useApiInfinite'
 import { getListSavedProject } from '@/services/api/generative'
 import { Virtuoso } from 'react-virtuoso'
 import { useProjectStore } from '@/stores/blocks'
+import AlertDialog from '@/components/AlertDialog'
 
 type Props = {
   show: boolean
-  onClose: () => void
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SavedProjectsModal = ({ show, onClose }: Props) => {
+const SavedProjectsModal = ({ show, setIsOpen }: Props) => {
   const { loadProject } = useProjectStore()
 
   const { dataInfinite, isReachingEnd, loadMore, hasFirstFetching } = useApiInfinite(
@@ -35,34 +36,51 @@ const SavedProjectsModal = ({ show, onClose }: Props) => {
     onClose()
   }
 
+  const BodyContent = () => {
+    return (
+      <div className={s.wrapper}>
+        <div className={`${s.header} flex justify-between`}>
+          <div className={s.title}>Saved Projects</div>
+          <div
+            className={s.close}
+            onClick={() => {
+              setIsOpen(false)
+            }}
+          >
+            Close
+          </div>
+        </div>
+        <div className={s.body}>
+          {hasFirstFetching === false && <div>Loading...</div>}
+
+          <Virtuoso
+            className={s.listBlocks}
+            style={{ height: 'calc(100dvh - 300px)' }}
+            data={dataInfinite}
+            totalCount={dataInfinite.length}
+            endReached={() => {
+              if (isReachingEnd === false) {
+                loadMore()
+              }
+            }}
+            overscan={200}
+            itemContent={(index, block) => {
+              return (
+                <div key={index} {...block} onClick={() => handleLoadProject(block.projectId, block.projectName)} />
+              )
+            }}
+          />
+        </div>
+      </div>
+    )
+  }
+
   if (!show) return <></>
 
   return (
-    <div className={s.wrapper}>
-      <div className={`${s.header} flex justify-between`}>
-        <h3>Saved Projects</h3>
-        <button onClick={onClose}>Close</button>
-      </div>
-      <div className={s.body}>
-        {hasFirstFetching === false && <div>Loading...</div>}
-
-        <Virtuoso
-          className={s.listBlocks}
-          style={{ height: 'calc(100dvh - 300px)' }}
-          data={dataInfinite}
-          totalCount={dataInfinite.length}
-          endReached={() => {
-            if (isReachingEnd === false) {
-              loadMore()
-            }
-          }}
-          overscan={200}
-          itemContent={(index, block) => {
-            return <div key={index} {...block} onClick={() => handleLoadProject(block.projectId, block.projectName)} />
-          }}
-        />
-      </div>
-    </div>
+    <AlertDialog isOpen={show} setIsOpen={setIsOpen}>
+      <BodyContent />
+    </AlertDialog>
   )
 }
 

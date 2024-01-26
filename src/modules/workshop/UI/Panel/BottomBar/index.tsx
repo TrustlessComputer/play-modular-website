@@ -21,7 +21,7 @@ import SavedProjectsModal from '@/modules/workshop/components/Modal/SavedProject
 const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
 
 export default function BottomBar() {
-  const { undo, redo, mode, viewPreview, setViewPreview, deleteAlls } = useStoreGlobal()
+  const { undo, redo, mode, viewPreview, setViewPreview, deleteAlls, blocksState } = useStoreGlobal()
 
   const { projectId, saveProject, createProject } = useProjectStore()
 
@@ -142,13 +142,7 @@ export default function BottomBar() {
       </button> */}
         </div>
       </div>
-      <SavedProjectsModal
-        show={showModal}
-        onClose={() => {
-          console.log('click onClose')
-          setShowModal(false)
-        }}
-      />
+      <SavedProjectsModal show={showModal} setIsOpen={setShowModal} />
     </>
   )
 }
