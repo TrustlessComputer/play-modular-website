@@ -1,5 +1,3 @@
-import { getSavedProject } from './../services/api/generative'
-import { create } from 'zustand'
 import { TBlockData, TListCurrent } from '.'
 
 export type TBlockSlice = {

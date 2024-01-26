@@ -33,7 +33,7 @@ const SavedProjectsModal = ({ show, setIsOpen }: Props) => {
       projectId,
       projectName,
     })
-    onClose()
+    setIsOpen(false)
   }
 
   const BodyContent = () => {
