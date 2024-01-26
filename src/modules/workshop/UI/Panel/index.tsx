@@ -1,5 +1,5 @@
 import BottomBar from './BottomBar'
-import { ListBlocks } from './ListBlocks'
+// import { ListBlocks } from './ListBlocks'
 import ListBlocksApi from '@/modules/workshop/ListBlocksApi'
 
 import s from './styles.module.scss'

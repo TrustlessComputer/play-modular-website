@@ -4,6 +4,9 @@
   align-items: center;
   gap: 5px;
   z-index: 1001;
+  position: absolute;
+  top: 37px;
+  right: 55px;
 
   &_walletInfo {
     display: flex;

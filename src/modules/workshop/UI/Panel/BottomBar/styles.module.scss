@@ -1,14 +1,18 @@
-.bottomBar {
+.wrapper {
   position: absolute;
   bottom: 0;
-  gap: 20px;
   padding: 20px 0;
   z-index: 1000;
-  height: 200px;
+  pointer-events: all;
+}
+
+.bottomBar {
+  gap: 12px;
+  // height: 200px;
   border-radius: 4px;
   display: flex;
   align-items: center;
-  pointer-events: all;
+  margin-top: 15px;
 
   &_btn {
     display: inline-flex;

@@ -67,3 +67,13 @@ export type TListBlocksSlice = {
   listCurrent: TListCurrent[]
   setDataCurrent: (list: TListCurrent[]) => void
 }
+
+export type TProjectSlice = {
+  projectName: string
+  projectId: string
+
+  saveProject: (params) => void
+  saveAsProject: (params) => void
+  loadProject: (params) => void
+  createProject: () => void
+}
