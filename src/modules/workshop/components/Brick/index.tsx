@@ -30,7 +30,6 @@ export const Brick = ({
   const brickRef = useRef(null)
   const texturez = useLoader(TextureLoader, texture)
   const isNontTexture = texture === '/assets/patterns/images/Btc.jpg'
-
   const compansate = {
     x: dimensions.x % 2 === 0 ? dimensions.x / 2 : (dimensions.x - 1) / 2,
     z: dimensions.z % 2 === 0 ? dimensions.z / 2 : (dimensions.z - 1) / 2,

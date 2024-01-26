@@ -13,7 +13,7 @@ export const createTraitBlockSlice: StateCreator<TAtributeBlock> = (set) => ({
   rotate: false,
   color: colors[Math.floor(Math.random() * colors.length - 1)],
   texture: '/assets/patterns/optimic.svg',
-  trait: { color: 'FF010A', texture: '/assets/patterns/optimic.svg', shape: '2x2', id: '1' },
+  trait: { color: 'FF010A', texture: '/assets/patterns/optimic.svg', shape: '2x2', type: 'Coin' },
   selectedBricks: [],
   setMode: (newMode) => set({ mode: newMode }),
   setWidth: (newWidth) => set({ width: newWidth }),
@@ -25,9 +25,9 @@ export const createTraitBlockSlice: StateCreator<TAtributeBlock> = (set) => ({
   setRotate: (bool) => set({ rotate: bool }),
   setColor: (newColor) => set({ color: newColor }),
   setTexture: (texture) => set({ texture: texture }),
-  setTrait: ({ color, texture, shape, id }) =>
+  setTrait: ({ color, texture, shape, type }) =>
     set({
-      trait: { color: color, texture: texture, shape: shape, id: id },
+      trait: { color: color, texture: texture, shape: shape, type: type },
     }),
   setSelectedBricks: (b: any) => set((state) => state),
 })

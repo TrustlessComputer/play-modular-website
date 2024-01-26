@@ -8,13 +8,13 @@ import { DATA_FETCH } from '@/constant/trait-data'
 
 export const ListBlocks = () => {
   const { setWidth, setDepth, setColor, setTexture, texture, setTrait, trait, setListCurrent } = useStoreGlobal()
-  const handleChangeTexture = ({ PatternObject, texture, ShapeObject, color, id }) => {
+  const handleChangeTexture = ({ PatternObject, texture, ShapeObject, color, type }) => {
     const sizeArray = ShapeObject.split('x')
     const size = {
       w: Number(sizeArray[0]),
       d: Number(sizeArray[1]),
     }
-    setTrait({ color: color, shape: ShapeObject, texture: texture, id: id })
+    setTrait({ color: color, shape: ShapeObject, texture: texture, type: type })
     setTexture(texture)
     setColor(color)
     setWidth(size.w)
@@ -29,7 +29,7 @@ export const ListBlocks = () => {
         <h3 className={s.title}>MODULAR</h3>
         <div className={s.wrapper_listBlocks}>
           {DATA_FETCH.map((item, index) => {
-            const isActive = item.id === trait.id
+            const isActive = item.type === trait.type
             // const isHaventBlocks = item.count === 0
             return (
               <>

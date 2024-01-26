@@ -26,7 +26,7 @@ export let shapes = ['S1x1', 'S2x2']
 
 export const DATA_FETCH = [
   {
-    id: '1',
+    type: '1',
     PatternObject: 'Optimism',
     ShapeObject: '2x2',
     texture: '/assets/patterns/optimic.svg',
@@ -35,7 +35,7 @@ export const DATA_FETCH = [
     count: 10,
   },
   {
-    id: '2',
+    type: 'Coin',
     PatternObject: 'Bitcoin',
     ShapeObject: '1x1',
     texture: '/assets/patterns/coin.svg',
@@ -44,7 +44,7 @@ export const DATA_FETCH = [
     count: 2,
   },
   {
-    id: '3',
+    type: '3',
     PatternObject: 'Polygon',
     ShapeObject: '2x2',
     texture: '/assets/patterns/polygon.svg',
@@ -53,7 +53,7 @@ export const DATA_FETCH = [
     count: 3,
   },
   {
-    id: '4',
+    type: '4',
     PatternObject: 'Uniswap',
     ShapeObject: '1x1',
     texture: '/assets/patterns/uni.svg',
@@ -62,7 +62,7 @@ export const DATA_FETCH = [
     count: 20,
   },
   {
-    id: '5',
+    type: '5',
     PatternObject: 'Ordinals',
     ShapeObject: '2x2',
     texture: '/assets/patterns/ord.svg',
@@ -71,7 +71,7 @@ export const DATA_FETCH = [
     count: 10,
   },
   {
-    id: '6',
+    type: '6',
     PatternObject: 'Solid Dark',
     ShapeObject: '2x2',
     texture: '/assets/patterns/images/Btc.jpg',
@@ -80,7 +80,7 @@ export const DATA_FETCH = [
     count: 10,
   },
   {
-    id: '7',
+    type: '7',
     PatternObject: 'Solid Light Gray',
     ShapeObject: '2x2',
     texture: '/assets/patterns/images/Btc.jpg',
@@ -89,7 +89,7 @@ export const DATA_FETCH = [
     count: 10,
   },
   {
-    id: '8',
+    type: '8',
     PatternObject: 'Solid  Bright Green',
     ShapeObject: '1x1',
     texture: '/assets/patterns/images/Btc.jpg',

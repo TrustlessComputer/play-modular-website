@@ -82,7 +82,7 @@ export const Scene = () => {
           color: color,
           texture: texture,
           translation: { x: anchorX, z: anchorZ },
-          id: trait.id,
+          type: trait.type,
         }
 
         if (trait?.texture || trait?.color) {
@@ -153,6 +153,11 @@ export const Scene = () => {
     }
   }, [])
 
+  useEffect(() => {
+    console.log('blockCurrent', JSON.stringify(blockCurrent))
+    // console.log(blockCurrent)
+  }, [blockCurrent.length])
+  // const DATA = JSON.parse()
   return (
     <>
       <color attach='background' args={['#202025']} />
