@@ -11,6 +11,7 @@ import useApiInfinite from '@/hooks/useApiInfinite'
 import { getListModularByWallet, saveProject } from '@/services/api/generative'
 import { useEffect, useId } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
+import jsonFile from './mock.json'
 
 const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
 
@@ -49,18 +50,18 @@ export default function BottomBar() {
 
   const saveAction = async () => {
     console.log('save')
-    toast('🦄 Wow so easy!')
-    toast.success('Saved successfully!')
 
     try {
       const res = await saveProject({
         id: id, // get from BE or auto generate
-        jsonFile: 'jsonFile',
+        name: 'test',
+        jsonFile: JSON.stringify(jsonFile),
       })
-      // if (!!res) {
-      // }
+
+      if (res) {
+        toast.success('Saved successfully!')
+      }
     } catch (error) {
-      console.log('🚀 ~ saveAction ~ error:', error)
       toast.error('Something went wrong! Please try again!')
       throw error
     }
