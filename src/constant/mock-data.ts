@@ -59,12 +59,12 @@ export const nfts = [
     trait: {
       shape: '1x1',
       texture: 'slime',
-      color: '#78E273',
+      color: '#007334',
     },
   },
-];
+]
 
-const prefix = 'assets/';
+const prefix = 'assets/'
 export const mapTexture = {
   wave: `${prefix}/patterns/wave.svg`,
   brick: `${prefix}/patterns/brick.svg`,
@@ -73,8 +73,8 @@ export const mapTexture = {
   wood: `${prefix}/patterns/wood.svg`,
   stone: `${prefix}/patterns/stone.svg`,
   slime: `${prefix}/patterns/slime.svg`,
-};
+}
 
 export const listMaterial = nfts.map((nft) => {
-  return { color: nft.trait.color, texture: mapTexture[nft.trait.texture], shape: nft.trait.shape };
-});
+  return { color: nft.trait.color, texture: mapTexture[nft.trait.texture], shape: nft.trait.shape }
+})

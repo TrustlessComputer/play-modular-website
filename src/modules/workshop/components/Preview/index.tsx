@@ -41,6 +41,7 @@ const CameraController = () => {
 
     camera.near = 0.1
     camera.far = 10000
+    camera.updateProjectionMatrix()
     camera.lookAt(0, 0, 0)
   }, [camera, view])
 

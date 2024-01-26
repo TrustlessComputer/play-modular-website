@@ -155,7 +155,6 @@ export const Scene = () => {
 
   return (
     <>
-      <color attach='background' args={['#202025']} />
       <Select box multiple>
         {blockCurrent?.length > 0 &&
           blockCurrent.map((b, i) => {
