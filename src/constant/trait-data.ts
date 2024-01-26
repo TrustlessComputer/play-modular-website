@@ -75,8 +75,8 @@ export const DATA_FETCH = [
     PatternObject: 'Solid Dark',
     ShapeObject: '2x2',
     texture: '/assets/patterns/images/Btc.jpg',
-    img: '/assets/patterns/images/shape11.png',
-    color: '#222222',
+    img: '/assets/patterns/images/shape16.png',
+    color: '#FFCC00',
     count: 10,
   },
   {
