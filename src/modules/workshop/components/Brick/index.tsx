@@ -6,6 +6,7 @@ import { base, createGeometry, getMeasurementsFromDimensions, uID as generateUId
 import { TBlockData } from '@/types'
 import { Decal, Outlines, PivotControls } from '@react-three/drei'
 import { Select } from '../Select'
+import { NONT_TEXTURE } from '@/constant/trait-data'
 
 type TBrickAction = {
   onClick?: (e: any) => void
@@ -29,8 +30,7 @@ export const Brick = ({
   const [resetKey, setResetKey] = React.useState(generateUId())
   const brickRef = useRef(null)
   const texturez = useLoader(TextureLoader, texture)
-  const isNontTexture = texture === '/assets/patterns/images/Btc.jpg'
-
+  const isNontTexture = texture === NONT_TEXTURE
   const compansate = {
     x: dimensions.x % 2 === 0 ? dimensions.x / 2 : (dimensions.x - 1) / 2,
     z: dimensions.z % 2 === 0 ? dimensions.z / 2 : (dimensions.z - 1) / 2,
@@ -157,7 +157,7 @@ export const Brick = ({
                   }}
                   geometry={geo.cube}
                 >
-                  <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
+                  {/* <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} /> */}
                   {!isNontTexture ? (
                     <>
                       <meshPhysicalMaterial color={color} roughness={0.9} metalness={0.94} />
@@ -165,11 +165,6 @@ export const Brick = ({
                         map={texturez}
                         position={[0, 0, brickGeometry.length > 1 ? 0.05 : 0.05]}
                         rotation={[0, 0, 0]}
-                        // scale={[
-                        //   brickGeometry.length > 1 ? base * 2 : base,
-                        //   (base * 2) / 1.5,
-                        //   brickGeometry.length > 1 ? base * 2 : base,
-                        // ]}
                         scale={[
                           brickGeometry.length > 1 ? base * 2.5 : base * 2.5,
                           (base * 2) / 1.5,
@@ -178,6 +173,7 @@ export const Brick = ({
                       >
                         <meshPhysicalMaterial
                           map={texturez}
+                          transparent={true}
                           metalness={0.94}
                           roughness={0.9}
                           polygonOffset
@@ -210,27 +206,17 @@ export const Brick = ({
                   geometry={geo.cylinder}
                 >
                   {!isNontTexture ? (
-                    <Decal
-                      map={texturez}
-                      rotation={[0, 0, 0]}
-                      scale={[
-                        brickGeometry.length > 1 ? base * 3 : base * 3,
-                        (base * 3) / 1.5,
-                        brickGeometry.length > 1 ? base * 3 : base * 3,
-                      ]}
-                    >
-                      <meshPhysicalMaterial
-                        map={texturez}
-                        metalness={0.94}
-                        roughness={0.9}
-                        polygonOffset
-                        polygonOffsetFactor={-1} // The material should take precedence over the original
-                      />
-                    </Decal>
+                    <meshPhysicalMaterial
+                      color={color}
+                      roughness={0.9}
+                      metalness={0.94}
+                      polygonOffset
+                      polygonOffsetFactor={-1}
+                    />
                   ) : (
                     <meshPhysicalMaterial color={color} opacity={1} />
                   )}
-                  <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} />
+                  {/* <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} /> */}
                 </mesh>
               </group>
             ))}

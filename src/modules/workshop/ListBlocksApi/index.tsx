@@ -20,7 +20,7 @@ const ListBlocks: React.FunctionComponent = () => {
   } = useApiInfinite(
     getListModularByWallet,
     {
-      ownerAddress: 'bc1pvtvqjx4yx9nzceunsppvav3h90nkdd2up7hkyv32nf08y7hwgn7qkfsva8', //account?.address,
+      ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn', //account?.address,
       page: 1,
       limit: 20,
     },
@@ -30,7 +30,7 @@ const ListBlocks: React.FunctionComponent = () => {
       // shouldFetch: !!account?.address,
     },
   )
-  console.log('dataInfinite', dataInfinite)
+  // console.log('dataInfinite', dataInfinite)
   return (
     <Virtuoso
       className={s.listBlocks}

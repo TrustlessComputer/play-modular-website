@@ -10,9 +10,15 @@ import { accountSelector } from '@/stores/states/wallet/selector'
 import useApiInfinite from '@/hooks/useApiInfinite'
 import { getListModularByWallet } from '@/services/api/generative'
 import { useEffect } from 'react'
+import { TListCurrent } from '@/types'
+import { handleConvertData } from '@/utils/convertTraits'
+
+type TDataFetch = {
+  list: TListCurrent
+}
 
 export default function BottomBar() {
-  const { undo, redo, mode, viewPreview, setViewPreview, deleteAlls } = useStoreGlobal()
+  const { undo, redo, mode, viewPreview, setViewPreview, deleteAlls, blockCurrent, setDataCurrent } = useStoreGlobal()
   const account = useAppSelector(accountSelector)
   const {
     dataInfinite = [],
@@ -21,7 +27,7 @@ export default function BottomBar() {
   } = useApiInfinite(
     getListModularByWallet,
     {
-      ownerAddress: 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er', //account?.address,
+      ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn', //account?.address,
       page: 1,
       limit: 20,
     },
@@ -31,7 +37,6 @@ export default function BottomBar() {
       shouldFetch: !!account?.address,
     },
   )
-  console.log('dataInfinite', dataInfinite)
 
   const undoAction = () => {
     undo()
@@ -42,20 +47,27 @@ export default function BottomBar() {
   }
 
   const saveAction = () => {
-    console.log('save')
+    console.log('DATA', JSON.stringify(blockCurrent))
   }
 
   const handleDeleteAll = () => {
     deleteAlls()
   }
   const handleGetData = async () => {
-    const data = await getListModularByWallet({
-      ownerAddress: 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er',
+    const data = (await getListModularByWallet({
+      ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
       page: 1,
       limit: 20,
-    })
-    console.log(data)
+    })) as TDataFetch
+    const convertData =
+      Array.isArray(data.list) &&
+      data.list.map((item) => {
+        const traits = handleConvertData(item.attributes)
+        return { ...item, traits }
+      })
+    setDataCurrent(convertData)
   }
+
   useUndoRedoShortcut(undo, redo)
 
   useEffect(() => {

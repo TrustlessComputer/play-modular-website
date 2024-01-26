@@ -1,7 +1,7 @@
 import { Vector3 } from 'three'
 
 export type TBlockData = {
-  id: string
+  type: string
   color: string
   texture: string
   dimensions: { x: number; y?: number; z: number }
@@ -22,11 +22,14 @@ export type TBlocks = {
 }
 
 export type TListCurrent = {
-  id: string
-  PatternObject: string
-  ShapeObject: string
-  texture: string
-  img: string
+  thumbnail: string
+  // count: number
+  traits: TTraitBlocks
+}
+export type TAtribute = { traitType: string; value: string }[]
+export type TTraitBlocks = {
   color: string
-  count: number
+  shape: string
+  texture: string
+  type: string
 }

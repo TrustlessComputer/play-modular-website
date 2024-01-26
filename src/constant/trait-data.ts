@@ -1,3 +1,5 @@
+import { TAtribute } from '@/types'
+
 export let patterns = [
   ['Bitcoin', 15, 'Btc', 0, ['#FF6F00', '#9B4300', '#FF9646']],
   ['Optimism', 5, 'Op', 0, ['#FF010A', '#990005', '#FF4B51']],
@@ -24,108 +26,91 @@ export let patterns = [
 
 export let shapes = ['S1x1', 'S2x2']
 
-export const DATA_FETCH = [
+export const NONT_TEXTURE = '/assets/patterns/images/nontexture.jpg'
+
+export const TEXTURE_LIST = [
   {
-    id: '1',
-    PatternObject: 'Optimism',
-    ShapeObject: '2x2',
-    texture: '/assets/patterns/optimic.svg',
-    img: '/assets/patterns/images/shape8.png',
-    color: '#FF010A',
-    count: 10,
+    name: 'Bitcoin',
+    src: '/assets/patterns/coin.svg',
   },
   {
-    id: '2',
-    PatternObject: 'Bitcoin',
-    ShapeObject: '1x1',
-    texture: '/assets/patterns/coin.svg',
-    img: '/assets/patterns/images/shape2.png',
-    color: '#B97C19',
-    count: 2,
+    name: 'Optimism',
+    src: '/assets/patterns/optimic.svg',
   },
   {
-    id: '3',
-    PatternObject: 'Polygon',
-    ShapeObject: '2x2',
-    texture: '/assets/patterns/polygon.svg',
-    img: '/assets/patterns/images/shape5.png',
-    color: '#40218F',
-    count: 3,
+    name: 'Polygon',
+    src: '/assets/patterns/polygon.svg',
   },
   {
-    id: '4',
-    PatternObject: 'Uniswap',
-    ShapeObject: '1x1',
-    texture: '/assets/patterns/uni.svg',
-    img: '/assets/patterns/images/shape9.png',
-    color: '#900046',
-    count: 20,
+    name: 'Uniswap',
+    src: '/assets/patterns/uni.svg',
   },
   {
-    id: '5',
-    PatternObject: 'Ordinals',
-    ShapeObject: '2x2',
-    texture: '/assets/patterns/ord.svg',
-    img: '/assets/patterns/images/shape10.png',
-    color: '#333333',
-    count: 10,
+    name: 'Celestia',
+    src: '/assets/patterns/ces.svg',
   },
   {
-    id: '6',
-    PatternObject: 'Solid Dark',
-    ShapeObject: '2x2',
-    texture: '/assets/patterns/images/Btc.jpg',
-    img: '/assets/patterns/images/shape16.png',
-    color: '#FFCC00',
-    count: 10,
+    name: 'Ordinals',
+    src: '/assets/patterns/ord.svg',
   },
   {
-    id: '9',
-    PatternObject: 'Eigen Da',
-    ShapeObject: '1x1',
-    texture: '/assets/patterns/eig.svg',
-    img: '/assets/patterns/images/shape15.png',
-    color: '#222222',
-    count: 10,
+    name: 'Eigen Da',
+    src: '/assets/patterns/eigen.svg',
   },
   {
-    id: '10',
-    PatternObject: 'Solid Pink',
-    ShapeObject: '2x2',
-    texture: '/assets/patterns/images/Btc.jpg',
-    img: '/assets/patterns/images/shape14.png',
-    color: '#FF007B',
-    count: 10,
+    name: 'Solid Orange',
+    src: NONT_TEXTURE,
   },
   {
-    id: '7',
-    PatternObject: 'Solid Light Gray',
-    ShapeObject: '2x2',
-    texture: '/assets/patterns/images/Btc.jpg',
-    img: '/assets/patterns/images/shape12.png',
-    color: '#9D9D9D',
-    count: 10,
+    name: 'Solid Red',
+    src: NONT_TEXTURE,
   },
   {
-    id: '8',
-    PatternObject: 'Solid  Bright Green',
-    ShapeObject: '1x1',
-    texture: '/assets/patterns/images/Btc.jpg',
-    img: '/assets/patterns/images/shape13.png',
-    color: '#007334',
-    count: 10,
+    name: 'Solid Yellow',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Azure',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Pink',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Blue',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Yellow Green',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Bright Green',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Brown',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Nougat',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Light Gray',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Dark Gray',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Dark',
+    src: NONT_TEXTURE,
+  },
+  {
+    name: 'Solid Purple',
+    src: NONT_TEXTURE,
   },
 ]
-
-const handleSplitSize = (shape: string) => {
-  const sizeArray = shape.split('x')
-  const size = {
-    w: Number(sizeArray[0]),
-    d: Number(sizeArray[1]),
-  }
-}
-
-// const handleInputData = (pattern: string, shape: string) => {
-//     const
-
-//  }

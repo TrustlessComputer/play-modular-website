@@ -34,7 +34,7 @@ export type TAtributeBlock = {
   rotate: boolean
   color: string
   texture: string
-  trait: { color: string; texture: string; shape: string; id: string }
+  trait: { color: string; texture: string; shape: string; type: string }
   selectedBricks: []
 
   setMode: (mode: string) => void
@@ -47,7 +47,7 @@ export type TAtributeBlock = {
   setRotate: (b: boolean) => void
   setColor: (color: string) => void
   setTexture: (t: string) => void
-  setTrait: ({ color, texture, shape, id }: { color: string; texture: string; shape: string; id: string }) => void
+  setTrait: ({ color, texture, shape, type }: { color: string; texture: string; shape: string; type: string }) => void
   setSelectedBricks: (b: any) => void
 }
 
@@ -64,5 +64,5 @@ export type TCreatedBrickSlice = {
 
 export type TListBlocksSlice = {
   listCurrent: TListCurrent[]
-  setListCurrent: (list: TListCurrent[]) => void
+  setDataCurrent: (list: TListCurrent[]) => void
 }
