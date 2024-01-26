@@ -30,11 +30,10 @@ const ListBlocks: React.FunctionComponent = () => {
       // shouldFetch: !!account?.address,
     },
   )
-  // console.log('dataInfinite', dataInfinite)
   return (
     <Virtuoso
       className={s.listBlocks}
-      style={{ height: 'calc(100dvh - 300px)' }}
+      style={{ height: 'calc(100dvh - 300px)', pointerEvents: 'auto' }}
       data={dataInfinite}
       totalCount={dataInfinite.length}
       endReached={() => {

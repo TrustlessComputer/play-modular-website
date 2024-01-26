@@ -11,13 +11,13 @@ export const ControlsWrapper = () => {
   const endTimeoutID = useRef<NodeJS.Timeout>()
 
   const onStart = (e) => {
-    console.log('START CONTROL :::: ', controlRef.current)
+    // console.log('START CONTROL :::: ', controlRef.current)
     if (startTimeoutID.current) clearTimeout(startTimeoutID.current)
     startTimeoutID.current = setTimeout(() => setEvents({ enabled: false }), 500)
   }
 
   const onEnd = (e) => {
-    console.log('END CONTROL :::: ', controlRef.current)
+    // console.log('END CONTROL :::: ', controlRef.current)
     if (endTimeoutID.current) clearTimeout(endTimeoutID.current)
     endTimeoutID.current = setTimeout(() => setEvents({ enabled: true }), 500)
   }
