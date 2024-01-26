@@ -31,7 +31,7 @@ export const DATA_FETCH = [
     ShapeObject: '2x2',
     texture: '/assets/patterns/optimic.svg',
     img: '/assets/patterns/images/shape8.png',
-    color: '#FF010A',
+    color: '#FF4B51',
     count: 10,
   },
   {
@@ -40,7 +40,7 @@ export const DATA_FETCH = [
     ShapeObject: '1x1',
     texture: '/assets/patterns/coin.svg',
     img: '/assets/patterns/images/shape2.png',
-    color: '#B97C19',
+    color: '#FF9646',
     count: 2,
   },
   {
@@ -49,7 +49,7 @@ export const DATA_FETCH = [
     ShapeObject: '2x2',
     texture: '/assets/patterns/polygon.svg',
     img: '/assets/patterns/images/shape5.png',
-    color: '#40218F',
+    color: '#AC8BFF',
     count: 3,
   },
   {
@@ -58,7 +58,7 @@ export const DATA_FETCH = [
     ShapeObject: '1x1',
     texture: '/assets/patterns/uni.svg',
     img: '/assets/patterns/images/shape9.png',
-    color: '#900046',
+    color: '#FF73B7',
     count: 20,
   },
   {
@@ -67,7 +67,7 @@ export const DATA_FETCH = [
     ShapeObject: '2x2',
     texture: '/assets/patterns/ord.svg',
     img: '/assets/patterns/images/shape10.png',
-    color: '#333333',
+    color: '#6C6C6C',
     count: 10,
   },
   {
@@ -76,7 +76,7 @@ export const DATA_FETCH = [
     ShapeObject: '2x2',
     texture: '/assets/patterns/images/Btc.jpg',
     img: '/assets/patterns/images/shape11.png',
-    color: '#222222',
+    color: '#181818',
     count: 10,
   },
   {
@@ -85,7 +85,7 @@ export const DATA_FETCH = [
     ShapeObject: '2x2',
     texture: '/assets/patterns/images/Btc.jpg',
     img: '/assets/patterns/images/shape12.png',
-    color: '#9D9D9D',
+    color: '#696767',
     count: 10,
   },
   {
@@ -94,7 +94,7 @@ export const DATA_FETCH = [
     ShapeObject: '1x1',
     texture: '/assets/patterns/images/Btc.jpg',
     img: '/assets/patterns/images/shape13.png',
-    color: '#007334',
+    color: '#015626',
     count: 10,
   },
 ]
