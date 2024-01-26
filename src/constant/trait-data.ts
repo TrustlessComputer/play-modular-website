@@ -185,7 +185,7 @@ export const DATA_FETCH = [
     ShapeObject: '2x2',
     texture: NONT_TEXTURE,
     img: '/assets/patterns/images/shape14.png',
-    color: '#FF007B',
+    color: '#FF73B7',
     count: 10,
   },
   {

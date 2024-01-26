@@ -160,7 +160,7 @@ export const Brick = ({
                   {/* <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} /> */}
                   {!isNontTexture ? (
                     <>
-                      <meshPhysicalMaterial color={color} roughness={0.9} metalness={0.94} />
+                      <meshPhysicalMaterial color={color} roughness={0.9} metalness={0.3} specularIntensity={1} />
                       <Decal
                         map={texturez}
                         position={[0, 0, brickGeometry.length > 1 ? 0.05 : 0.05]}
@@ -174,10 +174,11 @@ export const Brick = ({
                         <meshPhysicalMaterial
                           map={texturez}
                           transparent={true}
-                          metalness={0.94}
+                          metalness={0.3}
                           roughness={0.9}
                           polygonOffset
                           polygonOffsetFactor={-1} // The material should take precedence over the original
+                          specularIntensity={1}
                         />
                       </Decal>
                     </>
@@ -209,12 +210,13 @@ export const Brick = ({
                     <meshPhysicalMaterial
                       color={color}
                       roughness={0.9}
-                      metalness={0.94}
+                      metalness={0.3}
+                      specularIntensity={1}
                       polygonOffset
                       polygonOffsetFactor={-1}
                     />
                   ) : (
-                    <meshPhysicalMaterial color={color} opacity={1} />
+                    <meshPhysicalMaterial color={color} opacity={1} specularIntensity={1} />
                   )}
                   {/* <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} /> */}
                 </mesh>
