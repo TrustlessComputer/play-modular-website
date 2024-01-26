@@ -8,6 +8,8 @@ import { BrickCursor } from '../BrickCursor'
 import { Lights } from '../Lights'
 import { Workspace } from '../Workpage'
 import { Select } from '../Select'
+import instance from '@/utils/storage/local-storage'
+import { useDebounce } from '@/hooks/useDebounce'
 
 const mousePoint = new Vector3()
 const normal = new Vector3()
@@ -16,7 +18,6 @@ const offsetVec = new Vector3()
 
 export const Scene = () => {
   useAnchorShorcuts()
-
   const {
     blockCurrent,
     createdBricks,
@@ -38,13 +39,10 @@ export const Scene = () => {
   const isDrag = useRef(false)
   const timeoutID = useRef(null)
   const isEditMode = mode === EDIT_MODE
-
-  // console.log('BRICKS :::: ', blockCurrent)
-  // console.log('CREATED BRICKS :::: ', createdBricks)
+  const deboundeData = useDebounce(blockCurrent, 1000)
 
   const addBrick = (e) => {
     e.stopPropagation()
-
     if (isEditMode) return
     if (!e.face?.normal || !e.point) return
     if (!brickCursorRef.current) return
@@ -152,13 +150,11 @@ export const Scene = () => {
   }, [])
 
   useEffect(() => {
-    // console.log('blockCurrent', JSON.stringify(blockCurrent))
-    // console.log(blockCurrent)
-  }, [blockCurrent.length])
-  // const DATA = JSON.parse(
-  //   '[{"intersect":{"point":{"x":36.35060973790545,"y":-6.28325304189107e-14,"z":282.97256058135156},"face":{"a":2,"b":3,"c":1,"normal":{"x":0,"y":0,"z":1},"materialIndex":0}},"uID":"itPEiXLb","dimensions":{"x":2,"z":2},"rotation":0,"color":"#FF4B51","texture":"/assets/patterns/optimic.svg","translation":{"x":0,"z":0},"type":"1"},{"intersect":{"point":{"x":4.69195503723682,"y":-3.709191490998424e-14,"z":167.04713416706318},"face":{"a":2,"b":3,"c":1,"normal":{"x":0,"y":0,"z":1},"materialIndex":0}},"uID":"VWb3CsBb","dimensions":{"x":2,"z":2},"rotation":0,"color":"#FF4B51","texture":"/assets/patterns/optimic.svg","translation":{"x":0,"z":0},"type":"1"},{"intersect":{"point":{"x":-66.25617572396438,"y":-6.903243484263624e-14,"z":310.8944478337746},"face":{"a":2,"b":3,"c":1,"normal":{"x":0,"y":0,"z":1},"materialIndex":0}},"uID":"HqvDRUAo","dimensions":{"x":2,"z":2},"rotation":0,"color":"#FF4B51","texture":"/assets/patterns/optimic.svg","translation":{"x":0,"z":0},"type":"1"},{"intersect":{"point":{"x":15.968985035130707,"y":-8.053288411965662e-14,"z":362.68786691235687},"face":{"a":2,"b":3,"c":1,"normal":{"x":0,"y":0,"z":1},"materialIndex":0}},"uID":"iegIKObu","dimensions":{"x":2,"z":2},"rotation":0,"color":"#FF4B51","texture":"/assets/patterns/optimic.svg","translation":{"x":0,"z":0},"type":"1"}]',
-  // )
-  // console.log(DATA)
+    if (deboundeData.length >= 1) {
+      instance.set('DATA_BLOCKS', deboundeData)
+    }
+  }, [deboundeData.length])
+
   return (
     <>
       <Select box multiple>

@@ -9,7 +9,8 @@ import ModeToggleBar from '../ModeToggleBar'
 export default function Panel() {
   return (
     <div className={cn('container', s.panel)}>
-      <ListBlocks />
+      {/* <ListBlocks /> */}
+      <ListBlocksApi />
       <BottomBar />
     </div>
   )

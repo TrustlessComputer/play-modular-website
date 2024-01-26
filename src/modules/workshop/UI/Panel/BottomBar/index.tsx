@@ -10,15 +10,17 @@ import { accountSelector } from '@/stores/states/wallet/selector'
 import useApiInfinite from '@/hooks/useApiInfinite'
 import { getListModularByWallet } from '@/services/api/generative'
 import { useEffect } from 'react'
-import { TListCurrent } from '@/types'
+import { TBlockData, TListCurrent } from '@/types'
 import { handleConvertData } from '@/utils/convertTraits'
+import instance from '@/utils/storage/local-storage'
 
 type TDataFetch = {
   list: TListCurrent
 }
 
 export default function BottomBar() {
-  const { undo, redo, mode, viewPreview, setViewPreview, deleteAlls, blockCurrent, setDataCurrent } = useStoreGlobal()
+  const { undo, redo, mode, viewPreview, setViewPreview, deleteAlls, blockCurrent, setDataCurrent, setBlockCurrent } =
+    useStoreGlobal()
   const account = useAppSelector(accountSelector)
   const {
     dataInfinite = [],
@@ -47,7 +49,16 @@ export default function BottomBar() {
   }
 
   const saveAction = () => {
+    /**
+     * @todos Save Data     */
     console.log('DATA', JSON.stringify(blockCurrent))
+  }
+  const loadDataAction = () => {
+    /**
+     * @todos Load Data
+     */
+    const dataJSON = instance.get('DATA_BLOCKS') as TBlockData[]
+    setBlockCurrent(dataJSON)
   }
 
   const handleDeleteAll = () => {
@@ -94,7 +105,9 @@ export default function BottomBar() {
       <button className={s.bottomBar_btn} onClick={saveAction}>
         Save
       </button>
-
+      <button className={s.bottomBar_btn} onClick={loadDataAction}>
+        Load Data
+      </button>
       {/* <button onClick={() => setViewPreview(!viewPreview)} className={`${s.bottomBar_btn} ${s.bottomBar_btn_preview}`}>
         Preview: {viewPreview ? 'On' : 'Off'} <IconPreview />
       </button> */}

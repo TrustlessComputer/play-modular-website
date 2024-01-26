@@ -7,6 +7,7 @@ import s from './styles.module.scss'
 
 export const ListBlocks = () => {
   const { setWidth, setDepth, setColor, setTexture, texture, setTrait, trait, listCurrent } = useStoreGlobal()
+
   const handleChangeTexture = (data: TTraitBlocks) => {
     const sizeArray = data.shape.split('x')
     const size = {

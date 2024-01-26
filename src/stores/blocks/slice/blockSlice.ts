@@ -30,6 +30,7 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
         }
       }
     }),
+  setBlockCurrent: (data) => set(() => ({ blockCurrent: data })),
   deleteAlls: () =>
     set((state) => {
       const currentStateIndex = state.currentStateIndex
