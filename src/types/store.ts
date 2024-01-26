@@ -1,3 +1,5 @@
+import { getSavedProject } from './../services/api/generative'
+import { create } from 'zustand'
 import { TBlockData, TListCurrent } from '.'
 
 export type TBlockSlice = {
@@ -65,4 +67,14 @@ export type TCreatedBrickSlice = {
 export type TListBlocksSlice = {
   listCurrent: TListCurrent[]
   setListCurrent: (list: TListCurrent[]) => void
+}
+
+export type TProjectSlice = {
+  projectName: string
+  projectId: string
+
+  saveProject: (params) => void
+  saveAsProject: (params) => void
+  loadProject: (params) => void
+  createProject: () => void
 }

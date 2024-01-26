@@ -3,6 +3,7 @@ import qs from 'query-string'
 import { API_URL } from '@/constant/constant'
 import createAxiosInstance from '@/services/http-client'
 import { snakeCaseKeys } from '@/utils/normalize'
+import { ICreateProjectResponse } from '@/interface/api/generative'
 
 export const apiClient = createAxiosInstance({ baseURL: API_URL })
 
@@ -29,11 +30,36 @@ export const getListModularByWallet = async (payload: {
 }
 
 // Save actions
-export const getListSavedProject = async (payload: {}): Promise<unknown> => {}
+export const getListSavedProject = async (payload: {
+  ownerAddress: string
+  page: number
+  limit: number
+}): Promise<unknown> => {
+  try {
+    const query = qs.stringify(snakeCaseKeys(payload))
+    const res = (await apiClient.get(`saved-project?${query}`)) as any
+    return {
+      list: res?.result || [],
+      total: res?.total || 0,
+    }
+  } catch (err: unknown) {
+    return {
+      list: [],
+      total: 0,
+    }
+  }
+}
 
-export const getSavedProject = async (payload: {}): Promise<unknown> => {}
+// export const getSavedProject = async (payload: {}): Promise<unknown> => {}
 
-export const createNewProject = async (payload: {}): Promise<unknown> => {}
+export const createNewProject = async (): Promise<ICreateProjectResponse> => {
+  try {
+    const res = (await apiClient.post(`create`, {})) as any
+    return res
+  } catch (err: unknown) {
+    throw err
+  }
+}
 
 export const saveProject = async (payload: { id: string; name: string; jsonFile: string }): Promise<unknown> => {
   try {

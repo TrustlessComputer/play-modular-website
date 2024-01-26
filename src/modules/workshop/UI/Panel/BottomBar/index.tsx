@@ -1,22 +1,33 @@
 'use client'
 import { useUndoRedoShortcut } from '@/hooks/useShortcuts'
-import { useStoreGlobal } from '@/stores/blocks'
+import { useProjectStore, useStoreGlobal } from '@/stores/blocks'
 import { views } from '@/utils'
 import s from './styles.module.scss'
 import { IconClear, IconPreview, IconRedo, IconTrash, IconUndo } from '@/components/IconSvgs'
+import IcSave from '@/icons/workshop/ic-save.svg'
+import IcCreate from '@/icons/workshop/ic-save.svg'
+import IcOpen from '@/icons/workshop/ic-open.svg'
+
 import ListBlocksApi from '@/modules/workshop/ListBlocksApi'
 import { useAppSelector } from '@/stores/hooks'
 import { accountSelector } from '@/stores/states/wallet/selector'
 import useApiInfinite from '@/hooks/useApiInfinite'
 import { getListModularByWallet, saveProject } from '@/services/api/generative'
-import { useEffect, useId } from 'react'
+import { useEffect, useId, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import jsonFile from './mock.json'
+import SavedProjectsModal from '@/modules/workshop/components/Modal/SavedProjectsModal'
 
 const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
 
 export default function BottomBar() {
   const { undo, redo, mode, viewPreview, setViewPreview, deleteAlls } = useStoreGlobal()
+
+  const { projectId, saveProject, createProject } = useProjectStore()
+
+  const [showModal, setShowModal] = useState(false)
+  console.log('🚀 ~ BottomBar ~ showModal:', showModal)
+
   const account = useAppSelector(accountSelector)
 
   const id = useId()
@@ -49,22 +60,11 @@ export default function BottomBar() {
   }
 
   const saveAction = async () => {
-    console.log('save')
-
-    try {
-      const res = await saveProject({
-        id: id, // get from BE or auto generate
-        name: 'test',
-        jsonFile: JSON.stringify(jsonFile),
-      })
-
-      if (res) {
-        toast.success('Saved successfully!')
-      }
-    } catch (error) {
-      toast.error('Something went wrong! Please try again!')
-      throw error
-    }
+    saveProject({
+      projectId: id,
+      projectName: 'test',
+      jsonFile: jsonFile,
+    })
   }
 
   const handleDeleteAll = () => {
@@ -79,39 +79,76 @@ export default function BottomBar() {
     })
     console.log('getListModularByWallet: ', data)
   }
+
+  const handleOpenSavedProjectModal = () => {}
+
   useUndoRedoShortcut(undo, redo)
 
   useEffect(() => {
     handleGetData()
   }, [])
 
+  // First load, trigger create new project
+  useEffect(() => {
+    if (!projectId) {
+      createProject()
+    }
+  }, [projectId, createProject])
+
   return (
     <>
       <Toaster />
-      <div className={s.bottomBar}>
-        <button className={s.bottomBar_btn} onClick={undoAction}>
-          <IconUndo /> Undo
-        </button>
-        <button className={s.bottomBar_btn} onClick={redoAction}>
-          <IconRedo /> Redo
-        </button>
-        <button className={s.bottomBar_btn} onClick={() => handleDeleteAll()}>
-          <IconClear />
-          Clear
-        </button>
+      <div className={s.wrapper}>
+        <div className={s.bottomBar}>
+          <button className={s.bottomBar_btn} onClick={undoAction}>
+            <IconUndo /> Undo
+          </button>
+          <button className={s.bottomBar_btn} onClick={redoAction}>
+            <IconRedo /> Redo
+          </button>
+          <button className={s.bottomBar_btn} onClick={() => handleDeleteAll()}>
+            <IconClear />
+            Clear
+          </button>
+          <button className={s.bottomBar_btn}>
+            <IconTrash /> Delete
+          </button>
 
-        <button className={s.bottomBar_btn}>
-          <IconTrash /> Delete
-        </button>
-
-        <button className={s.bottomBar_btn} onClick={saveAction}>
-          Save
-        </button>
-
-        {/* <button onClick={() => setViewPreview(!viewPreview)} className={`${s.bottomBar_btn} ${s.bottomBar_btn_preview}`}>
+          {/* <button onClick={() => setViewPreview(!viewPreview)} className={`${s.bottomBar_btn} ${s.bottomBar_btn_preview}`}>
         Preview: {viewPreview ? 'On' : 'Off'} <IconPreview />
       </button> */}
+        </div>
+        <div className={s.bottomBar}>
+          <button className={s.bottomBar_btn} onClick={saveAction}>
+            <IcSave /> Save Project
+          </button>
+          <button className={s.bottomBar_btn} onClick={saveAction}>
+            <IcSave /> Save As
+          </button>
+          <button className={s.bottomBar_btn} onClick={createProject}>
+            <IcCreate /> Create New
+          </button>
+          <button
+            className={s.bottomBar_btn}
+            onClick={() => {
+              setShowModal(true)
+            }}
+          >
+            <IcOpen /> Open Project
+          </button>
+
+          {/* <button onClick={() => setViewPreview(!viewPreview)} className={`${s.bottomBar_btn} ${s.bottomBar_btn_preview}`}>
+        Preview: {viewPreview ? 'On' : 'Off'} <IconPreview />
+      </button> */}
+        </div>
       </div>
+      <SavedProjectsModal
+        show={showModal}
+        onClose={() => {
+          console.log('click onClose')
+          setShowModal(false)
+        }}
+      />
     </>
   )
 }
