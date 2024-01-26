@@ -10,10 +10,15 @@ import { accountSelector } from '@/stores/states/wallet/selector'
 import useApiInfinite from '@/hooks/useApiInfinite'
 import { getListModularByWallet } from '@/services/api/generative'
 import { useEffect } from 'react'
-import { handleInputData } from '@/constant/trait-data'
+import { TListCurrent } from '@/types'
+import { handleConvertData } from '@/utils/convertTraits'
+
+type TDataFetch = {
+  list: TListCurrent
+}
 
 export default function BottomBar() {
-  const { undo, redo, mode, viewPreview, setViewPreview, deleteAlls, blockCurrent, setListCurrent } = useStoreGlobal()
+  const { undo, redo, mode, viewPreview, setViewPreview, deleteAlls, blockCurrent, setDataCurrent } = useStoreGlobal()
   const account = useAppSelector(accountSelector)
   const {
     dataInfinite = [],
@@ -32,7 +37,6 @@ export default function BottomBar() {
       shouldFetch: !!account?.address,
     },
   )
-  console.log('dataInfinite', dataInfinite)
 
   const undoAction = () => {
     undo()
@@ -54,15 +58,16 @@ export default function BottomBar() {
       ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
       page: 1,
       limit: 20,
-    })) as unknown
-    const newData =
+    })) as TDataFetch
+    const convertData =
       Array.isArray(data.list) &&
       data.list.map((item) => {
-        const trait = handleInputData(item.attributes)
-        return { ...item, trait }
+        const traits = handleConvertData(item.attributes)
+        return { ...item, traits }
       })
-    setListCurrent(newData)
+    setDataCurrent(convertData)
   }
+
   useUndoRedoShortcut(undo, redo)
 
   useEffect(() => {

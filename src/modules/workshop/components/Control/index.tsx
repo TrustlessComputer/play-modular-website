@@ -20,4 +20,5 @@ export const ControlsWrapper = () => {
   }
 
   return <OrbitControls makeDefault onEnd={onEnd} onStart={onStart} />
+  // return <OrbitControls makeDefault onEnd={onEnd} onStart={onStart} enableRotate={false} />
 }

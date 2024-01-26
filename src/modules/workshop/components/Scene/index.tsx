@@ -85,12 +85,10 @@ export const Scene = () => {
           type: trait.type,
         }
 
-        if (trait?.texture || trait?.color) {
+        if (trait?.color) {
           // console.log('brickData', brickData)
 
           addBlocks(brickData)
-        } else {
-          window.alert('Select your block')
         }
       }
     } else {
@@ -163,7 +161,6 @@ export const Scene = () => {
   // console.log(DATA)
   return (
     <>
-      <color attach='background' args={['#202025']} />
       <Select box multiple>
         {blockCurrent?.length > 0 &&
           blockCurrent.map((b, i) => {
@@ -197,12 +194,14 @@ export const Scene = () => {
       </Select>
       <Lights />
       <Workspace onClick={onClick} mouseMove={mouseMove} workspaceSize={minWorkSpaceSize} />
-      <BrickCursor
-        ref={brickCursorRef}
-        rotation={rotate ? Math.PI / 2 : 0}
-        dimensions={{ x: width, z: depth }}
-        translation={{ x: anchorX, z: anchorZ }}
-      />
+      {color && (
+        <BrickCursor
+          ref={brickCursorRef}
+          rotation={rotate ? Math.PI / 2 : 0}
+          dimensions={{ x: width, z: depth }}
+          translation={{ x: anchorX, z: anchorZ }}
+        />
+      )}
     </>
   )
 }

@@ -22,11 +22,14 @@ export type TBlocks = {
 }
 
 export type TListCurrent = {
-  type: string
-  PatternObject: string
-  ShapeObject: string
-  texture: string
-  img: string
+  thumbnail: string
+  // count: number
+  traits: TTraitBlocks
+}
+export type TAtribute = { traitType: string; value: string }[]
+export type TTraitBlocks = {
   color: string
-  count: number
+  shape: string
+  texture: string
+  type: string
 }

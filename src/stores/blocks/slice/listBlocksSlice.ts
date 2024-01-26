@@ -3,12 +3,12 @@ import { StateCreator } from 'zustand'
 
 export const createListBlocks: StateCreator<TListBlocksSlice> = (set) => ({
     listCurrent: [],
-    setListCurrent: (list) =>
+    setDataCurrent: (data) =>
         set((state) => {
             // const itemCurrent = state.listCurrent.filter((item) => item.id === id)
             // console.log('itemCurrent', itemCurrent)
             return {
-                listCurrent: list,
+                listCurrent: data,
             }
         }),
 })

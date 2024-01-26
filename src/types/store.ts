@@ -64,5 +64,5 @@ export type TCreatedBrickSlice = {
 
 export type TListBlocksSlice = {
   listCurrent: TListCurrent[]
-  setListCurrent: (list: TListCurrent[]) => void
+  setDataCurrent: (list: TListCurrent[]) => void
 }

@@ -1,3 +1,5 @@
+import { TAtribute } from '@/types'
+
 export let patterns = [
   ['Bitcoin', 15, 'Btc', 0, ['#FF6F00', '#9B4300', '#FF9646']],
   ['Optimism', 5, 'Op', 0, ['#FF010A', '#990005', '#FF4B51']],
@@ -24,85 +26,9 @@ export let patterns = [
 
 export let shapes = ['S1x1', 'S2x2']
 
-export const DATA_FETCH = [
-  {
-    type: '1',
-    PatternObject: 'Optimism',
-    ShapeObject: '2x2',
-    texture: '/assets/patterns/optimic.svg',
-    img: '/assets/patterns/images/shape8.png',
-    color: '#FF4B51',
-    count: 10,
-  },
-  {
-    type: 'Coin',
-    PatternObject: 'Bitcoin',
-    ShapeObject: '1x1',
-    texture: '/assets/patterns/coin.svg',
-    img: '/assets/patterns/images/shape2.png',
-    color: '#FF9646',
-    count: 2,
-  },
-  {
-    type: '3',
-    PatternObject: 'Polygon',
-    ShapeObject: '2x2',
-    texture: '/assets/patterns/polygon.svg',
-    img: '/assets/patterns/images/shape5.png',
-    color: '#AC8BFF',
-    count: 3,
-  },
-  {
-    type: '4',
-    PatternObject: 'Uniswap',
-    ShapeObject: '1x1',
-    texture: '/assets/patterns/uni.svg',
-    img: '/assets/patterns/images/shape9.png',
-    color: '#FF73B7',
-    count: 20,
-  },
-  {
-    type: '5',
-    PatternObject: 'Ordinals',
-    ShapeObject: '2x2',
-    texture: '/assets/patterns/ord.svg',
-    img: '/assets/patterns/images/shape10.png',
-    color: '#6C6C6C',
-    count: 10,
-  },
-  {
-    type: '6',
-    PatternObject: 'Solid Dark',
-    ShapeObject: '2x2',
-    texture: '/assets/patterns/images/Btc.jpg',
-    img: '/assets/patterns/images/shape11.png',
-    color: '#181818',
-    count: 10,
-  },
-  {
-    type: '7',
-    PatternObject: 'Solid Light Gray',
-    ShapeObject: '2x2',
-    texture: '/assets/patterns/images/Btc.jpg',
-    img: '/assets/patterns/images/shape12.png',
-    color: '#696767',
-    count: 10,
-  },
-  {
-    type: '8',
-    PatternObject: 'Solid  Bright Green',
-    ShapeObject: '1x1',
-    texture: '/assets/patterns/images/Btc.jpg',
-    img: '/assets/patterns/images/shape13.png',
-    color: '#015626',
-    count: 10,
-  },
-]
 export const NONT_TEXTURE = '/assets/patterns/images/nontexture.jpg'
 
-type TAtribute = { traitType: string; value: string }[]
-
-const TEXTURE_LIST = [
+export const TEXTURE_LIST = [
   {
     name: 'Bitcoin',
     src: '/assets/patterns/coin.svg',
@@ -188,32 +114,3 @@ const TEXTURE_LIST = [
     src: NONT_TEXTURE,
   },
 ]
-
-const handleConverTrait = (traits: TAtribute) => {
-  const SHAPE = "Modular's Shape"
-  const TYPE = "Modular's Pattern"
-  const shape = traits.find((item) => item.traitType === SHAPE)
-  const size = shape.value.slice(1)
-  const type = traits.find((item) => item.traitType === TYPE)
-  return {
-    shape: size,
-    type: type.value,
-  }
-}
-
-export const handleInputData = (attributes: TAtribute) => {
-  const trait = handleConverTrait(attributes)
-  const color = handleGetColor(trait.type)
-  const texture = TEXTURE_LIST.find((item) => item.name === trait.type)
-  console.log(trait.type)
-  return {
-    ...trait,
-    color,
-    texture: texture?.src,
-  }
-}
-
-const handleGetColor = (type: string, dataTrait = patterns) => {
-  const dataTraitFilter = dataTrait.filter((item) => item[0] === type)[0]
-  return dataTraitFilter[4][0]
-}

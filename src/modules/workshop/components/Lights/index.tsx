@@ -3,12 +3,11 @@ import React from 'react'
 export const Lights = () => {
   return (
     <>
-      <hemisphereLight intensity={15} />
-      <hemisphereLight intensity={15} color={0xdf901a} />
-      <directionalLight position={[0, 30, 0]} intensity={1.2}></directionalLight>
-      <directionalLight position={[30, -5, 0]} intensity={2}></directionalLight>
-      <directionalLight position={[0, 0, 30]} intensity={1.2}></directionalLight>
-      <directionalLight position={[-30, 0, 0]} intensity={1.2}></directionalLight>
+      <ambientLight intensity={0.5} />
+      <hemisphereLight intensity={3} />
+      <hemisphereLight intensity={3} color={0xdf901a} />
+      <directionalLight position={[0, 30, 0]} intensity={10} castShadow receiveShadow></directionalLight>
+      <directionalLight position={[0, 0, 30]} intensity={5} castShadow receiveShadow></directionalLight>
     </>
   )
 }
