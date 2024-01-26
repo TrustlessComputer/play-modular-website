@@ -10,6 +10,7 @@ import { Workspace } from '../Workpage'
 import { Select } from '../Select'
 import instance from '@/utils/storage/local-storage'
 import { useDebounce } from '@/hooks/useDebounce'
+import BrickOutline from '../BrickOutline'
 
 const mousePoint = new Vector3()
 const normal = new Vector3()

@@ -14,7 +14,7 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
       const stateCurrent = state.blocksState[currentStateIndex] || []
       const newState = [...stateCurrent, getBrick]
 
-      if (currentStateIndex >= 40) {
+      if (currentStateIndex >= 10) {
         const blocksState = [...state.blocksState.slice(1), newState]
         return {
           blocksState,
@@ -71,6 +71,8 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
     }),
   setSelectedBricks: ({ object, shift }) =>
     set((state) => {
+      console.log(object)
+
       if (object === undefined) return { selectedBricks: [] }
       else if (Array.isArray(object)) return { selectedBricks: object }
       else if (!shift) return state.selectedBricks[0] === object ? { selectedBricks: [] } : { selectedBricks: [object] }

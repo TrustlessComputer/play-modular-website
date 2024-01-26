@@ -10,6 +10,7 @@ export default function Panel() {
   return (
     <div className={cn('container', s.panel)}>
       {/* <ListBlocks /> */}
+      <ModeToggleBar />
       <ListBlocksApi />
       <BottomBar />
     </div>

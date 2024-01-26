@@ -30,5 +30,4 @@ export const createTraitBlockSlice: StateCreator<TAtributeBlock> = (set) => ({
     set({
       trait: { color: color, texture: texture, shape: shape, type: type },
     }),
-  setSelectedBricks: (b: any) => set((state) => state),
 })
