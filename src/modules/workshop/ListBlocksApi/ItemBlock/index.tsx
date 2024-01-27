@@ -5,9 +5,10 @@ import Image from 'next/image'
 import s from './styles.module.scss'
 import { handleConvertData } from '@/utils/convertTraits'
 import { useStoreGlobal } from '@/stores/blocks'
+import { CREATE_MODE } from '@/utils'
 
 const ItemBlock: React.FunctionComponent<any> = ({ thumbnail, project, attributes }) => {
-  const { setTrait, setColor, setTexture, setWidth, setDepth } = useStoreGlobal()
+  const { setTrait, setColor, setTexture, setWidth, setDepth, setMode } = useStoreGlobal()
   const handleSetTraits = () => {
     const data = handleConvertData(attributes)
 
@@ -16,6 +17,8 @@ const ItemBlock: React.FunctionComponent<any> = ({ thumbnail, project, attribute
       w: Number(sizeArray[0]),
       d: Number(sizeArray[1]),
     }
+
+    setMode(CREATE_MODE)
     setTrait({ color: data.color, shape: data.shape, texture: data.texture, type: data.type })
     setTexture(data.texture)
     setColor(data.color)
@@ -26,7 +29,7 @@ const ItemBlock: React.FunctionComponent<any> = ({ thumbnail, project, attribute
   return (
     <div className={s.itemBlock} onClick={handleSetTraits}>
       <Image src={thumbnail} width={50} height={50} alt={project?.name} />
-      <div>{project?.name}</div>
+      {/* <div>{project?.name}</div> */}
     </div>
   )
 }

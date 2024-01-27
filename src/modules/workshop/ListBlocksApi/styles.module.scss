@@ -4,7 +4,7 @@
   top: 108px;
   height: 70vh;
   background: #ffffff1a;
-  padding: 0 20px;
+  padding: 0 24px;
   pointer-events: all;
 
   .title {
@@ -35,6 +35,13 @@
     gap: 12px;
     width: 240px;
     align-items: center;
+    justify-content: center;
+
+    &::-webkit-scrollbar {
+      opacity: 0;
+      width: 0;
+    }
+
     img {
       width: 100%;
       aspect-ratio: 1;

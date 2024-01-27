@@ -31,7 +31,8 @@ export function Select({
   const [downed, down] = React.useState(false)
   const { setEvents, camera, raycaster, gl, controls, size, get } = useThree() as any
 
-  const { mode, setSelectedBricks } = useStoreGlobal()
+  const { mode } = useStoreGlobal()
+  const setSelectedBricks = useStoreGlobal((state) => state.setSelectedBricks)
 
   const enable = mode === EDIT_MODE
 
@@ -41,17 +42,11 @@ export function Select({
       if (!enable) return
       setSelectedBricks({
         object: customFilter([e.object])[0],
-        shift: multiple && e.shiftKey,
+        shift: e.shiftKey,
       })
     },
-    [enable, multiple],
+    [customFilter, enable, setSelectedBricks],
   )
-
-  React.useEffect(() => {
-    if (!enable) {
-      setSelectedBricks({})
-    }
-  }, [enable])
 
   const onPointerMissed = React.useCallback((e) => {
     setSelectedBricks({})
@@ -61,6 +56,12 @@ export function Select({
 
   const selectionOverTimeoutId = React.useRef<NodeJS.Timeout>(null)
   const selectionStartTimeoutId = React.useRef<NodeJS.Timeout>(null)
+
+  React.useEffect(() => {
+    if (!enable) {
+      setSelectedBricks({})
+    }
+  }, [enable])
 
   React.useEffect(() => {
     if (!box || !multiple || !enable) return
