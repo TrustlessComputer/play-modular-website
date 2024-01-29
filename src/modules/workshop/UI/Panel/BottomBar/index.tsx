@@ -194,6 +194,15 @@ export default function BottomBar() {
     }
   }, [projectId, createProject])
 
+  useEffect(() => {
+    // detect click browser back button or closing tab
+    window.addEventListener('beforeunload', (e) => {
+      e.preventDefault()
+
+    })
+  }, [])
+
+
   const handleDeleteSelected = () => {
     // deleteSelected(selectedBricks)
     const newState = []
