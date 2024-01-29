@@ -17,8 +17,10 @@ const GridList = forwardRef(({ children, ...props }: PropsWithChildren, ref: any
     ref={ref}
     {...props}
     style={{
-      display: 'flex',
-      flexWrap: 'wrap',
+      display: 'grid',
+      gridTemplateColumns: 'repeat(2, 1fr)',
+      gap: '24px',
+      width: 'fit-content'
     }}
   >
     {children}
@@ -29,13 +31,12 @@ const GridItem = ({ children, ...props }) => (
   <div
     {...props}
     style={{
-      padding: '10px 0',
-      width: '50%',
       display: 'flex',
       flex: 'none',
       alignContent: 'stretch',
       boxSizing: 'border-box',
     }}
+    className={s.itemBlock}
   >
     {children}
   </div>

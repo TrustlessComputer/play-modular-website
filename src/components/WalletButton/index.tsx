@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import cn from 'classnames'
 
 import { useAppSelector } from '@/stores/hooks'
@@ -9,6 +9,8 @@ import { formatLongAddress } from '@/utils/address'
 import Image from 'next/image'
 
 import s from './styles.module.scss'
+import { IconCopy, IconLogout, IconWallet } from '../IconSvgs'
+import useClickOutside from '@/hooks/useClickOutSide'
 
 type TWalletButton = {
   className?: string

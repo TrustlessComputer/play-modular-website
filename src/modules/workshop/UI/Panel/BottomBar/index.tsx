@@ -35,11 +35,17 @@ export default function BottomBar() {
     viewPreview,
     setViewPreview,
     deleteAlls,
-    blockCurrent,
     setDataCurrent,
     setBlockCurrent,
     blocksState,
+    selectedBricks,
     // deleteSeletBlocks,
+    selectedBricks,
+    deleteSelected,
+    setSelectedBricks,
+    setBricks,
+    blockCurrent,
+    setBlockCurrentUpdate
   } = useStoreGlobal()
 
   const { projectId, saveProject, createProject, projectName, renderFile } = useProjectStore()
@@ -102,7 +108,7 @@ export default function BottomBar() {
     if (projectName) {
       payload.projectName = projectName
     }
-
+    console.log('payload', JSON.stringify(payload.jsonFile) )
     saveProject(payload)
   }
 
@@ -160,23 +166,56 @@ export default function BottomBar() {
     }
   }, [projectId, createProject])
 
+  const handleDeleteSelected = () => {
+    // deleteSelected(selectedBricks)
+    const newState = [];
+    setBricks((bricks) => {
+
+      const newBricks = bricks.filter((brick) => {
+        const selectedClone = [...selectedBricks];
+        console.log('selectedClone', selectedClone)
+
+        const uID = brick.uID;
+        console.log('uID', uID)
+        let should = true;
+        for (let i = 0; i < selectedClone.length; i++) {
+          const selectedUID = selectedClone[i].userData.uID;
+          if (uID === selectedUID) {
+            should = false;
+            selectedClone.splice(i, 1);
+          } else {
+            newState.push(selectedClone[i])
+          }
+        }
+        return should;
+      });
+      return newBricks;
+    });
+    console.log('newState', newState)
+    // setBlockCurrentUpdate(newState)
+    setSelectedBricks({});
+  }
+
   return (
     <>
       <Toaster />
       <div className={s.wrapper}>
         <div className={s.bottomBar}>
-          <button className={s.bottomBar_btn} onClick={undoAction}>
-            <IconUndo /> Undo
+          <button className={`${s.bottomBar_btn} ${s.noFill}`} onClick={undoAction}>
+            <IconUndo />
           </button>
-          <button className={s.bottomBar_btn} onClick={redoAction}>
-            <IconRedo /> Redo
+          <button className={`${s.bottomBar_btn} ${s.noFill}`} onClick={redoAction}>
+            <IconRedo />
           </button>
           <button className={s.bottomBar_btn} onClick={() => handleDeleteAll()}>
             <IconClear />
-            Clear
           </button>
-          <button className={s.bottomBar_btn} onClick={deleteAction}>
-            <IconTrash /> Delete
+          <button
+            className={`${s.bottomBar_btn} ${selectedBricks.length === 0 && s.disable}`}
+            disabled={selectedBricks.length === 0 && true}
+            onClick={handleDeleteSelected}
+          >
+            <IconTrash />
           </button>
         </div>
 
@@ -184,9 +223,9 @@ export default function BottomBar() {
           <button className={s.bottomBar_btn} onClick={saveAction}>
             <IcSave /> Save Model
           </button>
-          <button className={s.bottomBar_btn} onClick={saveAction}>
+          {/* <button className={s.bottomBar_btn} onClick={saveAction}>
             <IcSave /> Save As
-          </button>
+          </button> */}
           <button className={s.bottomBar_btn} onClick={handleClickCreateNewProject}>
             <IcCreate /> Create New Model
           </button>

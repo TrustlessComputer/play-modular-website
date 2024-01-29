@@ -30,7 +30,6 @@ export default function Three3D() {
       gl={{
         alpha: false,
         antialias: true,
-        powerPreference: 'high-performance',
       }}
       dpr={Math.min(2, 1)}
       linear
@@ -42,8 +41,9 @@ export default function Three3D() {
         aspect,
       }}
     >
-      <color attach='background' args={['#202025']} />
-      <mesh rotation={[-Math.PI / 2, 0, 0]}>
+      {/* <color attach='background' args={['#202025']} /> */}
+      <color attach='background' args={['#CACACA']} />
+      {/* <mesh rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[minWorkSpaceSize, minWorkSpaceSize]} />
         <MeshReflectorMaterial
           mirror={0.5}
@@ -54,11 +54,12 @@ export default function Three3D() {
           depthScale={1.2}
           minDepthThreshold={0.4}
           maxDepthThreshold={1.6}
-          color='#050505'
+          // color='#050505'
+          color='#CACACA'
           roughness={0.5}
           metalness={1}
         />
-      </mesh>
+      </mesh> */}
       <Suspense fallback={null}>
         <Environment preset='city' />
         <Scene />
