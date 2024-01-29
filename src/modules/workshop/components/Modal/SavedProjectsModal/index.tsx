@@ -30,6 +30,11 @@ const SavedProjectsModal = () => {
     },
   )
 
+  useEffect(() => {
+    refresh()
+  }, [])
+
+
   const BodyContent = () => {
     return (
       <div className={s.wrapper}>
