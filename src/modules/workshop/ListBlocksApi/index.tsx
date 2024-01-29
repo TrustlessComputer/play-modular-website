@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 'use client'
 
-import React, { forwardRef, PropsWithChildren } from 'react'
+import React, { forwardRef, PropsWithChildren, useEffect } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso'
 
 import useApiInfinite from '@/hooks/useApiInfinite'
@@ -11,6 +11,8 @@ import { accountSelector } from '@/stores/states/wallet/selector'
 
 import ItemBlock from './ItemBlock'
 import s from './styles.module.scss'
+import { useStoreGlobal } from '@/stores/blocks'
+import { TListCurrent } from '@/types'
 
 const GridList = forwardRef(({ children, ...props }: PropsWithChildren, ref: any) => (
   <div
@@ -47,6 +49,7 @@ const GridComponents = {
 }
 
 const ListBlocks: React.FunctionComponent = () => {
+  const { setDataCurrent, listCurrent, blockCurrent } = useStoreGlobal()
   const account = useAppSelector(accountSelector)
   const {
     dataInfinite = [],
@@ -65,6 +68,11 @@ const ListBlocks: React.FunctionComponent = () => {
       // shouldFetch: !!account?.address,
     },
   )
+  useEffect(() => {
+    const data = dataInfinite as TListCurrent[]
+    setDataCurrent(data)
+  }, [dataInfinite.length])
+
   return (
     <div className={s.wrapper}>
       <div className={s.inner}>
@@ -72,8 +80,8 @@ const ListBlocks: React.FunctionComponent = () => {
         <VirtuosoGrid
           className={s.wrapper_listBlocks}
           style={{ height: 'calc(100dvh - 300px)', pointerEvents: 'auto' }}
-          data={dataInfinite}
-          totalCount={dataInfinite.length}
+          data={listCurrent}
+          totalCount={listCurrent.length}
           endReached={() => {
             if (isReachingEnd === false) {
               loadMore()

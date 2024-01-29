@@ -1,24 +1,31 @@
 'use client'
 
-import { TBlockSlice, TListBlocksSlice } from '@/types/store'
+import { TBlockSlice } from '@/types/store'
 import { StateCreator } from 'zustand'
 
-export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
+export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
   blockCurrent: [],
   blocksState: [[]],
   currentStateIndex: 0,
   isUndo: false,
   isRedo: false,
   selectedBricks: [],
+  listCurrent: [],
+
+  setDataCurrent: (data) =>
+    set(() => {
+      return {
+        listCurrent: data,
+      }
+    }),
   addBlocks: (getBrick) =>
     set((state) => {
-      console.log('state.blocksState', state.blocksState)
-      console.log('currentStateIndex: ', state.currentStateIndex)
+      const groupIdCurrent = getBrick.groupId
+      const { inscriptionId, listCurrent } = get().sliceListCurrent(groupIdCurrent, state.listCurrent)
 
       const currentStateIndex = state.currentStateIndex
       const stateCurrent = state.blocksState[currentStateIndex] || []
-      // console.log('data', state.blocksState)
-      const newState = [...stateCurrent, getBrick]
+      const newState = [...stateCurrent, { ...getBrick, inscriptionId }]
 
       if (currentStateIndex >= 10) {
         const blocksState = [...state.blocksState.slice(1), newState]
@@ -26,6 +33,7 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
           blocksState,
           currentStateIndex: blocksState.length - 1,
           blockCurrent: newState,
+          listCurrent: listCurrent,
         }
       } else {
         const blocksState = [...state.blocksState.slice(0, currentStateIndex + 1), newState]
@@ -33,18 +41,45 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
           blocksState,
           currentStateIndex: blocksState.length - 1,
           blockCurrent: newState,
+          listCurrent: listCurrent,
         }
       }
     }),
-  // deleteSeletBlocks: () =>
-  //   set((state) => {
-  //     console.log(state.selectedBricks)
-  //     return {
-  //       state,
-  //     }
-  //   }),
+  sliceListCurrent: (groupId: string, listCurrent) => {
+    const listDataCurrent = [...listCurrent]
+    const idGroup = listDataCurrent.findIndex((item) => item.groupId === groupId)
+    const newList = []
+    let inscriptionId: string
+    if (idGroup !== -1) {
+      for (let i = 0; i < listDataCurrent.length; i++) {
+        if (i === idGroup) {
+          inscriptionId = listDataCurrent[i].items.pop()
+        }
+        newList.push(listDataCurrent[i])
+      }
+      return {
+        listCurrent: newList,
+        inscriptionId: inscriptionId,
+      }
+    }
+  },
+  pushListCurrent: (inscriptionID, groupId, listCurrent) => {
+    const listDataCurrent = [...listCurrent]
+    const idGroup = listDataCurrent.findIndex((item) => item.groupId === groupId)
+    const newListPush = []
+    for (let i = 0; i < listDataCurrent.length; i++) {
+      if (i === idGroup) {
+        listDataCurrent[i].items.push(inscriptionID)
+      }
+      newListPush.push(listDataCurrent[i])
+    }
+    return {
+      listCurrent: newListPush,
+    }
+  },
+
   setBlockCurrent: (data) =>
-    set((state) => {
+    set(() => {
       return { blockCurrent: data, blocksState: [data], currentStateIndex: 0 }
     }),
   deleteAlls: () =>
@@ -62,11 +97,17 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
   undo: () =>
     set((state) => {
       let prevStateIndex = state.currentStateIndex
-
       if (prevStateIndex > 0) {
+        const prevBlocks = state.blocksState[prevStateIndex]
+        const lastBlocks = prevBlocks[prevBlocks.length - 1]
+        const groupIdLastItem = lastBlocks.groupId
+        const inscriptionIdLastItem = lastBlocks.inscriptionId
+        const listCurrentPrev = state.listCurrent
+        const { listCurrent } = get().pushListCurrent(inscriptionIdLastItem, groupIdLastItem, listCurrentPrev)
         return {
           currentStateIndex: prevStateIndex - 1,
           blockCurrent: state.blocksState[prevStateIndex - 1],
+          listCurrent: listCurrent,
         }
       } else {
         return { state, isUndo: false }
@@ -77,9 +118,16 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
     set((state) => {
       let nextStateIndex = state.currentStateIndex
       if (nextStateIndex < state.blocksState.length - 1) {
+        const nextBlocks = state.blocksState[nextStateIndex + 1]
+        const lastBlocks = nextBlocks[nextBlocks.length - 1]
+        const groupIdLastItem = lastBlocks.groupId
+        const listCurrentNext = state.listCurrent
+        const { listCurrent } = get().sliceListCurrent(groupIdLastItem, listCurrentNext)
+
         return {
           currentStateIndex: nextStateIndex + 1,
           blockCurrent: state.blocksState[nextStateIndex + 1],
+          listCurrent: listCurrent,
         }
       } else {
         return { ...state, isRedo: false }
@@ -87,8 +135,6 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
     }),
   setSelectedBricks: ({ object, shift }) =>
     set((state) => {
-      console.log(object)
-
       if (object === undefined) return { selectedBricks: [] }
 
       if (Array.isArray(object)) return { selectedBricks: object }

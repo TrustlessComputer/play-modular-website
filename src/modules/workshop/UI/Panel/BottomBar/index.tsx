@@ -40,6 +40,7 @@ export default function BottomBar() {
     setBlockCurrent,
     blocksState,
     // deleteSeletBlocks,
+    listCurrent,
   } = useStoreGlobal()
 
   const { projectId, saveProject, createProject, projectName, renderFile } = useProjectStore()
