@@ -8,6 +8,7 @@ import { ICreateProjectResponse } from '@/interface/api/generative'
 export const apiClient = createAxiosInstance({ baseURL: API_URL })
 
 const MODULAR_API_PATH = 'modular/inscriptions'
+const MODULAT_WORKSHOP_API_PATH = 'modular-workshop'
 
 export const getListModularByWallet = async (payload: {
   ownerAddress: string
@@ -28,7 +29,6 @@ export const getListModularByWallet = async (payload: {
     }
   }
 }
-
 // Save actions
 export const getListSavedProject = async (payload: {
   ownerAddress: string
@@ -37,7 +37,7 @@ export const getListSavedProject = async (payload: {
 }): Promise<unknown> => {
   try {
     const query = qs.stringify(snakeCaseKeys(payload))
-    const res = (await apiClient.get(`saved-project?${query}`)) as any
+    const res = (await apiClient.get(`${MODULAT_WORKSHOP_API_PATH}/list?${query}`)) as any
     return {
       list: res?.result || [],
       total: res?.total || 0,
@@ -52,19 +52,28 @@ export const getListSavedProject = async (payload: {
 
 // export const getSavedProject = async (payload: {}): Promise<unknown> => {}
 
-export const createNewProject = async (): Promise<ICreateProjectResponse> => {
-  try {
-    const res = (await apiClient.post(`create`, {})) as any
-    return res
-  } catch (err: unknown) {
-    throw err
-  }
-}
+// export const saveNewProject = async (payload: {
+//   name: string
+//   owner_addr: string
+//   meta_data: string
+// }): Promise<any> => {
+//   try {
+//     const res = (await apiClient.post(`${MODULAT_WORKSHOP_API_PATH}/save`, payload)) as any
+//     return res
+//   } catch (err: unknown) {
+//     throw err
+//   }
+// }
 
-export const saveProject = async (payload: { id: string; name: string; jsonFile: string }): Promise<unknown> => {
+export const createOrSaveProject = async (payload: {
+  id?: string
+  name: string
+  owner_addr: string
+  meta_data: string
+}): Promise<unknown> => {
   try {
-    const res = (await apiClient.post(`save`, payload)) as any
-    return res
+    const res = (await apiClient.post(`${MODULAT_WORKSHOP_API_PATH}/save`, payload)) as any
+    return res.valueOf()
   } catch (err: unknown) {
     throw err
   }
