@@ -30,14 +30,6 @@ const SavedProjectsModal = ({ show, setIsOpen }: Props) => {
     },
   )
 
-  const handleLoadProject = (projectId: string, projectName: string) => {
-    loadProject({
-      projectId,
-      projectName,
-    })
-    setIsOpen(false)
-  }
-
   const BodyContent = () => {
     return (
       <div className={s.wrapper}>
@@ -71,7 +63,9 @@ const SavedProjectsModal = ({ show, setIsOpen }: Props) => {
                 <ProjectItem
                   key={index}
                   {...block}
-                  onClick={() => handleLoadProject(block.projectId, block.projectName)}
+                  onClose={() => {
+                    setIsOpen(false)
+                  }}
                 />
               )
             }}

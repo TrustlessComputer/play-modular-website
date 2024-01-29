@@ -72,6 +72,7 @@ export type TListBlocksSlice = {
 export type TProjectSlice = {
   projectName: string
   projectId: string
+  renderFile: string
 
   saveProject: (params) => void
   saveAsProject: (params) => void

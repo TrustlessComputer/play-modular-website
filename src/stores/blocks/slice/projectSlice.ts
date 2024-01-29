@@ -7,6 +7,8 @@ import { StateCreator } from 'zustand'
 export const createProjectSlice: StateCreator<TProjectSlice> = (set) => ({
   projectName: '',
   projectId: '',
+  renderFile: '',
+
   saveProject: async (params) => {
     const { projectId, projectName, jsonFile, ownerAddress } = params
 
@@ -40,10 +42,10 @@ export const createProjectSlice: StateCreator<TProjectSlice> = (set) => ({
     // call API to save project
   },
   loadProject: (params) => {
-    const { projectId, projectName } = params
+    const { projectId, projectName, renderFile } = params
     // import json file here to render
 
-    set({ projectId, projectName })
+    set({ projectId, projectName, renderFile })
   },
   createProject: () => {
     // call API to create project
