@@ -22,27 +22,30 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
     set((state) => {
       const groupIdCurrent = getBrick.groupId
       const { inscriptionId, listCurrent } = get().sliceListCurrent(groupIdCurrent, state.listCurrent)
+      if (inscriptionId) {
+        const currentStateIndex = state.currentStateIndex
+        const stateCurrent = state.blocksState[currentStateIndex] || []
+        const newState = [...stateCurrent, { ...getBrick, inscriptionId }]
 
-      const currentStateIndex = state.currentStateIndex
-      const stateCurrent = state.blocksState[currentStateIndex] || []
-      const newState = [...stateCurrent, { ...getBrick, inscriptionId }]
-
-      if (currentStateIndex >= 10) {
-        const blocksState = [...state.blocksState.slice(1), newState]
-        return {
-          blocksState,
-          currentStateIndex: blocksState.length - 1,
-          blockCurrent: newState,
-          listCurrent: listCurrent,
+        if (currentStateIndex >= 10) {
+          const blocksState = [...state.blocksState.slice(1), newState]
+          return {
+            blocksState,
+            currentStateIndex: blocksState.length - 1,
+            blockCurrent: newState,
+            listCurrent: listCurrent,
+          }
+        } else {
+          const blocksState = [...state.blocksState.slice(0, currentStateIndex + 1), newState]
+          return {
+            blocksState,
+            currentStateIndex: blocksState.length - 1,
+            blockCurrent: newState,
+            listCurrent: listCurrent,
+          }
         }
       } else {
-        const blocksState = [...state.blocksState.slice(0, currentStateIndex + 1), newState]
-        return {
-          blocksState,
-          currentStateIndex: blocksState.length - 1,
-          blockCurrent: newState,
-          listCurrent: listCurrent,
-        }
+        return state
       }
     }),
   sliceListCurrent: (groupId: string, listCurrent) => {

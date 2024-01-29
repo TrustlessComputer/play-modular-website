@@ -6,9 +6,11 @@ import s from './styles.module.scss'
 import { handleConvertData } from '@/utils/convertTraits'
 import { useStoreGlobal } from '@/stores/blocks'
 import { CREATE_MODE } from '@/utils'
+import cn from 'classnames'
 
 const ItemBlock: React.FunctionComponent<any> = ({ thumbnail, project, attributes, totalLength, ...props }) => {
   const { setTrait, setColor, setTexture, setWidth, setDepth, setMode, trait } = useStoreGlobal()
+  const isHaventBlocks = props.items.length === 0
 
   const handleSetTraits = () => {
     const data = handleConvertData(attributes)
@@ -27,13 +29,14 @@ const ItemBlock: React.FunctionComponent<any> = ({ thumbnail, project, attribute
   }
 
   return (
-    <div className={s.itemBlock} onClick={handleSetTraits}>
+    <div className={cn(s.itemBlock)} onClick={handleSetTraits}>
       <Image src={thumbnail} width={50} height={50} alt={project?.name} />
       {/* <div>{project?.name}</div> */}
       <div className={s.itemBlock_count}>
         <span>{props.items.length}</span>
         <span>/{props.totalItems}</span>
       </div>
+      {isHaventBlocks && <span className={s.itemBlock__isHaventBlocks}></span>}
     </div>
   )
 }

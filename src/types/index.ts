@@ -13,7 +13,7 @@ export type TBlockData = {
   bricksBoundBox?: { current: any[] }
   isSelected?: boolean
   groupId: string
-  inscriptionId: string
+  inscriptionId?: string
 }
 export type TBlocks = {
   blockCurrent: TBlockData[]
