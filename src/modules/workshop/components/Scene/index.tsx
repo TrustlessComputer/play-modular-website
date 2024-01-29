@@ -44,7 +44,7 @@ export const Scene = () => {
   const isDrag = useRef(false)
   const timeoutID = useRef(null)
   const isEditMode = mode === EDIT_MODE
-  console.log(isEditMode)
+  // console.log(isEditMode)
   const deboundeData = useDebounce(blockCurrent, 1000)
 
   const addBrick = (e) => {
