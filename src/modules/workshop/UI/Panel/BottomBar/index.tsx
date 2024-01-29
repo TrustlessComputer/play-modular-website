@@ -38,6 +38,7 @@ export default function BottomBar() {
     blockCurrent,
     setDataCurrent,
     setBlockCurrent,
+    blocksState,
     // deleteSeletBlocks,
   } = useStoreGlobal()
 
@@ -79,7 +80,7 @@ export default function BottomBar() {
     // deleteSeletBlocks()
   }
   const saveAction = async () => {
-    if (blocksState.length < 2) return
+    if (blocksState.length < 2 || !blockCurrent || blockCurrent.length === 0) return
 
     const payload: {
       jsonFile: any
@@ -87,7 +88,7 @@ export default function BottomBar() {
       projectName?: string
       ownerAddress: string
     } = {
-      jsonFile: jsonFile,
+      jsonFile: blockCurrent,
       ownerAddress: MOCK_ADDRESS, //account?.address,
     }
 
