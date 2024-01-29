@@ -7,6 +7,7 @@ import React from 'react'
 import { Lights } from '../Lights'
 import PreviewScene from './PreviewSence'
 import { BrightnessContrast, EffectComposer, HueSaturation } from '@react-three/postprocessing'
+import { OrthographicCamera } from '@react-three/drei'
 
 const CameraController = () => {
   const { view } = useStoreGlobal()
@@ -22,7 +23,7 @@ const CameraController = () => {
       camera.position.x = 500
       camera.position.y = 500
       camera.position.z = 500
-      const frustumSize = 5
+      const frustumSize = 500
 
       const left = -aspect * frustumSize
       const right = aspect * frustumSize
@@ -41,7 +42,7 @@ const CameraController = () => {
     camera.lookAt(0, 0, 0)
   }, [camera, view])
 
-  return <orthographicCamera />
+  return <OrthographicCamera makeDefault />
 }
 
 const PreviewRoom = () => {
@@ -80,7 +81,7 @@ const PreviewRoom = () => {
   return (
     <Canvas
       gl={{
-        alpha: true,
+        alpha: false,
         antialias: true,
         powerPreference: 'high-performance',
         preserveDrawingBuffer: true,
@@ -89,7 +90,7 @@ const PreviewRoom = () => {
       dpr={Math.min(2, aspect)}
       linear
     >
-      {/* <color attach='background' args={['#000325']} /> */}
+      <color attach='background' args={['#000325']} />
 
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
         <planeGeometry args={[50000, 50000]} />
