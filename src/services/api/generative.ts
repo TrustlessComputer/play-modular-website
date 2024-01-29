@@ -2,8 +2,8 @@ import qs from 'query-string'
 
 import { API_URL } from '@/constant/constant'
 import createAxiosInstance from '@/services/http-client'
-import { snakeCaseKeys } from '@/utils/normalize'
-import { ICreateProjectResponse } from '@/interface/api/generative'
+import { camelCaseKeys, snakeCaseKeys } from '@/utils/normalize'
+import { ICreateProjectResponse, IGetProjectDetailResponse } from '@/interface/api/generative'
 
 export const apiClient = createAxiosInstance({ baseURL: API_URL })
 
@@ -74,6 +74,15 @@ export const createOrSaveProject = async (payload: {
   try {
     const res = (await apiClient.post(`${MODULAT_WORKSHOP_API_PATH}/save`, payload)) as any
     return res.valueOf()
+  } catch (err: unknown) {
+    throw err
+  }
+}
+
+export const getProjectDetail = async (payload: { id: string }): Promise<IGetProjectDetailResponse> => {
+  try {
+    const res = (await apiClient.get(`${MODULAT_WORKSHOP_API_PATH}/detail?id=${payload.id}`)) as any
+    return Object(camelCaseKeys(res))
   } catch (err: unknown) {
     throw err
   }
