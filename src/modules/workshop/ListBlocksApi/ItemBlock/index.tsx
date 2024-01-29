@@ -7,10 +7,12 @@ import { handleConvertData } from '@/utils/convertTraits'
 import { useStoreGlobal } from '@/stores/blocks'
 import { CREATE_MODE } from '@/utils'
 import cn from 'classnames'
+import { IconCheck } from '@/components/IconSvgs'
 
 const ItemBlock: React.FunctionComponent<any> = ({ thumbnail, project, attributes, totalLength, ...props }) => {
   const { setTrait, setColor, setTexture, setWidth, setDepth, setMode, trait, listCurrent } = useStoreGlobal()
   const isHaventBlocks = props.items.length === 0
+  const isActiveBlocks = props.groupId === trait.groupId
 
   const handleSetTraits = () => {
     const data = handleConvertData(attributes)
@@ -35,6 +37,11 @@ const ItemBlock: React.FunctionComponent<any> = ({ thumbnail, project, attribute
         <span>{props.items.length}</span>
         <span>/{props.totalItems}</span>
       </div>
+      {isActiveBlocks && !isHaventBlocks && (
+        <span className={s.itemBlock__isActive}>
+          <IconCheck />
+        </span>
+      )}
       {isHaventBlocks && <span className={s.itemBlock__isHaventBlocks}></span>}
     </div>
   )

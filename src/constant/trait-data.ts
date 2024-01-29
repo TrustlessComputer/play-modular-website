@@ -7,7 +7,7 @@ export let patterns = [
   ['Ordinals', 5, 'Ord', 0, ['#6C6C6C', '#404040', '#ADADAD']],
   ['Eigen Da', 5, 'Eig', 0, ['#222222', '#000000', '#444444']],
   ['Solid Orange', 50, 'Sol', 2, ['#FF6F00', '#9B4300', '#FF9646']],
-  ['Solid Red', 50, 'Sol', 2, ['#FF010A', '#990005', '#FF4B51']],
+  ['Solid Red', 50, 'Sol', 2, ['#FF4B51', '#990005', '#FF4B51']],
   ['Solid Yellow', 50, 'Sol', 2, ['#FFCC00', '#8D7100', '#FFDB4D']],
   ['Solid Pink', 50, 'Sol', 2, ['#FF007B', '#900046', '#FF73B7']],
   ['Solid Blue', 50, 'Sol', 2, ['#0095FF', '#005490', '#5EBCFF']],
