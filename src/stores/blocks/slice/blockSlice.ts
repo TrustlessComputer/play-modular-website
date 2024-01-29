@@ -1,3 +1,5 @@
+'use client'
+
 import { TBlockSlice, TListBlocksSlice } from '@/types/store'
 import { StateCreator } from 'zustand'
 
@@ -14,7 +16,7 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
       const stateCurrent = state.blocksState[currentStateIndex] || []
       const newState = [...stateCurrent, getBrick]
 
-      if (currentStateIndex >= 40) {
+      if (currentStateIndex >= 10) {
         const blocksState = [...state.blocksState.slice(1), newState]
         return {
           blocksState,
@@ -30,6 +32,14 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
         }
       }
     }),
+  // deleteSeletBlocks: () =>
+  //   set((state) => {
+  //     console.log(state.selectedBricks)
+  //     return {
+  //       state,
+  //     }
+  //   }),
+  setBlockCurrent: (data) => set(() => ({ blockCurrent: data })),
   deleteAlls: () =>
     set((state) => {
       const currentStateIndex = state.currentStateIndex
@@ -70,14 +80,20 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
     }),
   setSelectedBricks: ({ object, shift }) =>
     set((state) => {
+      console.log(object)
+
       if (object === undefined) return { selectedBricks: [] }
-      else if (Array.isArray(object)) return { selectedBricks: object }
-      else if (!shift) return state.selectedBricks[0] === object ? { selectedBricks: [] } : { selectedBricks: [object] }
-      else if (state.selectedBricks.includes(object))
+
+      if (Array.isArray(object)) return { selectedBricks: object }
+
+      if (!shift) return state.selectedBricks[0] === object ? { selectedBricks: [] } : { selectedBricks: [object] }
+
+      if (state.selectedBricks.includes(object))
         return {
           selectedBricks: state.selectedBricks.filter((o) => o !== object),
         }
-      else return { selectedBricks: [object, ...state.selectedBricks] }
+
+      return { selectedBricks: [object, ...state.selectedBricks] }
     }),
   setBricks: (getBricks) => set((state) => state),
 })

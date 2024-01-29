@@ -4,15 +4,18 @@ import { IconCheck } from '@/components/IconSvgs'
 import { useStoreGlobal } from '@/stores/blocks'
 import { TTraitBlocks } from '@/types'
 import s from './styles.module.scss'
+import { CREATE_MODE } from '@/utils'
 
 export const ListBlocks = () => {
-  const { setWidth, setDepth, setColor, setTexture, texture, setTrait, trait, listCurrent } = useStoreGlobal()
+  const { setWidth, setDepth, setColor, setTexture, setTrait, trait, listCurrent, setMode } = useStoreGlobal()
+
   const handleChangeTexture = (data: TTraitBlocks) => {
     const sizeArray = data.shape.split('x')
     const size = {
       w: Number(sizeArray[0]),
       d: Number(sizeArray[1]),
     }
+    setMode(CREATE_MODE)
     setTrait({ color: data.color, shape: data.shape, texture: data.texture, type: data.type })
     setTexture(data.texture)
     setColor(data.color)

@@ -1,5 +1,3 @@
-import { TAtribute } from '@/types'
-
 export let patterns = [
   ['Bitcoin', 15, 'Btc', 0, ['#FF6F00', '#9B4300', '#FF9646']],
   ['Optimism', 5, 'Op', 0, ['#FF010A', '#990005', '#FF4B51']],

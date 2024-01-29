@@ -8,9 +8,10 @@ import s from './styles.module.scss'
 
 import useApiInfinite from '@/hooks/useApiInfinite'
 import { getListModularByWallet } from '@/services/api/generative'
+import { TBlockData, TListCurrent } from '@/types'
+import instance from '@/utils/storage/local-storage'
 import { useAppSelector } from '@/stores/hooks'
 import { accountSelector } from '@/stores/states/wallet/selector'
-import { TListCurrent } from '@/types'
 import { handleConvertData } from '@/utils/convertTraits'
 import { useEffect } from 'react'
 
@@ -27,7 +28,18 @@ import UnsaveWarningModal from '@/modules/workshop/components/Modal/UnsaveWarnin
 const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
 
 export default function BottomBar() {
-  const { undo, redo, mode, viewPreview, setViewPreview, deleteAlls, blocksState, setDataCurrent } = useStoreGlobal()
+  const {
+    undo,
+    redo,
+    mode,
+    viewPreview,
+    setViewPreview,
+    deleteAlls,
+    blockCurrent,
+    setDataCurrent,
+    setBlockCurrent,
+    // deleteSeletBlocks,
+  } = useStoreGlobal()
 
   const { projectId, saveProject, createProject, projectName } = useProjectStore()
 
@@ -63,7 +75,9 @@ export default function BottomBar() {
   const redoAction = () => {
     redo()
   }
-
+  const deleteAction = () => {
+    // deleteSeletBlocks()
+  }
   const saveAction = async () => {
     if (blocksState.length < 2) return
 
@@ -86,6 +100,14 @@ export default function BottomBar() {
     }
 
     saveProject(payload)
+  }
+
+  const loadDataAction = () => {
+    /**
+     * @todos Load Data
+     */
+    const dataJSON = instance.get('DATA_BLOCKS') as TBlockData[]
+    setBlockCurrent(dataJSON)
   }
 
   const handleDeleteAll = () => {
@@ -143,15 +165,10 @@ export default function BottomBar() {
             <IconClear />
             Clear
           </button>
-          <button className={s.bottomBar_btn}>
+          <button className={s.bottomBar_btn} onClick={deleteAction}>
             <IconTrash /> Delete
           </button>
 
-          {/* <button onClick={() => setViewPreview(!viewPreview)} className={`${s.bottomBar_btn} ${s.bottomBar_btn_preview}`}>
-        Preview: {viewPreview ? 'On' : 'Off'} <IconPreview />
-      </button> */}
-        </div>
-        <div className={s.bottomBar}>
           <button className={s.bottomBar_btn} onClick={saveAction}>
             <IcSave /> Save Project
           </button>
@@ -169,10 +186,6 @@ export default function BottomBar() {
           >
             <IcOpen /> Open Project
           </button>
-
-          {/* <button onClick={() => setViewPreview(!viewPreview)} className={`${s.bottomBar_btn} ${s.bottomBar_btn_preview}`}>
-        Preview: {viewPreview ? 'On' : 'Off'} <IconPreview />
-      </button> */}
         </div>
       </div>
       <SavedProjectsModal show={showModal} setIsOpen={setShowModal} />
@@ -180,6 +193,11 @@ export default function BottomBar() {
     </>
   )
 }
+
+/* <button onClick={() => setViewPreview(!viewPreview)} className={`${s.bottomBar_btn} ${s.bottomBar_btn_preview}`}>
+        Preview: {viewPreview ? 'On' : 'Off'} <IconPreview />
+      </button> */
+
 // const allViews = Object.values(views)
 
 // BottomBar.PreviewScene = function BottomBarPreviewScene() {
