@@ -25,7 +25,7 @@ import { Toaster } from 'react-hot-toast'
 import jsonFile from './mock.json'
 import UnsaveWarningModal from '@/modules/workshop/components/Modal/UnsaveWarningModal'
 
-const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
+// const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
 
 export default function BottomBar() {
   const {
@@ -44,7 +44,7 @@ export default function BottomBar() {
 
   const { projectId, saveProject, createProject, projectName, renderFile } = useProjectStore()
 
-  const {openModal, modals} = useModalStore()
+  const { openModal, modals } = useModalStore()
 
   const [showModal, setShowModal] = useState(false)
   const [showUnsaveModal, setShowUnsaveModal] = useState(false)
@@ -61,7 +61,7 @@ export default function BottomBar() {
   } = useApiInfinite(
     getListModularByWallet,
     {
-      ownerAddress: MOCK_ADDRESS, //account?.address,
+      ownerAddress: account?.address,
       page: 1,
       limit: 20,
     },
@@ -92,7 +92,7 @@ export default function BottomBar() {
       ownerAddress: string
     } = {
       jsonFile: blockCurrent,
-      ownerAddress: MOCK_ADDRESS, //account?.address,
+      ownerAddress: account?.address,
     }
 
     if (projectId) {
@@ -120,7 +120,7 @@ export default function BottomBar() {
 
   const handleGetData = async () => {
     const data = (await getListModularByWallet({
-      ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+      ownerAddress: account?.address,
       page: 1,
       limit: 20,
     })) as TDataFetch

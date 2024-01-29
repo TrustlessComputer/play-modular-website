@@ -1,32 +1,34 @@
-import React, { useEffect } from 'react'
-import s from './SavedProjectsModal.module.scss'
 import useApiInfinite from '@/hooks/useApiInfinite'
 import { getListSavedProject } from '@/services/api/generative'
-import { Virtuoso } from 'react-virtuoso'
 import { useModalStore, useProjectStore } from '@/stores/blocks'
-import AlertDialog from '@/components/AlertDialog'
-import { MOCK_ADDRESS } from '@/constant/mock-data'
+import { Virtuoso } from 'react-virtuoso'
+import s from './SavedProjectsModal.module.scss'
+// import { MOCK_ADDRESS } from '@/constant/mock-data'
+import { useAppSelector } from '@/stores/hooks'
+import { accountSelector } from '@/stores/states/wallet/selector'
+
 import ProjectItem from './ProjectItem'
 
 export const SAVED_PROJECTS_MODAL_ID = 'SAVED_PROJECTS_MODAL_ID'
-
 
 const SavedProjectsModal = () => {
   const { loadProject } = useProjectStore()
 
   const { closeModal } = useModalStore()
 
+  const account = useAppSelector(accountSelector)
+
   const { dataInfinite, isReachingEnd, loadMore, hasFirstFetching, refresh } = useApiInfinite(
     getListSavedProject,
     {
-      address: MOCK_ADDRESS,
+      address: account?.address,
       page: 1,
       limit: 20,
     },
     {
       revalidateOnFocus: true,
       parallel: true,
-      // shouldFetch: !!account?.address,
+      shouldFetch: !!account?.address,
     },
   )
 
@@ -65,7 +67,6 @@ const SavedProjectsModal = () => {
                   {...block}
                   onClose={() => {
                     closeModal(SAVED_PROJECTS_MODAL_ID)
-
                   }}
                 />
               )
@@ -76,11 +77,7 @@ const SavedProjectsModal = () => {
     )
   }
 
-
-
-  return (
-    <BodyContent />
-  )
+  return <BodyContent />
 }
 
 export default SavedProjectsModal
