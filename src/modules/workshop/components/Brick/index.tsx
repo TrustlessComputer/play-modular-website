@@ -117,7 +117,7 @@ export const Brick = ({
       {position && (
         <motion.group
           ref={brickRef}
-          rotation={[0, rotation, 0]}
+          rotation={[0, 0, 0]}
           position={[position.x, Math.abs(position.y), position.z]}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -130,7 +130,7 @@ export const Brick = ({
             key={resetKey}
             scale={base * dimensions.x + 5}
             activeAxes={[true, false, true]}
-            disableAxes={!isSelected && mode === EDIT_MODE}
+            disableAxes={isSelected && mode === EDIT_MODE ? false : true}
             disableSliders
             disableRotations
             onDragStart={() => setIsDragging(true)}
@@ -140,6 +140,7 @@ export const Brick = ({
             <mesh
               castShadow
               receiveShadow
+              rotation={[0, rotation, 0]}
               userData={{
                 uID,
                 dimensions,

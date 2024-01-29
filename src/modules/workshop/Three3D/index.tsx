@@ -42,7 +42,9 @@ export default function Three3D() {
       }}
     >
       {/* <color attach='background' args={['#202025']} /> */}
-      <color attach='background' args={['#CACACA']} />
+      {/* <color attach='background' args={['#CACACA']} /> */}
+      {/* <color attach='background' args={['#00072d']} /> */}
+      <color attach='background' args={['#051650']} />
       {/* <mesh rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[minWorkSpaceSize, minWorkSpaceSize]} />
         <MeshReflectorMaterial

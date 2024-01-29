@@ -12,8 +12,8 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
   selectedBricks: [],
   addBlocks: (getBrick) =>
     set((state) => {
-      console.log('state.blocksState', state.blocksState)
-      console.log('currentStateIndex: ', state.currentStateIndex)
+      // console.log('state.blocksState', state.blocksState)
+      // console.log('currentStateIndex: ', state.currentStateIndex)
 
       const currentStateIndex = state.currentStateIndex
       const stateCurrent = state.blocksState[currentStateIndex] || []
