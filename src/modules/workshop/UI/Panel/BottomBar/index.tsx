@@ -182,13 +182,13 @@ export default function BottomBar() {
 
         <div className={s.bottomBar}>
           <button className={s.bottomBar_btn} onClick={saveAction}>
-            <IcSave /> Save Project
+            <IcSave /> Save Model
           </button>
           <button className={s.bottomBar_btn} onClick={saveAction}>
             <IcSave /> Save As
           </button>
           <button className={s.bottomBar_btn} onClick={handleClickCreateNewProject}>
-            <IcCreate /> Create New
+            <IcCreate /> Create New Model
           </button>
           <button
             className={s.bottomBar_btn}
@@ -200,7 +200,7 @@ export default function BottomBar() {
               })
             }}
           >
-            <IcOpen /> Open Project
+            <IcOpen /> Open Model
           </button>
         </div>
       </div>
