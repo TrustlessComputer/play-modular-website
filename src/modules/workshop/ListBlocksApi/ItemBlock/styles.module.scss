@@ -1,4 +1,32 @@
 .itemBlock {
+  // width: 50px;
+  // height: 50px;
+  position: relative;
+  cursor: pointer;
+  &_count {
+    padding-top: 4px;
+    color: #000000;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  &__isHaventBlocks {
+    position: absolute;
+    z-index: 13;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: no-drop;
+    background-color: #292929a7;
+  }
   width: rem(80px);
   cursor: pointer;
 }

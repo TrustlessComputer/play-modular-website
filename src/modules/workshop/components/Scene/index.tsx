@@ -86,6 +86,7 @@ export const Scene = () => {
           texture: texture,
           translation: { x: anchorX, z: anchorZ },
           type: trait.type,
+          groupId: trait.groupId,
         }
 
         if (trait?.color) {

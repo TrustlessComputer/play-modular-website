@@ -52,7 +52,7 @@ const UnsaveWarningModal = ({ show, setIsOpen }: Props) => {
   if (!show) return null
 
   return (
-    <AlertDialog isOpen={show} setIsOpen={setIsOpen}>
+    <AlertDialog isOpen={show} closeModal={() => setIsOpen(false)}>
       <BodyModal />
     </AlertDialog>
   )
