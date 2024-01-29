@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { TBlockData, TListCurrent } from '.'
 
 export type TBlockSlice = {
@@ -78,4 +79,15 @@ export type TProjectSlice = {
   saveAsProject: (params) => void
   loadProject: (params) => void
   createProject: () => void
+}
+
+export type TModalSlice = {
+  modals: ModalProps[]
+  openModal: (params: ModalProps) => void
+  closeModal: (id: string) => void
+}
+
+export type ModalProps = {
+  id: string
+  component: ReactNode
 }

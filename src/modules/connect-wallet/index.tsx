@@ -54,7 +54,7 @@ const ConnectWallet: React.FunctionComponent = () => {
       <button className={s.connectWallet_btn} onClick={() => setIsOpen(true)}>
         Connect Wallet
       </button>
-      <AlertDialog isOpen={isOpen} setIsOpen={setIsOpen}>
+      <AlertDialog isOpen={isOpen} closeModal={() => setIsOpen(false)}>
         <BodyModal />
       </AlertDialog>
     </div>
