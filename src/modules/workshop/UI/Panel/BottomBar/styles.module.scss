@@ -4,6 +4,12 @@
   padding: 20px 0;
   z-index: 1000;
   pointer-events: all;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: (calc(100vw - 80px));
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .bottomBar {

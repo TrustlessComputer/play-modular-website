@@ -42,7 +42,7 @@ export default function BottomBar() {
     // deleteSeletBlocks,
   } = useStoreGlobal()
 
-  const { projectId, saveProject, createProject, projectName } = useProjectStore()
+  const { projectId, saveProject, createProject, projectName, renderFile } = useProjectStore()
 
   const [showModal, setShowModal] = useState(false)
   const [showUnsaveModal, setShowUnsaveModal] = useState(false)
@@ -103,11 +103,11 @@ export default function BottomBar() {
     saveProject(payload)
   }
 
-  const loadDataAction = () => {
+  const loadDataAction = (file) => {
     /**
      * @todos Load Data
      */
-    const dataJSON = instance.get('DATA_BLOCKS') as TBlockData[]
+    const dataJSON = JSON.parse(file)
     setBlockCurrent(dataJSON)
   }
 
@@ -141,6 +141,12 @@ export default function BottomBar() {
   useUndoRedoShortcut(undo, redo)
 
   useEffect(() => {
+    if (renderFile) {
+      loadDataAction(renderFile)
+    }
+  }, [renderFile])
+
+  useEffect(() => {
     handleGetData()
   }, [])
 
@@ -169,7 +175,9 @@ export default function BottomBar() {
           <button className={s.bottomBar_btn} onClick={deleteAction}>
             <IconTrash /> Delete
           </button>
+        </div>
 
+        <div className={s.bottomBar}>
           <button className={s.bottomBar_btn} onClick={saveAction}>
             <IcSave /> Save Project
           </button>
