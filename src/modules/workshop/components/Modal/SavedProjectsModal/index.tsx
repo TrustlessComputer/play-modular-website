@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import s from './SavedProjectsModal.module.scss'
 import useApiInfinite from '@/hooks/useApiInfinite'
 import { getListSavedProject } from '@/services/api/generative'
@@ -16,7 +16,7 @@ type Props = {
 const SavedProjectsModal = ({ show, setIsOpen }: Props) => {
   const { loadProject } = useProjectStore()
 
-  const { dataInfinite, isReachingEnd, loadMore, hasFirstFetching } = useApiInfinite(
+  const { dataInfinite, isReachingEnd, loadMore, hasFirstFetching, refresh } = useApiInfinite(
     getListSavedProject,
     {
       address: MOCK_ADDRESS,
@@ -80,6 +80,12 @@ const SavedProjectsModal = ({ show, setIsOpen }: Props) => {
       </div>
     )
   }
+
+  useEffect(() => {
+    if (show) {
+      refresh()
+    }
+  }, [show])
 
   if (!show) return <></>
 

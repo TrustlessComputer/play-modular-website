@@ -28,7 +28,6 @@ const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvk
 
 export default function BottomBar() {
   const { undo, redo, mode, viewPreview, setViewPreview, deleteAlls, blocksState, setDataCurrent } = useStoreGlobal()
-  console.log('🚀 ~ BottomBar ~ blocksState:', blocksState)
 
   const { projectId, saveProject, createProject, projectName } = useProjectStore()
 
@@ -109,11 +108,11 @@ export default function BottomBar() {
   }
 
   const handleClickCreateNewProject = () => {
-    if (blocksState.length > 2) {
-      setShowUnsaveModal(true)
-    }
-
-    // createProject()
+    // if (blocksState.length > 2) {
+    //   setShowUnsaveModal(true)
+    // }
+    createProject()
+    deleteAlls()
   }
 
   useUndoRedoShortcut(undo, redo)

@@ -12,8 +12,6 @@ const UnsaveWarningModal = ({ show, setIsOpen }: Props) => {
   const { deleteAlls } = useStoreGlobal()
 
   const { createProject, saveProject, projectId, projectName } = useProjectStore()
-  console.log('🚀 ~ UnsaveWarningModal ~ projectName:', projectName)
-  console.log('🚀 ~ UnsaveWarningModal ~ projectId:', projectId)
 
   // update current json file
   const currentJsonFile = jsonFile
