@@ -1,6 +1,6 @@
 import { NONT_TEXTURE } from '@/constant/trait-data'
 import { TAtributeBlock } from '@/types/store'
-import { CREATE_MODE, defaultAnchor, defaultWidth, colors, EDIT_MODE } from '@/utils'
+import { EDIT_MODE, defaultAnchor, defaultWidth } from '@/utils'
 import { StateCreator } from 'zustand'
 
 export const createTraitBlockSlice: StateCreator<TAtributeBlock> = (set) => ({
@@ -14,7 +14,7 @@ export const createTraitBlockSlice: StateCreator<TAtributeBlock> = (set) => ({
   rotate: false,
   color: '',
   texture: NONT_TEXTURE,
-  trait: { color: '', texture: NONT_TEXTURE, shape: '', type: '' },
+  trait: { color: '', texture: NONT_TEXTURE, shape: '', type: '', groupId: '' },
   setMode: (newMode) => set({ mode: newMode }),
   setWidth: (newWidth) => set({ width: newWidth }),
   setDepth: (newDepth) => set({ depth: newDepth }),
@@ -25,9 +25,9 @@ export const createTraitBlockSlice: StateCreator<TAtributeBlock> = (set) => ({
   setRotate: (bool) => set({ rotate: bool }),
   setColor: (newColor) => set({ color: newColor }),
   setTexture: (texture) => set({ texture: texture }),
-  setTrait: ({ color, texture, shape, type }) =>
+  setTrait: ({ color, texture, shape, type, groupId }) =>
     set({
-      trait: { color: color, texture: texture, shape: shape, type: type },
+      trait: { color: color, texture: texture, shape: shape, type: type, groupId: groupId },
     }),
   // setSelectedBricks: (b: any) => set((state) => state),
 })

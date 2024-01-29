@@ -37,8 +37,8 @@ export function Select({
   const onClick = React.useCallback(
     (e) => {
       e.stopPropagation()
+      console.log('customFilter([e.object])[0', customFilter([e.object])[0])
       if (!enable) return
-
       setSelectedBricks({
         object: customFilter([e.object])[0],
         shift: e.shiftKey,
@@ -185,7 +185,6 @@ export function Select({
       document.removeEventListener('pointerup', pointerUp)
     }
   }, [size.width, size.height, raycaster, camera, controls, gl, enable])
-  // console.log('selectedBricks', selectedBricks)
   return (
     <group ref={ref} onClick={onClick} onPointerMissed={onPointerMissed} {...props}>
       {children}

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { TBlockData, TListCurrent } from '.'
+import { TBlockData, TListCurrent, TTraitBlocks } from '.'
 
 export type TBlockSlice = {
   selectedBricks: any
@@ -8,15 +8,28 @@ export type TBlockSlice = {
   currentStateIndex: number
   isUndo: boolean
   isRedo: boolean
+  listCurrent: TListCurrent[]
 
+  setDataCurrent: (list: TListCurrent[]) => void
+  sliceListCurrent: (
+    groupId: string,
+    listCurrent: TListCurrent[],
+  ) => { listCurrent: TListCurrent[]; inscriptionId: string }
+  pushListCurrent: (
+    inscriptionId: string,
+    groupId: string,
+    listCurrent: TListCurrent[],
+  ) => { listCurrent: TListCurrent[] }
   addBlocks: (d: TBlockData) => void
   deleteAlls: () => void
+  deleteSelected: (d: any) => void
   setBlockCurrent: (d: TBlockData[]) => void
+  setBlockCurrentUpdate: (d: any) => void
   // deleteSeletBlocks: () => void
   setSelectedBricks: (d: any) => void
   undo: () => void
   redo: () => void
-  setBricks: (d: TBlockData) => void
+  setBricks: (d: any) => void
 }
 
 export type TPreviewSlice = {
@@ -38,7 +51,7 @@ export type TAtributeBlock = {
   rotate: boolean
   color: string
   texture: string
-  trait: { color: string; texture: string; shape: string; type: string }
+  trait: TTraitBlocks
 
   setMode: (mode: string) => void
   setWidth: (w: number) => void
@@ -50,7 +63,19 @@ export type TAtributeBlock = {
   setRotate: (b: boolean) => void
   setColor: (color: string) => void
   setTexture: (t: string) => void
-  setTrait: ({ color, texture, shape, type }: { color: string; texture: string; shape: string; type: string }) => void
+  setTrait: ({
+    color,
+    texture,
+    shape,
+    type,
+    groupId,
+  }: {
+    color: string
+    texture: string
+    shape: string
+    type: string
+    groupId: string
+  }) => void
   // setSelectedBricks: (b: any) => void
 }
 
@@ -65,11 +90,6 @@ export type TCreatedBrickSlice = {
   setCreatedBricks: (b: TBrickResponse) => void
 }
 
-export type TListBlocksSlice = {
-  listCurrent: TListCurrent[]
-  setDataCurrent: (list: TListCurrent[]) => void
-}
-
 export type TProjectSlice = {
   projectName: string
   projectId: string
@@ -79,10 +99,15 @@ export type TProjectSlice = {
     name: string
   }
 
-  saveProject: (params) =>  Promise<"success" | "failed">
+  saveProject: (params) => Promise<'success' | 'failed'>
   loadProject: (params) => void
   createProject: () => void
   setSelectedProject: (params) => void
+}
+
+export type ModalProps = {
+  id: string
+  component: ReactNode
 }
 
 export type TModalSlice = {
@@ -91,7 +116,7 @@ export type TModalSlice = {
   closeModal: (id: string) => void
 }
 
-export type ModalProps = {
-  id: string
-  component: ReactNode
+export type TDragSlice = {
+  isDragging: boolean
+  setIsDragging: (b: boolean) => void
 }

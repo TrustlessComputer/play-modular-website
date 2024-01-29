@@ -1,30 +1,30 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import s from './SavedProjectsModal.module.scss'
 import useApiInfinite from '@/hooks/useApiInfinite'
-import { getListSavedProject, getProjectDetail } from '@/services/api/generative'
+import { getListSavedProject } from '@/services/api/generative'
+import { useModalStore } from '@/stores/blocks'
+import React, { useEffect } from 'react'
 import { Virtuoso } from 'react-virtuoso'
-import { useModalStore, useProjectStore } from '@/stores/blocks'
-import AlertDialog from '@/components/AlertDialog'
-import { MOCK_ADDRESS } from '@/constant/mock-data'
-import ProjectItem from './ProjectItem'
+import s from './SavedProjectsModal.module.scss'
+// import { MOCK_ADDRESS } from '@/constant/mock-data'
 import { useAppSelector } from '@/stores/hooks'
 import { accountSelector } from '@/stores/states/wallet/selector'
+
 import VirtualScrollKeepPosition from '@/hocs/VirtualScrollKeepPosition'
 import OpenButton from './OpenButton'
+import ProjectItem from './ProjectItem'
 
 export const SAVED_PROJECTS_MODAL_ID = 'SAVED_PROJECTS_MODAL_ID'
-
 
 const SavedProjectsModal = () => {
 
   const { closeModal } = useModalStore()
-  const account = useAppSelector(accountSelector)
 
+
+  const account = useAppSelector(accountSelector)
 
   const { dataInfinite, isReachingEnd, loadMore, hasFirstFetching, refresh } = useApiInfinite(
     getListSavedProject,
     {
-      address: MOCK_ADDRESS,
+      address: account?.address,
       page: 1,
       limit: 20,
     },
@@ -105,11 +105,7 @@ const SavedProjectsModal = () => {
     )
   }
 
-
-
-  return (
-    <BodyContent />
-  )
+  return <BodyContent />
 }
 
 export default React.memo(SavedProjectsModal)

@@ -26,7 +26,7 @@ import jsonFile from './mock.json'
 import UnsaveWarningModal from '@/modules/workshop/components/Modal/UnsaveWarningModal'
 import SetProjectNameModal, { SET_PROJECT_NAME_MODAL_ID } from '@/modules/workshop/components/Modal/SetProjectNameModal'
 
-const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
+// const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
 
 export default function BottomBar() {
   const {
@@ -36,11 +36,16 @@ export default function BottomBar() {
     viewPreview,
     setViewPreview,
     deleteAlls,
-    blockCurrent,
     setDataCurrent,
     setBlockCurrent,
     blocksState,
+    selectedBricks,
     // deleteSeletBlocks,
+    deleteSelected,
+    setSelectedBricks,
+    setBricks,
+    blockCurrent,
+    setBlockCurrentUpdate,
   } = useStoreGlobal()
 
   const { projectId, saveProject, createProject, projectName, renderFile } = useProjectStore()
@@ -62,7 +67,7 @@ export default function BottomBar() {
   } = useApiInfinite(
     getListModularByWallet,
     {
-      ownerAddress: MOCK_ADDRESS, //account?.address,
+      ownerAddress: account?.address,
       page: 1,
       limit: 20,
     },
@@ -102,7 +107,7 @@ export default function BottomBar() {
       ownerAddress: string
     } = {
       jsonFile: blockCurrent,
-      ownerAddress: MOCK_ADDRESS, //account?.address,
+      ownerAddress: account?.address,
     }
 
     if (projectId) {
@@ -112,7 +117,7 @@ export default function BottomBar() {
     if (projectName) {
       payload.projectName = projectName
     }
-
+    console.log('payload', JSON.stringify(payload.jsonFile))
     saveProject(payload)
   }
 
@@ -140,7 +145,7 @@ export default function BottomBar() {
 
   const handleGetData = async () => {
     const data = (await getListModularByWallet({
-      ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+      ownerAddress: account?.address,
       page: 1,
       limit: 20,
     })) as TDataFetch
@@ -180,23 +185,55 @@ export default function BottomBar() {
     }
   }, [projectId, createProject])
 
+  const handleDeleteSelected = () => {
+    // deleteSelected(selectedBricks)
+    const newState = []
+    setBricks((bricks) => {
+      const newBricks = bricks.filter((brick) => {
+        const selectedClone = [...selectedBricks]
+        console.log('selectedClone', selectedClone)
+
+        const uID = brick.uID
+        console.log('uID', uID)
+        let should = true
+        for (let i = 0; i < selectedClone.length; i++) {
+          const selectedUID = selectedClone[i].userData.uID
+          if (uID === selectedUID) {
+            should = false
+            selectedClone.splice(i, 1)
+          } else {
+            newState.push(selectedClone[i])
+          }
+        }
+        return should
+      })
+      return newBricks
+    })
+    console.log('newState', newState)
+    // setBlockCurrentUpdate(newState)
+    setSelectedBricks({})
+  }
+
   return (
     <>
       <Toaster />
       <div className={s.wrapper}>
         <div className={s.bottomBar}>
-          <button className={s.bottomBar_btn} onClick={undoAction}>
-            <IconUndo /> Undo
+          <button className={`${s.bottomBar_btn} ${s.noFill}`} onClick={undoAction}>
+            <IconUndo />
           </button>
-          <button className={s.bottomBar_btn} onClick={redoAction}>
-            <IconRedo /> Redo
+          <button className={`${s.bottomBar_btn} ${s.noFill}`} onClick={redoAction}>
+            <IconRedo />
           </button>
           <button className={s.bottomBar_btn} onClick={() => handleDeleteAll()}>
             <IconClear />
-            Clear
           </button>
-          <button className={s.bottomBar_btn} onClick={deleteAction}>
-            <IconTrash /> Delete
+          <button
+            className={`${s.bottomBar_btn} ${selectedBricks.length === 0 && s.disable}`}
+            disabled={selectedBricks.length === 0 && true}
+            onClick={handleDeleteSelected}
+          >
+            <IconTrash />
           </button>
         </div>
 

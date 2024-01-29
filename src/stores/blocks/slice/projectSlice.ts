@@ -1,4 +1,3 @@
-import { MOCK_ADDRESS } from '@/constant/mock-data'
 import { createOrSaveProject } from '@/services/api/generative'
 import { TProjectSlice } from '@/types/store'
 import toast from 'react-hot-toast'

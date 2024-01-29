@@ -12,6 +12,8 @@ export type TBlockData = {
   uID: string
   bricksBoundBox?: { current: any[] }
   isSelected?: boolean
+  groupId: string
+  inscriptionId?: string
 }
 export type TBlocks = {
   blockCurrent: TBlockData[]
@@ -22,14 +24,18 @@ export type TBlocks = {
 }
 
 export type TListCurrent = {
+  totalLength: number
+  groupId: string
   thumbnail: string
-  // count: number
-  traits: TTraitBlocks
+  total_items: number
+  items: string[]
 }
 export type TAtribute = { traitType: string; value: string }[]
+
 export type TTraitBlocks = {
   color: string
   shape: string
   texture: string
   type: string
+  groupId: string
 }
