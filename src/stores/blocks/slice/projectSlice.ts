@@ -7,6 +7,10 @@ export const createProjectSlice: StateCreator<TProjectSlice> = (set) => ({
   projectName: '',
   projectId: '',
   renderFile: '',
+  selectedProject: {
+    id: '',
+    name: '',
+  },
 
   saveProject: async (params) => {
     const { projectId, projectName, jsonFile, ownerAddress } = params
@@ -37,15 +41,18 @@ export const createProjectSlice: StateCreator<TProjectSlice> = (set) => ({
 
     // call API to save project
   },
-  
+
   loadProject: (params) => {
     const { projectId, projectName, renderFile } = params
-    // import json file here to render
 
     set({ projectId, projectName, renderFile })
   },
   createProject: () => {
     // call API to create project
-    set({ projectId: '', projectName: '', renderFile: ''})
+    set({ projectId: '', projectName: '', renderFile: '' })
   },
+  setSelectedProject: (params) => {
+    const { id, name } = params
+    set({ selectedProject: { id, name } })
+  }
 })

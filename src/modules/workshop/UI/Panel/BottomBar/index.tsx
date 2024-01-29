@@ -7,13 +7,13 @@ import { useModalStore, useProjectStore, useStoreGlobal } from '@/stores/blocks'
 import s from './styles.module.scss'
 
 import useApiInfinite from '@/hooks/useApiInfinite'
-import { getListModularByWallet } from '@/services/api/generative'
+import { getListModularByWallet, handleGetData } from '@/services/api/generative'
 import { TBlockData, TListCurrent } from '@/types'
 import instance from '@/utils/storage/local-storage'
 import { useAppSelector } from '@/stores/hooks'
 import { accountSelector } from '@/stores/states/wallet/selector'
 import { handleConvertData } from '@/utils/convertTraits'
-import { useEffect } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 
 type TDataFetch = {
   list: TListCurrent
@@ -25,6 +25,7 @@ import { Toaster } from 'react-hot-toast'
 import jsonFile from './mock.json'
 import UnsaveWarningModal from '@/modules/workshop/components/Modal/UnsaveWarningModal'
 import SetProjectNameModal, { SET_PROJECT_NAME_MODAL_ID } from '@/modules/workshop/components/Modal/SetProjectNameModal'
+import { SHA256 } from 'crypto-js'
 
 // const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
 
@@ -55,6 +56,10 @@ export default function BottomBar() {
   const [showModal, setShowModal] = useState(false)
   const [showUnsaveModal, setShowUnsaveModal] = useState(false)
   const [showSetProjectNameModal, setShowSetProjectNameModal] = useState(false)
+
+  const currentBlockStateRef = useRef(SHA256(JSON.stringify(blocksState)).toString() || '')
+
+  console.log('🚀 ~ BottomBar ~ currentBlockStateRef:', currentBlockStateRef)
 
   const account = useAppSelector(accountSelector)
 
@@ -89,8 +94,15 @@ export default function BottomBar() {
   const deleteAction = () => {
     // deleteSeletBlocks()
   }
+
+  const isAllowSave = useMemo(() => {
+    const hashBlockState = SHA256(JSON.stringify(blocksState)).toString()
+
+    return hashBlockState !== currentBlockStateRef.current && blocksState.length > 1
+  }, [blocksState])
+
   const saveAction = async () => {
-    if (blocksState.length < 2 || !blockCurrent || blockCurrent.length === 0) return
+    if (!isAllowSave) return
 
     if (!projectName) {
       openModal({
@@ -122,7 +134,7 @@ export default function BottomBar() {
   }
 
   const saveAsAction = async () => {
-    if (blocksState.length < 2 || !blockCurrent || blockCurrent.length === 0) return
+    if (!isAllowSave) return
 
     openModal({
       id: SET_PROJECT_NAME_MODAL_ID,
@@ -151,17 +163,18 @@ export default function BottomBar() {
       limit: 20,
     })) as any
     const listData = data.list as TListCurrent[]
-    console.log('data', listData)
-    setDataCurrent(listData)
+    return listData
   }
 
-  const handleClickCreateNewProject = () => {
-    // if (blocksState.length > 2) {
-    //   setShowUnsaveModal(true)
-    // }
+  const handleClickCreateNewProject = async () => {
+    if (isAllowSave) {
+      setShowUnsaveModal(true)
+      return
+    }
     createProject()
     deleteAlls()
-    handleGetData()
+    const data = await handleGetData() //reset new project
+    setDataCurrent(data)
   }
 
   useUndoRedoShortcut(undo, redo)
@@ -232,10 +245,10 @@ export default function BottomBar() {
         </div>
 
         <div className={s.bottomBar}>
-          <button className={s.bottomBar_btn} onClick={saveAction}>
+          <button className={s.bottomBar_btn} onClick={saveAction} disabled={!isAllowSave}>
             <IcSave /> Save
           </button>
-          <button className={s.bottomBar_btn} onClick={saveAsAction}>
+          <button className={s.bottomBar_btn} onClick={saveAsAction} disabled={!isAllowSave}>
             <IcSave /> Save As
           </button>
           <button className={s.bottomBar_btn} onClick={handleClickCreateNewProject}>
@@ -254,7 +267,7 @@ export default function BottomBar() {
           </button>
         </div>
       </div>
-      {/* <UnsaveWarningModal show={showUnsaveModal} setIsOpen={setShowUnsaveModal} /> */}
+      <UnsaveWarningModal show={showUnsaveModal} setIsOpen={setShowUnsaveModal} />
     </>
   )
 }
