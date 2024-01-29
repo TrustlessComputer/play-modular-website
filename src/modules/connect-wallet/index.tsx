@@ -26,10 +26,7 @@ const ConnectWallet: React.FunctionComponent = () => {
             }}
           >
             <Image src='/imgs/wallet/unisat.svg' width={48} height={48} alt='unisat' />
-            <div>
-              <div className={s.itemWallet_title}>UNISAT</div>
-              <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</div>
-            </div>
+            <div className={s.itemWallet_title}>UNISAT</div>
           </div>
           <div
             className={s.itemWallet}
@@ -38,10 +35,7 @@ const ConnectWallet: React.FunctionComponent = () => {
             }}
           >
             <Image src='/imgs/wallet/xverse.svg' width={48} height={48} alt='xverse' />
-            <div>
-              <div className={s.itemWallet_title}>XVERSE</div>
-              <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</div>
-            </div>
+            <div className={s.itemWallet_title}>XVERSE</div>
           </div>
         </div>
       </>
@@ -54,7 +48,7 @@ const ConnectWallet: React.FunctionComponent = () => {
       <button className={s.connectWallet_btn} onClick={() => setIsOpen(true)}>
         Connect Wallet
       </button>
-      <AlertDialog isOpen={isOpen} setIsOpen={setIsOpen}>
+      <AlertDialog isOpen={isOpen} closeModal={() => setIsOpen(false)}>
         <BodyModal />
       </AlertDialog>
     </div>

@@ -25,6 +25,7 @@
     "classnames": "^2.5.1",
     "crypto-js": "^4.2.0",
     "ethers": "^6.10.0",
+    "formik": "^2.4.5",
     "framer-motion": "^10.15.1",
     "framer-motion-3d": "^10.18.0",
     "glsl-random": "^0.0.5",
