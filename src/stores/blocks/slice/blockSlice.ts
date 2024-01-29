@@ -12,8 +12,12 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
   selectedBricks: [],
   addBlocks: (getBrick) =>
     set((state) => {
+      console.log('state.blocksState', state.blocksState)
+      console.log('currentStateIndex: ', state.currentStateIndex)
+
       const currentStateIndex = state.currentStateIndex
       const stateCurrent = state.blocksState[currentStateIndex] || []
+      // console.log('data', state.blocksState)
       const newState = [...stateCurrent, getBrick]
 
       if (currentStateIndex >= 10) {
@@ -39,7 +43,10 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
   //       state,
   //     }
   //   }),
-  setBlockCurrent: (data) => set(() => ({ blockCurrent: data })),
+  setBlockCurrent: (data) =>
+    set((state) => {
+      return { blockCurrent: data, blocksState: [data], currentStateIndex: 0 }
+    }),
   deleteAlls: () =>
     set((state) => {
       const currentStateIndex = state.currentStateIndex
