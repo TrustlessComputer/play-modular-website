@@ -40,7 +40,6 @@ export default function BottomBar() {
     blocksState,
     selectedBricks,
     // deleteSeletBlocks,
-    selectedBricks,
     deleteSelected,
     setSelectedBricks,
     setBricks,
