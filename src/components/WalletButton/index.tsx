@@ -1,23 +1,22 @@
-import React, { useRef, useState } from 'react'
 import cn from 'classnames'
+import React, { useRef, useState } from 'react'
 
+import { WalletProvider } from '@/providers/wallet'
+import useWalletContext from '@/providers/wallet/useWalletContext'
 import { useAppSelector } from '@/stores/hooks'
 import { accountSelector } from '@/stores/states/wallet/selector'
-// import useWalletContext from '@/providers/wallet/useWalletContext'
-import { WalletProvider } from '@/providers/wallet'
 import { formatLongAddress } from '@/utils/address'
-import Image from 'next/image'
 
-import s from './styles.module.scss'
-import { IconCopy, IconLogout, IconWallet } from '../IconSvgs'
 import useClickOutside from '@/hooks/useClickOutSide'
+import { IconCopy, IconLogout, IconWallet } from '../IconSvgs'
+import s from './styles.module.scss'
 
 type TWalletButton = {
   className?: string
 }
 
 const WalletButton: React.FunctionComponent<TWalletButton> = ({ className }) => {
-  // const walletCtx = useWalletContext()
+  const walletCtx = useWalletContext()
   const [toggleState, setToggleState] = useState<boolean>(false)
   const walletButton = useRef<HTMLButtonElement | null>(null)
   const account = useAppSelector(accountSelector)
@@ -56,7 +55,7 @@ const WalletButton: React.FunctionComponent<TWalletButton> = ({ className }) => 
           <button
             className={`${s.walletPopup_btn}`}
             onClick={() => {
-              // walletCtx.requestSignOut()
+              walletCtx.requestSignOut()
               hidePopupHandler()
             }}
           >
