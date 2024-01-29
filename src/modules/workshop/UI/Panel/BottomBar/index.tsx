@@ -94,11 +94,10 @@ export default function BottomBar() {
     if (!projectName) {
       openModal({
         id: SET_PROJECT_NAME_MODAL_ID,
-        component: <SetProjectNameModal type="save" />
+        component: <SetProjectNameModal type='save' />,
       })
-      return;
+      return
     }
-
 
     const payload: {
       jsonFile: any
@@ -126,9 +125,9 @@ export default function BottomBar() {
 
     openModal({
       id: SET_PROJECT_NAME_MODAL_ID,
-      component: <SetProjectNameModal type="save-as" />
+      component: <SetProjectNameModal type='save-as' />,
     })
-    return;
+    return
   }
 
   const loadDataAction = (file) => {
@@ -145,7 +144,8 @@ export default function BottomBar() {
 
   const handleGetData = async () => {
     const data = (await getListModularByWallet({
-      ownerAddress: account?.address,
+      // ownerAddress: account?.address,
+      ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
       page: 1,
       limit: 20,
     })) as TDataFetch
