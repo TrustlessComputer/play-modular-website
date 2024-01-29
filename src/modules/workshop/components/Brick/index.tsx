@@ -131,7 +131,7 @@ export const Brick = ({
         <motion.group
           ref={brickRef}
           rotation={[0, 0, 0]}
-          position={[position.x, Math.abs(position.y), position.z]}
+          position={[position.x + translation.x * base, Math.abs(position.y), position.z + translation.z * base]}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: 'spring', stiffness: 250, duration: 2 }}
