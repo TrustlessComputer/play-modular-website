@@ -165,16 +165,17 @@ export default function BottomBar() {
   const handleDeleteSelected = () => {
     // deleteSelected(selectedBricks)
     const newState = [];
+    const selectedClone = [...selectedBricks];
+
+    console.log('>>>>>>>>selectedBricks', selectedBricks)
     setBricks((bricks) => {
-
       const newBricks = bricks.filter((brick) => {
-        const selectedClone = [...selectedBricks];
-        console.log('selectedClone', selectedClone)
-
         const uID = brick.uID;
-        console.log('uID', uID)
         let should = true;
+
         for (let i = 0; i < selectedClone.length; i++) {
+          console.log('selectedClone[i].userData', i, selectedClone[i].userData)
+
           const selectedUID = selectedClone[i].userData.uID;
           if (uID === selectedUID) {
             should = false;
@@ -188,6 +189,8 @@ export default function BottomBar() {
       return newBricks;
     });
     console.log('newState', newState)
+    console.log('blockCurrent >>>', blockCurrent)
+
     // setBlockCurrentUpdate(newState)
     setSelectedBricks({});
   }

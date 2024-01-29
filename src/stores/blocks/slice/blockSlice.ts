@@ -137,7 +137,7 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
   }),
   setBlockCurrentUpdate: (blocks) => set((state)  => {
     const currentStateIndex = state.currentStateIndex
-    const stateCurrent = state.blocksState[currentStateIndex] || []
+    // const stateCurrent = state.blocksState[currentStateIndex] || []
     const newState = blocks
 
     if (currentStateIndex >= 10) {
