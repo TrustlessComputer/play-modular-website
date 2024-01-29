@@ -184,36 +184,7 @@ export default function BottomBar() {
   }, [projectId, createProject])
 
   const handleDeleteSelected = () => {
-    // deleteSelected(selectedBricks)
-    const newState = [];
-    const selectedClone = [...selectedBricks];
-
-    console.log('selectedClone', selectedClone)
-    console.log('selectedBricks', selectedBricks)
-    setBricks((bricks) => {
-      const newBricks = bricks.filter((brick) => {
-        const uID = brick.uID;
-        let should = true;
-
-        for (let i = 0; i < selectedClone.length; i++) {
-          console.log('selectedClone[i].userData', i, selectedClone[i].userData)
-
-          const selectedUID = selectedClone[i].userData.uID;
-          if (uID === selectedUID) {
-            should = false
-            selectedClone.splice(i, 1)
-          } else {
-            newState.push(selectedClone[i])
-          }
-        }
-        return should
-      })
-      return newBricks
-    })
-    console.log('newState', newState)
-    // console.log('blockCurrent >>>', blockCurrent)
-
-    setBlockCurrentUpdate(newState)
+    deleteSelected(selectedBricks)
     setSelectedBricks({})
   }
 

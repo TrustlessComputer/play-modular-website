@@ -37,8 +37,6 @@ export function Select({
   const onClick = React.useCallback(
     (e) => {
       e.stopPropagation()
-      console.log('customFilter([e.object])[0', e.object)
-      console.log('blockCurrent', blockCurrent)
       if (!enable) return
       setSelectedBricks({
         object: customFilter([e.object])[0],
