@@ -1,7 +1,7 @@
 import React from 'react'
 import s from './SavedProjectItem.module.scss'
-import { getProjectDetail } from '@/services/api/generative'
-import { useProjectStore } from '@/stores/blocks'
+import { getProjectDetail, handleGetData } from '@/services/api/generative'
+import { useProjectStore, useStoreGlobal } from '@/stores/blocks'
 
 type Props = {
   name: string
@@ -11,17 +11,18 @@ type Props = {
 
 const ProjectItem = (props: Props) => {
   const { loadProject } = useProjectStore()
-
+  const { setDataCurrent } = useStoreGlobal()
   const handleClickOpen = async () => {
     try {
       const res = await getProjectDetail({ id: props.id })
-      // console.log('darta', JSON.parse(res.metaData))
+      const data = await handleGetData() // reset listData when open
       if (!!res.metaData) {
         loadProject({
           projectId: props.id,
           projectName: props.name,
           renderFile: res.metaData,
         })
+        setDataCurrent(data)
         props.onClose()
       }
     } catch (error) {

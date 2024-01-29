@@ -2,7 +2,6 @@
 
 import { TBlockSlice } from '@/types/store'
 import { StateCreator } from 'zustand'
-import { TBlockData } from '@/types'
 
 export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
   blockCurrent: [],
@@ -20,6 +19,7 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
         listCurrent: data,
       }
     }),
+
   addBlocks: (getBrick) =>
     set((state) => {
       const groupIdCurrent = getBrick.groupId
@@ -50,6 +50,7 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
         return state
       }
     }),
+
   sliceListCurrent: (groupId: string, listCurrent) => {
     const listDataCurrent = [...listCurrent]
     const idGroup = listDataCurrent.findIndex((item) => item.groupId === groupId)
@@ -84,8 +85,25 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
   },
 
   setBlockCurrent: (data) =>
-    set(() => {
-      return { blockCurrent: data, blocksState: [data], currentStateIndex: 0 }
+    set((state) => {
+      const listCurrentData = [...state.listCurrent]
+      for (let i = 0; i < data.length; i++) {
+        const groupId = data[i].groupId
+        const outputString = groupId.replace(/modular's/g, '')
+        const inscriptionId = data[i].inscriptionId
+        for (let j = 0; j < listCurrentData.length; j++) {
+          const itemInscription = listCurrentData[j].items
+          if (listCurrentData[j].groupId === outputString) {
+            for (let k = 0; k < itemInscription.length; k++) {
+              if (inscriptionId === itemInscription[k]) {
+                itemInscription.splice(k, 1)
+                k--
+              }
+            }
+          }
+        }
+      }
+      return { blockCurrent: data, blocksState: [data], currentStateIndex: 0, listCurrent: listCurrentData }
     }),
   deleteAlls: () =>
     set((state) => {

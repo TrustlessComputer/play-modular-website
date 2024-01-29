@@ -7,7 +7,7 @@ import { useModalStore, useProjectStore, useStoreGlobal } from '@/stores/blocks'
 import s from './styles.module.scss'
 
 import useApiInfinite from '@/hooks/useApiInfinite'
-import { getListModularByWallet } from '@/services/api/generative'
+import { getListModularByWallet, handleGetData } from '@/services/api/generative'
 import { TBlockData, TListCurrent } from '@/types'
 import instance from '@/utils/storage/local-storage'
 import { useAppSelector } from '@/stores/hooks'
@@ -143,25 +143,14 @@ export default function BottomBar() {
     deleteAlls()
   }
 
-  const handleGetData = async () => {
-    const data = (await getListModularByWallet({
-      // ownerAddress: account?.address,
-      ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
-      page: 1,
-      limit: 20,
-    })) as any
-    const listData = data.list as TListCurrent[]
-    console.log('data', listData)
-    setDataCurrent(listData)
-  }
-
-  const handleClickCreateNewProject = () => {
+  const handleClickCreateNewProject = async () => {
     // if (blocksState.length > 2) {
     //   setShowUnsaveModal(true)
     // }
     createProject()
     deleteAlls()
-    handleGetData()
+    const data = await handleGetData()
+    setDataCurrent(data)
   }
 
   useUndoRedoShortcut(undo, redo)
