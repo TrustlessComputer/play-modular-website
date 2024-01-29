@@ -1,7 +1,8 @@
 import React from 'react'
 import AlertDialog from '@/components/AlertDialog'
-import { useProjectStore, useStoreGlobal } from '@/stores/blocks'
+import { useModalStore, useProjectStore, useStoreGlobal } from '@/stores/blocks'
 import jsonFile from '@/modules/workshop/UI/Panel/BottomBar/mock.json'
+import SetProjectNameModal, { SET_PROJECT_NAME_MODAL_ID } from '../SetProjectNameModal'
 
 type Props = {
   show: boolean
@@ -13,6 +14,8 @@ const UnsaveWarningModal = ({ show, setIsOpen }: Props) => {
 
   const { createProject, saveProject, projectId, projectName } = useProjectStore()
 
+  const { openModal } = useModalStore()
+
   // update current json file
   const currentJsonFile = jsonFile
 
@@ -20,18 +23,20 @@ const UnsaveWarningModal = ({ show, setIsOpen }: Props) => {
     return (
       <div>
         <p>You have unsave work. Save current work?</p>
-        <div className='flex items-center justify-between'>
+        <div className='flex items-center justify-between mt-6'>
           <button
             onClick={() => {
-              saveProject({
-                projectId,
-                projectName,
-                jsonFile: currentJsonFile,
-              })
-              createProject()
-              deleteAlls()
+
               setIsOpen(false)
+
+              openModal({
+                id: SET_PROJECT_NAME_MODAL_ID,
+                component: <SetProjectNameModal type='save-exit' />,
+              })
+              return
+
             }}
+            className='btn_submit'
           >
             Yes
           </button>
