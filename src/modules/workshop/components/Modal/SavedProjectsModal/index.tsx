@@ -14,7 +14,7 @@ export const SAVED_PROJECTS_MODAL_ID = 'SAVED_PROJECTS_MODAL_ID'
 const SavedProjectsModal = () => {
   const { loadProject } = useProjectStore()
 
-  const {closeModal} = useModalStore()
+  const { closeModal } = useModalStore()
 
   const { dataInfinite, isReachingEnd, loadMore, hasFirstFetching, refresh } = useApiInfinite(
     getListSavedProject,
@@ -64,7 +64,8 @@ const SavedProjectsModal = () => {
                   key={index}
                   {...block}
                   onClose={() => {
-                    setIsOpen(false)
+                    closeModal(SAVED_PROJECTS_MODAL_ID)
+
                   }}
                 />
               )
@@ -78,7 +79,7 @@ const SavedProjectsModal = () => {
 
 
   return (
-      <BodyContent />
+    <BodyContent />
   )
 }
 
