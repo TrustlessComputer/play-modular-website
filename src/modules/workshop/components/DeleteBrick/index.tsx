@@ -11,5 +11,6 @@ export const DeleteBrick = ({ setBricks }) => {
   }
 
   useDeleteShortcut(selected, setBricks, onDelete)
+
   return <></>
 }

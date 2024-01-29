@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import s from './SavedProjectsModal.module.scss'
 import useApiInfinite from '@/hooks/useApiInfinite'
 import { getListSavedProject } from '@/services/api/generative'
 import { Virtuoso } from 'react-virtuoso'
 import { useProjectStore } from '@/stores/blocks'
 import AlertDialog from '@/components/AlertDialog'
+import { MOCK_ADDRESS } from '@/constant/mock-data'
+import ProjectItem from './ProjectItem'
 
 type Props = {
   show: boolean
@@ -14,10 +16,10 @@ type Props = {
 const SavedProjectsModal = ({ show, setIsOpen }: Props) => {
   const { loadProject } = useProjectStore()
 
-  const { dataInfinite, isReachingEnd, loadMore, hasFirstFetching } = useApiInfinite(
+  const { dataInfinite, isReachingEnd, loadMore, hasFirstFetching, refresh } = useApiInfinite(
     getListSavedProject,
     {
-      ownerAddress: 'bc1pvtvqjx4yx9nzceunsppvav3h90nkdd2up7hkyv32nf08y7hwgn7qkfsva8', //account?.address,
+      address: MOCK_ADDRESS,
       page: 1,
       limit: 20,
     },
@@ -27,14 +29,6 @@ const SavedProjectsModal = ({ show, setIsOpen }: Props) => {
       // shouldFetch: !!account?.address,
     },
   )
-
-  const handleLoadProject = (projectId: string, projectName: string) => {
-    loadProject({
-      projectId,
-      projectName,
-    })
-    setIsOpen(false)
-  }
 
   const BodyContent = () => {
     return (
@@ -66,7 +60,13 @@ const SavedProjectsModal = ({ show, setIsOpen }: Props) => {
             overscan={200}
             itemContent={(index, block) => {
               return (
-                <div key={index} {...block} onClick={() => handleLoadProject(block.projectId, block.projectName)} />
+                <ProjectItem
+                  key={index}
+                  {...block}
+                  onClose={() => {
+                    setIsOpen(false)
+                  }}
+                />
               )
             }}
           />
@@ -74,6 +74,12 @@ const SavedProjectsModal = ({ show, setIsOpen }: Props) => {
       </div>
     )
   }
+
+  useEffect(() => {
+    if (show) {
+      refresh()
+    }
+  }, [show])
 
   if (!show) return <></>
 

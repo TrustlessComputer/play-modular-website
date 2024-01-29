@@ -15,7 +15,6 @@ export const createTraitBlockSlice: StateCreator<TAtributeBlock> = (set) => ({
   color: '',
   texture: NONT_TEXTURE,
   trait: { color: '', texture: NONT_TEXTURE, shape: '', type: '' },
-  selectedBricks: [],
   setMode: (newMode) => set({ mode: newMode }),
   setWidth: (newWidth) => set({ width: newWidth }),
   setDepth: (newDepth) => set({ depth: newDepth }),
