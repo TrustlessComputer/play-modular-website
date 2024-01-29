@@ -44,24 +44,24 @@ export default function Three3D() {
       {/* <color attach='background' args={['#202025']} /> */}
       {/* <color attach='background' args={['#CACACA']} /> */}
       {/* <color attach='background' args={['#00072d']} /> */}
-      <color attach='background' args={['#051650']} />
-      {/* <mesh rotation={[-Math.PI / 2, 0, 0]}>
+      <color attach='background' args={['#001c57']} />
+      {/* <color attach='background' args={['#0a2472']} /> */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[minWorkSpaceSize, minWorkSpaceSize]} />
         <MeshReflectorMaterial
-          mirror={0.5}
+          mirror={0.2}
           blur={[25, 25]}
-          resolution={720}
+          resolution={512}
           mixBlur={100}
-          mixStrength={100}
+          mixStrength={20}
           depthScale={1.2}
           minDepthThreshold={0.4}
           maxDepthThreshold={1.6}
-          // color='#050505'
-          color='#CACACA'
-          roughness={0.5}
-          metalness={1}
+          color='#202025'
+          roughness={0.4}
+          metalness={0.2}
         />
-      </mesh> */}
+      </mesh>
       <Suspense fallback={null}>
         <Environment preset='city' />
         <Scene />

@@ -156,7 +156,7 @@ export const Brick = ({
               onClick={onClick}
               onPointerMove={mouseMove}
             >
-              <meshPhysicalMaterial color={color} />
+              <meshPhysicalMaterial color={color} metalness={0.2} roughness={0.9} />
               {!isNontTexture && (
                 <Decal
                   map={texturez}
