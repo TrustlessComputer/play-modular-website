@@ -1,7 +1,9 @@
 import React from 'react'
 import s from './SavedProjectItem.module.scss'
 
-type Props = {}
+type Props = {
+  name: string
+}
 
 const ProjectItem = (props: Props) => {
   const handleClickOpen = () => {}
