@@ -1,11 +1,11 @@
 .itemBlock {
-  width: 50px;
-  height: 50px;
+  // width: 50px;
+  // height: 50px;
   position: relative;
   cursor: pointer;
   &_count {
     padding-top: 4px;
-    color: #fff;
+    color: #000000;
     font-size: 12px;
     font-style: normal;
     font-weight: 400;
@@ -27,4 +27,6 @@
     cursor: no-drop;
     background-color: #292929a7;
   }
+  width: rem(80px);
+  cursor: pointer;
 }

@@ -21,12 +21,14 @@ export type TBlockSlice = {
   ) => { listCurrent: TListCurrent[] }
   addBlocks: (d: TBlockData) => void
   deleteAlls: () => void
+  deleteSelected: (d: any) => void
   setBlockCurrent: (d: TBlockData[]) => void
+  setBlockCurrentUpdate: (d: any) => void
   // deleteSeletBlocks: () => void
   setSelectedBricks: (d: any) => void
   undo: () => void
   redo: () => void
-  setBricks: (d: TBlockData) => void
+  setBricks: (d: any) => void
 }
 
 export type TPreviewSlice = {
@@ -96,4 +98,9 @@ export type TProjectSlice = {
   saveAsProject: (params) => void
   loadProject: (params) => void
   createProject: () => void
+}
+
+export type TDragSlice = {
+  isDragging: boolean
+  setIsDragging: (b: boolean) => void
 }

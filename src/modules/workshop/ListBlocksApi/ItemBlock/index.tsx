@@ -9,7 +9,7 @@ import { CREATE_MODE } from '@/utils'
 import cn from 'classnames'
 
 const ItemBlock: React.FunctionComponent<any> = ({ thumbnail, project, attributes, totalLength, ...props }) => {
-  const { setTrait, setColor, setTexture, setWidth, setDepth, setMode, trait } = useStoreGlobal()
+  const { setTrait, setColor, setTexture, setWidth, setDepth, setMode, trait, listCurrent } = useStoreGlobal()
   const isHaventBlocks = props.items.length === 0
 
   const handleSetTraits = () => {
@@ -27,7 +27,6 @@ const ItemBlock: React.FunctionComponent<any> = ({ thumbnail, project, attribute
     setWidth(size.w)
     setDepth(size.d)
   }
-
   return (
     <div className={cn(s.itemBlock)} onClick={handleSetTraits}>
       <Image src={thumbnail} width={50} height={50} alt={project?.name} />
