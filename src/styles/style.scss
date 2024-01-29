@@ -71,6 +71,12 @@ body {
   font-size: 16px;
   line-height: 100%;
   letter-spacing: 0.16px;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
 }
 
 .formik-form {

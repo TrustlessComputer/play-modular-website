@@ -1,20 +1,25 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import s from './SavedProjectsModal.module.scss'
 import useApiInfinite from '@/hooks/useApiInfinite'
-import { getListSavedProject } from '@/services/api/generative'
+import { getListSavedProject, getProjectDetail } from '@/services/api/generative'
 import { Virtuoso } from 'react-virtuoso'
 import { useModalStore, useProjectStore } from '@/stores/blocks'
 import AlertDialog from '@/components/AlertDialog'
 import { MOCK_ADDRESS } from '@/constant/mock-data'
 import ProjectItem from './ProjectItem'
+import { useAppSelector } from '@/stores/hooks'
+import { accountSelector } from '@/stores/states/wallet/selector'
+import VirtualScrollKeepPosition from '@/hocs/VirtualScrollKeepPosition'
+import OpenButton from './OpenButton'
 
 export const SAVED_PROJECTS_MODAL_ID = 'SAVED_PROJECTS_MODAL_ID'
 
 
 const SavedProjectsModal = () => {
-  const { loadProject } = useProjectStore()
 
   const { closeModal } = useModalStore()
+  const account = useAppSelector(accountSelector)
+
 
   const { dataInfinite, isReachingEnd, loadMore, hasFirstFetching, refresh } = useApiInfinite(
     getListSavedProject,
@@ -26,7 +31,7 @@ const SavedProjectsModal = () => {
     {
       revalidateOnFocus: true,
       parallel: true,
-      // shouldFetch: !!account?.address,
+      shouldFetch: !!account?.address,
     },
   )
 
@@ -39,43 +44,62 @@ const SavedProjectsModal = () => {
     return (
       <div className={s.wrapper}>
         <div className={`${s.header} flex justify-between`}>
-          <div className={s.title}>Saved Model</div>
-          <div
+          <div className={s.title}>Open Model</div>
+          {/* <div
             className={s.close}
             onClick={() => {
               closeModal(SAVED_PROJECTS_MODAL_ID)
             }}
           >
             Close
-          </div>
+          </div> */}
         </div>
         <div className={s.body}>
           {hasFirstFetching === false && <div>Loading...</div>}
-
-          <Virtuoso
-            className={s.listBlocks}
-            style={{ height: 'calc(100dvh - 300px)' }}
-            data={dataInfinite}
-            totalCount={dataInfinite.length}
-            endReached={() => {
-              if (isReachingEnd === false) {
-                loadMore()
-              }
-            }}
-            overscan={200}
-            itemContent={(index, block) => {
+          <VirtualScrollKeepPosition
+            keyStore="saved-project-current-position-index">
+            {(ref, state, handleSaveSnapshot) => {
               return (
-                <ProjectItem
-                  key={index}
-                  {...block}
-                  onClose={() => {
-                    closeModal(SAVED_PROJECTS_MODAL_ID)
+                <Virtuoso
+                  ref={ref}
+                  restoreStateFrom={state}
+                  className={s.listBlocks}
+                  style={{ height: 'calc(100dvh - 300px)' }}
+                  data={dataInfinite}
+                  totalCount={dataInfinite.length}
+                  endReached={() => {
+                    if (isReachingEnd === false) {
+                      loadMore()
+                    }
+                  }}
+                  overscan={200}
+                  itemContent={(index, block) => {
+                    return (
+                      <div
+                        key={index}
+                      >
+                        <ProjectItem
+                          {...block}
+                          onClose={() => {
+                            closeModal(SAVED_PROJECTS_MODAL_ID)
+
+                          }}
+                        />
+                      </div>
+                    )
 
                   }}
+                  onScroll={handleSaveSnapshot}
+
                 />
               )
-            }}
-          />
+            }
+            }
+          </VirtualScrollKeepPosition>
+
+        </div>
+        <div className={s.footer}>
+          <OpenButton />
         </div>
       </div>
     )
@@ -88,4 +112,4 @@ const SavedProjectsModal = () => {
   )
 }
 
-export default SavedProjectsModal
+export default React.memo(SavedProjectsModal)

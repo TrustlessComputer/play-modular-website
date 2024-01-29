@@ -74,10 +74,15 @@ export type TProjectSlice = {
   projectName: string
   projectId: string
   renderFile: string
+  selectedProject: {
+    id: string
+    name: string
+  }
 
   saveProject: (params) =>  Promise<"success" | "failed">
   loadProject: (params) => void
   createProject: () => void
+  setSelectedProject: (params) => void
 }
 
 export type TModalSlice = {
