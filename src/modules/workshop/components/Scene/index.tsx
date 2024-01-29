@@ -72,7 +72,7 @@ export const Scene = () => {
           const dz = Math.abs(brickBoundingBox.max.z - boundingBoxOfBrickToBeAdded.max.z)
           const yIntsersect = brickBoundingBox.max.y - 9 > boundingBoxOfBrickToBeAdded.min.y
 
-          if (yIntsersect && dx !== dimensions.width && dz !== dimensions.depth) {
+          if (yIntsersect) {
             canCreate = false
             break
           }

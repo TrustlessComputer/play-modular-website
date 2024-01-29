@@ -114,13 +114,7 @@ export const Brick = ({
       .divide(new Vector3(base, height, base))
       .floor()
       .multiply(new Vector3(base, height, base))
-      .add(
-        new Vector3(
-          (evenWidth ? base : base / 2) + draggedOffset.x,
-          height / 2,
-          (evenDepth ? base : base / 2) + draggedOffset.z,
-        ),
-      )
+      .add(new Vector3(evenWidth ? base : base / 2, height / 2, evenDepth ? base : base / 2))
 
     setPosition(vec3)
   }, [intersect, dimensions.x, dimensions.z, height, rotation, draggedOffset])
