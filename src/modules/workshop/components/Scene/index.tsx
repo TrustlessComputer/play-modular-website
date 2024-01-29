@@ -58,12 +58,14 @@ export const Scene = () => {
         z: depth,
       })
       const boundingBoxOfBrickToBeAdded = new Box3().setFromObject(brickCursorRef.current)
-
+      console.log('WILL ADD BRICK', boundingBoxOfBrickToBeAdded)
       let canCreate = true
 
       for (let index = 0; index < bricksBoundBox.current.length; index++) {
         const brickBoundingBox = bricksBoundBox.current[index].brickBoundingBox
         const collision = boundingBoxOfBrickToBeAdded.intersectsBox(brickBoundingBox)
+
+        // Check if brick is not on top of another brick
 
         if (collision) {
           const dx = Math.abs(brickBoundingBox.max.x - boundingBoxOfBrickToBeAdded.max.x)
