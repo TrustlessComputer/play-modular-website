@@ -1,16 +1,12 @@
 'use client'
 
-/* eslint-disable react/no-unknown-property */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/display-name */
-
 import { useStoreGlobal } from '@/stores/blocks'
 import { viewMapToPosition, views } from '@/utils'
 import { Canvas, useThree } from '@react-three/fiber'
 import React from 'react'
 import { Lights } from '../Lights'
 import PreviewScene from './PreviewSence'
+import { BrightnessContrast, EffectComposer, HueSaturation } from '@react-three/postprocessing'
 
 const CameraController = () => {
   const { view } = useStoreGlobal()
@@ -57,11 +53,26 @@ const PreviewRoom = () => {
     const resize = () => {
       setAspect(wrapperDom.clientWidth / wrapperDom.clientHeight)
     }
+    const saveToPng = (e) => {
+      if (e.ctrlKey && e.key === 's') {
+        ;(wrapperDom as HTMLElement).style.display = 'block'
+        const canvas = wrapperDom.querySelector('canvas')
+        const image = canvas.toDataURL('image/png')
+        const a = document.createElement('a')
+        a.href = image
+        a.download = 'project-xxxx.png'
+        a.click()
+        a.remove()
+        ;(wrapperDom as HTMLElement).style.display = 'none'
+      }
+    }
 
     resize()
 
+    window.addEventListener('keydown', saveToPng)
     window.addEventListener('resize', resize)
     return () => {
+      window.removeEventListener('keydown', saveToPng)
       window.removeEventListener('resize', resize)
     }
   }, [])
@@ -69,15 +80,26 @@ const PreviewRoom = () => {
   return (
     <Canvas
       gl={{
-        alpha: false,
+        alpha: true,
         antialias: true,
         powerPreference: 'high-performance',
+        preserveDrawingBuffer: true,
       }}
       shadows={true}
       dpr={Math.min(2, aspect)}
       linear
     >
-      <color attach='background' args={['#000325']} />
+      {/* <color attach='background' args={['#000325']} /> */}
+
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
+        <planeGeometry args={[50000, 50000]} />
+        <meshPhysicalMaterial color='#cacaca' roughness={0.4} metalness={0.7} />
+      </mesh>
+
+      <EffectComposer multisampling={0}>
+        <BrightnessContrast contrast={-0.4} />
+        <HueSaturation saturation={0.1} />
+      </EffectComposer>
 
       <CameraController />
       <Lights />
