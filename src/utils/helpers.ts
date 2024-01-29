@@ -117,3 +117,7 @@ export function generateSoftColors() {
 export function isBlank(str) {
   return !str || /^\s*$/.test(str)
 }
+
+export const isBrowser = (): boolean => {
+  return typeof window !== 'undefined'
+}
