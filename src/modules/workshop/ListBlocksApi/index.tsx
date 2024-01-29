@@ -73,8 +73,8 @@ const ListBlocks: React.FunctionComponent = () => {
   useEffect(() => {
     const data = dataInfinite as TListCurrent[]
     setDataCurrent(data)
+    console.log(data)
   }, [dataInfinite.length])
-
   return (
     <div className={s.wrapper}>
       <div className={s.inner}>

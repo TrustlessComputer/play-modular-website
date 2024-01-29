@@ -19,6 +19,7 @@ const handleGetColor = (type: string, dataTrait = patterns) => {
 export const handleConvertData = (attributes: TAtribute) => {
     const trait = handleConverTrait(attributes)
     const color = handleGetColor(trait.type)
+    console.log(color)
     const texture = TEXTURE_LIST.find((item) => item.name === trait.type)
     return {
         ...trait,
