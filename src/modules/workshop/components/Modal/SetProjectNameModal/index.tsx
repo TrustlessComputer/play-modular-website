@@ -12,12 +12,12 @@ interface MyFormValues {
 }
 
 type Props = {
-  type: 'save' | 'save-as'
+  type: 'save' | 'save-as' | 'save-exit'
 }
 
 const SetProjectNameModal = ({ type }: Props) => {
-  const { blockCurrent } = useStoreGlobal()
-  const { projectId, saveProject, projectName } = useProjectStore()
+  const { blockCurrent, deleteAlls } = useStoreGlobal()
+  const { saveProject, createProject } = useProjectStore()
   const { closeModal } = useModalStore()
   const account = useAppSelector(accountSelector)
 
@@ -41,6 +41,11 @@ const SetProjectNameModal = ({ type }: Props) => {
 
     const res = await saveProject(payload)
     if (res === 'success') {
+      if (type === 'save-exit') {
+        createProject()
+        deleteAlls()
+      }
+
       closeModal(SET_PROJECT_NAME_MODAL_ID)
     }
   }

@@ -28,7 +28,7 @@ export const Brick = ({
   onClick = (e: any) => {},
   mouseMove = (e: any) => {},
 }: TBrickAction & TBlockData) => {
-  const { setIsDragging, mode } = useStoreGlobal()
+  const { setIsDragging, mode, blockCurrent, setBlockCurrent } = useStoreGlobal()
   const [resetKey, setResetKey] = React.useState(generateUId())
   const brickRef = React.useRef(null)
   const texturez = useLoader(TextureLoader, texture)
@@ -68,6 +68,19 @@ export const Brick = ({
     setDraggedOffset(newOffset)
     setResetKey(generateUId())
     setIsDragging(false)
+
+    const blockCurrentClone = [...blockCurrent]
+    for (let i = 0; i < blockCurrentClone.length; i++) {
+      const element = blockCurrentClone[i]
+      if (element.uID === uID) {
+        blockCurrentClone[i].translation = {
+          x: newOffset.x / base,
+          z: newOffset.z / base,
+        }
+      }
+    }
+
+    setBlockCurrent(blockCurrentClone)
   }
   React.useEffect(() => {
     if (!brickRef.current) return
@@ -101,13 +114,7 @@ export const Brick = ({
       .divide(new Vector3(base, height, base))
       .floor()
       .multiply(new Vector3(base, height, base))
-      .add(
-        new Vector3(
-          (evenWidth ? base : base / 2) + draggedOffset.x,
-          height / 2,
-          (evenDepth ? base : base / 2) + draggedOffset.z,
-        ),
-      )
+      .add(new Vector3(evenWidth ? base : base / 2, height / 2, evenDepth ? base : base / 2))
 
     setPosition(vec3)
   }, [intersect, dimensions.x, dimensions.z, height, rotation, draggedOffset])
@@ -118,7 +125,7 @@ export const Brick = ({
         <motion.group
           ref={brickRef}
           rotation={[0, 0, 0]}
-          position={[position.x, Math.abs(position.y), position.z]}
+          position={[position.x + translation.x * base, Math.abs(position.y), position.z + translation.z * base]}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: 'spring', stiffness: 250, duration: 2 }}

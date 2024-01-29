@@ -31,9 +31,9 @@ export default function RootLayout({ children }) {
     <html lang='en' className='antialiased'>
       <body className={`${manrope.variable} ${space_mono.variable}`}>
         <StoreProvider>
-          <Web3Auth>
-            <Layout>{children}</Layout>
-          </Web3Auth>
+          <Layout>
+            <Web3Auth>{children}</Web3Auth>
+          </Layout>
         </StoreProvider>
       </body>
     </html>

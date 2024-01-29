@@ -32,6 +32,7 @@ export default function Three3D() {
         alpha: false,
         antialias: true,
       }}
+      shadows='basic'
       dpr={Math.min(2, 1)}
       linear
       camera={{
@@ -62,16 +63,16 @@ export default function Three3D() {
       </mesh> */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
         <planeGeometry args={[50000, 50000]} />
-        <meshPhysicalMaterial color='#cacaca' roughness={0.4} metalness={0.7} />
+        <meshPhysicalMaterial color='#cacaca' roughness={1} metalness={0.7} specularIntensity={0} />
       </mesh>
       <Suspense fallback={null}>
         <Environment preset='city' />
         <Scene />
         <ControlsWrapper />
-        <EffectComposer multisampling={0}>
+        {/* <EffectComposer multisampling={0}>
           <BrightnessContrast contrast={-0.4} />
           <HueSaturation saturation={0.1} />
-        </EffectComposer>
+        </EffectComposer> */}
       </Suspense>
     </Canvas>
   )

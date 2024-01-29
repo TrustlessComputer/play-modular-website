@@ -13,6 +13,7 @@ import ItemBlock from './ItemBlock'
 import s from './styles.module.scss'
 import { useStoreGlobal } from '@/stores/blocks'
 import { TListCurrent } from '@/types'
+import Empty from './Empty'
 
 const GridList = forwardRef(({ children, ...props }: PropsWithChildren, ref: any) => (
   <div
@@ -56,6 +57,8 @@ const ListBlocks: React.FunctionComponent = () => {
     dataInfinite = [],
     isReachingEnd,
     loadMore,
+    hasFirstFetching,
+    isEmpty,
   } = useApiInfinite(
     getListModularByWallet,
     {
@@ -70,6 +73,7 @@ const ListBlocks: React.FunctionComponent = () => {
       shouldFetch: !!account?.address,
     },
   )
+
   useEffect(() => {
     const data = dataInfinite as TListCurrent[]
     if (data.length > 0) {
@@ -80,22 +84,26 @@ const ListBlocks: React.FunctionComponent = () => {
     <div className={s.wrapper}>
       <div className={s.inner}>
         <h3 className={s.title}>MODULAR</h3>
-        <VirtuosoGrid
-          className={s.wrapper_listBlocks}
-          style={{ height: 'calc(100dvh - 300px)', pointerEvents: 'auto' }}
-          data={listCurrent}
-          totalCount={listCurrent.length}
-          endReached={() => {
-            if (isReachingEnd === false) {
-              loadMore()
-            }
-          }}
-          overscan={200}
-          components={GridComponents as any}
-          itemContent={(index, block) => {
-            return <ItemBlock key={index} {...block} />
-          }}
-        />
+        {hasFirstFetching && isEmpty ? (
+          <Empty />
+        ) : (
+          <VirtuosoGrid
+            className={s.wrapper_listBlocks}
+            style={{ height: 'calc(100dvh - 300px)', pointerEvents: 'auto' }}
+            data={listCurrent}
+            totalCount={listCurrent.length}
+            endReached={() => {
+              if (isReachingEnd === false) {
+                loadMore()
+              }
+            }}
+            overscan={200}
+            components={GridComponents as any}
+            itemContent={(index, block) => {
+              return <ItemBlock key={index} {...block} />
+            }}
+          />
+        )}
       </div>
     </div>
   )

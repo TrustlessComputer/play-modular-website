@@ -37,6 +37,10 @@
     white-space: nowrap;
     border-radius: rem(4px);
 
+    &:disabled {
+      opacity: 0.6;
+    }
+
     &_preview {
       margin-left: 304px;
     }
