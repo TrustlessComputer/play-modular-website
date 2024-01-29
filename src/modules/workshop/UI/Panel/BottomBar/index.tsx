@@ -204,8 +204,7 @@ export default function BottomBar() {
           </button>
         </div>
       </div>
-      {/* <SavedProjectsModal show={showModal} setIsOpen={setShowModal} /> */}
-      <UnsaveWarningModal show={showUnsaveModal} setIsOpen={setShowUnsaveModal} />
+      {/* <UnsaveWarningModal show={showUnsaveModal} setIsOpen={setShowUnsaveModal} /> */}
     </>
   )
 }
