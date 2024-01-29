@@ -64,7 +64,7 @@ export const useApiInfinite = (
     },
   )
   const total = data?.[0]?.total || 0
-  const dataInfinite = [] as any
+  const dataInfinite = []
   data?.forEach((item) => item?.list?.map((subItem: unknown) => dataInfinite.push(subItem)))
   const isEmpty = typeof data?.[0]?.total !== 'undefined' ? total === 0 || dataInfinite?.length === 0 : false
   const isLoadingMore = isLoading || (size > 0 && data && typeof data[size - 1] === 'undefined') || false

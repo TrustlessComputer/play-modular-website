@@ -45,7 +45,8 @@ export default function BottomBar() {
     setSelectedBricks,
     setBricks,
     blockCurrent,
-    setBlockCurrentUpdate
+    setBlockCurrentUpdate,
+    // listCurrent,
   } = useStoreGlobal()
 
   const { projectId, saveProject, createProject, projectName, renderFile } = useProjectStore()
@@ -187,32 +188,31 @@ export default function BottomBar() {
 
   const handleDeleteSelected = () => {
     // deleteSelected(selectedBricks)
-    const newState = [];
+    const newState = []
     setBricks((bricks) => {
-
       const newBricks = bricks.filter((brick) => {
-        const selectedClone = [...selectedBricks];
+        const selectedClone = [...selectedBricks]
         console.log('selectedClone', selectedClone)
 
-        const uID = brick.uID;
+        const uID = brick.uID
         console.log('uID', uID)
-        let should = true;
+        let should = true
         for (let i = 0; i < selectedClone.length; i++) {
-          const selectedUID = selectedClone[i].userData.uID;
+          const selectedUID = selectedClone[i].userData.uID
           if (uID === selectedUID) {
-            should = false;
-            selectedClone.splice(i, 1);
+            should = false
+            selectedClone.splice(i, 1)
           } else {
             newState.push(selectedClone[i])
           }
         }
-        return should;
-      });
-      return newBricks;
-    });
+        return should
+      })
+      return newBricks
+    })
     console.log('newState', newState)
     // setBlockCurrentUpdate(newState)
-    setSelectedBricks({});
+    setSelectedBricks({})
   }
 
   return (

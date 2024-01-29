@@ -11,23 +11,20 @@ import {
   TBlockSlice,
   TCreatedBrickSlice,
   TDragSlice,
-  TListBlocksSlice,
   TPreviewSlice,
   TProjectSlice,
   TModalSlice,
 } from '@/types/store'
-import { createListBlocks } from './slice/listBlocksSlice'
 
-export const useStoreGlobal = create<
-  TBlockSlice & TPreviewSlice & TAtributeBlock & TListBlocksSlice & TCreatedBrickSlice & TDragSlice
->((...a) => ({
-  ...createBlocksSlice(...a),
-  ...createTraitBlockSlice(...a),
-  ...createPreviewSlice(...a),
-  ...createListBlocks(...a),
-  ...createCreatedBricksSlice(...a),
-  ...createDragSlice(...a),
-}))
+export const useStoreGlobal = create<TBlockSlice & TPreviewSlice & TAtributeBlock & TCreatedBrickSlice & TDragSlice>(
+  (...a) => ({
+    ...createBlocksSlice(...a),
+    ...createTraitBlockSlice(...a),
+    ...createPreviewSlice(...a),
+    ...createCreatedBricksSlice(...a),
+    ...createDragSlice(...a),
+  }),
+)
 
 export const useProjectStore = create<TProjectSlice>((...a) => ({
   ...createProjectSlice(...a),
