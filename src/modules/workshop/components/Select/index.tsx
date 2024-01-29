@@ -185,7 +185,7 @@ export function Select({
       document.removeEventListener('pointerup', pointerUp)
     }
   }, [size.width, size.height, raycaster, camera, controls, gl, enable])
-  console.log('selectedBricks', selectedBricks)
+  // console.log('selectedBricks', selectedBricks)
   return (
     <group ref={ref} onClick={onClick} onPointerMissed={onPointerMissed} {...props}>
       {children}
