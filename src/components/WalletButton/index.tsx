@@ -3,10 +3,10 @@ import cn from 'classnames'
 
 import { useAppSelector } from '@/stores/hooks'
 import { accountSelector } from '@/stores/states/wallet/selector'
-import useWalletContext from '@/providers/wallet/useWalletContext'
-import { WalletType } from '@/providers/wallet/types'
+// import useWalletContext from '@/providers/wallet/useWalletContext'
 import { WalletProvider } from '@/providers/wallet'
 import { formatLongAddress } from '@/utils/address'
+import Image from 'next/image'
 
 import s from './styles.module.scss'
 
@@ -15,44 +15,24 @@ type TWalletButton = {
 }
 
 const WalletButton: React.FunctionComponent<TWalletButton> = ({ className }) => {
-  const walletCtx = useWalletContext()
+  // const walletCtx = useWalletContext()
 
   const account = useAppSelector(accountSelector)
 
+  if (!account) return null
+
   return (
     <div className={cn(s.walletButton, className)}>
-      {account ? (
-        <div className={s.walletButton_walletInfo}>
-          <div className={s.account}>Address: {formatLongAddress(account.address)}</div>
-          <button
-            className='btn btn__secondary'
-            onClick={() => {
-              walletCtx.requestSignOut()
-            }}
-          >
-            Disconnect {account.type}
-          </button>
-        </div>
-      ) : (
-        <>
-          <button
-            className='btn btn__secondary'
-            onClick={() => {
-              walletCtx.requestAccount({ walletType: WalletType.Unisat }).then()
-            }}
-          >
-            Connect Unisat
-          </button>
-          <button
-            className='btn btn__secondary'
-            onClick={() => {
-              walletCtx.requestAccount({ walletType: WalletType.Xverse }).then()
-            }}
-          >
-            Connect Xverse
-          </button>
-        </>
-      )}
+      <Image src='/imgs/wallet/wallet.svg' width={20} height={20} alt='wallet' />
+      <div className={s.walletButton_address}>{formatLongAddress(account.address)}</div>
+      {/* <button
+          className='btn btn__secondary'
+          onClick={() => {
+            walletCtx.requestSignOut()
+          }}
+        >
+          Disconnect {account.type}
+        </button> */}
     </div>
   )
 }
