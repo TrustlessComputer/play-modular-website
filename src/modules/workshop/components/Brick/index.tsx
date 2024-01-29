@@ -28,7 +28,7 @@ export const Brick = ({
   onClick = (e: any) => {},
   mouseMove = (e: any) => {},
 }: TBrickAction & TBlockData) => {
-  const { setIsDragging, mode } = useStoreGlobal()
+  const { setIsDragging, mode, blockCurrent, setBlockCurrent } = useStoreGlobal()
   const [resetKey, setResetKey] = React.useState(generateUId())
   const brickRef = React.useRef(null)
   const texturez = useLoader(TextureLoader, texture)
@@ -68,6 +68,19 @@ export const Brick = ({
     setDraggedOffset(newOffset)
     setResetKey(generateUId())
     setIsDragging(false)
+
+    const blockCurrentClone = [...blockCurrent]
+    for (let i = 0; i < blockCurrentClone.length; i++) {
+      const element = blockCurrentClone[i]
+      if (element.uID === uID) {
+        blockCurrentClone[i].translation = {
+          x: newOffset.x / base,
+          z: newOffset.z / base,
+        }
+      }
+    }
+
+    setBlockCurrent(blockCurrentClone)
   }
   React.useEffect(() => {
     if (!brickRef.current) return

@@ -67,8 +67,8 @@ export default function BottomBar() {
   } = useApiInfinite(
     getListModularByWallet,
     {
-      // ownerAddress: account?.address,
-      ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+      ownerAddress: account?.address,
+      // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
       page: 1,
       limit: 20,
     },
@@ -143,13 +143,24 @@ export default function BottomBar() {
     deleteAlls()
   }
 
+  const handleGetData = async () => {
+    const data = (await getListModularByWallet({
+      ownerAddress: account?.address,
+      // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+      page: 1,
+      limit: 20,
+    })) as any
+    const listData = data.list as TListCurrent[]
+    return listData
+  }
+
   const handleClickCreateNewProject = async () => {
     // if (blocksState.length > 2) {
     //   setShowUnsaveModal(true)
     // }
     createProject()
     deleteAlls()
-    const data = await handleGetData()
+    const data = await handleGetData() //reset new project
     setDataCurrent(data)
   }
 
