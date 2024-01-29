@@ -42,7 +42,8 @@ export default function Three3D() {
         aspect,
       }}
     >
-      <color attach='background' args={['#001c57']} />
+      {/* <color attach='background' args={['#001c57']} /> */}
+      <color attach='background' args={['#ffffff']} />
       {/* <mesh rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[minWorkSpaceSize, minWorkSpaceSize]} />
         <MeshReflectorMaterial
@@ -59,6 +60,10 @@ export default function Three3D() {
           metalness={0.8}
         />
       </mesh> */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
+        <planeGeometry args={[50000, 50000]} />
+        <meshPhysicalMaterial color='#cacaca' roughness={0.4} metalness={0.7} />
+      </mesh>
       <Suspense fallback={null}>
         <Environment preset='city' />
         <Scene />
