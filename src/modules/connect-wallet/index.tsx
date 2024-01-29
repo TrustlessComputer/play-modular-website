@@ -7,7 +7,7 @@ import useConnectWalletModal from '@/hooks/useConnectWalletModal'
 import s from './styles.module.scss'
 
 const ConnectWallet: React.FunctionComponent = () => {
-  const { openConnectWalletModal, closeConnectWalletModal } = useConnectWalletModal()
+  const { openConnectWalletModal } = useConnectWalletModal()
 
   return (
     <div className={s.connectWallet}>
