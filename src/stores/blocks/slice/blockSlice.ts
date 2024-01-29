@@ -2,6 +2,7 @@
 
 import { TBlockSlice, TListBlocksSlice } from '@/types/store'
 import { StateCreator } from 'zustand'
+import { TBlockData } from '@/types'
 
 export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
   blockCurrent: [],
@@ -9,6 +10,7 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
   currentStateIndex: 0,
   isUndo: false,
   isRedo: false,
+  bricks: [],
   selectedBricks: [],
   addBlocks: (getBrick) =>
     set((state) => {
@@ -86,5 +88,27 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
 
       return { selectedBricks: [object, ...state.selectedBricks] }
     }),
+
+  deleteSelected: (object) => set ((state) => {
+    const currentStateIndex = state.currentStateIndex
+    const stateCurrent = state.blocksState[currentStateIndex] || []
+    const newState: Array<TBlockData> = [...stateCurrent]
+    const selectedUID = object.userData.uID;
+
+    let blocksState;
+
+    for (let i = 0; i < newState.length; i++) {
+      const uID = newState[i].uID;
+      if (uID === selectedUID) {
+        blocksState = [...newState.splice(i, 1)]
+      }
+    }
+
+    return {
+      blocksState,
+      currentStateIndex: blocksState,
+      blockCurrent: newState,
+    }
+  }),
   setBricks: (getBricks) => set((state) => state),
 })

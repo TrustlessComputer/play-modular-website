@@ -13,6 +13,7 @@ import { Select } from '../Select'
 import instance from '@/utils/storage/local-storage'
 import { useDebounce } from '@/hooks/useDebounce'
 import BrickOutline from '../BrickOutline'
+import { DeleteBrick } from '@/modules/workshop/components/DeleteBrick'
 
 const mousePoint = new Vector3()
 const normal = new Vector3()
@@ -21,7 +22,7 @@ const offsetVec = new Vector3()
 
 export const Scene = () => {
   useAnchorShorcuts()
-  const { blockCurrent, addBlocks, mode, width, depth, anchorX, anchorZ, rotate, color, texture, trait, setMode } =
+  const { blockCurrent, addBlocks, mode, width, depth, anchorX, anchorZ, rotate, color, texture, trait, setMode, setBricks } =
     useStoreGlobal()
 
   const bricksBoundBox = useRef([])
@@ -173,7 +174,7 @@ export const Scene = () => {
             />
           )
         })}
-        {/* <DeleteBrick setBricks={setBricks} /> */}
+         <DeleteBrick setBricks={setBricks} />
         <BrickOutline />
       </Select>
       <Lights />

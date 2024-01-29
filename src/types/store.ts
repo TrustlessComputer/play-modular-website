@@ -10,6 +10,7 @@ export type TBlockSlice = {
 
   addBlocks: (d: TBlockData) => void
   deleteAlls: () => void
+  deleteSelected: (d: any) => void
   setBlockCurrent: (d: TBlockData[]) => void
   undo: () => void
   redo: () => void
