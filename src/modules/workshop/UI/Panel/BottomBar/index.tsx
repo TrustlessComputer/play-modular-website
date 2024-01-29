@@ -46,6 +46,7 @@ export default function BottomBar() {
 
   const [showModal, setShowModal] = useState(false)
   const [showUnsaveModal, setShowUnsaveModal] = useState(false)
+  const [first, setfirst] = useState(second)
 
   const account = useAppSelector(accountSelector)
 
