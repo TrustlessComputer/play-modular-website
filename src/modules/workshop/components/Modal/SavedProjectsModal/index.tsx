@@ -34,7 +34,7 @@ const SavedProjectsModal = () => {
     return (
       <div className={s.wrapper}>
         <div className={`${s.header} flex justify-between`}>
-          <div className={s.title}>Saved Projects</div>
+          <div className={s.title}>Saved Model</div>
           <div
             className={s.close}
             onClick={() => {
