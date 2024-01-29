@@ -4,9 +4,11 @@ import React from 'react'
 import { Vector3, Box3, TextureLoader, Matrix4 } from 'three'
 import { motion } from 'framer-motion-3d'
 import { useLoader } from '@react-three/fiber'
-import { base, createGeometry, getMeasurementsFromDimensions, uID as generateUId } from '@/utils'
+import { base, createGeometry, getMeasurementsFromDimensions, uID as generateUId, EDIT_MODE } from '@/utils'
 import { TBlockData } from '@/types'
 import { NONT_TEXTURE } from '@/constant/trait-data'
+import { Decal, PivotControls } from '@react-three/drei'
+import { useStoreGlobal } from '@/stores/blocks'
 
 type TBrickAction = {
   onClick?: (e: any) => void
@@ -26,7 +28,7 @@ export const Brick = ({
   onClick = (e: any) => {},
   mouseMove = (e: any) => {},
 }: TBrickAction & TBlockData) => {
-  // const { setCreatedBricks } = useStoreGlobal()
+  const { setIsDragging, mode } = useStoreGlobal()
   const [resetKey, setResetKey] = React.useState(generateUId())
   const brickRef = React.useRef(null)
   const texturez = useLoader(TextureLoader, texture)
@@ -65,8 +67,8 @@ export const Brick = ({
 
     setDraggedOffset(newOffset)
     setResetKey(generateUId())
+    setIsDragging(false)
   }
-
   React.useEffect(() => {
     if (!brickRef.current) return
     if (!uID) return
@@ -124,120 +126,59 @@ export const Brick = ({
             uID,
           }}
         >
-          {/* <PivotControls
+          <PivotControls
             key={resetKey}
+            scale={base * dimensions.x + 5}
             activeAxes={[true, false, true]}
-            scale={base + 5}
-            disableAxes={true}
+            disableAxes={!isSelected && mode === EDIT_MODE}
+            disableSliders
             disableRotations
+            onDragStart={() => setIsDragging(true)}
             onDrag={onDrag}
             onDragEnd={onDragEnd}
-          > */}
-          <mesh
-            castShadow
-            receiveShadow
-            userData={{
-              uID,
-              dimensions,
-              offset,
-              width,
-              depth,
-              type: `${dimensions.x}-${dimensions.z}`,
-              position,
-              rotation,
-              translation,
-            }}
-            geometry={brickGeometry}
-            onClick={onClick}
-            onPointerMove={mouseMove}
           >
-            <meshPhysicalMaterial color={color} opacity={1} />
-          </mesh>
-          {/* {brickGeometry.map((geo, i) => (
-              <group
-                key={i}
-                position={[(offset.x * width) / dimensions.x, 0, (offset.z * depth) / dimensions.z]}
-                onClick={onClick}
-                onPointerMove={mouseMove}
-              >
-                <mesh
-                  castShadow
-                  receiveShadow
-                  userData={{
-                    uID,
-                    dimensions,
-                    offset,
-                    width,
-                    depth,
-                    type: `${dimensions.x}-${dimensions.z}`,
-                    position,
-                    rotation,
-                    translation,
-                  }}
-                  geometry={geo.cube}
+            <mesh
+              castShadow
+              receiveShadow
+              userData={{
+                uID,
+                dimensions,
+                offset,
+                width,
+                depth,
+                type: `${dimensions.x}-${dimensions.z}`,
+                position,
+                rotation,
+                translation,
+              }}
+              geometry={brickGeometry}
+              onClick={onClick}
+              onPointerMove={mouseMove}
+            >
+              <meshPhysicalMaterial color={color} />
+              {!isNontTexture && (
+                <Decal
+                  map={texturez}
+                  position={[0, 0, brickGeometry.length > 1 ? 0.05 : 0.05]}
+                  rotation={[0, 0, 0]}
+                  scale={[
+                    brickGeometry.length > 1 ? base * 2.5 : base * 2.5,
+                    (base * 2) / 1.5,
+                    brickGeometry.length > 1 ? base * 2 : base,
+                  ]}
                 >
-                  {!isNontTexture ? (
-                    <>
-                      <meshPhysicalMaterial color={color} roughness={0.9} metalness={0.94} />
-                      <Decal
-                        map={texturez}
-                        position={[0, 0, brickGeometry.length > 1 ? 0.05 : 0.05]}
-                        rotation={[0, 0, 0]}
-                        scale={[
-                          brickGeometry.length > 1 ? base * 2.5 : base * 2.5,
-                          (base * 2) / 1.5,
-                          brickGeometry.length > 1 ? base * 2 : base,
-                        ]}
-                      >
-                        <meshPhysicalMaterial
-                          map={texturez}
-                          transparent={true}
-                          metalness={0.94}
-                          roughness={0.9}
-                          polygonOffset
-                          polygonOffsetFactor={-1} // The material should take precedence over the original
-                        />
-                      </Decal>
-                    </>
-                  ) : (
-                    <meshPhysicalMaterial
-                      color={color}
-                      polygonOffset
-                      polygonOffsetFactor={-1} // The material should take precedence over the original
-                    />
-                  )}
-                </mesh>
-                <mesh
-                  castShadow
-                  receiveShadow
-                  userData={{
-                    uID,
-                    dimensions,
-                    offset,
-                    width,
-                    depth,
-                    type: `${dimensions.x}-${dimensions.z}`,
-                    position,
-                    rotation,
-                    translation,
-                  }}
-                  geometry={geo.cylinder}
-                >
-                  {!isNontTexture ? (
-                    <meshPhysicalMaterial
-                      color={color}
-                      roughness={0.9}
-                      metalness={0.94}
-                      polygonOffset
-                      polygonOffsetFactor={-1}
-                    />
-                  ) : (
-                    <meshPhysicalMaterial color={color} opacity={1} />
-                  )}
-                </mesh>
-              </group>
-            ))} */}
-          {/* </PivotControls> */}
+                  <meshPhysicalMaterial
+                    map={texturez}
+                    transparent={true}
+                    metalness={0.94}
+                    roughness={0.9}
+                    polygonOffset
+                    polygonOffsetFactor={-1} // The material should take precedence over the original
+                  />
+                </Decal>
+              )}
+            </mesh>
+          </PivotControls>
         </motion.group>
       )}
     </>

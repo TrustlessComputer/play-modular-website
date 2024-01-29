@@ -21,8 +21,21 @@ const offsetVec = new Vector3()
 
 export const Scene = () => {
   useAnchorShorcuts()
-  const { blockCurrent, addBlocks, mode, width, depth, anchorX, anchorZ, rotate, color, texture, trait, setMode } =
-    useStoreGlobal()
+  const {
+    blockCurrent,
+    addBlocks,
+    mode,
+    width,
+    depth,
+    anchorX,
+    anchorZ,
+    rotate,
+    color,
+    texture,
+    trait,
+    setMode,
+    selectedBricks,
+  } = useStoreGlobal()
 
   const bricksBoundBox = useRef([])
   const brickCursorRef = useRef<Group>()
@@ -148,6 +161,7 @@ export const Scene = () => {
     <>
       <Select box multiple>
         {blockCurrent.map((b, i) => {
+          const isSelected = selectedBricks.find((s) => s.userData.uID === b.uID) ? true : false
           const { dimensions, rotation, intersect } = b
           const height = 1
           const position = () => {
@@ -169,6 +183,7 @@ export const Scene = () => {
               onClick={onClick}
               bricksBoundBox={bricksBoundBox}
               mouseMove={mouseMove}
+              isSelected={isSelected}
               position={position()}
             />
           )

@@ -78,3 +78,8 @@ export type TProjectSlice = {
   loadProject: (params) => void
   createProject: () => void
 }
+
+export type TDragSlice = {
+  isDragging: boolean
+  setIsDragging: (b: boolean) => void
+}
