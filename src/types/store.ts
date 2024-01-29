@@ -77,8 +77,7 @@ export type TProjectSlice = {
   projectId: string
   renderFile: string
 
-  saveProject: (params) => void
-  saveAsProject: (params) => void
+  saveProject: (params) =>  Promise<"success" | "failed">
   loadProject: (params) => void
   createProject: () => void
 }

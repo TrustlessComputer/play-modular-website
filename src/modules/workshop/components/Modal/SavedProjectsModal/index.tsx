@@ -8,6 +8,7 @@ import { useAppSelector } from '@/stores/hooks'
 import { accountSelector } from '@/stores/states/wallet/selector'
 
 import ProjectItem from './ProjectItem'
+import { useEffect } from 'react'
 
 export const SAVED_PROJECTS_MODAL_ID = 'SAVED_PROJECTS_MODAL_ID'
 
@@ -31,6 +32,11 @@ const SavedProjectsModal = () => {
       shouldFetch: !!account?.address,
     },
   )
+
+  useEffect(() => {
+    refresh()
+  }, [])
+
 
   const BodyContent = () => {
     return (

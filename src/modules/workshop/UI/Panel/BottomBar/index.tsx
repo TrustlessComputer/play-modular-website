@@ -24,6 +24,7 @@ import { useId, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import jsonFile from './mock.json'
 import UnsaveWarningModal from '@/modules/workshop/components/Modal/UnsaveWarningModal'
+import SetProjectNameModal, { SET_PROJECT_NAME_MODAL_ID } from '@/modules/workshop/components/Modal/SetProjectNameModal'
 
 // const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
 
@@ -90,6 +91,15 @@ export default function BottomBar() {
   const saveAction = async () => {
     if (blocksState.length < 2 || !blockCurrent || blockCurrent.length === 0) return
 
+    if (!projectName) {
+      openModal({
+        id: SET_PROJECT_NAME_MODAL_ID,
+        component: <SetProjectNameModal type="save" />
+      })
+      return;
+    }
+
+
     const payload: {
       jsonFile: any
       projectId?: string
@@ -107,8 +117,18 @@ export default function BottomBar() {
     if (projectName) {
       payload.projectName = projectName
     }
-    console.log('payload', JSON.stringify(payload.jsonFile) )
+    console.log('payload', JSON.stringify(payload.jsonFile))
     saveProject(payload)
+  }
+
+  const saveAsAction = async () => {
+    if (blocksState.length < 2 || !blockCurrent || blockCurrent.length === 0) return
+
+    openModal({
+      id: SET_PROJECT_NAME_MODAL_ID,
+      component: <SetProjectNameModal type="save-as" />
+    })
+    return;
   }
 
   const loadDataAction = (file) => {
@@ -220,25 +240,24 @@ export default function BottomBar() {
 
         <div className={s.bottomBar}>
           <button className={s.bottomBar_btn} onClick={saveAction}>
-            <IcSave /> Save Model
+            <IcSave /> Save
           </button>
-          {/* <button className={s.bottomBar_btn} onClick={saveAction}>
+          <button className={s.bottomBar_btn} onClick={saveAsAction}>
             <IcSave /> Save As
-          </button> */}
+          </button>
           <button className={s.bottomBar_btn} onClick={handleClickCreateNewProject}>
-            <IcCreate /> Create New Model
+            <IcCreate /> Create New
           </button>
           <button
             className={s.bottomBar_btn}
             onClick={() => {
-              // setShowModal(true)
               openModal({
                 id: SAVED_PROJECTS_MODAL_ID,
                 component: <SavedProjectsModal />,
               })
             }}
           >
-            <IcOpen /> Open Model
+            <IcOpen /> Open
           </button>
         </div>
       </div>
