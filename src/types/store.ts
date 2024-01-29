@@ -83,6 +83,11 @@ export type TProjectSlice = {
   createProject: () => void
 }
 
+export type ModalProps = {
+  id: string
+  component: ReactNode
+}
+
 export type TModalSlice = {
   modals: ModalProps[]
   openModal: (params: ModalProps) => void
