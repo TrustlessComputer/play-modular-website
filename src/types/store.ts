@@ -11,11 +11,11 @@ export type TBlockSlice = {
   addBlocks: (d: TBlockData) => void
   deleteAlls: () => void
   setBlockCurrent: (d: TBlockData[]) => void
+  // deleteSeletBlocks: () => void
   setSelectedBricks: (d: any) => void
   undo: () => void
   redo: () => void
   setBricks: (d: TBlockData) => void
-  setSelectedBricks: (b: any) => void
 }
 
 export type TPreviewSlice = {
@@ -38,7 +38,6 @@ export type TAtributeBlock = {
   color: string
   texture: string
   trait: { color: string; texture: string; shape: string; type: string }
-  selectedBricks: []
 
   setMode: (mode: string) => void
   setWidth: (w: number) => void

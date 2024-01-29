@@ -74,7 +74,7 @@ export const Scene = () => {
         }
 
         if (trait?.color) {
-          setMode(EDIT_MODE)
+          // setMode(EDIT_MODE)
           addBlocks(brickData)
         }
       }

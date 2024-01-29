@@ -94,7 +94,6 @@ export function Select({
       if (selectionStartTimeoutId.current) {
         clearTimeout(selectionStartTimeoutId.current)
       }
-      console.log('hehe', event)
       selectionStartTimeoutId.current = setTimeout(() => setEvents({ enabled: false }), 500)
 
       down((isDown = true))

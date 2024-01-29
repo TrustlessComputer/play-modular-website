@@ -27,8 +27,18 @@ import jsonFile from './mock.json'
 const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
 
 export default function BottomBar() {
-  const { undo, redo, mode, viewPreview, setViewPreview, deleteAlls, blockCurrent, setDataCurrent, setBlockCurrent } =
-    useStoreGlobal()
+  const {
+    undo,
+    redo,
+    mode,
+    viewPreview,
+    setViewPreview,
+    deleteAlls,
+    blockCurrent,
+    setDataCurrent,
+    setBlockCurrent,
+    // deleteSeletBlocks,
+  } = useStoreGlobal()
 
   const { projectId, saveProject, createProject } = useProjectStore()
 
@@ -63,7 +73,9 @@ export default function BottomBar() {
   const redoAction = () => {
     redo()
   }
-
+  const deleteAction = () => {
+    // deleteSeletBlocks()
+  }
   const saveAction = async () => {
     saveProject({
       projectId: id,
@@ -129,7 +141,7 @@ export default function BottomBar() {
             <IconClear />
             Clear
           </button>
-          <button className={s.bottomBar_btn}>
+          <button className={s.bottomBar_btn} onClick={deleteAction}>
             <IconTrash /> Delete
           </button>
 

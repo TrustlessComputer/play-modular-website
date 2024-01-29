@@ -32,6 +32,13 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
         }
       }
     }),
+  // deleteSeletBlocks: () =>
+  //   set((state) => {
+  //     console.log(state.selectedBricks)
+  //     return {
+  //       state,
+  //     }
+  //   }),
   setBlockCurrent: (data) => set(() => ({ blockCurrent: data })),
   deleteAlls: () =>
     set((state) => {
