@@ -18,15 +18,21 @@ type TWalletButton = {
 
 const WalletButton: React.FunctionComponent<TWalletButton> = ({ className }) => {
   // const walletCtx = useWalletContext()
-
+  const [toggleState, setToggleState] = useState<boolean>(false)
+  const walletButton = useRef<HTMLButtonElement | null>(null)
   const account = useAppSelector(accountSelector)
+  const hidePopupHandler = () => {
+    setToggleState(false)
+  }
+
+  useClickOutside(walletButton, hidePopupHandler)
 
   if (!account) return null
 
   return (
     <div className={cn(s.walletButton, className)}>
-      <Image src='/imgs/wallet/wallet.svg' width={20} height={20} alt='wallet' />
-      <div className={s.walletButton_address}>{formatLongAddress(account.address)}</div>
+      {/* <Image src='/imgs/wallet/wallet.svg' width={20} height={20} alt='wallet' />
+      <div className={s.walletButton_address}>{formatLongAddress(account.address)}</div> */}
       {/* <button
           className='btn btn__secondary'
           onClick={() => {
@@ -35,6 +41,30 @@ const WalletButton: React.FunctionComponent<TWalletButton> = ({ className }) => 
         >
           Disconnect {account.type}
         </button> */}
+
+      <div className={s.walletButton_walletInfo}>
+        <button ref={walletButton} className={s.account} onClick={() => setToggleState(!toggleState)}>
+          <IconWallet /> {formatLongAddress(account.address)}
+        </button>
+        <div className={`${s.walletPopup} ${toggleState && s.active}`}>
+          <div className={s.walletPopup_address}>
+            <p>Bitcoin address</p>
+            <p>
+              {formatLongAddress(account.address)} <IconCopy />
+            </p>
+          </div>
+          <button
+            className={`${s.walletPopup_btn}`}
+            onClick={() => {
+              // walletCtx.requestSignOut()
+              hidePopupHandler()
+            }}
+          >
+            <IconLogout />
+            Disconnect
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

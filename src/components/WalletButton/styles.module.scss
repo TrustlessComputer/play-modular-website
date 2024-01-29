@@ -1,26 +1,83 @@
 .walletButton {
-  position: absolute;
-  top: 37px;
-  right: 55px;
   display: flex;
-  padding: 12px 20px;
-  justify-content: center;
+  flex-direction: row;
   align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-
-  border-radius: 100px;
-  border: 1px solid #ececec;
-  background: #fff;
-  box-shadow: 0px 0px 24px -6px rgba(0, 0, 0, 0.12);
+  gap: rem(5px);
   z-index: 1001;
+  position: absolute;
+  top: rem(40px);
+  right: rem(48px);
 
-  &_address {
-    color: #000;
-    text-align: center;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+  &_walletInfo {
+    position: relative;
+
+    .account {
+      display: flex;
+      gap: rem(8px);
+      align-items: center;
+      justify-content: center;
+      font-size: rem(14px);
+      min-width: rem(180px);
+      padding: rem(14px) 0;
+      background-color: rgba($color: #5b5b5b, $alpha: 0.05);
+      border-radius: rem(100px);
+      border: rem(1px) solid var(--black-20);
+      cursor: pointer;
+      color: var(--black);
+    }
+
+    .walletPopup {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transform: translateY(120%);
+      opacity: 0;
+      width: 100%;
+      border: rem(1px) solid #ececec;
+      background: var(--white);
+      border-radius: rem(16px);
+      box-shadow: 0px 0px 24px -6px rgba(0, 0, 0, 0.12);
+      padding: rem(16px);
+      box-sizing: border-box;
+      transition: .2s all ease-in-out;
+
+      &_address {
+        padding: rem(12px);
+        border: rem(1px) solid #ececec;
+        border-radius: rem(12px);
+
+        p {
+          font-size: rem(12px);
+          line-height: rem(16.8px);
+          font-weight: 500;
+          color: #5b5b5b;
+          margin-bottom: rem(4px);
+
+          &:last-child {
+            display: flex;
+            align-items: center;
+            gap: rem(8px);
+            font-size: rem(14px);
+            line-height: rem(19.6px);
+            color: var(--black);
+          }
+        }
+      }
+
+      &_btn {
+        margin-top: rem(20px);
+        color: var(--black);
+        font-weight: 600;
+        font-size: rem(16px);
+        display: flex;
+        align-items: center;
+        gap: rem(8px);
+      }
+
+      &.active {
+        transform: translateY(105%);
+        opacity: 1;
+      }
+    }
   }
 }

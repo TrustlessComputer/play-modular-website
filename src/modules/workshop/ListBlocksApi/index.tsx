@@ -76,7 +76,6 @@ const ListBlocks: React.FunctionComponent = () => {
       setDataCurrent(data)
     }
   }, [dataInfinite.length])
-
   return (
     <div className={s.wrapper}>
       <div className={s.inner}>

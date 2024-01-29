@@ -46,7 +46,6 @@ export default function BottomBar() {
     setBricks,
     blockCurrent,
     setBlockCurrentUpdate,
-    // listCurrent,
   } = useStoreGlobal()
 
   const { projectId, saveProject, createProject, projectName, renderFile } = useProjectStore()
