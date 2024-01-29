@@ -15,7 +15,7 @@ const ProjectItem = (props: Props) => {
   const handleClickOpen = async () => {
     try {
       const res = await getProjectDetail({ id: props.id })
-
+      // console.log('darta', JSON.parse(res.metaData))
       if (!!res.metaData) {
         loadProject({
           projectId: props.id,
