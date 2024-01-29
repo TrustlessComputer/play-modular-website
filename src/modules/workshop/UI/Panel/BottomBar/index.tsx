@@ -196,11 +196,17 @@ export default function BottomBar() {
 
   useEffect(() => {
     // detect click browser back button or closing tab
+    if (!isAllowSave) return
     window.addEventListener('beforeunload', (e) => {
       e.preventDefault()
-
     })
-  }, [])
+
+    return () => {
+      window.removeEventListener('beforeunload', (e) => {
+        e.preventDefault()
+      })
+    }
+  }, [isAllowSave])
 
 
   const handleDeleteSelected = () => {
