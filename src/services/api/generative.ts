@@ -32,7 +32,7 @@ export const getListModularByWallet = async (payload: {
 }
 // Save actions
 export const getListSavedProject = async (payload: {
-  ownerAddress: string
+  address: string
   page: number
   limit: number
 }): Promise<unknown> => {
