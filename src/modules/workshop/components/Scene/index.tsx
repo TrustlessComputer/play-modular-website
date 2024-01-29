@@ -13,6 +13,7 @@ import { Select } from '../Select'
 import instance from '@/utils/storage/local-storage'
 import { useDebounce } from '@/hooks/useDebounce'
 import BrickOutline from '../BrickOutline'
+import { DeleteBrick } from '@/modules/workshop/components/DeleteBrick'
 
 const mousePoint = new Vector3()
 const normal = new Vector3()
@@ -35,6 +36,7 @@ export const Scene = () => {
     trait,
     setMode,
     selectedBricks,
+    setBricks
   } = useStoreGlobal()
 
   const bricksBoundBox = useRef([])
@@ -165,7 +167,7 @@ export const Scene = () => {
           const { dimensions, rotation, intersect } = b
           const height = 1
           const position = () => {
-            const evenWidth = rotation === 0 ? dimensions.x % 2 === 0 : dimensions.z % 2 === 0
+            const evenWidth = rotation === 0 ? dimensions.x % 2 === 0 : dimensions.z  % 2 === 0
             const evenDepth = rotation === 0 ? dimensions.z % 2 === 0 : dimensions.x % 2 === 0
             return new Vector3()
               .copy(intersect.point)
@@ -188,7 +190,7 @@ export const Scene = () => {
             />
           )
         })}
-        {/* <DeleteBrick setBricks={setBricks} /> */}
+         <DeleteBrick setBricks={setBricks} />
         <BrickOutline />
       </Select>
       <Lights />

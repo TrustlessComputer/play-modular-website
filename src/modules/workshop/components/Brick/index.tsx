@@ -156,7 +156,7 @@ export const Brick = ({
               onClick={onClick}
               onPointerMove={mouseMove}
             >
-              <meshPhysicalMaterial color={color} metalness={0.2} roughness={0.9} />
+              <meshPhysicalMaterial color={color} metalness={0} roughness={1} specularIntensity={0} />
               {!isNontTexture && (
                 <Decal
                   map={texturez}
@@ -171,8 +171,9 @@ export const Brick = ({
                   <meshPhysicalMaterial
                     map={texturez}
                     transparent={true}
-                    metalness={0.94}
-                    roughness={0.9}
+                    metalness={0}
+                    roughness={1}
+                    specularIntensity={0}
                     polygonOffset
                     polygonOffsetFactor={-1} // The material should take precedence over the original
                   />

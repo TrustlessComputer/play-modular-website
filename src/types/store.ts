@@ -10,12 +10,14 @@ export type TBlockSlice = {
 
   addBlocks: (d: TBlockData) => void
   deleteAlls: () => void
+  deleteSelected: (d: any) => void
   setBlockCurrent: (d: TBlockData[]) => void
+  setBlockCurrentUpdate: (d: any) => void
   // deleteSeletBlocks: () => void
   setSelectedBricks: (d: any) => void
   undo: () => void
   redo: () => void
-  setBricks: (d: TBlockData) => void
+  setBricks: (d: any) => void
 }
 
 export type TPreviewSlice = {

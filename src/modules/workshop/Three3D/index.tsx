@@ -3,9 +3,10 @@
 import React, { Suspense } from 'react'
 import { ControlsWrapper } from '../components/Control'
 import { Scene } from '../components/Scene'
-import { Canvas, useThree } from '@react-three/fiber'
-import { Environment, MeshReflectorMaterial, OrthographicCamera } from '@react-three/drei'
+import { Canvas } from '@react-three/fiber'
+import { Environment } from '@react-three/drei'
 import { minWorkSpaceSize } from '@/utils'
+import { EffectComposer, BrightnessContrast, HueSaturation } from '@react-three/postprocessing'
 
 export default function Three3D() {
   const [aspect, setAspect] = React.useState(1)
@@ -41,12 +42,8 @@ export default function Three3D() {
         aspect,
       }}
     >
-      {/* <color attach='background' args={['#202025']} /> */}
-      {/* <color attach='background' args={['#CACACA']} /> */}
-      {/* <color attach='background' args={['#00072d']} /> */}
       <color attach='background' args={['#001c57']} />
-      {/* <color attach='background' args={['#0a2472']} /> */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]}>
+      {/* <mesh rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[minWorkSpaceSize, minWorkSpaceSize]} />
         <MeshReflectorMaterial
           mirror={0.2}
@@ -57,15 +54,19 @@ export default function Three3D() {
           depthScale={1.2}
           minDepthThreshold={0.4}
           maxDepthThreshold={1.6}
-          color='#202025'
+          color='#001c57'
           roughness={0.4}
-          metalness={0.2}
+          metalness={0.8}
         />
-      </mesh>
+      </mesh> */}
       <Suspense fallback={null}>
         <Environment preset='city' />
         <Scene />
         <ControlsWrapper />
+        <EffectComposer multisampling={0}>
+          <BrightnessContrast contrast={-0.4} />
+          <HueSaturation saturation={0.1} />
+        </EffectComposer>
       </Suspense>
     </Canvas>
   )

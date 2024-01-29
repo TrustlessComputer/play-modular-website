@@ -126,3 +126,63 @@ export const RotateIcon = () => {
     </svg>
   )
 }
+export const IconWallet = () => {
+  return (
+    <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' viewBox='0 0 20 20'>
+      <rect width='20' height='20' fill='url(#paint0_linear_30165_6944)' rx='3.667'></rect>
+      <path
+        fill='#fff'
+        d='M5.5 8a2 2 0 00-2 2v4a2 2 0 002 2h9a2 2 0 002-2v-4a2 2 0 00-2-2H12a.5.5 0 00-.5.5 1.5 1.5 0 11-3 0A.5.5 0 008 8H5.5z'
+      ></path>
+      <path
+        fill='#fff'
+        fillOpacity='0.6'
+        d='M3.516 7.749a2.989 2.989 0 011.984-.75h9c.761 0 1.456.283 1.985.75a2 2 0 00-1.985-1.75h-9a2 2 0 00-1.984 1.75z'
+      ></path>
+      <path
+        fill='#fff'
+        fillOpacity='0.2'
+        d='M3.516 5.749a2.989 2.989 0 011.984-.75h9c.761 0 1.456.283 1.985.75a2 2 0 00-1.985-1.75h-9a2 2 0 00-1.984 1.75z'
+      ></path>
+      <defs>
+        <linearGradient id='paint0_linear_30165_6944' x1='20' x2='0' y1='0' y2='20' gradientUnits='userSpaceOnUse'>
+          <stop stopColor='#B9B8E1'></stop>
+          <stop offset='0.359' stopColor='#ADA4F4'></stop>
+          <stop offset='0.703' stopColor='#9394F6'></stop>
+          <stop offset='1' stopColor='#A9AAF8'></stop>
+        </linearGradient>
+      </defs>
+    </svg>
+  )
+}
+export const IconCopy = () => {
+  return (
+    <svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' viewBox='0 0 14 14'>
+      <g stroke='#5B5B5B' strokeLinejoin='round' clipPath='url(#clip0_30165_7093)'>
+        <path d='M2.871 3.5h6.07c.861 0 1.559.698 1.559 1.559v6.07c0 .86-.698 1.559-1.559 1.559h-6.07c-.86 0-1.558-.698-1.558-1.56v-6.07c0-.86.697-1.558 1.558-1.558z'></path>
+        <path
+          strokeLinecap='round'
+          d='M3.514 3.5L3.5 2.844a1.536 1.536 0 011.531-1.531h5.907a1.755 1.755 0 011.75 1.75v5.906a1.536 1.536 0 01-1.532 1.531H10.5'
+        ></path>
+      </g>
+      <defs>
+        <clipPath id='clip0_30165_7093'>
+          <path fill='#fff' d='M0 0H14V14H0z' transform='matrix(-1 0 0 1 14 0)'></path>
+        </clipPath>
+      </defs>
+    </svg>
+  )
+}
+export const IconLogout = () => {
+  return (
+    <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' viewBox='0 0 20 20'>
+      <path
+        stroke='#000'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth='1.5'
+        d='M12.683 17h3.088c.468 0 .917-.184 1.248-.513.331-.328.517-.773.517-1.237V4.75c0-.464-.186-.91-.517-1.237A1.772 1.772 0 0015.771 3h-3.088m-.22 7h-10m0 0l3.822 4m-3.821-4l3.82-4'
+      ></path>
+    </svg>
+  )
+}
