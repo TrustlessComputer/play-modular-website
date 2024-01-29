@@ -19,7 +19,7 @@ type TWalletButton = {
 const WalletButton: React.FunctionComponent<TWalletButton> = ({ className }) => {
   const walletCtx = useWalletContext()
   const [toggleState, setToggleState] = useState<boolean>(false)
-  const walletButton = useRef<HTMLElement | null>(null)
+  const walletButton = useRef<HTMLDivElement | null>(null)
   const account = useAppSelector(accountSelector)
   const hidePopupHandler = () => {
     setToggleState(false)
