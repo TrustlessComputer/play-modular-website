@@ -41,17 +41,11 @@ export function Select({
 
       setSelectedBricks({
         object: customFilter([e.object])[0],
-        shift: multiple && e.shiftKey,
+        shift: e.shiftKey,
       })
     },
-    [enable, multiple],
+    [customFilter, enable, setSelectedBricks],
   )
-
-  React.useEffect(() => {
-    if (!enable) {
-      setSelectedBricks({})
-    }
-  }, [enable])
 
   const onPointerMissed = React.useCallback((e) => {
     setSelectedBricks({})
@@ -61,6 +55,12 @@ export function Select({
 
   const selectionOverTimeoutId = React.useRef<NodeJS.Timeout>(null)
   const selectionStartTimeoutId = React.useRef<NodeJS.Timeout>(null)
+
+  React.useEffect(() => {
+    if (!enable) {
+      setSelectedBricks({})
+    }
+  }, [enable])
 
   React.useEffect(() => {
     if (!box || !multiple || !enable) return

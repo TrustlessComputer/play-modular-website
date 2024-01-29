@@ -15,6 +15,7 @@ export type TBlockSlice = {
   undo: () => void
   redo: () => void
   setBricks: (d: TBlockData) => void
+  setSelectedBricks: (b: any) => void
 }
 
 export type TPreviewSlice = {
@@ -50,6 +51,7 @@ export type TAtributeBlock = {
   setColor: (color: string) => void
   setTexture: (t: string) => void
   setTrait: ({ color, texture, shape, type }: { color: string; texture: string; shape: string; type: string }) => void
+  // setSelectedBricks: (b: any) => void
 }
 
 type TBrickResponse = {

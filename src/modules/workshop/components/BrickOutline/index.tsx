@@ -1,10 +1,13 @@
+'use client'
+
+import { useStoreGlobal } from '@/stores/blocks'
 import { createGeometry, getMeasurementsFromDimensions, knobSize, outlineWidth } from '@/utils'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { BackSide, InstancedMesh, Object3D } from 'three'
 
 const dummy = new Object3D()
 
-const BrickOutline = ({ meshesData }) => {
+const OutlineMesh = ({ meshesData }) => {
   const ref = React.useRef<InstancedMesh | null>(null)
 
   const dimensions = meshesData[0]?.dimensions
@@ -23,7 +26,7 @@ const BrickOutline = ({ meshesData }) => {
       height: height + outlineWidth * 2,
       depth: depth + outlineWidth * 2,
       dimensions,
-      knobDim: knobSize + outlineWidth,
+      knobDim: knobSize,
     })
   }, [width, height, depth, dimensions]) as any
 
@@ -61,12 +64,39 @@ const BrickOutline = ({ meshesData }) => {
     <>
       <instancedMesh
         ref={ref}
-        position={[0, 0.5, 0]}
+        position={[0, 0, 0]}
         args={[outlineGeometry, null, meshesData.length]}
         raycast={() => {}}
       >
         <meshBasicMaterial color={'white'} side={BackSide} />
       </instancedMesh>
+    </>
+  )
+}
+
+const BrickOutline = () => {
+  const selected = useStoreGlobal((state) => state.selectedBricks).map((sel) => sel.userData)
+
+  const selectedMeshes = useMemo(() => {
+    const meshesAccrodingToType = {}
+
+    for (let i = 0; i < selected.length; i++) {
+      const currentSelected = selected[i]
+      if (Object.keys(currentSelected).length > 0) {
+        meshesAccrodingToType[currentSelected.type] = meshesAccrodingToType[currentSelected.type]
+          ? [...meshesAccrodingToType[currentSelected.type], currentSelected]
+          : [currentSelected]
+      }
+    }
+
+    return meshesAccrodingToType
+  }, [selected])
+
+  return (
+    <>
+      {Object.entries(selectedMeshes).map(([key, value]) => (
+        <OutlineMesh key={key} meshesData={value} />
+      ))}
     </>
   )
 }

@@ -1,11 +1,11 @@
-import React, { useMemo, useEffect, useRef, useCallback } from 'react'
+'use client'
+
+import React from 'react'
 import { Vector3, Box3, TextureLoader, Matrix4 } from 'three'
 import { motion } from 'framer-motion-3d'
 import { useLoader } from '@react-three/fiber'
 import { base, createGeometry, getMeasurementsFromDimensions, uID as generateUId } from '@/utils'
 import { TBlockData } from '@/types'
-import { Decal, Outlines, PivotControls } from '@react-three/drei'
-import { Select } from '../Select'
 import { NONT_TEXTURE } from '@/constant/trait-data'
 
 type TBrickAction = {
@@ -28,7 +28,7 @@ export const Brick = ({
 }: TBrickAction & TBlockData) => {
   // const { setCreatedBricks } = useStoreGlobal()
   const [resetKey, setResetKey] = React.useState(generateUId())
-  const brickRef = useRef(null)
+  const brickRef = React.useRef(null)
   const texturez = useLoader(TextureLoader, texture)
   const isNontTexture = texture === NONT_TEXTURE
   const compansate = {
@@ -47,8 +47,8 @@ export const Brick = ({
 
   const { height, width, depth } = getMeasurementsFromDimensions(dimensions)
 
-  const brickGeometry = useMemo(() => {
-    return createGeometry({ width, height, depth, dimensions })
+  const brickGeometry = React.useMemo(() => {
+    return createGeometry({ width, height, depth, dimensions }) as any
   }, [width, height, depth, dimensions])
 
   const onDrag = (l: Matrix4) => {
@@ -67,7 +67,7 @@ export const Brick = ({
     setResetKey(generateUId())
   }
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!brickRef.current) return
     if (!uID) return
     if (!bricksBoundBox.current) return
@@ -89,7 +89,7 @@ export const Brick = ({
     }
   }, [uID, bricksBoundBox, position])
 
-  useEffect(() => {
+  React.useEffect(() => {
     const evenWidth = rotation === 0 ? dimensions.x % 2 === 0 : dimensions.z % 2 === 0
     const evenDepth = rotation === 0 ? dimensions.z % 2 === 0 : dimensions.x % 2 === 0
 
@@ -124,8 +124,7 @@ export const Brick = ({
             uID,
           }}
         >
-          <Select box multiple>
-            {/* <PivotControls
+          {/* <PivotControls
             key={resetKey}
             activeAxes={[true, false, true]}
             scale={base + 5}
@@ -134,7 +133,27 @@ export const Brick = ({
             onDrag={onDrag}
             onDragEnd={onDragEnd}
           > */}
-            {brickGeometry.map((geo, i) => (
+          <mesh
+            castShadow
+            receiveShadow
+            userData={{
+              uID,
+              dimensions,
+              offset,
+              width,
+              depth,
+              type: `${dimensions.x}-${dimensions.z}`,
+              position,
+              rotation,
+              translation,
+            }}
+            geometry={brickGeometry}
+            onClick={onClick}
+            onPointerMove={mouseMove}
+          >
+            <meshPhysicalMaterial color={color} opacity={1} />
+          </mesh>
+          {/* {brickGeometry.map((geo, i) => (
               <group
                 key={i}
                 position={[(offset.x * width) / dimensions.x, 0, (offset.z * depth) / dimensions.z]}
@@ -157,7 +176,6 @@ export const Brick = ({
                   }}
                   geometry={geo.cube}
                 >
-                  {/* <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} /> */}
                   {!isNontTexture ? (
                     <>
                       <meshPhysicalMaterial color={color} roughness={0.9} metalness={0.94} />
@@ -216,12 +234,10 @@ export const Brick = ({
                   ) : (
                     <meshPhysicalMaterial color={color} opacity={1} />
                   )}
-                  {/* <Outlines angle={0} thickness={1} color={isSelected ? 'white' : 'black'} /> */}
                 </mesh>
               </group>
-            ))}
-            {/* </PivotControls> */}
-          </Select>
+            ))} */}
+          {/* </PivotControls> */}
         </motion.group>
       )}
     </>

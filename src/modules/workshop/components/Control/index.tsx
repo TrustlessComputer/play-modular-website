@@ -22,6 +22,6 @@ export const ControlsWrapper = () => {
     endTimeoutID.current = setTimeout(() => setEvents({ enabled: true }), 500)
   }
 
-  return <OrbitControls makeDefault onEnd={onEnd} onStart={onStart} ref={controlRef} />
+  return <OrbitControls makeDefault onEnd={onEnd} onStart={onStart} />
   // return <OrbitControls makeDefault onEnd={onEnd} onStart={onStart} enableRotate={false} />
 }

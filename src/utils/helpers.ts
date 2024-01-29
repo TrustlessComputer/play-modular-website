@@ -21,20 +21,25 @@ export function mergeMeshes(geometries) {
 export function createGeometry({ width, height, depth, dimensions, knobDim = knobSize }) {
   let geometries = []
 
+  const cubeGeo = new BoxGeometry(base * dimensions.x, height, base * dimensions.z)
+  geometries.push(cubeGeo)
+
   for (let i = 0; i < dimensions.x; i++) {
     for (let j = 0; j < dimensions.z; j++) {
-      const cubeGeo = new BoxGeometry(base, height, base)
       const x = i * base - (dimensions.x * base) / 2 + base / 2
       const z = j * base - (dimensions.z * base) / 2 + base / 2
-      cubeGeo.translate(x, 0, z)
+      // cubeGeo.translate(x, 0, z)
 
       const cylinder = new CylinderGeometry(knobDim, knobDim, knobDim, 36)
       const y = height / 2 + knobDim / 2
       cylinder.translate(x, y, z)
 
-      geometries.push({ cube: cubeGeo, cylinder: cylinder })
+      // geometries.push({ cube: cubeGeo, cylinder: cylinder })
+      geometries.push(cylinder)
     }
   }
+
+  return mergeBufferGeometries(geometries)
 
   return geometries
 }

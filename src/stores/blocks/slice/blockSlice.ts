@@ -1,3 +1,5 @@
+'use client'
+
 import { TBlockSlice, TListBlocksSlice } from '@/types/store'
 import { StateCreator } from 'zustand'
 
@@ -74,13 +76,17 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set) => ({
       console.log(object)
 
       if (object === undefined) return { selectedBricks: [] }
-      else if (Array.isArray(object)) return { selectedBricks: object }
-      else if (!shift) return state.selectedBricks[0] === object ? { selectedBricks: [] } : { selectedBricks: [object] }
-      else if (state.selectedBricks.includes(object))
+
+      if (Array.isArray(object)) return { selectedBricks: object }
+
+      if (!shift) return state.selectedBricks[0] === object ? { selectedBricks: [] } : { selectedBricks: [object] }
+
+      if (state.selectedBricks.includes(object))
         return {
           selectedBricks: state.selectedBricks.filter((o) => o !== object),
         }
-      else return { selectedBricks: [object, ...state.selectedBricks] }
+
+      return { selectedBricks: [object, ...state.selectedBricks] }
     }),
   setBricks: (getBricks) => set((state) => state),
 })

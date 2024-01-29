@@ -1,3 +1,5 @@
+'use client'
+
 import { useAnchorShorcuts } from '@/hooks/useShortcuts'
 import { useStoreGlobal } from '@/stores/blocks'
 import { EDIT_MODE, base, getMeasurementsFromDimensions, minWorkSpaceSize, uID } from '@/utils'
@@ -19,21 +21,8 @@ const offsetVec = new Vector3()
 
 export const Scene = () => {
   useAnchorShorcuts()
-  const {
-    blockCurrent,
-    createdBricks,
-    addBlocks,
-    mode,
-    width,
-    depth,
-    anchorX,
-    anchorZ,
-    rotate,
-    color,
-    texture,
-    trait,
-    selectedBricks,
-  } = useStoreGlobal()
+  const { blockCurrent, addBlocks, mode, width, depth, anchorX, anchorZ, rotate, color, texture, trait, setMode } =
+    useStoreGlobal()
 
   const bricksBoundBox = useRef([])
   const brickCursorRef = useRef<Group>()
@@ -85,8 +74,7 @@ export const Scene = () => {
         }
 
         if (trait?.color) {
-          // console.log('brickData', brickData)
-
+          setMode(EDIT_MODE)
           addBlocks(brickData)
         }
       }
@@ -159,46 +147,43 @@ export const Scene = () => {
   return (
     <>
       <Select box multiple>
-        {blockCurrent?.length > 0 &&
-          blockCurrent.map((b, i) => {
-            const { dimensions, rotation, intersect } = b
-            const height = 1
-            const position = () => {
-              const evenWidth = rotation === 0 ? dimensions.x % 2 === 0 : dimensions.z % 2 === 0
-              const evenDepth = rotation === 0 ? dimensions.z % 2 === 0 : dimensions.x % 2 === 0
-              return new Vector3()
-                .copy(intersect.point)
-                .add(intersect.face.normal)
-                .divide(new Vector3(base, height, base))
-                .floor()
-                .multiply(new Vector3(base, height, base))
-                .add(new Vector3(evenWidth ? base : base / 2, height / 2, evenDepth ? base : base / 2))
-            }
+        {blockCurrent.map((b, i) => {
+          const { dimensions, rotation, intersect } = b
+          const height = 1
+          const position = () => {
+            const evenWidth = rotation === 0 ? dimensions.x % 2 === 0 : dimensions.z % 2 === 0
+            const evenDepth = rotation === 0 ? dimensions.z % 2 === 0 : dimensions.x % 2 === 0
+            return new Vector3()
+              .copy(intersect.point)
+              .add(intersect.face.normal)
+              .divide(new Vector3(base, height, base))
+              .floor()
+              .multiply(new Vector3(base, height, base))
+              .add(new Vector3(evenWidth ? base : base / 2, height / 2, evenDepth ? base : base / 2))
+          }
 
-            return (
-              <Brick
-                key={b.uID}
-                {...b}
-                onClick={onClick}
-                bricksBoundBox={bricksBoundBox}
-                mouseMove={mouseMove}
-                position={position()}
-              />
-            )
-          })}
+          return (
+            <Brick
+              key={b.uID}
+              {...b}
+              onClick={onClick}
+              bricksBoundBox={bricksBoundBox}
+              mouseMove={mouseMove}
+              position={position()}
+            />
+          )
+        })}
         {/* <DeleteBrick setBricks={setBricks} /> */}
-        {/* <BrickOutline /> */}
+        <BrickOutline />
       </Select>
       <Lights />
       <Workspace onClick={onClick} mouseMove={mouseMove} workspaceSize={minWorkSpaceSize} />
-      {color && (
-        <BrickCursor
-          ref={brickCursorRef}
-          rotation={rotate ? Math.PI / 2 : 0}
-          dimensions={{ x: width, z: depth }}
-          translation={{ x: anchorX, z: anchorZ }}
-        />
-      )}
+      <BrickCursor
+        ref={brickCursorRef}
+        rotation={rotate ? Math.PI / 2 : 0}
+        dimensions={{ x: width, z: depth }}
+        translation={{ x: anchorX, z: anchorZ }}
+      />
     </>
   )
 }

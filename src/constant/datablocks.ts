@@ -1,6 +1,6 @@
 export const base = 25
 export const knobSize = 7
-export const outlineWidth = 1.3
+export const outlineWidth = 1
 export const minWorkSpaceSize = 1000
 
 export const CREATE_MODE = 'Create Mode'
