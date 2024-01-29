@@ -86,9 +86,7 @@ export default function BottomBar() {
   const redoAction = () => {
     redo()
   }
-  const deleteAction = () => {
-    // deleteSeletBlocks()
-  }
+
   const saveAction = async () => {
     if (blocksState.length < 2 || !blockCurrent || blockCurrent.length === 0) return
 
@@ -191,7 +189,8 @@ export default function BottomBar() {
     const newState = [];
     const selectedClone = [...selectedBricks];
 
-    console.log('>>>>>>>>selectedBricks', selectedBricks)
+    console.log('selectedClone', selectedClone)
+    console.log('selectedBricks', selectedBricks)
     setBricks((bricks) => {
       const newBricks = bricks.filter((brick) => {
         const uID = brick.uID;
@@ -213,9 +212,9 @@ export default function BottomBar() {
       return newBricks
     })
     console.log('newState', newState)
-    console.log('blockCurrent >>>', blockCurrent)
+    // console.log('blockCurrent >>>', blockCurrent)
 
-    // setBlockCurrentUpdate(newState)
+    setBlockCurrentUpdate(newState)
     setSelectedBricks({})
   }
 

@@ -176,9 +176,6 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
     });
     const blocksState = [...state.blocksState.slice(0, currentStateIndex + 1), deleteBricks]
 
-    console.log('newBricks', deleteBricks)
-
-
     return {
       blocksState,
       currentStateIndex: blocksState.length + 1,

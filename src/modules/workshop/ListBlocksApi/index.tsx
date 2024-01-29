@@ -59,8 +59,8 @@ const ListBlocks: React.FunctionComponent = () => {
   } = useApiInfinite(
     getListModularByWallet,
     {
-      ownerAddress: account?.address, // 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
-      // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+      // ownerAddress: account?.address, // 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+      ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
       page: 1,
       limit: 20,
     },
@@ -72,7 +72,9 @@ const ListBlocks: React.FunctionComponent = () => {
   )
   useEffect(() => {
     const data = dataInfinite as TListCurrent[]
-    setDataCurrent(data)
+    if (data.length > 0) {
+      setDataCurrent(data)
+    }
   }, [dataInfinite.length])
 
   return (
