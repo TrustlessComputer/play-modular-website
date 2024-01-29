@@ -26,6 +26,14 @@
   }
 }
 
+.title {
+  color: #1c1c1c;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 34px;
+}
+
 .caption {
   margin-bottom: 24px;
   color: #1c1c1c;
@@ -46,14 +54,12 @@
   font-style: normal;
   font-weight: 400;
 
+  &:hover {
+    cursor: pointer;
+  }
+
   &_title {
     font-size: 18px;
     line-height: 26px;
-  }
-
-  &_text {
-    color: #000;
-    line-height: 26px;
-    opacity: 0.7;
   }
 }

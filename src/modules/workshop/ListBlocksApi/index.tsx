@@ -22,7 +22,7 @@ const GridList = forwardRef(({ children, ...props }: PropsWithChildren, ref: any
       display: 'grid',
       gridTemplateColumns: 'repeat(2, 1fr)',
       gap: '24px',
-      width: 'fit-content'
+      width: 'fit-content',
     }}
   >
     {children}
@@ -59,14 +59,15 @@ const ListBlocks: React.FunctionComponent = () => {
   } = useApiInfinite(
     getListModularByWallet,
     {
-      ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn', //account?.address,
+      ownerAddress: account?.address, // 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+      // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
       page: 1,
       limit: 20,
     },
     {
       revalidateOnFocus: true,
       parallel: true,
-      // shouldFetch: !!account?.address,
+      shouldFetch: !!account?.address,
     },
   )
   useEffect(() => {

@@ -3,7 +3,7 @@ import { IconClear, IconRedo, IconTrash, IconUndo } from '@/components/IconSvgs'
 import { useUndoRedoShortcut } from '@/hooks/useShortcuts'
 import IcOpen from '@/icons/workshop/ic-open.svg'
 import { default as IcCreate, default as IcSave } from '@/icons/workshop/ic-save.svg'
-import { useProjectStore, useStoreGlobal } from '@/stores/blocks'
+import { useModalStore, useProjectStore, useStoreGlobal } from '@/stores/blocks'
 import s from './styles.module.scss'
 
 import useApiInfinite from '@/hooks/useApiInfinite'
@@ -19,13 +19,14 @@ type TDataFetch = {
   list: TListCurrent
 }
 
-import SavedProjectsModal from '@/modules/workshop/components/Modal/SavedProjectsModal'
+import SavedProjectsModal, { SAVED_PROJECTS_MODAL_ID } from '@/modules/workshop/components/Modal/SavedProjectsModal'
 import { useId, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import jsonFile from './mock.json'
 import UnsaveWarningModal from '@/modules/workshop/components/Modal/UnsaveWarningModal'
+import SetProjectNameModal, { SET_PROJECT_NAME_MODAL_ID } from '@/modules/workshop/components/Modal/SetProjectNameModal'
 
-const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
+// const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
 
 export default function BottomBar() {
   const {
@@ -50,8 +51,11 @@ export default function BottomBar() {
 
   const { projectId, saveProject, createProject, projectName, renderFile } = useProjectStore()
 
+  const { openModal, modals } = useModalStore()
+
   const [showModal, setShowModal] = useState(false)
   const [showUnsaveModal, setShowUnsaveModal] = useState(false)
+  const [showSetProjectNameModal, setShowSetProjectNameModal] = useState(false)
 
   const account = useAppSelector(accountSelector)
 
@@ -64,7 +68,7 @@ export default function BottomBar() {
   } = useApiInfinite(
     getListModularByWallet,
     {
-      ownerAddress: MOCK_ADDRESS, //account?.address,
+      ownerAddress: account?.address,
       page: 1,
       limit: 20,
     },
@@ -88,6 +92,15 @@ export default function BottomBar() {
   const saveAction = async () => {
     if (blocksState.length < 2 || !blockCurrent || blockCurrent.length === 0) return
 
+    if (!projectName) {
+      openModal({
+        id: SET_PROJECT_NAME_MODAL_ID,
+        component: <SetProjectNameModal type="save" />
+      })
+      return;
+    }
+
+
     const payload: {
       jsonFile: any
       projectId?: string
@@ -95,7 +108,7 @@ export default function BottomBar() {
       ownerAddress: string
     } = {
       jsonFile: blockCurrent,
-      ownerAddress: MOCK_ADDRESS, //account?.address,
+      ownerAddress: account?.address,
     }
 
     if (projectId) {
@@ -107,6 +120,16 @@ export default function BottomBar() {
     }
     console.log('payload', JSON.stringify(payload.jsonFile))
     saveProject(payload)
+  }
+
+  const saveAsAction = async () => {
+    if (blocksState.length < 2 || !blockCurrent || blockCurrent.length === 0) return
+
+    openModal({
+      id: SET_PROJECT_NAME_MODAL_ID,
+      component: <SetProjectNameModal type="save-as" />
+    })
+    return;
   }
 
   const loadDataAction = (file) => {
@@ -123,7 +146,7 @@ export default function BottomBar() {
 
   const handleGetData = async () => {
     const data = (await getListModularByWallet({
-      ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+      ownerAddress: account?.address,
       page: 1,
       limit: 20,
     })) as TDataFetch
@@ -217,26 +240,28 @@ export default function BottomBar() {
 
         <div className={s.bottomBar}>
           <button className={s.bottomBar_btn} onClick={saveAction}>
-            <IcSave /> Save Project
+            <IcSave /> Save
           </button>
-          {/* <button className={s.bottomBar_btn} onClick={saveAction}>
+          <button className={s.bottomBar_btn} onClick={saveAsAction}>
             <IcSave /> Save As
-          </button> */}
+          </button>
           <button className={s.bottomBar_btn} onClick={handleClickCreateNewProject}>
             <IcCreate /> Create New
           </button>
           <button
             className={s.bottomBar_btn}
             onClick={() => {
-              setShowModal(true)
+              openModal({
+                id: SAVED_PROJECTS_MODAL_ID,
+                component: <SavedProjectsModal />,
+              })
             }}
           >
-            <IcOpen /> Open Project
+            <IcOpen /> Open
           </button>
         </div>
       </div>
-      <SavedProjectsModal show={showModal} setIsOpen={setShowModal} />
-      <UnsaveWarningModal show={showUnsaveModal} setIsOpen={setShowUnsaveModal} />
+      {/* <UnsaveWarningModal show={showUnsaveModal} setIsOpen={setShowUnsaveModal} /> */}
     </>
   )
 }

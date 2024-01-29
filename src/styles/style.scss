@@ -46,6 +46,11 @@ body {
     background: #f8f0ac;
   }
 
+  &__submit {
+    border-radius: 4px;
+    background: #703EFC;
+  }
+
   &__secondary {
     background: rgba(255, 255, 255, 0.1);
     color: white;
@@ -53,5 +58,24 @@ body {
     &:hover {
       background: rgba(255, 255, 255, 0.2);
     }
+  }
+}
+
+.btn_submit {
+  // height: 48px;
+  padding: 16px 40px;
+  border-radius: 4px;
+  background: #703EFC;
+  color: #FFF;
+  text-align: center;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0.16px;
+}
+
+.formik-form {
+  input {
+    padding: 11px 14px;
+    border: 1px solid #CECECE;
   }
 }
