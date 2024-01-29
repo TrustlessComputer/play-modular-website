@@ -36,7 +36,7 @@ export const Scene = () => {
     trait,
     setMode,
     selectedBricks,
-    setBricks
+    setBricks,
   } = useStoreGlobal()
 
   const bricksBoundBox = useRef([])
@@ -44,6 +44,7 @@ export const Scene = () => {
   const isDrag = useRef(false)
   const timeoutID = useRef(null)
   const isEditMode = mode === EDIT_MODE
+  // console.log(isEditMode)
   const deboundeData = useDebounce(blockCurrent, 1000)
 
   const addBrick = (e) => {
@@ -168,7 +169,7 @@ export const Scene = () => {
           const { dimensions, rotation, intersect } = b
           const height = 1
           const position = () => {
-            const evenWidth = rotation === 0 ? dimensions.x % 2 === 0 : dimensions.z  % 2 === 0
+            const evenWidth = rotation === 0 ? dimensions.x % 2 === 0 : dimensions.z % 2 === 0
             const evenDepth = rotation === 0 ? dimensions.z % 2 === 0 : dimensions.x % 2 === 0
             return new Vector3()
               .copy(intersect.point)
@@ -191,7 +192,7 @@ export const Scene = () => {
             />
           )
         })}
-         <DeleteBrick setBricks={setBricks} />
+        <DeleteBrick setBricks={setBricks} />
         <BrickOutline />
       </Select>
       <Lights />

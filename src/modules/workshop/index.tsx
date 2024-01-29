@@ -5,6 +5,7 @@ import Three3D from './Three3D'
 import UI from './UI'
 import PreviewRoom from './components/Preview'
 import s from './styles.module.scss'
+import cn from 'classnames'
 
 export default function WorkShop() {
   const { viewPreview } = useStoreGlobal()
@@ -17,13 +18,11 @@ export default function WorkShop() {
           <Three3D />
         </div>
 
-        {viewPreview && (
-          <div className={s.workshop_preview}>
-            <div className={s.preview_inner}>
-              <PreviewRoom />
-            </div>
+        <div className={cn(s.workshop_preview, viewPreview ? s.display : '')}>
+          <div className={s.preview_inner}>
+            <PreviewRoom />
           </div>
-        )}
+        </div>
       </main>
     </>
   )
