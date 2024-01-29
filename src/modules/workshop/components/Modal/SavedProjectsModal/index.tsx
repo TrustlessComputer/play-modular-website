@@ -3,18 +3,18 @@ import s from './SavedProjectsModal.module.scss'
 import useApiInfinite from '@/hooks/useApiInfinite'
 import { getListSavedProject } from '@/services/api/generative'
 import { Virtuoso } from 'react-virtuoso'
-import { useProjectStore } from '@/stores/blocks'
+import { useModalStore, useProjectStore } from '@/stores/blocks'
 import AlertDialog from '@/components/AlertDialog'
 import { MOCK_ADDRESS } from '@/constant/mock-data'
 import ProjectItem from './ProjectItem'
 
-type Props = {
-  show: boolean
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
-}
+export const SAVED_PROJECTS_MODAL_ID = 'SAVED_PROJECTS_MODAL_ID'
 
-const SavedProjectsModal = ({ show, setIsOpen }: Props) => {
+
+const SavedProjectsModal = () => {
   const { loadProject } = useProjectStore()
+
+  const { closeModal } = useModalStore()
 
   const { dataInfinite, isReachingEnd, loadMore, hasFirstFetching, refresh } = useApiInfinite(
     getListSavedProject,
@@ -34,11 +34,11 @@ const SavedProjectsModal = ({ show, setIsOpen }: Props) => {
     return (
       <div className={s.wrapper}>
         <div className={`${s.header} flex justify-between`}>
-          <div className={s.title}>Saved Projects</div>
+          <div className={s.title}>Saved Model</div>
           <div
             className={s.close}
             onClick={() => {
-              setIsOpen(false)
+              closeModal(SAVED_PROJECTS_MODAL_ID)
             }}
           >
             Close
@@ -64,7 +64,8 @@ const SavedProjectsModal = ({ show, setIsOpen }: Props) => {
                   key={index}
                   {...block}
                   onClose={() => {
-                    setIsOpen(false)
+                    closeModal(SAVED_PROJECTS_MODAL_ID)
+
                   }}
                 />
               )
@@ -75,18 +76,10 @@ const SavedProjectsModal = ({ show, setIsOpen }: Props) => {
     )
   }
 
-  useEffect(() => {
-    if (show) {
-      refresh()
-    }
-  }, [show])
 
-  if (!show) return <></>
 
   return (
-    <AlertDialog isOpen={show} setIsOpen={setIsOpen}>
-      <BodyContent />
-    </AlertDialog>
+    <BodyContent />
   )
 }
 

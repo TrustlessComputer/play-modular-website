@@ -3,7 +3,7 @@ import { IconClear, IconRedo, IconTrash, IconUndo } from '@/components/IconSvgs'
 import { useUndoRedoShortcut } from '@/hooks/useShortcuts'
 import IcOpen from '@/icons/workshop/ic-open.svg'
 import { default as IcCreate, default as IcSave } from '@/icons/workshop/ic-save.svg'
-import { useProjectStore, useStoreGlobal } from '@/stores/blocks'
+import { useModalStore, useProjectStore, useStoreGlobal } from '@/stores/blocks'
 import s from './styles.module.scss'
 
 import useApiInfinite from '@/hooks/useApiInfinite'
@@ -19,7 +19,7 @@ type TDataFetch = {
   list: TListCurrent
 }
 
-import SavedProjectsModal from '@/modules/workshop/components/Modal/SavedProjectsModal'
+import SavedProjectsModal, { SAVED_PROJECTS_MODAL_ID } from '@/modules/workshop/components/Modal/SavedProjectsModal'
 import { useId, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import jsonFile from './mock.json'
@@ -44,8 +44,11 @@ export default function BottomBar() {
 
   const { projectId, saveProject, createProject, projectName, renderFile } = useProjectStore()
 
+  const {openModal, modals} = useModalStore()
+
   const [showModal, setShowModal] = useState(false)
   const [showUnsaveModal, setShowUnsaveModal] = useState(false)
+  const [showSetProjectNameModal, setShowSetProjectNameModal] = useState(false)
 
   const account = useAppSelector(accountSelector)
 
@@ -179,26 +182,29 @@ export default function BottomBar() {
 
         <div className={s.bottomBar}>
           <button className={s.bottomBar_btn} onClick={saveAction}>
-            <IcSave /> Save Project
+            <IcSave /> Save Model
           </button>
           <button className={s.bottomBar_btn} onClick={saveAction}>
             <IcSave /> Save As
           </button>
           <button className={s.bottomBar_btn} onClick={handleClickCreateNewProject}>
-            <IcCreate /> Create New
+            <IcCreate /> Create New Model
           </button>
           <button
             className={s.bottomBar_btn}
             onClick={() => {
-              setShowModal(true)
+              // setShowModal(true)
+              openModal({
+                id: SAVED_PROJECTS_MODAL_ID,
+                component: <SavedProjectsModal />,
+              })
             }}
           >
-            <IcOpen /> Open Project
+            <IcOpen /> Open Model
           </button>
         </div>
       </div>
-      <SavedProjectsModal show={showModal} setIsOpen={setShowModal} />
-      <UnsaveWarningModal show={showUnsaveModal} setIsOpen={setShowUnsaveModal} />
+      {/* <UnsaveWarningModal show={showUnsaveModal} setIsOpen={setShowUnsaveModal} /> */}
     </>
   )
 }

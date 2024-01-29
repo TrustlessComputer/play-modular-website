@@ -12,7 +12,7 @@ export const createProjectSlice: StateCreator<TProjectSlice> = (set) => ({
   saveProject: async (params) => {
     const { projectId, projectName, jsonFile, ownerAddress } = params
 
-    const name = projectName || new Date().toISOString()
+    const name = projectName || `${new Date().getTime()}`
 
     const payload = {
       name,
