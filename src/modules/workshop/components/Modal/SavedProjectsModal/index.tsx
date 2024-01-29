@@ -35,6 +35,14 @@ const SavedProjectsModal = () => {
     },
   )
 
+  const Empty = () => {
+    return (
+      <div className={s.empty}>
+        <div className={s.subtitle}>No saved model</div>
+      </div>
+    )
+  }
+
   useEffect(() => {
     refresh()
   }, [])
@@ -59,6 +67,10 @@ const SavedProjectsModal = () => {
           <VirtualScrollKeepPosition
             keyStore="saved-project-current-position-index">
             {(ref, state, handleSaveSnapshot) => {
+              if (dataInfinite.length === 0) {
+                return <Empty />
+              }
+
               return (
                 <Virtuoso
                   ref={ref}
@@ -90,7 +102,6 @@ const SavedProjectsModal = () => {
 
                   }}
                   onScroll={handleSaveSnapshot}
-
                 />
               )
             }
