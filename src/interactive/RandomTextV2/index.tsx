@@ -60,4 +60,6 @@ const RandomTextV2 = forwardRef(
   }
 );
 
+RandomTextV2.displayName = 'RandomTextV2';
+
 export default RandomTextV2;

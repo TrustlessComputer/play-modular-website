@@ -1,0 +1,20 @@
+<svg width="180" height="270" viewBox="0 0 180 270" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="180" height="270" fill="rgba(229, 226, 226, 0.9)"/>
+<g clip-path="url(#clip0_61_675)">
+<rect width="180" height="270" fill="#E5E2E2"/>
+<ellipse cx="31.2744" cy="45.0849" rx="29.3627" ry="45.0849" stroke="white" stroke-width="7.5" stroke-linejoin="round"/>
+<ellipse cx="90" cy="45.0849" rx="29.3627" ry="45.0849" stroke="white" stroke-width="7.5" stroke-linejoin="round"/>
+<ellipse cx="148.726" cy="45.0849" rx="29.3627" ry="45.0849" stroke="white" stroke-width="7.5" stroke-linejoin="round"/>
+<ellipse cx="31.2744" cy="135.255" rx="29.3627" ry="45.0849" stroke="white" stroke-width="7.5" stroke-linejoin="round"/>
+<ellipse cx="90" cy="135.255" rx="29.3627" ry="45.0849" stroke="white" stroke-width="7.5" stroke-linejoin="round"/>
+<ellipse cx="148.726" cy="135.255" rx="29.3627" ry="45.0849" stroke="white" stroke-width="7.5" stroke-linejoin="round"/>
+<ellipse cx="31.2744" cy="225.424" rx="29.3627" ry="45.0849" stroke="white" stroke-width="7.5" stroke-linejoin="round"/>
+<ellipse cx="90" cy="225.424" rx="29.3627" ry="45.0849" stroke="white" stroke-width="7.5" stroke-linejoin="round"/>
+<ellipse cx="148.726" cy="225.424" rx="29.3627" ry="45.0849" stroke="white" stroke-width="7.5" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_61_675">
+<rect width="180" height="270" fill="white"/>
+</clipPath>
+</defs>
+</svg>

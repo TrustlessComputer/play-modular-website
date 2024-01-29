@@ -1,4 +1,4 @@
-const path = require("path");
+const path = require('path')
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
@@ -12,6 +12,8 @@ const withPWA = require('@ducanh2912/next-pwa').default({
   disable: process.env.NODE_ENV === 'development',
 })
 
+const withSvgr = require('next-plugin-svgr')
+
 const nextConfig = {
   // uncomment the following snippet if using styled components
   compiler: {
@@ -23,11 +25,18 @@ const nextConfig = {
     reactRoot: 'concurrent',
     appDir: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
     prependData: `@import "@/styles/_mixins.scss";`,
   },
-  images: {},
   webpack(config, { isServer }) {
     if (!isServer) {
       // We're in the browser build, so we can safely exclude the sharp module
@@ -66,7 +75,7 @@ const nextConfig = {
 const KEYS_TO_OMIT = ['webpackDevMiddleware', 'configOrigin', 'target', 'analyticsId', 'webpack5', 'amp', 'assetPrefix']
 
 module.exports = (_phase, { defaultConfig }) => {
-  const plugins = [[withPWA], [withBundleAnalyzer, {}]]
+  const plugins = [[withPWA], [withBundleAnalyzer, {}], [withSvgr]]
 
   const wConfig = plugins.reduce((acc, [plugin, config]) => plugin({ ...acc, ...config }), {
     ...defaultConfig,
