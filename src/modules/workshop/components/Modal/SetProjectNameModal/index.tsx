@@ -35,8 +35,8 @@ const SetProjectNameModal = ({ type }: Props) => {
       projectName: values.modelName,
       jsonFile: blockCurrent,
       // ownerAddress: MOCK_ADDRESS, //account?.address,
-      ownerAddress: account?.address,
-      // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+      // ownerAddress: account?.address,
+      ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
     }
 
     const res = await saveProject(payload)
