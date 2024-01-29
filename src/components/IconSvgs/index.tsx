@@ -54,16 +54,16 @@ export const IconRedo = () => {
       <path
         d='M13 12.5L18 7.5L13 2.5'
         stroke='white'
-        stroke-width='1.5'
+        strokeWidth='1.5'
         stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeLinejoin='round'
       />
       <path
         d='M13 15.8333H7.16667C6.0616 15.8333 5.00179 15.3943 4.22039 14.6129C3.43899 13.8315 3 12.7717 3 11.6667V11.6667C3 10.5616 3.43899 9.50179 4.22039 8.72039C5.00179 7.93899 6.0616 7.5 7.16667 7.5H17.1667'
         stroke='white'
-        stroke-width='1.5'
+        strokeWidth='1.5'
         stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeLinejoin='round'
       />
     </svg>
   )
@@ -74,16 +74,16 @@ export const IconUndo = () => {
       <path
         d='M7.5 12.5L2.5 7.5L7.5 2.5'
         stroke='white'
-        stroke-width='1.5'
+        strokeWidth='1.5'
         stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeLinejoin='round'
       />
       <path
         d='M7.49967 15.8333H13.333C14.4381 15.8333 15.4979 15.3943 16.2793 14.6129C17.0607 13.8315 17.4997 12.7717 17.4997 11.6667V11.6667C17.4997 10.5616 17.0607 9.50179 16.2793 8.72039C15.4979 7.93899 14.4381 7.5 13.333 7.5H3.33301'
         stroke='white'
-        stroke-width='1.5'
+        strokeWidth='1.5'
         stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeLinejoin='round'
       />
     </svg>
   )
