@@ -11,6 +11,7 @@ import { accountSelector } from '@/stores/states/wallet/selector'
 
 import { useStoreGlobal } from '@/stores/blocks'
 import { TListCurrent } from '@/types'
+import { handleConvertData } from '@/utils/convertTraits'
 import Empty from './Empty'
 import ItemBlock from './ItemBlock'
 import s from './styles.module.scss'
@@ -51,7 +52,8 @@ const GridComponents = {
 }
 
 const ListBlocks: React.FunctionComponent = () => {
-  const { setDataCurrent, listCurrent, blockCurrent } = useStoreGlobal()
+  const { setDataCurrent, listCurrent, blockCurrent, setTrait, setTexture, setColor, setWidth, setDepth } =
+    useStoreGlobal()
   const account = useAppSelector(accountSelector)
   const {
     dataInfinite = [],
@@ -75,8 +77,27 @@ const ListBlocks: React.FunctionComponent = () => {
 
   useEffect(() => {
     const data = dataInfinite as TListCurrent[]
-    if (data.length > 0) {
-      setDataCurrent(data)
+    setDataCurrent(data)
+
+    if (data.length > 0 && data[0]) {
+      const convertedData = handleConvertData((data as any)[0].attributes)
+      const sizeArray = convertedData.shape.split('x')
+      const size = {
+        w: Number(sizeArray[0]),
+        d: Number(sizeArray[1]),
+      }
+
+      setTrait({
+        color: convertedData.color,
+        shape: convertedData.shape,
+        texture: convertedData.texture,
+        type: convertedData.type,
+        groupId: data[0].groupId,
+      })
+      setTexture(convertedData.texture)
+      setColor(convertedData.color)
+      setWidth(size.w)
+      setDepth(size.d)
     }
   }, [dataInfinite.length])
   return (

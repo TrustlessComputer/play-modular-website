@@ -47,12 +47,12 @@ const CameraController = () => {
 }
 
 const PreviewRoom = () => {
-  const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
   React.useEffect(() => {
 
     const saveToPng = (e) => {
+      const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
       if (e.ctrlKey && e.key === 's') {
-        ; (wrapperDom as HTMLElement).style.display = 'block'
+          ; (wrapperDom as HTMLElement).style.display = 'block'
           ; (wrapperDom as HTMLElement).style.position = 'fixed'
           ; (wrapperDom as HTMLElement).style.top = '0'
           ; (wrapperDom as HTMLElement).style.left = '0'

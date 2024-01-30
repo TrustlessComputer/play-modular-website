@@ -15,8 +15,8 @@ const Empty: React.FunctionComponent<{ className?: string }> = ({ className }) =
         <button className={s.empty_btn} onClick={openConnectWalletModal}>
           Connect Other wallet
         </button>
-        <a className={s.empty_btn} target='_blank' href='https://generative.xyz/generative/1004094'>
-          Mint
+        <a className={s.empty_btn} target='_blank' href='https://magiceden.io/ordinals/marketplace/modular'>
+          Collect
         </a>
       </div>
     </div>
