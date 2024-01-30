@@ -47,7 +47,7 @@ export async function generateMetadata(
       card: "summary_large_image",
       title: data?.data?.name,
       description: desc,
-      images: [thumbnail, ...previousImages],
+      images: [thumbnail],
     }
   }
 }

@@ -6,6 +6,8 @@ export let patterns = [
   ['Celestia', 5, 'Cel', 0, ['#6F42E2', '#40218F', '#AC8BFF']],
   ['Ordinals', 5, 'Ord', 0, ['#6C6C6C', '#404040', '#ADADAD']],
   ['Eigen Da', 5, 'Eig', 0, ['#222222', '#000000', '#444444']],
+  ["Avail", 50000, "Ava", 0, ["#ddd", "#aaa", "#eee"]],
+  ["Near", 50000, "Nea", 0, ["#00D05E", "#007334", "#50FF9F"]],
   ['Solid Orange', 50, 'Sol', 2, ['#FF6F00', '#9B4300', '#FF9646']],
   ['Solid Red', 50, 'Sol', 2, ['#c60000', '#990005', '#FF4B51']],
   ['Solid Yellow', 50, 'Sol', 2, ['#FFCC00', '#8D7100', '#FFDB4D']],
@@ -54,6 +56,14 @@ export const TEXTURE_LIST = [
   {
     name: 'Eigen Da',
     src: '/assets/patterns/eigen.svg',
+  },
+  {
+    name: 'Avail',
+    src: '/assets/patterns/avail.svg',
+  },
+  {
+    name: 'Near',
+    src: '/assets/patterns/near.svg',
   },
   {
     name: 'Solid Orange',
