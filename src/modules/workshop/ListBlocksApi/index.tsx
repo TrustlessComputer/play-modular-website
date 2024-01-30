@@ -16,6 +16,7 @@ import { TListCurrent } from '@/types'
 import Empty from './Empty'
 import { MOCK_ADDRESS } from '@/constant/mock-data'
 import { isLocalhost } from '@/utils/browser'
+import { handleConvertData } from '@/utils/convertTraits'
 
 const GridList = forwardRef(({ children, ...props }: PropsWithChildren, ref: any) => (
   <div
