@@ -21,7 +21,7 @@ export const Brick = ({
   texture,
   dimensions = { x: 1, z: 1 },
   rotation = 0,
-  translation = { x: 0, z: 0 },
+  translation = { x: 0, y: 0, z: 0 },
   bricksBoundBox = { current: [] },
   uID = '',
   isSelected = false,
@@ -46,7 +46,7 @@ export const Brick = ({
 
   const [position, setPosition] = React.useState<Vector3 | null>(null)
   const [prevL, setPrevL] = React.useState(new Vector3(0, 0, 0))
-  const [draggedOffset, setDraggedOffset] = React.useState({ x: 0, z: 0 })
+  const [draggedOffset, setDraggedOffset] = React.useState({ x: 0, y: 0, z: 0 })
 
   const { height, width, depth } = getMeasurementsFromDimensions(dimensions)
 
@@ -63,6 +63,7 @@ export const Brick = ({
     // Make prevL awalys diveded by base to set the draggedOffset
     const newOffset = {
       x: draggedOffset.x + Math.round(prevL.x / base) * base,
+      y: draggedOffset.y + Math.round(prevL.y / heightBase) * heightBase,
       z: draggedOffset.z + Math.round(prevL.z / base) * base,
     }
 
@@ -76,6 +77,7 @@ export const Brick = ({
       if (element.uID === uID) {
         blockCurrentClone[i].translation = {
           x: newOffset.x / base,
+          y: newOffset.y / heightBase < 0 ? 0 : newOffset.y / heightBase,
           z: newOffset.z / base,
         }
       }
@@ -94,7 +96,7 @@ export const Brick = ({
       brickBoundingBox = new Box3().setFromObject(brickRef.current)
 
       bricksBoundBox.current.push({ uID, brickBoundingBox })
-    }, 300)
+    }, 200)
 
     return () => {
       const newA = []
@@ -132,7 +134,11 @@ export const Brick = ({
           initial={{ opacity: 0, scale: disabledAnim ? 1 : 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           ref={brickRef}
-          position={[position.x + translation.x * base, Math.abs(position.y), position.z + translation.z * base]}
+          position={[
+            position.x + translation.x * base,
+            Math.abs(position.y) + translation.y * heightBase,
+            position.z + translation.z * base,
+          ]}
           transition={{ type: 'spring', duration: 0.25 }}
           userData={{
             uID,
@@ -141,7 +147,6 @@ export const Brick = ({
           <PivotControls
             key={resetKey}
             scale={base * dimensions.x + 5}
-            activeAxes={[true, false, true]}
             disableAxes={isSelected && mode === EDIT_MODE ? false : true}
             disableSliders
             disableRotations
@@ -168,7 +173,7 @@ export const Brick = ({
               onClick={onClick}
               onPointerMove={mouseMove}
             >
-              <Outlines visible={isSelected2 && mode === EDIT_MODE} scale={1.01} />
+              <Outlines visible={isSelected2 && mode === EDIT_MODE} scale={1.025} />
               <meshPhysicalMaterial color={color} metalness={0} roughness={1} specularIntensity={0} />
               {!isNontTexture && (
                 <Decal

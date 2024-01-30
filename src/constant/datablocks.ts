@@ -1,5 +1,5 @@
 export const base = 25
-export const heightBase = base * 1.3
+export const heightBase = base * 1.4
 export const knobSize = 7
 export const outlineWidth = 1
 export const minWorkSpaceSize = 1000
