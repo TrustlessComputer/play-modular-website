@@ -37,9 +37,8 @@ export const Scene = () => {
     setMode,
     selectedBricks,
     setBricks,
-    blocksState
+    blocksState,
   } = useStoreGlobal()
-console.log('blockCurrentScreen', blockCurrent)
   const bricksBoundBox = useRef([])
   const brickCursorRef = useRef<Group>()
   const isDrag = useRef(false)
@@ -58,7 +57,7 @@ console.log('blockCurrentScreen', blockCurrent)
         z: depth,
       })
       const boundingBoxOfBrickToBeAdded = new Box3().setFromObject(brickCursorRef.current)
-      console.log('WILL ADD BRICK', boundingBoxOfBrickToBeAdded)
+      // console.log('WILL ADD BRICK', boundingBoxOfBrickToBeAdded)
       let canCreate = true
 
       for (let index = 0; index < bricksBoundBox.current.length; index++) {

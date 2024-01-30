@@ -82,6 +82,7 @@ export const Brick = ({
 
     setBlockCurrent(blockCurrentClone)
   }
+  console.log('blockCurrent', blockCurrent)
   React.useEffect(() => {
     if (!brickRef.current) return
     if (!uID) return
