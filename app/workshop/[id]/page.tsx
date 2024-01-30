@@ -32,7 +32,7 @@ export async function generateMetadata(
 
   const desc = data?.data?.name || ''
 
-  const thumbnail = data.data?.thumbnail
+  const thumbnail = data?.data?.thumbnail
 
   // optionally access and extend (rather than replace) parent metadata
   const previousImages = (await parent).openGraph?.images || []
