@@ -59,7 +59,7 @@ export const Scene = () => {
       for (let index = 0; index < bricksBoundBox.current.length; index++) {
         const brickBoundingBox = bricksBoundBox.current[index].brickBoundingBox
         const yIntsersect = brickBoundingBox.max.y - acceptRange > boundingBoxOfBrickToBeAdded.min.y
-        const isSameRow = Math.floor(boundingBoxOfBrickToBeAdded.min.y) === Math.floor(brickBoundingBox.min.y)
+        const isSameLayer = Math.floor(boundingBoxOfBrickToBeAdded.min.y) === Math.floor(brickBoundingBox.min.y)
 
         // Check if brick is not on top of another brick
         // Check if there is a brick below
@@ -115,18 +115,31 @@ export const Scene = () => {
         const isOverlapZ = zToBeAdded.some(
           (z) => zBelow.includes(z) && z !== zBelow[0] && z !== zBelow[zBelow.length - 1],
         )
+        const isSameCol = xToBeAdded.every((x) => xBelow.includes(x))
+        const isSameRow = zToBeAdded.every((z) => zBelow.includes(z))
 
-        if (yIntsersect && (isOverlapX || isOverlapZ) && !isSameRow) {
+        if (yIntsersect && (isOverlapX || isOverlapZ) && isSameLayer && (isSameRow || isSameCol)) {
+          console.log('collied')
+          console.log('yIntsersect', yIntsersect)
+          console.log('isOverlapX', isOverlapX, xToBeAdded, xBelow)
+          console.log('isOverlapZ', isOverlapZ, zToBeAdded, zBelow)
+          console.log('isSameLayer', isSameLayer)
           isCollied = true
           break
         }
 
         // Filter out the top layer
-        if (isFirstLayer || isOver2Bricks) continue
+        if (isFirstLayer || isOver2Bricks) {
+          console.log('isFirstLayer || isOver2Bricks')
+          continue
+        }
 
-        if ((isOverlapX || isOverlapZ) && isBrickBelow) isSomethingBelow = true
+        if (((isOverlapX && isSameRow) || (isOverlapZ && isSameCol)) && isBrickBelow) isSomethingBelow = true
+        console.log('isOverlapX', isOverlapX, xToBeAdded, xBelow)
+        console.log('isOverlapZ', isOverlapZ, zToBeAdded, zBelow)
+        console.log('isBrickBelow', isBrickBelow)
       }
-
+      console.log('FINAL ', isCollied, isSomethingBelow, isFirstLayer)
       if (!isCollied && ((isSomethingBelow && !isFirstLayer) || isFirstLayer)) {
         const brickData = {
           intersect: { point: e.point, face: e.face },
