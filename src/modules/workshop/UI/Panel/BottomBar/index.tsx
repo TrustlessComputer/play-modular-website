@@ -2,9 +2,10 @@
 import { IconClear, IconRedo, IconTrash, IconUndo } from '@/components/IconSvgs'
 import { useUndoRedoShortcut } from '@/hooks/useShortcuts'
 import IcOpen from '@/icons/workshop/ic-open.svg'
-import { default as IcCreate, default as IcSave } from '@/icons/workshop/ic-save.svg'
+import { default as IcSave } from '@/icons/workshop/ic-save.svg'
 import { useModalStore, useProjectStore, useStoreGlobal } from '@/stores/blocks'
 import s from './styles.module.scss'
+import IcCreate from '@/icons/workshop/ic-create.svg'
 
 import useApiInfinite from '@/hooks/useApiInfinite'
 import { getListModularByWallet, handleGetData, uploadFile } from '@/services/api/generative'
