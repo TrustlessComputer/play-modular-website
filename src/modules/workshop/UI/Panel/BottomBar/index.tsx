@@ -152,16 +152,16 @@ export default function BottomBar() {
     deleteAlls()
   }
 
-  const handleGetData = async () => {
-    const data = (await getListModularByWallet({
-      ownerAddress: account?.address,
-      // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
-      page: 1,
-      limit: 20,
-    })) as any
-    const listData = data.list as TListCurrent[]
-    return listData
-  }
+  // const handleGetData = async () => {
+  //   const data = (await getListModularByWallet({
+  //     ownerAddress: account?.address,
+  //     // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+  //     page: 1,
+  //     limit: 20,
+  //   })) as any
+  //   const listData = data.list as TListCurrent[]
+  //   return listData
+  // }
 
   const handleClickCreateNewProject = async () => {
     if (isAllowSave) {
@@ -170,7 +170,7 @@ export default function BottomBar() {
     }
     createProject()
     deleteAlls()
-    const data = await handleGetData() //reset new project
+    const data = await handleGetData(account?.address) //reset new project
     setDataCurrent(data)
   }
 
@@ -202,7 +202,6 @@ export default function BottomBar() {
       })
     }
   }, [isAllowSave])
-
 
   const handleDeleteSelected = () => {
     deleteSelected(selectedBricks)

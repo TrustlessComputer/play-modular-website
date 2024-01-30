@@ -50,12 +50,12 @@ export const getListSavedProject = async (payload: {
     }
   }
 }
-export const handleGetData = async () => {
+export const handleGetData = async (address: string) => {
   const data = (await getListModularByWallet({
-    ownerAddress: account?.address,
+    ownerAddress: address,
     // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
     page: 1,
-    limit: 20,
+    limit: 100,
   })) as any
   const listData = data.list as TListCurrent[]
   return listData
