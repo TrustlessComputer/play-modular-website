@@ -9,12 +9,12 @@ type Props = {
 
 const ShareTwitterBtn = ({ data }: Props) => {
 
-    const content = 'Share Model'
+    const content = `Share Model`
 
     const handleShareTw = (e?: any) => {
         e.preventDefault();
         e.stopPropagation();
-        const shareUrl = DOMAIN_URL;
+        const shareUrl = `${DOMAIN_URL}/workshop/${data?.data?.id}`;
 
         window.open(
             `https://twitter.com/intent/tweet?url=${shareUrl}&text=${encodeURIComponent(
