@@ -39,7 +39,7 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
           }
         } else {
           const blocksState = [...state.blocksState.slice(0, currentStateIndex + 1), newState]
-          console.log( {
+          console.log({
             blocksState,
             currentStateIndex: blocksState.length - 1,
             blockCurrent: newState,
@@ -178,32 +178,32 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
       return { selectedBricks: [object, ...state.selectedBricks] }
     }),
 
-  deleteSelected: (selectedBricks) => set((state) => {
-    const currentStateIndex = state.currentStateIndex
-    const stateCurrent = state.blocksState[currentStateIndex] || []
-    const blockCurrentCopy = [...stateCurrent]
+  deleteSelected: (selectedBricks) =>
+    set((state) => {
+      const currentStateIndex = state.currentStateIndex
+      const stateCurrent = state.blocksState[currentStateIndex] || []
+      const blockCurrentCopy = [...stateCurrent]
 
-    for (let i = 0; i < selectedBricks.length; i++) {
-      for (let j = 0; j < blockCurrentCopy.length; j++) {
-        if(selectedBricks[i].userData.uID == blockCurrentCopy[j].uID) {
-          blockCurrentCopy.splice(j, 1)
+      for (let i = 0; i < selectedBricks.length; i++) {
+        for (let j = 0; j < blockCurrentCopy.length; j++) {
+          if (selectedBricks[i].userData.uID == blockCurrentCopy[j].uID) {
+            blockCurrentCopy.splice(j, 1)
+          }
         }
       }
-    }
 
-    const blocksState = [...state.blocksState , blockCurrentCopy]
+      const blocksState = [...state.blocksState, blockCurrentCopy]
 
-
-    return {
-      blocksState,
-      currentStateIndex: blocksState.length - 1,
-      blockCurrent: blockCurrentCopy,
-    }
-  }),
-  setBlockCurrentUpdate: (blocks) =>  set((state) => {
-    const currentStateIndex = state.currentStateIndex + 1
-    return { blockCurrent: blocks, blocksState: [blocks], currentStateIndex }
-  }),
-  setBricks: (getBricks) =>
-    set((state) => ({ blockCurrent: getBricks(state.blockCurrent) })),
+      return {
+        blocksState,
+        currentStateIndex: blocksState.length - 1,
+        blockCurrent: blockCurrentCopy,
+      }
+    }),
+  setBlockCurrentUpdate: (blocks) =>
+    set((state) => {
+      const currentStateIndex = state.currentStateIndex + 1
+      return { blockCurrent: blocks, blocksState: [blocks], currentStateIndex }
+    }),
+  setBricks: (getBricks) => set((state) => ({ blockCurrent: getBricks(state.blockCurrent) })),
 })

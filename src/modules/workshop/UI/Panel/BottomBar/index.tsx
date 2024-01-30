@@ -60,7 +60,6 @@ export default function BottomBar() {
 
   const currentBlockStateRef = useRef(SHA256(JSON.stringify(blocksState)).toString() || '')
 
-
   const account = useAppSelector(accountSelector)
 
   const id = useId()
@@ -175,8 +174,6 @@ export default function BottomBar() {
     setDataCurrent(data)
   }
 
-
-
   useUndoRedoShortcut(undo, redo)
 
   useEffect(() => {
@@ -207,8 +204,6 @@ export default function BottomBar() {
   }, [isAllowSave])
 
   // useEffect(() => {
-
-
 
   //   window.addEventListener('keydown', saveToPng)
   //   return () => {
