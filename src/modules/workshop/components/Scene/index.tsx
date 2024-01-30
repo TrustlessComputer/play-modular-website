@@ -122,7 +122,7 @@ export const Scene = () => {
         const isSameZ = zToBeAdded.every((z) => zBelow.includes(z))
 
         if ((isOverlapXWithoutFullCheck || isOverlapZWithoutFullCheck) && !isBrickBelow) {
-          console.log('Collision')
+          isCollied = true
           break
         }
 
