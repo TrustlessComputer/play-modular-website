@@ -120,18 +120,13 @@ export const Scene = () => {
         const isOverlapZWithoutFullCheck = zToBeAdded.some((z) => zBelow.includes(z))
         const isSameX = xToBeAdded.every((x) => xBelow.includes(x))
         const isSameZ = zToBeAdded.every((z) => zBelow.includes(z))
+        const diffX = Math.round(boundingBoxOfBrickToBeAdded.min.x - brickBoundingBox.min.x)
+        const diffZ = Math.round(boundingBoxOfBrickToBeAdded.min.z - brickBoundingBox.min.z)
+        const diffY = Math.round(boundingBoxOfBrickToBeAdded.min.y - brickBoundingBox.min.y)
 
-        if (collied) {
-          const diffX = Math.round(boundingBoxOfBrickToBeAdded.min.x - brickBoundingBox.min.x)
-          const diffZ = Math.round(boundingBoxOfBrickToBeAdded.min.z - brickBoundingBox.min.z)
-          const diffY = Math.round(boundingBoxOfBrickToBeAdded.min.y - brickBoundingBox.min.y)
-
-          console.log(Math.round(boundingBoxOfBrickToBeAdded.min.y - brickBoundingBox.min.y))
-
-          if ((diffX < 0 || diffZ < 0) && diffY <= 0) {
-            isCollied = true
-            break
-          }
+        if (((diffX < 0 && Math.abs(diffX) <= base) || (diffZ < 0 && Math.abs(diffZ) <= base)) && diffY <= 0) {
+          isCollied = true
+          break
         }
 
         // Filter out the top layer
@@ -139,7 +134,11 @@ export const Scene = () => {
           continue
         }
 
-        if ((isOverlapXWithoutFullCheck || isOverlapZWithoutFullCheck) && !isOver2Bricks) isSomethingBelow = true
+        if (
+          ((diffX % base === 0 && Math.abs(diffX) <= base) || (diffZ % base === 0 && Math.abs(diffZ) <= base)) &&
+          diffY >= 0
+        )
+          isSomethingBelow = true
       }
       if (!isCollied && ((isSomethingBelow && !isFirstLayer) || isFirstLayer)) {
         const brickData = {
