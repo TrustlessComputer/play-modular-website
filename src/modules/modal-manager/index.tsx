@@ -7,8 +7,6 @@ type Props = {}
 
 const ModalManager = (props: Props) => {
   const { modals, closeModal } = useModalStore()
-  console.log("🚀 ~ ModalManager ~ modals:", modals)
-
   if (!modals.length) return null
 
   return (

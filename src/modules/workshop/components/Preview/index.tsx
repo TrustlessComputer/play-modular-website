@@ -48,9 +48,8 @@ const CameraController = () => {
 
 const PreviewRoom = () => {
   React.useEffect(() => {
-    const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
-
     const saveToPng = (e) => {
+      const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
       if (e.ctrlKey && e.key === 's') {
         ;(wrapperDom as HTMLElement).style.display = 'block'
         ;(wrapperDom as HTMLElement).style.position = 'fixed'
@@ -87,12 +86,18 @@ const PreviewRoom = () => {
       gl={{
         alpha: false,
         antialias: true,
-        powerPreference: 'high-performance',
         preserveDrawingBuffer: true,
+        powerPreference: 'high-performance',
       }}
-      shadows={true}
+      shadows='basic'
       dpr={Math.min(2, 1)}
       linear
+      camera={{
+        position: [2900, 2400, 2900],
+        near: 10,
+        far: 100000,
+        fov: 10,
+      }}
     >
       {/* <color attach='background' args={['#000325']} /> */}
 

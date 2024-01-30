@@ -1,3 +1,5 @@
+'use client'
+
 class LocalStorage {
   set(key: string, data: unknown): void {
     const dataStr = JSON.stringify(data)

@@ -242,19 +242,17 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
       const currentStateIndex = state.currentStateIndex
       const stateCurrent = state.blocksState[currentStateIndex] || []
       const blockCurrentCopy = [...stateCurrent]
-      const listCurrent = state.listCurrent
+
       for (let i = 0; i < selectedBricks.length; i++) {
         for (let j = 0; j < blockCurrentCopy.length; j++) {
           if (selectedBricks[i].userData.uID == blockCurrentCopy[j].uID) {
-            const inscriptionID = blockCurrentCopy[j].inscriptionId
-            const groupId = blockCurrentCopy[j].groupId
-            get().pushListCurrent(inscriptionID, groupId, listCurrent)
             blockCurrentCopy.splice(j, 1)
           }
         }
       }
 
       const blocksState = [...state.blocksState, blockCurrentCopy]
+
       return {
         blocksState,
         currentStateIndex: blocksState.length - 1,
