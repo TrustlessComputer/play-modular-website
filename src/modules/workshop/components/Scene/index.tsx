@@ -121,11 +121,14 @@ export const Scene = () => {
         const isSameX = xToBeAdded.every((x) => xBelow.includes(x))
         const isSameZ = zToBeAdded.every((z) => zBelow.includes(z))
 
-        if (collied && (isSameLayer || yIntsersect)) {
-          const diffX = Math.round(Math.abs(boundingBoxOfBrickToBeAdded.min.x - brickBoundingBox.min.x))
-          const diffZ = Math.round(Math.abs(boundingBoxOfBrickToBeAdded.min.z - brickBoundingBox.min.z))
+        if (collied) {
+          const diffX = Math.round(boundingBoxOfBrickToBeAdded.min.x - brickBoundingBox.min.x)
+          const diffZ = Math.round(boundingBoxOfBrickToBeAdded.min.z - brickBoundingBox.min.z)
+          const diffY = Math.round(boundingBoxOfBrickToBeAdded.min.y - brickBoundingBox.min.y)
 
-          if (diffX > 1 || diffZ > 1) {
+          console.log(Math.round(boundingBoxOfBrickToBeAdded.min.y - brickBoundingBox.min.y))
+
+          if ((diffX < 0 || diffZ < 0) && diffY <= 0) {
             isCollied = true
             break
           }
