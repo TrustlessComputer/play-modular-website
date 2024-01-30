@@ -95,7 +95,7 @@ export const Brick = ({
       brickBoundingBox = new Box3().setFromObject(brickRef.current)
 
       bricksBoundBox.current.push({ uID, brickBoundingBox })
-    }, 20)
+    }, 1)
 
     return () => {
       const newA = []
@@ -134,7 +134,7 @@ export const Brick = ({
           position={[position.x + translation.x * base, Math.abs(position.y), position.z + translation.z * base]}
           initial={{ opacity: 0, scale: disabledAnim ? 1 : 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={disabledAnim ? null : { type: 'spring', stiffness: 250, duration: 0.01 }}
+          // transition={disabledAnim ? null : { type: 'spring', stiffness: 10000, duration: 0.01 }}
           userData={{
             uID,
           }}
