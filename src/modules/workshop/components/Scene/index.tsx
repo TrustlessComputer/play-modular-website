@@ -59,6 +59,7 @@ export const Scene = () => {
       const acceptRange = 9
       for (let index = 0; index < bricksBoundBox.current.length; index++) {
         const brickBoundingBox = bricksBoundBox.current[index].brickBoundingBox
+        const collied = boundingBoxOfBrickToBeAdded.intersectsBox(brickBoundingBox)
         const yIntsersect = brickBoundingBox.max.y - acceptRange > boundingBoxOfBrickToBeAdded.min.y
         const isSameLayer = Math.floor(boundingBoxOfBrickToBeAdded.min.y) === Math.floor(brickBoundingBox.min.y)
 
@@ -121,9 +122,14 @@ export const Scene = () => {
         const isSameX = xToBeAdded.every((x) => xBelow.includes(x))
         const isSameZ = zToBeAdded.every((z) => zBelow.includes(z))
 
-        if ((isOverlapXWithoutFullCheck || isOverlapZWithoutFullCheck) && !isBrickBelow) {
-          isCollied = true
-          break
+        if (collied && (isSameLayer || yIntsersect)) {
+          const diffX = Math.abs(boundingBoxOfBrickToBeAdded.min.x - brickBoundingBox.max.x)
+          const diffZ = Math.abs(boundingBoxOfBrickToBeAdded.min.z - brickBoundingBox.max.z)
+
+          if (diffX > 1 || diffZ > 1) {
+            isCollied = true
+            break
+          }
         }
 
         // Filter out the top layer
@@ -131,12 +137,10 @@ export const Scene = () => {
           continue
         }
 
-        if (((isOverlapX && isSameZ) || (isOverlapZ && isSameX)) && isBrickBelow) isSomethingBelow = true
+        if ((isOverlapX || isOverlapZ) && !isOver2Bricks) isSomethingBelow = true
       }
+
       if (!isCollied && ((isSomethingBelow && !isFirstLayer) || isFirstLayer)) {
-        console.log('isCollied', isCollied)
-        console.log('isSomethingBelow', isSomethingBelow)
-        console.log('isFirstLayer', isFirstLayer)
         const brickData = {
           intersect: { point: e.point, face: e.face },
           uID: uID(),
@@ -156,7 +160,7 @@ export const Scene = () => {
 
           setTimeout(() => {
             isJustAdded.current = false
-          }, 250)
+          }, 100)
         }
       }
     } else {
