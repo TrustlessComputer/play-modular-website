@@ -2,7 +2,15 @@
 
 import { useAnchorShorcuts } from '@/hooks/useShortcuts'
 import { useStoreGlobal } from '@/stores/blocks'
-import { EDIT_MODE, base, getMeasurementsFromDimensions, heightBase, minWorkSpaceSize, uID } from '@/utils'
+import {
+  EDIT_MODE,
+  base,
+  checkCollision,
+  getMeasurementsFromDimensions,
+  heightBase,
+  minWorkSpaceSize,
+  uID,
+} from '@/utils'
 import { useEffect, useRef } from 'react'
 import { Box3, Group, Vector3 } from 'three'
 import { Brick } from '../Brick'
@@ -39,7 +47,7 @@ export const Scene = () => {
     setBricks,
   } = useStoreGlobal()
 
-  const bricksBoundBox = useRef([])
+  const bricksBoundBox = useRef<any>({}) // hash map
   const brickCursorRef = useRef<Group>()
   const isDrag = useRef(false)
   const timeoutID = useRef(null)
@@ -53,48 +61,8 @@ export const Scene = () => {
     if (!brickCursorRef.current) return
     if (!isDrag.current) {
       const boundingBoxOfBrickToBeAdded = new Box3().setFromObject(brickCursorRef.current)
-      let isCollied = false
-      let isSomethingBelow = false
-      let isFirstLayer = Math.floor(boundingBoxOfBrickToBeAdded.max.y) === Math.floor(heightBase)
-      for (let index = 0; index < bricksBoundBox.current.length; index++) {
-        const brickBoundingBox = bricksBoundBox.current[index].brickBoundingBox
 
-        const diffX = Math.round(boundingBoxOfBrickToBeAdded.min.x - brickBoundingBox.min.x)
-        const diffZ = Math.round(boundingBoxOfBrickToBeAdded.min.z - brickBoundingBox.min.z)
-        const diffY = Math.round(boundingBoxOfBrickToBeAdded.min.y - brickBoundingBox.min.y)
-
-        if (Math.abs(diffY) < heightBase) {
-          // TOP LEFT CORNER
-          if (Math.abs(diffX) === base && Math.abs(diffZ) === base) {
-            isCollied = true
-            break
-          }
-
-          // BOTTOM LEFT CORNER
-          if ((Math.abs(diffX) === base || diffX === 0) && diffZ >= 0 && diffZ <= base) {
-            isCollied = true
-            break
-          }
-
-          if ((Math.abs(diffZ) === base || diffZ === 0) && diffX >= 0 && diffX <= base) {
-            isCollied = true
-            break
-          }
-        }
-
-        // Filter out the top layer
-        if (isFirstLayer || Math.abs(diffY) > heightBase) {
-          continue
-        }
-
-        if (
-          ((diffX % base === 0 && Math.abs(diffX) <= base) || (diffZ % base === 0 && Math.abs(diffZ) <= base)) &&
-          diffY >= 0
-        )
-          isSomethingBelow = true
-      }
-
-      if (!isCollied && ((isSomethingBelow && !isFirstLayer) || isFirstLayer)) {
+      if (checkCollision(boundingBoxOfBrickToBeAdded, Object.values(bricksBoundBox.current))) {
         const brickData = {
           intersect: { point: e.point, face: e.face },
           uID: uID(),

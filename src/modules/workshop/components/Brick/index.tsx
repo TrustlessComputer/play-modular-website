@@ -22,7 +22,7 @@ export const Brick = ({
   dimensions = { x: 1, z: 1 },
   rotation = 0,
   translation = { x: 0, y: 0, z: 0 },
-  bricksBoundBox = { current: [] },
+  bricksBoundBox = { current: {} },
   uID = '',
   isSelected = false,
   disabledAnim = false,
@@ -67,10 +67,6 @@ export const Brick = ({
       z: draggedOffset.z + Math.round(prevL.z / base) * base,
     }
 
-    setDraggedOffset(newOffset)
-    setResetKey(generateUId())
-    setIsDragging(false)
-
     const blockCurrentClone = [...blockCurrent]
     for (let i = 0; i < blockCurrentClone.length; i++) {
       const element = blockCurrentClone[i]
@@ -83,8 +79,12 @@ export const Brick = ({
       }
     }
 
+    setDraggedOffset(newOffset)
+    setResetKey(generateUId())
+    setIsDragging(false)
     setBlockCurrent(blockCurrentClone)
   }
+
   React.useEffect(() => {
     if (!brickRef.current) return
     if (!uID) return
@@ -95,17 +95,16 @@ export const Brick = ({
     const timeoutID = setTimeout(() => {
       brickBoundingBox = new Box3().setFromObject(brickRef.current)
 
-      bricksBoundBox.current.push({ uID, brickBoundingBox })
+      bricksBoundBox.current[uID] = { uID, brickBoundingBox }
     }, 200)
 
     return () => {
-      const newA = []
-      for (let i = 0; i < bricksBoundBox.current.length; i++) {
-        const element = bricksBoundBox.current[i]
-        if (element.uID !== uID) {
-          newA.push(element)
+      const newA = {}
+      Object.keys(bricksBoundBox.current).forEach((key) => {
+        if (key !== uID) {
+          newA[key] = bricksBoundBox.current[key]
         }
-      }
+      })
       bricksBoundBox.current = newA
       clearTimeout(timeoutID)
     }
