@@ -23,7 +23,7 @@ export const getListModularByWallet = async (payload: {
   limit: number
 }): Promise<unknown> => {
   try {
-    const query = qs.stringify(snakeCaseKeys(payload))
+    const query = qs.stringify(snakeCaseKeys({ ...payload, limit: 100 })) // hardcode limit 100 items
     const res = (await apiClient.get(`${MODULAR_API_PATH}?${query}`)) as any
     return {
       list: res?.result || [],
