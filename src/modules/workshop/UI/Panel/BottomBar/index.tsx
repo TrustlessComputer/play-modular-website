@@ -7,7 +7,7 @@ import { useModalStore, useProjectStore, useStoreGlobal } from '@/stores/blocks'
 import s from './styles.module.scss'
 
 import useApiInfinite from '@/hooks/useApiInfinite'
-import { getListModularByWallet, handleGetData } from '@/services/api/generative'
+import { getListModularByWallet, handleGetData, uploadFile } from '@/services/api/generative'
 import { TBlockData, TListCurrent } from '@/types'
 import instance from '@/utils/storage/local-storage'
 import { useAppSelector } from '@/stores/hooks'
@@ -26,6 +26,7 @@ import jsonFile from './mock.json'
 import UnsaveWarningModal from '@/modules/workshop/components/Modal/UnsaveWarningModal'
 import SetProjectNameModal, { SET_PROJECT_NAME_MODAL_ID } from '@/modules/workshop/components/Modal/SetProjectNameModal'
 import { SHA256 } from 'crypto-js'
+import { convertBase64ToFile } from '@/utils/file'
 
 // const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
 
@@ -59,7 +60,6 @@ export default function BottomBar() {
 
   const currentBlockStateRef = useRef(SHA256(JSON.stringify(blocksState)).toString() || '')
 
-  console.log('🚀 ~ BottomBar ~ currentBlockStateRef:', currentBlockStateRef)
 
   const account = useAppSelector(accountSelector)
 
@@ -99,7 +99,7 @@ export default function BottomBar() {
   }, [blocksState])
 
   const saveAction = async () => {
-    saveToPng()
+    // saveToPng()
 
     if (!isAllowSave) return
 
@@ -175,33 +175,7 @@ export default function BottomBar() {
     setDataCurrent(data)
   }
 
-  const saveToPng = () => {
-    const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
-      // if (e.ctrlKey && e.key === 's') {
-      ; (wrapperDom as HTMLElement).style.display = 'block'
-      ; (wrapperDom as HTMLElement).style.position = 'fixed'
-      ; (wrapperDom as HTMLElement).style.top = '0'
-      ; (wrapperDom as HTMLElement).style.left = '0'
-      ; (wrapperDom as HTMLElement).style.right = '0'
-      ; (wrapperDom as HTMLElement).style.bottom = '0'
 
-    const canvas = wrapperDom.querySelector('canvas')
-    canvas.classList.add(s.saveMove)
-
-    setTimeout(() => {
-      const image = canvas.toDataURL('image/png')
-      console.log("🚀 ~ setTimeout ~ image:", image)
-      // const a = document.createElement('a')
-      // a.href = image
-      // a.download = 'project-xxxx.png'
-      // a.click()
-      // a.remove()
-
-      canvas.classList.remove(s.saveMove)
-        ; (wrapperDom as HTMLElement).style.display = 'none'
-    }, 200)
-    // }
-  }
 
   useUndoRedoShortcut(undo, redo)
 

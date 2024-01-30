@@ -14,3 +14,13 @@ export interface IGetProjectDetailResponse {
   metaData: string
   thumbnail?: string
 }
+
+export interface IUploadFile {
+  file: File
+}
+
+export type UploadFileResponse = {
+  createdAt: string
+  fileName: string
+  url: string
+}
