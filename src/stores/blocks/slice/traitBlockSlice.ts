@@ -1,10 +1,10 @@
 import { NONT_TEXTURE } from '@/constant/trait-data'
 import { TAtributeBlock } from '@/types/store'
-import { EDIT_MODE, defaultAnchor, defaultWidth } from '@/utils'
+import { CREATE_MODE, EDIT_MODE, defaultAnchor, defaultWidth } from '@/utils'
 import { StateCreator } from 'zustand'
 
 export const createTraitBlockSlice: StateCreator<TAtributeBlock> = (set) => ({
-  mode: EDIT_MODE,
+  mode: CREATE_MODE,
   width: 2,
   depth: 2,
   height: defaultWidth,

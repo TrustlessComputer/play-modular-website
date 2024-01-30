@@ -7,7 +7,7 @@ import { useLoader } from '@react-three/fiber'
 import { base, createGeometry, getMeasurementsFromDimensions, uID as generateUId, EDIT_MODE } from '@/utils'
 import { TBlockData } from '@/types'
 import { NONT_TEXTURE } from '@/constant/trait-data'
-import { Decal, PivotControls } from '@react-three/drei'
+import { Decal, Outlines, PivotControls } from '@react-three/drei'
 import { useStoreGlobal } from '@/stores/blocks'
 
 type TBrickAction = {
@@ -28,7 +28,7 @@ export const Brick = ({
   onClick = (e: any) => {},
   mouseMove = (e: any) => {},
 }: TBrickAction & TBlockData) => {
-  const { setIsDragging, mode, blockCurrent, setBlockCurrent } = useStoreGlobal()
+  const { setIsDragging, mode, blockCurrent, setBlockCurrent, selectedBricks } = useStoreGlobal()
   const [resetKey, setResetKey] = React.useState(generateUId())
   const brickRef = React.useRef(null)
   const texturez = useLoader(TextureLoader, texture)
@@ -37,6 +37,7 @@ export const Brick = ({
     x: dimensions.x % 2 === 0 ? dimensions.x / 2 : (dimensions.x - 1) / 2,
     z: dimensions.z % 2 === 0 ? dimensions.z / 2 : (dimensions.z - 1) / 2,
   }
+  const isSelected2 = selectedBricks.find((brick) => brick.userData.uID === uID) ? true : false
 
   const offset = {
     x: Math.sign(translation.x) < 0 ? Math.max(translation.x, -compansate.x) : Math.min(translation.x, compansate.x),
@@ -88,9 +89,12 @@ export const Brick = ({
     if (!bricksBoundBox.current) return
     if (!position) return
 
-    const brickBoundingBox = new Box3().setFromObject(brickRef.current)
+    let brickBoundingBox
+    const timeoutID = setTimeout(() => {
+      brickBoundingBox = new Box3().setFromObject(brickRef.current)
 
-    bricksBoundBox.current.push({ uID, brickBoundingBox })
+      bricksBoundBox.current.push({ uID, brickBoundingBox })
+    }, 2000)
 
     return () => {
       const newA = []
@@ -101,6 +105,7 @@ export const Brick = ({
         }
       }
       bricksBoundBox.current = newA
+      clearTimeout(timeoutID)
     }
   }, [uID, bricksBoundBox, position])
 
@@ -163,6 +168,7 @@ export const Brick = ({
               onClick={onClick}
               onPointerMove={mouseMove}
             >
+              <Outlines visible={isSelected2 && mode === EDIT_MODE} scale={1.01} />
               <meshPhysicalMaterial color={color} metalness={0} roughness={1} specularIntensity={0} />
               {!isNontTexture && (
                 <Decal
