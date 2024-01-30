@@ -1,6 +1,7 @@
 'use client'
 import { DOMAIN_URL } from '@/constant/constant';
 import React from 'react'
+import s from './ShareTwitterBtn.module.scss'
 
 type Props = {
     data: any
@@ -28,8 +29,9 @@ const ShareTwitterBtn = ({ data }: Props) => {
     // const han
 
     return (
-        <div>
+        <div className={s.wrapper}>
             <button
+                className='btn_submit'
                 onClick={handleShareTw}>
                 Share on X
             </button>

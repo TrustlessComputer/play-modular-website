@@ -4,6 +4,7 @@ import Layout from '@/layouts'
 import { manrope, space_mono } from '@/constant/font'
 import StoreProvider from '@/providers/store'
 import Web3Auth from '@/hocs/Web3Auth'
+
 export const metadata: Metadata = {
   metadataBase: new URL(`${process.env.NEXT_PUBLIC_DOMAIN_URL}`),
   icons: {
