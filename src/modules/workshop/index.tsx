@@ -15,13 +15,11 @@ export default function WorkShop() {
 
   return (
     <>
-      {loading && (
-        <div className={s.overlay}>
-          <Spinner
-            color='dark:text-transparent fill-gray-600'
-          ></Spinner>
-        </div>
-      )}
+      <div className={`${s.overlay} ${loading ? 'z-[99999]' : 'z-0'}`}>
+        <Spinner
+          color='dark:text-transparent fill-gray-600'
+        ></Spinner>
+      </div>
       <main className={s.workshop}>
         <div className={s.workshop_main}>
           <UI />
