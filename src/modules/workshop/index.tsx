@@ -1,17 +1,27 @@
 'use client'
 
-import { useStoreGlobal } from '@/stores/blocks'
+import { useProjectStore, useStoreGlobal } from '@/stores/blocks'
 import Three3D from './Three3D'
 import UI from './UI'
 import PreviewRoom from './components/Preview'
 import s from './styles.module.scss'
 import cn from 'classnames'
+import Spinner from '@/components/Spinner'
 
 export default function WorkShop() {
   const { viewPreview } = useStoreGlobal()
 
+  const { loading } = useProjectStore()
+
   return (
     <>
+      {loading && (
+        <div className={s.overlay}>
+          <Spinner
+            color='dark:text-transparent fill-gray-600'
+          ></Spinner>
+        </div>
+      )}
       <main className={s.workshop}>
         <div className={s.workshop_main}>
           <UI />

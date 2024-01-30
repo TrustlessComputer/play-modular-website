@@ -11,6 +11,11 @@ export const createProjectSlice: StateCreator<TProjectSlice> = (set) => ({
     id: '',
     name: '',
   },
+  loading: false,
+
+  setLoading: (loading) => {
+    set({ loading })
+  },
 
   saveProject: async (params) => {
     const { projectId, projectName, jsonFile, ownerAddress, thumbnail } = params
@@ -38,6 +43,7 @@ export const createProjectSlice: StateCreator<TProjectSlice> = (set) => ({
     } catch (error) {
       toast.error('Something went wrong! Please try again!')
       return 'failed'
+    } finally {
     }
 
     // call API to save project
@@ -52,6 +58,7 @@ export const createProjectSlice: StateCreator<TProjectSlice> = (set) => ({
     // call API to create project
     set({ projectId: '', projectName: '', renderFile: '' })
   },
+
   setSelectedProject: (params) => {
     const { id, name } = params
     set({ selectedProject: { id, name } })

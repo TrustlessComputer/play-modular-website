@@ -56,7 +56,7 @@ export default function BottomBar() {
 
   const router = useRouter()
 
-  const { projectId, saveProject, createProject, projectName, renderFile } = useProjectStore()
+  const { setLoading, projectId, saveProject, createProject, projectName, renderFile } = useProjectStore()
 
   const { openModal, modals } = useModalStore()
 
@@ -116,6 +116,7 @@ export default function BottomBar() {
       })
       return
     }
+    setLoading(true)
 
     const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
       // if (e.ctrlKey && e.key === 's') {
@@ -162,7 +163,9 @@ export default function BottomBar() {
       if (projectName) {
         payload.projectName = projectName
       }
-      saveProject(payload)
+      await saveProject(payload)
+
+      setLoading(false)
 
 
 

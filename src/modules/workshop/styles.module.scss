@@ -27,3 +27,16 @@
     }
   }
 }
+
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba($color: #fff, $alpha: 0.3);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+
+}
