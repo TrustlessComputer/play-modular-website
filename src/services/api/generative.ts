@@ -63,7 +63,8 @@ export const handleGetData = async (address: string) => {
     ownerAddress: isLocalhost() ? MOCK_ADDRESS : address,
 
     page: 1,
-    limit: 100,
+    // limit: 100,
+    limit: 1000,
   })) as any
   const listData = data.list as TListCurrent[]
   return listData
