@@ -13,7 +13,7 @@ export const createProjectSlice: StateCreator<TProjectSlice> = (set) => ({
   },
 
   saveProject: async (params) => {
-    const { projectId, projectName, jsonFile, ownerAddress } = params
+    const { projectId, projectName, jsonFile, ownerAddress, thumbnail } = params
 
     const name = projectName || `${new Date().getTime()}`
 
@@ -21,6 +21,7 @@ export const createProjectSlice: StateCreator<TProjectSlice> = (set) => ({
       name,
       owner_addr: ownerAddress,
       meta_data: JSON.stringify(jsonFile),
+      thumbnail,
     }
 
     if (projectId) {
@@ -54,5 +55,5 @@ export const createProjectSlice: StateCreator<TProjectSlice> = (set) => ({
   setSelectedProject: (params) => {
     const { id, name } = params
     set({ selectedProject: { id, name } })
-  }
+  },
 })

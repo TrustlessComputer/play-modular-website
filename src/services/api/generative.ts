@@ -1,15 +1,26 @@
+'use client'
+
 import qs from 'query-string'
 
 import { API_URL } from '@/constant/constant'
 import createAxiosInstance from '@/services/http-client'
 import { camelCaseKeys, snakeCaseKeys } from '@/utils/normalize'
-import { ICreateProjectResponse, IGetProjectDetailResponse } from '@/interface/api/generative'
+import {
+  ICreateProjectResponse,
+  IGetProjectDetailResponse,
+  IUploadFile,
+  UploadFileResponse,
+} from '@/interface/api/generative'
 import { TListCurrent } from '@/types'
+import { MOCK_ADDRESS } from '@/constant/mock-data'
+import { isLocalhost } from '@/utils/browser'
 
 export const apiClient = createAxiosInstance({ baseURL: API_URL })
 
 const MODULAR_API_PATH = 'modular/inscriptions'
 const MODULAT_WORKSHOP_API_PATH = 'modular-workshop'
+
+const FILE_API_PATH = 'files'
 
 export const getListModularByWallet = async (payload: {
   ownerAddress: string
@@ -52,7 +63,8 @@ export const getListSavedProject = async (payload: {
 }
 export const handleGetData = async (address: string) => {
   const data = (await getListModularByWallet({
-    ownerAddress: address,
+    // ownerAddress: address,
+    ownerAddress: isLocalhost() ? MOCK_ADDRESS : address, // 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
     // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
     page: 1,
     limit: 100,
@@ -80,6 +92,7 @@ export const createOrSaveProject = async (payload: {
   name: string
   owner_addr: string
   meta_data: string
+  thumbnail: string
 }): Promise<unknown> => {
   try {
     const res = (await apiClient.post(`${MODULAT_WORKSHOP_API_PATH}/save`, payload)) as any
@@ -96,4 +109,15 @@ export const getProjectDetail = async (payload: { id: string }): Promise<IGetPro
   } catch (err: unknown) {
     throw err
   }
+}
+
+export const uploadFile = async (payload: IUploadFile): Promise<UploadFileResponse> => {
+  const formData = new FormData()
+  formData.append('file', payload.file)
+  const res = await apiClient.post(`/files`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
+  return camelCaseKeys(res)
 }
