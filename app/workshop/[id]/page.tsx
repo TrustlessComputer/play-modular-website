@@ -30,15 +30,15 @@ export async function generateMetadata(
   // fetch data
   const data = await fetchModelData(id)
 
-  const desc = data.data?.name || ''
+  const desc = data?.data?.name || ''
 
-  const thumbnail = data.data?.thumbnail
+  const thumbnail = data?.data?.thumbnail
 
   // optionally access and extend (rather than replace) parent metadata
   const previousImages = (await parent).openGraph?.images || []
 
   return {
-    title: `Modular | ${data?.name}`,
+    title: `Modular | ${data?.data?.name}`,
     description: desc,
     openGraph: {
       images: [thumbnail, ...previousImages],
@@ -48,14 +48,13 @@ export async function generateMetadata(
 
 const Page = async ({ params }: { params: { id: string } }) => {
   const data = await fetchModelData(params.id)
-  console.log("🚀 ~ Page ~ data:", data)
 
   if (!data) {
     return null
   }
 
   return (
-    <div>
+    <div className={'relative'}>
       <ShareTwitterBtn data={data} />
       <ViewMap brickData={JSON.parse(data.data.meta_data)} id={params.id} />
     </div>

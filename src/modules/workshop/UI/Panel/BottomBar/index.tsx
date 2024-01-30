@@ -58,7 +58,7 @@ export default function BottomBar() {
   const [showUnsaveModal, setShowUnsaveModal] = useState(false)
   const [showSetProjectNameModal, setShowSetProjectNameModal] = useState(false)
 
-  const currentBlockStateRef = useRef(SHA256(JSON.stringify(blocksState)).toString() || '')
+  const currentBlockStateRef = useRef(SHA256(JSON.stringify(blockCurrent)).toString() || '')
 
   const account = useAppSelector(accountSelector)
 
@@ -92,10 +92,10 @@ export default function BottomBar() {
   }
 
   const isAllowSave = useMemo(() => {
-    const hashBlockState = SHA256(JSON.stringify(blocksState)).toString()
+    const hashBlockCurrent = SHA256(JSON.stringify(blockCurrent)).toString()
 
-    return hashBlockState !== currentBlockStateRef.current && blocksState.length > 1
-  }, [blocksState])
+    return hashBlockCurrent !== currentBlockStateRef.current
+  }, [blockCurrent])
 
   const saveAction = async () => {
     // saveToPng()
