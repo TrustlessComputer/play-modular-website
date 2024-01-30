@@ -15,6 +15,8 @@ export type TBlockSlice = {
     groupId: string,
     listCurrent: TListCurrent[],
   ) => { listCurrent: TListCurrent[]; inscriptionId: string }
+  pushAllListCurrent: (blockCurrent: TBlockData[], listCurrent: TListCurrent[]) => any
+  deleteAllListCurrent: (blockCurrent: TBlockData[], listCurrent: TListCurrent[]) => any
   pushListCurrent: (
     inscriptionId: string,
     groupId: string,

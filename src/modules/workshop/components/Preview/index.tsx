@@ -48,16 +48,15 @@ const CameraController = () => {
 
 const PreviewRoom = () => {
   React.useEffect(() => {
-
     const saveToPng = (e) => {
       const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
       if (e.ctrlKey && e.key === 's') {
-          ; (wrapperDom as HTMLElement).style.display = 'block'
-          ; (wrapperDom as HTMLElement).style.position = 'fixed'
-          ; (wrapperDom as HTMLElement).style.top = '0'
-          ; (wrapperDom as HTMLElement).style.left = '0'
-          ; (wrapperDom as HTMLElement).style.right = '0'
-          ; (wrapperDom as HTMLElement).style.bottom = '0'
+        ;(wrapperDom as HTMLElement).style.display = 'block'
+        ;(wrapperDom as HTMLElement).style.position = 'fixed'
+        ;(wrapperDom as HTMLElement).style.top = '0'
+        ;(wrapperDom as HTMLElement).style.left = '0'
+        ;(wrapperDom as HTMLElement).style.right = '0'
+        ;(wrapperDom as HTMLElement).style.bottom = '0'
 
         const canvas = wrapperDom.querySelector('canvas')
         canvas.classList.add(s.saveMove)
@@ -71,7 +70,7 @@ const PreviewRoom = () => {
           a.remove()
 
           canvas.classList.remove(s.saveMove)
-            ; (wrapperDom as HTMLElement).style.display = 'none'
+          ;(wrapperDom as HTMLElement).style.display = 'none'
         }, 200)
       }
     }
@@ -87,18 +86,24 @@ const PreviewRoom = () => {
       gl={{
         alpha: false,
         antialias: true,
-        powerPreference: 'high-performance',
         preserveDrawingBuffer: true,
+        powerPreference: 'high-performance',
       }}
-      shadows={true}
+      shadows='basic'
       dpr={Math.min(2, 1)}
       linear
+      camera={{
+        position: [2900, 2400, 2900],
+        near: 10,
+        far: 100000,
+        fov: 10,
+      }}
     >
-      {/* <color attach='background' args={['#000325']} /> */}
+      {/* <color attach='background' args={['#ffffff']} /> */}
 
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
         <planeGeometry args={[50000, 50000]} />
-        <meshPhysicalMaterial color='#cacaca' roughness={0.4} metalness={0.7} />
+        <meshPhysicalMaterial color='#cacaca' roughness={1} metalness={0.7} specularIntensity={0} />
       </mesh>
 
       <EffectComposer multisampling={0}>
