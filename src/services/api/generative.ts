@@ -1,3 +1,5 @@
+'use client'
+
 import qs from 'query-string'
 
 import { API_URL } from '@/constant/constant'
@@ -5,6 +7,8 @@ import createAxiosInstance from '@/services/http-client'
 import { camelCaseKeys, snakeCaseKeys } from '@/utils/normalize'
 import { ICreateProjectResponse, IGetProjectDetailResponse } from '@/interface/api/generative'
 import { TListCurrent } from '@/types'
+import { MOCK_ADDRESS } from '@/constant/mock-data'
+import { isLocalhost } from '@/utils/browser'
 
 export const apiClient = createAxiosInstance({ baseURL: API_URL })
 
@@ -52,7 +56,8 @@ export const getListSavedProject = async (payload: {
 }
 export const handleGetData = async (address: string) => {
   const data = (await getListModularByWallet({
-    ownerAddress: address,
+    // ownerAddress: address,
+    ownerAddress: isLocalhost() ? MOCK_ADDRESS : address, // 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
     // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
     page: 1,
     limit: 100,

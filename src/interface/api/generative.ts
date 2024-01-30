@@ -12,4 +12,5 @@ export interface IGetProjectDetailResponse {
   name: string
   ownerAddr: string
   metaData: string
+  thumbnail?: string
 }

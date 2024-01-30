@@ -99,6 +99,8 @@ export default function BottomBar() {
   }, [blocksState])
 
   const saveAction = async () => {
+    saveToPng()
+
     if (!isAllowSave) return
 
     if (!projectName) {
@@ -126,7 +128,6 @@ export default function BottomBar() {
     if (projectName) {
       payload.projectName = projectName
     }
-    console.log('payload', JSON.stringify(payload.jsonFile))
     saveProject(payload)
   }
 
@@ -174,6 +175,34 @@ export default function BottomBar() {
     setDataCurrent(data)
   }
 
+  const saveToPng = () => {
+    const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
+      // if (e.ctrlKey && e.key === 's') {
+      ; (wrapperDom as HTMLElement).style.display = 'block'
+      ; (wrapperDom as HTMLElement).style.position = 'fixed'
+      ; (wrapperDom as HTMLElement).style.top = '0'
+      ; (wrapperDom as HTMLElement).style.left = '0'
+      ; (wrapperDom as HTMLElement).style.right = '0'
+      ; (wrapperDom as HTMLElement).style.bottom = '0'
+
+    const canvas = wrapperDom.querySelector('canvas')
+    canvas.classList.add(s.saveMove)
+
+    setTimeout(() => {
+      const image = canvas.toDataURL('image/png')
+      console.log("🚀 ~ setTimeout ~ image:", image)
+      // const a = document.createElement('a')
+      // a.href = image
+      // a.download = 'project-xxxx.png'
+      // a.click()
+      // a.remove()
+
+      canvas.classList.remove(s.saveMove)
+        ; (wrapperDom as HTMLElement).style.display = 'none'
+    }, 200)
+    // }
+  }
+
   useUndoRedoShortcut(undo, redo)
 
   useEffect(() => {
@@ -202,6 +231,16 @@ export default function BottomBar() {
       })
     }
   }, [isAllowSave])
+
+  // useEffect(() => {
+
+
+
+  //   window.addEventListener('keydown', saveToPng)
+  //   return () => {
+  //     window.removeEventListener('keydown', saveToPng)
+  //   }
+  // }, [])
 
   const handleDeleteSelected = () => {
     deleteSelected(selectedBricks)
