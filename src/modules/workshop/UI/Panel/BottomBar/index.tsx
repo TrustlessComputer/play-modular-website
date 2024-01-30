@@ -14,6 +14,7 @@ import { useAppSelector } from '@/stores/hooks'
 import { accountSelector } from '@/stores/states/wallet/selector'
 import { handleConvertData } from '@/utils/convertTraits'
 import { useEffect, useMemo, useRef } from 'react'
+import IcEye from '@/icons/workshop/ic-eye.svg'
 
 type TDataFetch = {
   list: TListCurrent
@@ -27,6 +28,8 @@ import UnsaveWarningModal from '@/modules/workshop/components/Modal/UnsaveWarnin
 import SetProjectNameModal, { SET_PROJECT_NAME_MODAL_ID } from '@/modules/workshop/components/Modal/SetProjectNameModal'
 import { SHA256 } from 'crypto-js'
 import { convertBase64ToFile } from '@/utils/file'
+import { WORKSHOP_URL } from '@/constant/route-path'
+import { useRouter } from 'next/navigation'
 
 // const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
 
@@ -50,6 +53,8 @@ export default function BottomBar() {
     setBlockCurrentUpdate,
   } = useStoreGlobal()
 
+  const router = useRouter()
+
   const { projectId, saveProject, createProject, projectName, renderFile } = useProjectStore()
 
   const { openModal, modals } = useModalStore()
@@ -57,6 +62,7 @@ export default function BottomBar() {
   const [showModal, setShowModal] = useState(false)
   const [showUnsaveModal, setShowUnsaveModal] = useState(false)
   const [showSetProjectNameModal, setShowSetProjectNameModal] = useState(false)
+  const [clickView, setClickView] = useState(false)
 
   const currentBlockStateRef = useRef(SHA256(JSON.stringify(blockCurrent)).toString() || '')
 
@@ -110,24 +116,58 @@ export default function BottomBar() {
       return
     }
 
-    const payload: {
-      jsonFile: any
-      projectId?: string
-      projectName?: string
-      ownerAddress: string
-    } = {
-      jsonFile: blockCurrent,
-      ownerAddress: account?.address,
-    }
+    const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
+      // if (e.ctrlKey && e.key === 's') {
+      ; (wrapperDom as HTMLElement).style.display = 'block'
+      ; (wrapperDom as HTMLElement).style.position = 'fixed'
+      ; (wrapperDom as HTMLElement).style.top = '0'
+      ; (wrapperDom as HTMLElement).style.left = '0'
+      ; (wrapperDom as HTMLElement).style.right = '0'
+      ; (wrapperDom as HTMLElement).style.bottom = '0'
 
-    if (projectId) {
-      payload.projectId = projectId
-    }
+    const canvas = wrapperDom.querySelector('canvas')
+    canvas.classList.add(s.saveMove)
 
-    if (projectName) {
-      payload.projectName = projectName
-    }
-    saveProject(payload)
+    setTimeout(async () => {
+      const image = canvas.toDataURL('image/png')
+      const file = convertBase64ToFile(image)
+      const resUrl = await uploadFile({ file })
+      const a = document.createElement('a')
+      a.href = image
+      a.download = 'project-xxxx.png'
+      // a.click()
+      a.remove()
+
+      canvas.classList.remove(s.saveMove)
+        ; (wrapperDom as HTMLElement).style.display = 'none'
+
+
+      const payload: {
+        jsonFile: any
+        projectId?: string
+        projectName?: string
+        ownerAddress: string
+        thumbnail: string
+      } = {
+        jsonFile: blockCurrent,
+        ownerAddress: account?.address,
+        thumbnail: resUrl.url,
+      }
+
+      if (projectId) {
+        payload.projectId = projectId
+      }
+
+      if (projectName) {
+        payload.projectName = projectName
+      }
+      saveProject(payload)
+
+
+
+    }, 200)
+
+
   }
 
   const saveAsAction = async () => {
@@ -172,6 +212,21 @@ export default function BottomBar() {
     deleteAlls()
     const data = await handleGetData(account?.address) //reset new project
     setDataCurrent(data)
+  }
+
+  const viewAction = () => {
+    if (!projectId && !isAllowSave) return
+
+    if (!projectId && isAllowSave) {
+      openModal({
+        id: SET_PROJECT_NAME_MODAL_ID,
+        component: <SetProjectNameModal type='save-view' />,
+      })
+      return
+    }
+
+    router.push(`${WORKSHOP_URL}/${projectId}`)
+
   }
 
   useUndoRedoShortcut(undo, redo)
@@ -240,6 +295,9 @@ export default function BottomBar() {
         </div>
 
         <div className={s.bottomBar}>
+          <button className={s.bottomBar_btn} onClick={viewAction}>
+            <IcEye /> View Mode
+          </button>
           <button className={s.bottomBar_btn} onClick={saveAction} disabled={!isAllowSave}>
             <IcSave /> Save
           </button>
