@@ -99,11 +99,11 @@ const PreviewRoom = () => {
         fov: 10,
       }}
     >
-      {/* <color attach='background' args={['#000325']} /> */}
+      {/* <color attach='background' args={['#ffffff']} /> */}
 
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
         <planeGeometry args={[50000, 50000]} />
-        <meshPhysicalMaterial color='#cacaca' roughness={0.4} metalness={0.7} />
+        <meshPhysicalMaterial color='#cacaca' roughness={1} metalness={0.7} specularIntensity={0} />
       </mesh>
 
       <EffectComposer multisampling={0}>
