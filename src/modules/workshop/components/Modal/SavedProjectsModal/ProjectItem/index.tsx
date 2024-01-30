@@ -4,6 +4,7 @@ import cs from 'classnames'
 import dayjs from 'dayjs'
 import React, { useCallback, useMemo } from 'react'
 import s from './SavedProjectItem.module.scss'
+import Image from 'next/image'
 
 type Props = {
   name: string
@@ -12,6 +13,7 @@ type Props = {
   // onClick: () => void
   updatedAt?: string
   createdAt?: string
+  thumbnail?: string
 }
 
 const ProjectItem = (props: Props) => {
@@ -44,7 +46,14 @@ const ProjectItem = (props: Props) => {
         <p className={`${s.name} truncate`}>{props.name}</p>
         <p className={`${s.time}`}>{showDate}</p>
       </div>
-      {isSelected && <IcSelected />}
+      <div className={s.thumbnail_wrapper}>
+        <Image
+          src={'https://cdn.generative.xyz/upload/1706599034259555736-1706599034-thumbnail'}
+          alt='thumbnail'
+          fill={true}
+          className={s.thumbnail}
+        />
+      </div>
     </div>
   )
 }

@@ -7,6 +7,8 @@ import { IGetProjectDetailResponse, IUploadFile, UploadFileResponse } from '@/in
 import createAxiosInstance from '@/services/http-client'
 import { TListCurrent } from '@/types'
 import { camelCaseKeys, snakeCaseKeys } from '@/utils/normalize'
+import { isLocalhost } from '@/utils/browser'
+import { MOCK_ADDRESS } from '@/constant/mock-data'
 
 export const apiClient = createAxiosInstance({ baseURL: API_URL })
 
@@ -57,8 +59,9 @@ export const getListSavedProject = async (payload: {
 export const handleGetData = async (address: string) => {
   const data = (await getListModularByWallet({
     // ownerAddress: address,
-    ownerAddress: address, // 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
-    // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+    // ownerAddress: address, // 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+    ownerAddress: isLocalhost() ? MOCK_ADDRESS : address,
+
     page: 1,
     limit: 100,
   })) as any

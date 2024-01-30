@@ -110,24 +110,58 @@ export default function BottomBar() {
       return
     }
 
-    const payload: {
-      jsonFile: any
-      projectId?: string
-      projectName?: string
-      ownerAddress: string
-    } = {
-      jsonFile: blockCurrent,
-      ownerAddress: account?.address,
-    }
+    const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
+      // if (e.ctrlKey && e.key === 's') {
+      ; (wrapperDom as HTMLElement).style.display = 'block'
+      ; (wrapperDom as HTMLElement).style.position = 'fixed'
+      ; (wrapperDom as HTMLElement).style.top = '0'
+      ; (wrapperDom as HTMLElement).style.left = '0'
+      ; (wrapperDom as HTMLElement).style.right = '0'
+      ; (wrapperDom as HTMLElement).style.bottom = '0'
 
-    if (projectId) {
-      payload.projectId = projectId
-    }
+    const canvas = wrapperDom.querySelector('canvas')
+    canvas.classList.add(s.saveMove)
 
-    if (projectName) {
-      payload.projectName = projectName
-    }
-    saveProject(payload)
+    setTimeout(async () => {
+      const image = canvas.toDataURL('image/png')
+      const file = convertBase64ToFile(image)
+      const resUrl = await uploadFile({ file })
+      const a = document.createElement('a')
+      a.href = image
+      a.download = 'project-xxxx.png'
+      // a.click()
+      a.remove()
+
+      canvas.classList.remove(s.saveMove)
+        ; (wrapperDom as HTMLElement).style.display = 'none'
+
+
+      const payload: {
+        jsonFile: any
+        projectId?: string
+        projectName?: string
+        ownerAddress: string
+        thumbnail: string
+      } = {
+        jsonFile: blockCurrent,
+        ownerAddress: account?.address,
+        thumbnail: resUrl.url,
+      }
+
+      if (projectId) {
+        payload.projectId = projectId
+      }
+
+      if (projectName) {
+        payload.projectName = projectName
+      }
+      saveProject(payload)
+
+
+
+    }, 200)
+
+
   }
 
   const saveAsAction = async () => {
