@@ -178,7 +178,7 @@ export const Brick = ({
                   scale={[
                     brickGeometry.length > 1 ? base * 2.5 : base * 2.5,
                     heightBase,
-                    brickGeometry.length > 1 ? base * 2 : base,
+                    brickGeometry.length > 1 ? base * 2 : base * 2,
                   ]}
                 >
                   <meshPhysicalMaterial
