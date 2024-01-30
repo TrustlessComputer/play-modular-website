@@ -91,9 +91,6 @@ export default function BottomBar() {
   const redoAction = () => {
     redo()
   }
-  const deleteAction = () => {
-    // deleteSeletBlocks()
-  }
 
   const isAllowSave = useMemo(() => {
     const hashBlockState = SHA256(JSON.stringify(blocksState)).toString()
@@ -155,16 +152,16 @@ export default function BottomBar() {
     deleteAlls()
   }
 
-  const handleGetData = async () => {
-    const data = (await getListModularByWallet({
-      ownerAddress: account?.address,
-      // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
-      page: 1,
-      limit: 20,
-    })) as any
-    const listData = data.list as TListCurrent[]
-    return listData
-  }
+  // const handleGetData = async () => {
+  //   const data = (await getListModularByWallet({
+  //     ownerAddress: account?.address,
+  //     // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+  //     page: 1,
+  //     limit: 20,
+  //   })) as any
+  //   const listData = data.list as TListCurrent[]
+  //   return listData
+  // }
 
   const handleClickCreateNewProject = async () => {
     if (isAllowSave) {
@@ -173,7 +170,7 @@ export default function BottomBar() {
     }
     createProject()
     deleteAlls()
-    const data = await handleGetData() //reset new project
+    const data = await handleGetData(account?.address) //reset new project
     setDataCurrent(data)
   }
 
@@ -192,32 +189,22 @@ export default function BottomBar() {
     }
   }, [projectId, createProject])
 
-  const handleDeleteSelected = () => {
-    // deleteSelected(selectedBricks)
-    const newState = []
-    setBricks((bricks) => {
-      const newBricks = bricks.filter((brick) => {
-        const selectedClone = [...selectedBricks]
-        // console.log('selectedClone', selectedClone)
-
-        const uID = brick.uID
-        // console.log('uID', uID)
-        let should = true
-        for (let i = 0; i < selectedClone.length; i++) {
-          const selectedUID = selectedClone[i].userData.uID
-          if (uID === selectedUID) {
-            should = false
-            selectedClone.splice(i, 1)
-          } else {
-            newState.push(selectedClone[i])
-          }
-        }
-        return should
-      })
-      return newBricks
+  useEffect(() => {
+    // detect click browser back button or closing tab
+    if (!isAllowSave) return
+    window.addEventListener('beforeunload', (e) => {
+      e.preventDefault()
     })
-    // console.log('newState', newState)
-    // setBlockCurrentUpdate(newState)
+
+    return () => {
+      window.removeEventListener('beforeunload', (e) => {
+        e.preventDefault()
+      })
+    }
+  }, [isAllowSave])
+
+  const handleDeleteSelected = () => {
+    deleteSelected(selectedBricks)
     setSelectedBricks({})
   }
 

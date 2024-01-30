@@ -31,13 +31,12 @@ export function Select({
   const [downed, down] = React.useState(false)
   const { setEvents, camera, raycaster, gl, controls, size, get } = useThree() as any
 
-  const { mode, setSelectedBricks, selectedBricks } = useStoreGlobal()
+  const { mode, setSelectedBricks, selectedBricks, blockCurrent } = useStoreGlobal()
 
   const enable = mode === EDIT_MODE
   const onClick = React.useCallback(
     (e) => {
       e.stopPropagation()
-      // console.log('customFilter([e.object])[0', customFilter([e.object])[0])
       if (!enable) return
       setSelectedBricks({
         object: customFilter([e.object])[0],
