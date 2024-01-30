@@ -92,10 +92,9 @@ export default function BottomBar() {
   }
 
   const isAllowSave = useMemo(() => {
-    const hashBlockState = SHA256(JSON.stringify(blocksState)).toString()
-
-    return hashBlockState !== currentBlockStateRef.current && blocksState.length > 1
-  }, [blocksState])
+    const hashBlockState = SHA256(JSON.stringify(blockCurrent)).toString()
+    return hashBlockState !== currentBlockStateRef.current
+  }, [blockCurrent])
 
   const saveAction = async () => {
     // saveToPng()
