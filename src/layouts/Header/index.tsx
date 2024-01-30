@@ -1,10 +1,13 @@
-import React from 'react'
+import Link from 'next/link'
 import s from './styles.module.scss'
-import Image from 'next/image'
-import Fade from '@/interactive/Fade'
+
 import WalletButton from '@/components/WalletButton'
-import { usePathname } from 'next/navigation'
+import Fade from '@/interactive/Fade'
 import cn from 'classnames'
+import { usePathname } from 'next/navigation'
+import LogoIcon from '/public/imgs/logo.svg'
+
+const MODULAR_TEXT = 'Modular'
 
 export default function Header() {
   const pathname = usePathname()
@@ -14,8 +17,10 @@ export default function Header() {
     <header className={s.header}>
       <div className={cn(isWorkshop ? s.containerWorkshop : s.container)}>
         <div className={`${s.logo} js-header-logo`}>
-          <Image width={40} height={40} src={'imgs/logo.svg'} alt={'logo'} />
-          <Fade delay={1}>Modular</Fade>
+          <Link href='/' className='inline-flex justify-center items-center gap-[16px]'>
+            <LogoIcon />
+            {pathname === '/' ? <Fade delay={1}>{MODULAR_TEXT}</Fade> : <div>{MODULAR_TEXT}</div>}
+          </Link>
         </div>
         <WalletButton />
       </div>

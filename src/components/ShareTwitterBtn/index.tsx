@@ -1,6 +1,7 @@
 'use client'
 import { DOMAIN_URL } from '@/constant/constant';
 import React from 'react'
+import s from './ShareTwitterBtn.module.scss'
 
 type Props = {
     data: any
@@ -8,12 +9,12 @@ type Props = {
 
 const ShareTwitterBtn = ({ data }: Props) => {
 
-    const content = 'Share Model'
+    const content = `Share Model`
 
     const handleShareTw = (e?: any) => {
         e.preventDefault();
         e.stopPropagation();
-        const shareUrl = DOMAIN_URL;
+        const shareUrl = `${DOMAIN_URL}/workshop/${data?.data?.id}`;
 
         window.open(
             `https://twitter.com/intent/tweet?url=${shareUrl}&text=${encodeURIComponent(
@@ -28,8 +29,9 @@ const ShareTwitterBtn = ({ data }: Props) => {
     // const han
 
     return (
-        <div>
+        <div className={s.wrapper}>
             <button
+                className='btn_submit'
                 onClick={handleShareTw}>
                 Share on X
             </button>

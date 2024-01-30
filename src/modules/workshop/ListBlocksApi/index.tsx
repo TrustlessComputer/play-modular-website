@@ -9,14 +9,14 @@ import { getListModularByWallet } from '@/services/api/generative'
 import { useAppSelector } from '@/stores/hooks'
 import { accountSelector } from '@/stores/states/wallet/selector'
 
-import ItemBlock from './ItemBlock'
-import s from './styles.module.scss'
 import { useStoreGlobal } from '@/stores/blocks'
 import { TListCurrent } from '@/types'
-import Empty from './Empty'
-import { MOCK_ADDRESS } from '@/constant/mock-data'
-import { isLocalhost } from '@/utils/browser'
 import { handleConvertData } from '@/utils/convertTraits'
+import Empty from './Empty'
+import ItemBlock from './ItemBlock'
+import s from './styles.module.scss'
+import { isLocalhost } from '@/utils/browser'
+import { MOCK_ADDRESS } from '@/constant/mock-data'
 
 const GridList = forwardRef(({ children, ...props }: PropsWithChildren, ref: any) => (
   <div
@@ -66,7 +66,8 @@ const ListBlocks: React.FunctionComponent = () => {
   } = useApiInfinite(
     getListModularByWallet,
     {
-      ownerAddress: isLocalhost() ? MOCK_ADDRESS : account?.address, // 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+      // ownerAddress: account?.address, // 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+      ownerAddress: isLocalhost() ? MOCK_ADDRESS : account?.address,
       page: 1,
       limit: 20,
     },

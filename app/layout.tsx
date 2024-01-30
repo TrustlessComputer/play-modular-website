@@ -1,8 +1,8 @@
+import { manrope, space_mono } from '@/constant/font'
+import Layout from '@/layouts'
+import StoreProvider from '@/providers/store'
 import '@/styles/style.scss'
 import { Metadata, Viewport } from 'next'
-import Layout from '@/layouts'
-import { manrope, space_mono } from '@/constant/font'
-import StoreProvider from '@/providers/store'
 
 export const metadata: Metadata = {
   metadataBase: new URL(`${process.env.NEXT_PUBLIC_DOMAIN_URL}`),

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import s from './SetProjectNameModal.module.scss'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { useModalStore, useProjectStore, useStoreGlobal } from '@/stores/blocks'
@@ -23,9 +23,22 @@ const SetProjectNameModal = ({ type }: Props) => {
   const { closeModal } = useModalStore()
   const account = useAppSelector(accountSelector)
 
+  const [uploadFileUrl, setUploadFileUrl] = useState('')
+
   const initialValues: MyFormValues = { modelName: '' }
 
-  const saveToPng = async () => {
+  // const saveToPng = async () => {
+
+
+
+
+  //   // }
+  // }
+
+  const handleSubmit = async (values: MyFormValues, actions: any) => {
+    console.log({ values, actions })
+    actions.setSubmitting(false)
+
     const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
       // if (e.ctrlKey && e.key === 's') {
       ; (wrapperDom as HTMLElement).style.display = 'block'
@@ -38,12 +51,10 @@ const SetProjectNameModal = ({ type }: Props) => {
     const canvas = wrapperDom.querySelector('canvas')
     canvas.classList.add(s.saveMove)
 
-    let resUrl
-    const image = canvas.toDataURL('image/png')
-    const file = convertBase64ToFile(image)
-    resUrl = await uploadFile({ file })
-
     setTimeout(async () => {
+      const image = canvas.toDataURL('image/png')
+      const file = convertBase64ToFile(image)
+      const resUrl = await uploadFile({ file })
       const a = document.createElement('a')
       a.href = image
       a.download = 'project-xxxx.png'
@@ -52,40 +63,37 @@ const SetProjectNameModal = ({ type }: Props) => {
 
       canvas.classList.remove(s.saveMove)
         ; (wrapperDom as HTMLElement).style.display = 'none'
-    }, 200)
-    return resUrl
-    // }
-  }
-
-  const handleSubmit = async (values: MyFormValues, actions: any) => {
-    console.log({ values, actions })
-    actions.setSubmitting(false)
-    const resUploadFile = await saveToPng()
 
 
-    const payload: {
-      jsonFile: any
-      projectName?: string
-      ownerAddress: string
-      thumbnail: string
-    } = {
-      projectName: values.modelName,
-      jsonFile: blockCurrent,
-      // ownerAddress: MOCK_ADDRESS, //account?.address,
-      ownerAddress: account?.address,
-      // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
-      thumbnail: resUploadFile.url,
-    }
-
-    const res = await saveProject(payload)
-    if (res === 'success') {
-      if (type === 'save-exit') {
-        createProject()
-        deleteAlls()
+      const payload: {
+        jsonFile: any
+        projectName?: string
+        ownerAddress: string
+        thumbnail: string
+      } = {
+        projectName: values.modelName,
+        jsonFile: blockCurrent,
+        // ownerAddress: MOCK_ADDRESS, //account?.address,
+        ownerAddress: account?.address,
+        // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+        thumbnail: resUrl.url,
       }
 
-      closeModal(SET_PROJECT_NAME_MODAL_ID)
-    }
+      const res = await saveProject(payload)
+      if (res === 'success') {
+        if (type === 'save-exit') {
+          createProject()
+          deleteAlls()
+        }
+
+        closeModal(SET_PROJECT_NAME_MODAL_ID)
+      }
+
+
+    }, 200)
+
+
+
   }
 
   return (
