@@ -54,7 +54,7 @@ export const useUndoRedoShortcut = (undo: () => void, redo: () => void) => {
         repeatOnHold: false,
     })
 
-    useKeyboardShortcut(['Control', 'R'], redo, {
+    useKeyboardShortcut(['Control', 'Y'], redo, {
         overrideSystem: true,
         ignoreInputFields: true,
         repeatOnHold: false,

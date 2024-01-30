@@ -29,9 +29,6 @@ const SetProjectNameModal = ({ type }: Props) => {
 
   // const saveToPng = async () => {
 
-
-
-
   //   // }
   // }
 
@@ -40,13 +37,13 @@ const SetProjectNameModal = ({ type }: Props) => {
     actions.setSubmitting(false)
 
     const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
-      // if (e.ctrlKey && e.key === 's') {
-      ; (wrapperDom as HTMLElement).style.display = 'block'
-      ; (wrapperDom as HTMLElement).style.position = 'fixed'
-      ; (wrapperDom as HTMLElement).style.top = '0'
-      ; (wrapperDom as HTMLElement).style.left = '0'
-      ; (wrapperDom as HTMLElement).style.right = '0'
-      ; (wrapperDom as HTMLElement).style.bottom = '0'
+    // if (e.ctrlKey && e.key === 's') {
+    ;(wrapperDom as HTMLElement).style.display = 'block'
+    ;(wrapperDom as HTMLElement).style.position = 'fixed'
+    ;(wrapperDom as HTMLElement).style.top = '0'
+    ;(wrapperDom as HTMLElement).style.left = '0'
+    ;(wrapperDom as HTMLElement).style.right = '0'
+    ;(wrapperDom as HTMLElement).style.bottom = '0'
 
     const canvas = wrapperDom.querySelector('canvas')
     canvas.classList.add(s.saveMove)
@@ -62,8 +59,7 @@ const SetProjectNameModal = ({ type }: Props) => {
       a.remove()
 
       canvas.classList.remove(s.saveMove)
-        ; (wrapperDom as HTMLElement).style.display = 'none'
-
+      ;(wrapperDom as HTMLElement).style.display = 'none'
 
       const payload: {
         jsonFile: any
@@ -88,12 +84,7 @@ const SetProjectNameModal = ({ type }: Props) => {
 
         closeModal(SET_PROJECT_NAME_MODAL_ID)
       }
-
-
     }, 200)
-
-
-
   }
 
   return (

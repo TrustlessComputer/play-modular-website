@@ -163,7 +163,8 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
         const listCurrentPrev = state.listCurrent
 
         if (difference >= 2) {
-          get().deleteAllListCurrent(prevListBlocks, listCurrentPrev)
+          const newArr = prevListBlocks.filter((item) => !blocksCurrent.includes(item))
+          get().deleteAllListCurrent(newArr, listCurrentPrev)
         } else if (blocksCurrent.length > prevListBlocks.length) {
           const lastBlocks = blocksCurrent[blocksCurrent.length - 1]
           const groupIdLastItem = lastBlocks.groupId
@@ -173,12 +174,10 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
           const lastBlocks = blocksCurrent[blocksCurrent.length - 1]
           const groupIdLastItem = lastBlocks?.groupId
           const { inscriptionId } = get().sliceListCurrent(groupIdLastItem, listCurrentPrev)
-
           if (!inscriptionId || !groupIdLastItem) {
             return state
           }
         }
-
         return {
           currentStateIndex: prevStateIndex - 1,
           blockCurrent: state.blocksState[prevStateIndex - 1],
@@ -196,14 +195,13 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
         const nextBlocks = state.blocksState[nextStateIndex + 1]
         const difference = Math.abs(blocksCurrent.length - nextBlocks.length)
         const listCurrent = state.listCurrent
-        const nextListBlocks = [...state.blocksState[nextStateIndex]]
         if (difference >= 2) {
-          get().pushAllListCurrent(nextListBlocks, listCurrent)
+          const newArr = blocksCurrent.filter((item) => !nextBlocks.includes(item))
+          get().pushAllListCurrent(newArr, listCurrent)
         } else if (blocksCurrent.length < nextBlocks.length) {
           const lastBlocks = nextBlocks[nextBlocks.length - 1]
           const groupIdLastItem = lastBlocks?.groupId
           const { inscriptionId } = get().sliceListCurrent(groupIdLastItem, listCurrent)
-
           if (!inscriptionId || !groupIdLastItem) {
             return state
           }
@@ -224,16 +222,12 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
   setSelectedBricks: ({ object, shift }) =>
     set((state) => {
       if (object === undefined) return { selectedBricks: [] }
-
       if (Array.isArray(object)) return { selectedBricks: object }
-
       if (!shift) return state.selectedBricks[0] === object ? { selectedBricks: [] } : { selectedBricks: [object] }
-
       if (state.selectedBricks.includes(object))
         return {
           selectedBricks: state.selectedBricks.filter((o) => o !== object),
         }
-
       return { selectedBricks: [object, ...state.selectedBricks] }
     }),
 

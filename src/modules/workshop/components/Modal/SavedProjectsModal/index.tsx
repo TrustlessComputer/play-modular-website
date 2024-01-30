@@ -15,9 +15,7 @@ import ProjectItem from './ProjectItem'
 export const SAVED_PROJECTS_MODAL_ID = 'SAVED_PROJECTS_MODAL_ID'
 
 const SavedProjectsModal = () => {
-
   const { closeModal } = useModalStore()
-
 
   const account = useAppSelector(accountSelector)
 
@@ -47,7 +45,6 @@ const SavedProjectsModal = () => {
     refresh()
   }, [])
 
-
   const BodyContent = () => {
     return (
       <div className={s.wrapper}>
@@ -64,8 +61,7 @@ const SavedProjectsModal = () => {
         </div>
         <div className={s.body}>
           {hasFirstFetching === false && <div>Loading...</div>}
-          <VirtualScrollKeepPosition
-            keyStore="saved-project-current-position-index">
+          <VirtualScrollKeepPosition keyStore='saved-project-current-position-index'>
             {(ref, state, handleSaveSnapshot) => {
               if (dataInfinite.length === 0) {
                 return <Empty />
@@ -87,27 +83,21 @@ const SavedProjectsModal = () => {
                   overscan={200}
                   itemContent={(index, block) => {
                     return (
-                      <div
-                        key={index}
-                      >
+                      <div key={index}>
                         <ProjectItem
                           {...block}
                           onClose={() => {
                             closeModal(SAVED_PROJECTS_MODAL_ID)
-
                           }}
                         />
                       </div>
                     )
-
                   }}
                   onScroll={handleSaveSnapshot}
                 />
               )
-            }
-            }
+            }}
           </VirtualScrollKeepPosition>
-
         </div>
         <div className={s.footer}>
           <OpenButton />
