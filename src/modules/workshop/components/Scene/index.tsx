@@ -41,6 +41,7 @@ export const Scene = () => {
   } = useStoreGlobal()
   const bricksBoundBox = useRef([])
   const brickCursorRef = useRef<Group>()
+  const isJustAdded = useRef(false)
   const isDrag = useRef(false)
   const timeoutID = useRef(null)
   const isEditMode = mode === EDIT_MODE
@@ -51,6 +52,8 @@ export const Scene = () => {
     if (!e.face?.normal || !e.point) return
     if (!brickCursorRef.current) return
     if (!isDrag.current) {
+      if (isJustAdded.current) return
+
       const boundingBoxOfBrickToBeAdded = new Box3().setFromObject(brickCursorRef.current)
       let isCollied = false
       let isSomethingBelow = false
@@ -156,6 +159,11 @@ export const Scene = () => {
         if (trait?.color) {
           // setMode(EDIT_MODE)
           addBlocks(brickData)
+          isJustAdded.current = true
+
+          setTimeout(() => {
+            isJustAdded.current = false
+          }, 100)
         }
       }
     } else {
