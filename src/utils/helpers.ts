@@ -1,5 +1,5 @@
 import { mergeBufferGeometries } from 'three-stdlib'
-import { base, knobSize } from '../constant/datablocks'
+import { base, heightBase, knobSize } from '../constant/datablocks'
 import { BoxGeometry, CylinderGeometry } from 'three'
 
 export function CSSToHex(cssColor) {
@@ -9,7 +9,7 @@ export function CSSToHex(cssColor) {
 export function getMeasurementsFromDimensions({ x, y, z }: { x: number; y?: number; z: number }) {
   return {
     width: base * x,
-    height: base * y || (base * 2) / 1.5,
+    height: base * y || heightBase,
     depth: base * z,
   }
 }

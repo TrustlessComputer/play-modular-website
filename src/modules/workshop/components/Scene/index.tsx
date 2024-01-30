@@ -2,7 +2,7 @@
 
 import { useAnchorShorcuts } from '@/hooks/useShortcuts'
 import { useStoreGlobal } from '@/stores/blocks'
-import { EDIT_MODE, base, getMeasurementsFromDimensions, minWorkSpaceSize, uID } from '@/utils'
+import { EDIT_MODE, base, getMeasurementsFromDimensions, heightBase, minWorkSpaceSize, uID } from '@/utils'
 import { useEffect, useRef } from 'react'
 import { Box3, Group, Vector3 } from 'three'
 import { Brick } from '../Brick'
@@ -52,15 +52,14 @@ export const Scene = () => {
     if (!e.face?.normal || !e.point) return
     if (!brickCursorRef.current) return
     if (!isDrag.current) {
-      if (isJustAdded.current) return
-
       const boundingBoxOfBrickToBeAdded = new Box3().setFromObject(brickCursorRef.current)
       let isCollied = false
       let isSomethingBelow = false
-      let isFirstLayer = Math.floor(boundingBoxOfBrickToBeAdded.max.y) === Math.floor((base * 2) / 1.5)
+      let isFirstLayer = Math.floor(boundingBoxOfBrickToBeAdded.max.y) === Math.floor(heightBase)
       const acceptRange = 9
       for (let index = 0; index < bricksBoundBox.current.length; index++) {
         const brickBoundingBox = bricksBoundBox.current[index].brickBoundingBox
+        const collied = boundingBoxOfBrickToBeAdded.intersectsBox(brickBoundingBox)
         const yIntsersect = brickBoundingBox.max.y - acceptRange > boundingBoxOfBrickToBeAdded.min.y
         const isSameLayer = Math.floor(boundingBoxOfBrickToBeAdded.min.y) === Math.floor(brickBoundingBox.min.y)
 
@@ -68,8 +67,7 @@ export const Scene = () => {
         // Check if there is a brick below
         const isBrickBelow = brickBoundingBox.max.y - acceptRange < boundingBoxOfBrickToBeAdded.min.y
         const isOver2Bricks =
-          Math.floor(boundingBoxOfBrickToBeAdded.min.y + acceptRange - brickBoundingBox.max.y) >
-          Math.floor((base * 2) / 1.5)
+          Math.floor(boundingBoxOfBrickToBeAdded.min.y + acceptRange - brickBoundingBox.max.y) > Math.floor(heightBase)
 
         // Normalize width and depth for the brick below
         let minCellXBelow = Math.round(Math.round(brickBoundingBox.min.x) / base)
@@ -118,31 +116,28 @@ export const Scene = () => {
         const isOverlapZ = zToBeAdded.some(
           (z) => zBelow.includes(z) && z !== zBelow[0] && z !== zBelow[zBelow.length - 1],
         )
-        const isSameCol = xToBeAdded.every((x) => xBelow.includes(x))
-        const isSameRow = zToBeAdded.every((z) => zBelow.includes(z))
+        const isOverlapXWithoutFullCheck = xToBeAdded.some((x) => xBelow.includes(x))
+        const isOverlapZWithoutFullCheck = zToBeAdded.some((z) => zBelow.includes(z))
+        const isSameX = xToBeAdded.every((x) => xBelow.includes(x))
+        const isSameZ = zToBeAdded.every((z) => zBelow.includes(z))
 
-        if (yIntsersect && (isOverlapX || isOverlapZ) && isSameLayer && (isSameRow || isSameCol)) {
-          console.log('collied')
-          console.log('yIntsersect', yIntsersect)
-          console.log('isOverlapX', isOverlapX, xToBeAdded, xBelow)
-          console.log('isOverlapZ', isOverlapZ, zToBeAdded, zBelow)
-          console.log('isSameLayer', isSameLayer)
-          isCollied = true
-          break
+        if (collied && (isSameLayer || yIntsersect)) {
+          const diffX = Math.round(Math.abs(boundingBoxOfBrickToBeAdded.min.x - brickBoundingBox.min.x))
+          const diffZ = Math.round(Math.abs(boundingBoxOfBrickToBeAdded.min.z - brickBoundingBox.min.z))
+
+          if (diffX > 1 || diffZ > 1) {
+            isCollied = true
+            break
+          }
         }
 
         // Filter out the top layer
         if (isFirstLayer || isOver2Bricks) {
-          console.log('isFirstLayer || isOver2Bricks')
           continue
         }
 
-        if (((isOverlapX && isSameRow) || (isOverlapZ && isSameCol)) && isBrickBelow) isSomethingBelow = true
-        console.log('isOverlapX', isOverlapX, xToBeAdded, xBelow)
-        console.log('isOverlapZ', isOverlapZ, zToBeAdded, zBelow)
-        console.log('isBrickBelow', isBrickBelow)
+        if ((isOverlapXWithoutFullCheck || isOverlapZWithoutFullCheck) && !isOver2Bricks) isSomethingBelow = true
       }
-      console.log('FINAL ', isCollied, isSomethingBelow, isFirstLayer)
       if (!isCollied && ((isSomethingBelow && !isFirstLayer) || isFirstLayer)) {
         const brickData = {
           intersect: { point: e.point, face: e.face },
@@ -198,7 +193,7 @@ export const Scene = () => {
   }
 
   const onClick = (e) => {
-    if (!isEditMode) addBrick(e)
+    if (!isEditMode && !isJustAdded.current) addBrick(e)
   }
 
   const mouseMove = (e) => {
