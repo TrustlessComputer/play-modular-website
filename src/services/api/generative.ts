@@ -60,7 +60,8 @@ export const handleGetData = async (address: string) => {
     ownerAddress: address, // 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
     // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
     page: 1,
-    limit: 100,
+    // limit: 100,
+    limit: 1000,
   })) as any
   const listData = data.list as TListCurrent[]
   return listData

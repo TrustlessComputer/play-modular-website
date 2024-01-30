@@ -39,7 +39,6 @@ export const Brick = ({
     z: dimensions.z % 2 === 0 ? dimensions.z / 2 : (dimensions.z - 1) / 2,
   }
   const isSelected2 = selectedBricks.find((brick) => brick.userData.uID === uID) ? true : false
-
   const offset = {
     x: Math.sign(translation.x) < 0 ? Math.max(translation.x, -compansate.x) : Math.min(translation.x, compansate.x),
     z: Math.sign(translation.z) < 0 ? Math.max(translation.z, -compansate.z) : Math.min(translation.z, compansate.z),
