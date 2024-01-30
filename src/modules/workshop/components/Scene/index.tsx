@@ -37,16 +37,14 @@ export const Scene = () => {
     setMode,
     selectedBricks,
     setBricks,
-    blocksState
+    blocksState,
   } = useStoreGlobal()
-console.log('blockCurrentScreen', blockCurrent)
   const bricksBoundBox = useRef([])
   const brickCursorRef = useRef<Group>()
   const isDrag = useRef(false)
   const timeoutID = useRef(null)
   const isEditMode = mode === EDIT_MODE
   const deboundeData = useDebounce(blockCurrent, 1000)
-  // console.log('blocksState in scence', blocksState)
   const addBrick = (e) => {
     e.stopPropagation()
     if (isEditMode) return
@@ -58,10 +56,8 @@ console.log('blockCurrentScreen', blockCurrent)
       let isSomethingBelow = false
       let isFirstLayer = Math.floor(boundingBoxOfBrickToBeAdded.max.y) === Math.floor((base * 2) / 1.5)
       const acceptRange = 9
-
       for (let index = 0; index < bricksBoundBox.current.length; index++) {
         const brickBoundingBox = bricksBoundBox.current[index].brickBoundingBox
-        const collision = boundingBoxOfBrickToBeAdded.intersectsBox(brickBoundingBox)
         const yIntsersect = brickBoundingBox.max.y - acceptRange > boundingBoxOfBrickToBeAdded.min.y
         const isSameRow = Math.floor(boundingBoxOfBrickToBeAdded.min.y) === Math.floor(brickBoundingBox.min.y)
 
@@ -71,30 +67,29 @@ console.log('blockCurrentScreen', blockCurrent)
         const isOver2Bricks =
           Math.floor(boundingBoxOfBrickToBeAdded.min.y + acceptRange - brickBoundingBox.max.y) >
           Math.floor((base * 2) / 1.5)
-        if (isOver2Bricks) continue
 
         // Normalize width and depth for the brick below
-        let minCellXBelow = Math.round(brickBoundingBox.min.x) / base
-        let maxCellXBelow = Math.round(brickBoundingBox.max.x) / base
-        let minCellZBelow = Math.round(brickBoundingBox.min.z) / base
-        let maxCellZBelow = Math.round(brickBoundingBox.max.z) / base
+        let minCellXBelow = Math.round(Math.round(brickBoundingBox.min.x) / base)
+        let maxCellXBelow = Math.round(Math.round(brickBoundingBox.max.x) / base)
+        let minCellZBelow = Math.round(Math.round(brickBoundingBox.min.z) / base)
+        let maxCellZBelow = Math.round(Math.round(brickBoundingBox.max.z) / base)
 
         minCellXBelow = minCellXBelow == -0 ? 0 : minCellXBelow
         maxCellXBelow = maxCellXBelow == -0 ? 0 : maxCellXBelow
         minCellZBelow = minCellZBelow == -0 ? 0 : minCellZBelow
         maxCellZBelow = maxCellZBelow == -0 ? 0 : maxCellZBelow
 
-        let minCellXToBeAdded = Math.round(boundingBoxOfBrickToBeAdded.min.x) / base
-        let maxCellXToBeAdded = Math.round(boundingBoxOfBrickToBeAdded.max.x) / base
-        let minCellZToBeAdded = Math.round(boundingBoxOfBrickToBeAdded.min.z) / base
-        let maxCellZToBeAdded = Math.round(boundingBoxOfBrickToBeAdded.max.z) / base
+        let minCellXToBeAdded = Math.round(Math.round(boundingBoxOfBrickToBeAdded.min.x) / base)
+        let maxCellXToBeAdded = Math.round(Math.round(boundingBoxOfBrickToBeAdded.max.x) / base)
+        let minCellZToBeAdded = Math.round(Math.round(boundingBoxOfBrickToBeAdded.min.z) / base)
+        let maxCellZToBeAdded = Math.round(Math.round(boundingBoxOfBrickToBeAdded.max.z) / base)
 
         minCellXToBeAdded = minCellXToBeAdded == -0 ? 0 : minCellXToBeAdded
         maxCellXToBeAdded = maxCellXToBeAdded == -0 ? 0 : maxCellXToBeAdded
         minCellZToBeAdded = minCellZToBeAdded == -0 ? 0 : minCellZToBeAdded
         maxCellZToBeAdded = maxCellZToBeAdded == -0 ? 0 : maxCellZToBeAdded
 
-        // Convert minX, maxX of below brick to array
+        // Convert minX, maxX of brick to array
         const xBelow = []
         const zBelow = []
         for (let index = minCellXBelow; index <= maxCellXBelow; index++) {
@@ -114,38 +109,22 @@ console.log('blockCurrentScreen', blockCurrent)
           zToBeAdded.push(index)
         }
 
-        // Filter out the top layer
-        if (isFirstLayer) continue
-
-        let isOverlapX = false
-        let isOverlapZ = false
-        for (let index = 0; index < xToBeAdded.length; index++) {
-          const x = xToBeAdded[index]
-
-          if (x !== xBelow[0] && x !== xBelow[xBelow.length - 1] && xBelow.includes(x)) {
-            isOverlapX = true
-            break
-          }
-        }
-
-        for (let index = 0; index < zToBeAdded.length; index++) {
-          const z = zToBeAdded[index]
-
-          if (z !== zBelow[0] && z !== zBelow[zBelow.length - 1] && zBelow.includes(z)) {
-            isOverlapZ = true
-            break
-          }
-        }
+        const isOverlapX = xToBeAdded.some(
+          (x) => xBelow.includes(x) && x !== xBelow[0] && x !== xBelow[xBelow.length - 1],
+        )
+        const isOverlapZ = zToBeAdded.some(
+          (z) => zBelow.includes(z) && z !== zBelow[0] && z !== zBelow[zBelow.length - 1],
+        )
 
         if (yIntsersect && (isOverlapX || isOverlapZ) && !isSameRow) {
           isCollied = true
           break
         }
 
-        if (isOverlapX && isOverlapZ && isBrickBelow) {
-          // console.log('isSomethingBelow')
-          isSomethingBelow = true
-        }
+        // Filter out the top layer
+        if (isFirstLayer || isOver2Bricks) continue
+
+        if ((isOverlapX || isOverlapZ) && isBrickBelow) isSomethingBelow = true
       }
 
       if (!isCollied && ((isSomethingBelow && !isFirstLayer) || isFirstLayer)) {
