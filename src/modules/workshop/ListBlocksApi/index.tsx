@@ -33,20 +33,22 @@ const GridList = forwardRef(({ children, ...props }: PropsWithChildren, ref: any
   </div>
 ))
 
-const GridItem = ({ children, ...props }) => (
-  <div
-    {...props}
-    style={{
-      display: 'flex',
-      flex: 'none',
-      alignContent: 'stretch',
-      boxSizing: 'border-box',
-    }}
-    className={s.itemBlock}
-  >
-    {children}
-  </div>
-)
+const GridItem = ({ children, ...props }) => {
+  return (
+    <div
+      {...props}
+      style={{
+        display: 'flex',
+        flex: 'none',
+        alignContent: 'stretch',
+        boxSizing: 'border-box',
+      }}
+      className={s.itemBlock}
+    >
+      {children}
+    </div>
+  )
+}
 
 const GridComponents = {
   List: GridList,
@@ -103,6 +105,7 @@ const ListBlocks: React.FunctionComponent = () => {
       setDepth(size.d)
     }
   }, [dataInfinite.length])
+
   return (
     <div className={s.wrapper}>
       <div className={s.inner}>
@@ -112,7 +115,7 @@ const ListBlocks: React.FunctionComponent = () => {
         ) : (
           <VirtuosoGrid
             className={s.wrapper_listBlocks}
-            style={{ height: 'calc(100dvh - 300px)', pointerEvents: 'auto' }}
+            style={{ height: 'calc(100dvh)', pointerEvents: 'auto' }}
             data={listCurrent}
             totalCount={listCurrent.length}
             endReached={() => {
