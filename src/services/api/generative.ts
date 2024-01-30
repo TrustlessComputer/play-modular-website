@@ -52,8 +52,8 @@ export const getListSavedProject = async (payload: {
 }
 export const handleGetData = async () => {
   const data = (await getListModularByWallet({
-    // ownerAddress: account?.address,
-    ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+    ownerAddress: account?.address,
+    // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
     page: 1,
     limit: 20,
   })) as any
