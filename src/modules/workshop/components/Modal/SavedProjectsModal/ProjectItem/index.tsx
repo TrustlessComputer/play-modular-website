@@ -48,7 +48,7 @@ const ProjectItem = (props: Props) => {
       </div>
       <div className={s.thumbnail_wrapper}>
         <Image
-          src={'https://cdn.generative.xyz/upload/1706599034259555736-1706599034-thumbnail'}
+          src={props.thumbnail}
           alt='thumbnail'
           fill={true}
           className={s.thumbnail}
