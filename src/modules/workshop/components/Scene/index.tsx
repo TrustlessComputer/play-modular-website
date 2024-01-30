@@ -37,16 +37,16 @@ export const Scene = () => {
     setMode,
     selectedBricks,
     setBricks,
+    blocksState
   } = useStoreGlobal()
-
+console.log('blockCurrentScreen', blockCurrent)
   const bricksBoundBox = useRef([])
   const brickCursorRef = useRef<Group>()
   const isDrag = useRef(false)
   const timeoutID = useRef(null)
   const isEditMode = mode === EDIT_MODE
-  // console.log(isEditMode)
   const deboundeData = useDebounce(blockCurrent, 1000)
-
+  // console.log('blocksState in scence', blocksState)
   const addBrick = (e) => {
     e.stopPropagation()
     if (isEditMode) return
@@ -58,19 +58,21 @@ export const Scene = () => {
         z: depth,
       })
       const boundingBoxOfBrickToBeAdded = new Box3().setFromObject(brickCursorRef.current)
-
+      console.log('WILL ADD BRICK', boundingBoxOfBrickToBeAdded)
       let canCreate = true
 
       for (let index = 0; index < bricksBoundBox.current.length; index++) {
         const brickBoundingBox = bricksBoundBox.current[index].brickBoundingBox
         const collision = boundingBoxOfBrickToBeAdded.intersectsBox(brickBoundingBox)
 
+        // Check if brick is not on top of another brick
+
         if (collision) {
           const dx = Math.abs(brickBoundingBox.max.x - boundingBoxOfBrickToBeAdded.max.x)
           const dz = Math.abs(brickBoundingBox.max.z - boundingBoxOfBrickToBeAdded.max.z)
           const yIntsersect = brickBoundingBox.max.y - 9 > boundingBoxOfBrickToBeAdded.min.y
 
-          if (yIntsersect && dx !== dimensions.width && dz !== dimensions.depth) {
+          if (yIntsersect) {
             canCreate = false
             break
           }
@@ -172,8 +174,8 @@ export const Scene = () => {
             const evenWidth = rotation === 0 ? dimensions.x % 2 === 0 : dimensions.z % 2 === 0
             const evenDepth = rotation === 0 ? dimensions.z % 2 === 0 : dimensions.x % 2 === 0
             return new Vector3()
-              .copy(intersect.point)
-              .add(intersect.face.normal)
+              .copy(intersect?.point)
+              .add(intersect?.face.normal)
               .divide(new Vector3(base, height, base))
               .floor()
               .multiply(new Vector3(base, height, base))
