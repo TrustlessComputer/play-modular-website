@@ -4,7 +4,7 @@ import React from 'react'
 import { Vector3, Box3, TextureLoader, Matrix4 } from 'three'
 import { motion } from 'framer-motion-3d'
 import { useLoader } from '@react-three/fiber'
-import { base, createGeometry, getMeasurementsFromDimensions, uID as generateUId, EDIT_MODE } from '@/utils'
+import { base, createGeometry, getMeasurementsFromDimensions, uID as generateUId, EDIT_MODE, heightBase } from '@/utils'
 import { TBlockAnimation, TBlockData } from '@/types'
 import { NONT_TEXTURE } from '@/constant/trait-data'
 import { Decal, Outlines, PivotControls } from '@react-three/drei'
@@ -95,7 +95,7 @@ export const Brick = ({
       brickBoundingBox = new Box3().setFromObject(brickRef.current)
 
       bricksBoundBox.current.push({ uID, brickBoundingBox })
-    }, 1)
+    }, 300)
 
     return () => {
       const newA = []
@@ -132,7 +132,9 @@ export const Brick = ({
           rotation={[0, 0, 0]}
           initial={{ opacity: 0, scale: disabledAnim ? 1 : 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          // transition={disabledAnim ? null : { type: 'spring', stiffness: 10000, duration: 0.01 }}
+          ref={brickRef}
+          position={[position.x + translation.x * base, Math.abs(position.y), position.z + translation.z * base]}
+          transition={{ type: 'spring', duration: 0.25 }}
           userData={{
             uID,
           }}
@@ -152,8 +154,6 @@ export const Brick = ({
               castShadow
               receiveShadow
               rotation={[0, rotation, 0]}
-              ref={brickRef}
-              position={[position.x + translation.x * base, Math.abs(position.y), position.z + translation.z * base]}
               userData={{
                 uID,
                 dimensions,
@@ -178,7 +178,7 @@ export const Brick = ({
                   rotation={[0, 0, 0]}
                   scale={[
                     brickGeometry.length > 1 ? base * 2.5 : base * 2.5,
-                    (base * 2) / 1.5,
+                    heightBase,
                     brickGeometry.length > 1 ? base * 2 : base,
                   ]}
                 >

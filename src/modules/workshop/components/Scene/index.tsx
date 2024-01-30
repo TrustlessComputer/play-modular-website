@@ -2,7 +2,7 @@
 
 import { useAnchorShorcuts } from '@/hooks/useShortcuts'
 import { useStoreGlobal } from '@/stores/blocks'
-import { EDIT_MODE, base, getMeasurementsFromDimensions, minWorkSpaceSize, uID } from '@/utils'
+import { EDIT_MODE, base, getMeasurementsFromDimensions, heightBase, minWorkSpaceSize, uID } from '@/utils'
 import { useEffect, useRef } from 'react'
 import { Box3, Group, Vector3 } from 'three'
 import { Brick } from '../Brick'
@@ -55,7 +55,7 @@ export const Scene = () => {
       const boundingBoxOfBrickToBeAdded = new Box3().setFromObject(brickCursorRef.current)
       let isCollied = false
       let isSomethingBelow = false
-      let isFirstLayer = Math.floor(boundingBoxOfBrickToBeAdded.max.y) === Math.floor((base * 2) / 1.5)
+      let isFirstLayer = Math.floor(boundingBoxOfBrickToBeAdded.max.y) === Math.floor(heightBase)
       const acceptRange = 9
       for (let index = 0; index < bricksBoundBox.current.length; index++) {
         const brickBoundingBox = bricksBoundBox.current[index].brickBoundingBox
@@ -67,8 +67,7 @@ export const Scene = () => {
         // Check if there is a brick below
         const isBrickBelow = brickBoundingBox.max.y - acceptRange < boundingBoxOfBrickToBeAdded.min.y
         const isOver2Bricks =
-          Math.floor(boundingBoxOfBrickToBeAdded.min.y + acceptRange - brickBoundingBox.max.y) >
-          Math.floor((base * 2) / 1.5)
+          Math.floor(boundingBoxOfBrickToBeAdded.min.y + acceptRange - brickBoundingBox.max.y) > Math.floor(heightBase)
 
         // Normalize width and depth for the brick below
         let minCellXBelow = Math.round(Math.round(brickBoundingBox.min.x) / base)
@@ -123,8 +122,8 @@ export const Scene = () => {
         const isSameZ = zToBeAdded.every((z) => zBelow.includes(z))
 
         if (collied && (isSameLayer || yIntsersect)) {
-          const diffX = Math.abs(boundingBoxOfBrickToBeAdded.min.x - brickBoundingBox.max.x)
-          const diffZ = Math.abs(boundingBoxOfBrickToBeAdded.min.z - brickBoundingBox.max.z)
+          const diffX = Math.round(Math.abs(boundingBoxOfBrickToBeAdded.min.x - brickBoundingBox.min.x))
+          const diffZ = Math.round(Math.abs(boundingBoxOfBrickToBeAdded.min.z - brickBoundingBox.min.z))
 
           if (diffX > 1 || diffZ > 1) {
             isCollied = true
@@ -137,9 +136,8 @@ export const Scene = () => {
           continue
         }
 
-        if ((isOverlapX || isOverlapZ) && !isOver2Bricks) isSomethingBelow = true
+        if ((isOverlapXWithoutFullCheck || isOverlapZWithoutFullCheck) && !isOver2Bricks) isSomethingBelow = true
       }
-
       if (!isCollied && ((isSomethingBelow && !isFirstLayer) || isFirstLayer)) {
         const brickData = {
           intersect: { point: e.point, face: e.face },
