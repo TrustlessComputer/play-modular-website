@@ -39,3 +39,7 @@ export type TTraitBlocks = {
   type: string
   groupId: string
 }
+
+export type TBlockAnimation = {
+  disabledAnim?: boolean
+}

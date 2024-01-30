@@ -9,13 +9,14 @@ import { useAppSelector } from '@/stores/hooks'
 type Props = {}
 
 const OpenButton = (props: Props) => {
-  const { selectedProject, loadProject } = useProjectStore()
+  const { selectedProject, loadProject, setLoading } = useProjectStore()
   const { closeModal } = useModalStore()
   const { setDataCurrent } = useStoreGlobal()
   const account = useAppSelector(accountSelector)
 
   const handleClickOpen = async () => {
     try {
+      setLoading(true)
       const res = await getProjectDetail({ id: selectedProject.id })
       const data = await handleGetData(account.address) // reset data when open new data
 
@@ -30,6 +31,8 @@ const OpenButton = (props: Props) => {
       }
     } catch (error) {
       //
+    } finally {
+      setLoading(false)
     }
   }
 

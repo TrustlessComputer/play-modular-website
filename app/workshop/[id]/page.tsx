@@ -43,6 +43,9 @@ export async function generateMetadata(
     openGraph: {
       images: [thumbnail, ...previousImages],
     },
+    twitter: {
+      images: [thumbnail, ...previousImages],
+    }
   }
 }
 
