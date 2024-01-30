@@ -5,7 +5,7 @@ import { Vector3, Box3, TextureLoader, Matrix4 } from 'three'
 import { motion } from 'framer-motion-3d'
 import { useLoader } from '@react-three/fiber'
 import { base, createGeometry, getMeasurementsFromDimensions, uID as generateUId, EDIT_MODE } from '@/utils'
-import { TBlockData } from '@/types'
+import { TBlockAnimation, TBlockData } from '@/types'
 import { NONT_TEXTURE } from '@/constant/trait-data'
 import { Decal, Outlines, PivotControls } from '@react-three/drei'
 import { useStoreGlobal } from '@/stores/blocks'
@@ -25,9 +25,10 @@ export const Brick = ({
   bricksBoundBox = { current: [] },
   uID = '',
   isSelected = false,
+  disabledAnim = false,
   onClick = (e: any) => {},
   mouseMove = (e: any) => {},
-}: TBrickAction & TBlockData) => {
+}: TBrickAction & TBlockData & TBlockAnimation) => {
   const { setIsDragging, mode, blockCurrent, setBlockCurrent, selectedBricks } = useStoreGlobal()
   const [resetKey, setResetKey] = React.useState(generateUId())
   const brickRef = React.useRef(null)
@@ -131,9 +132,9 @@ export const Brick = ({
           ref={brickRef}
           rotation={[0, 0, 0]}
           position={[position.x + translation.x * base, Math.abs(position.y), position.z + translation.z * base]}
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: disabledAnim ? 1 : 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ type: 'spring', stiffness: 250, duration: 0.01 }}
+          transition={disabledAnim ? null : { type: 'spring', stiffness: 250, duration: 0.01 }}
           userData={{
             uID,
           }}

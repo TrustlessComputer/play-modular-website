@@ -29,7 +29,7 @@ const PreviewScene = () => {
             .add(new Vector3(evenWidth ? base : base / 2, height / 2, evenDepth ? base : base / 2))
         }
 
-        return <Brick key={b.uID} {...b} position={position()} />
+        return <Brick key={b.uID} {...b} position={position()} disabledAnim />
       })}
     </scene>
   )
