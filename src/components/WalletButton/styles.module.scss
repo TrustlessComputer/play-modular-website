@@ -20,13 +20,14 @@
       min-width: rem(180px);
       padding: rem(14px) 0;
       background-color: rgba($color: #5b5b5b, $alpha: 0.05);
-      border-radius: rem(100px);
+      border-radius: rem(4px);
       border: rem(1px) solid var(--black-20);
       cursor: pointer;
       color: var(--black);
     }
 
     .walletPopup {
+      visibility: hidden;
       position: absolute;
       bottom: 0;
       left: 0;
@@ -39,7 +40,7 @@
       box-shadow: 0px 0px 24px -6px rgba(0, 0, 0, 0.12);
       padding: rem(16px);
       box-sizing: border-box;
-      transition: .2s all ease-in-out;
+      transition: 0.2s all ease-in-out;
 
       &_address {
         padding: rem(12px);
@@ -78,6 +79,7 @@
       &.active {
         transform: translateY(105%);
         opacity: 1;
+        visibility: visible;
       }
     }
   }
