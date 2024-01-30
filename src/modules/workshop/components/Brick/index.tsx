@@ -129,9 +129,7 @@ export const Brick = ({
     <>
       {position && (
         <motion.group
-          ref={brickRef}
           rotation={[0, 0, 0]}
-          position={[position.x + translation.x * base, Math.abs(position.y), position.z + translation.z * base]}
           initial={{ opacity: 0, scale: disabledAnim ? 1 : 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           // transition={disabledAnim ? null : { type: 'spring', stiffness: 10000, duration: 0.01 }}
@@ -154,6 +152,8 @@ export const Brick = ({
               castShadow
               receiveShadow
               rotation={[0, rotation, 0]}
+              ref={brickRef}
+              position={[position.x + translation.x * base, Math.abs(position.y), position.z + translation.z * base]}
               userData={{
                 uID,
                 dimensions,
