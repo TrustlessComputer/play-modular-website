@@ -47,17 +47,17 @@ const CameraController = () => {
 }
 
 const PreviewRoom = () => {
+  const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
   React.useEffect(() => {
-    const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
 
     const saveToPng = (e) => {
       if (e.ctrlKey && e.key === 's') {
-        ;(wrapperDom as HTMLElement).style.display = 'block'
-        ;(wrapperDom as HTMLElement).style.position = 'fixed'
-        ;(wrapperDom as HTMLElement).style.top = '0'
-        ;(wrapperDom as HTMLElement).style.left = '0'
-        ;(wrapperDom as HTMLElement).style.right = '0'
-        ;(wrapperDom as HTMLElement).style.bottom = '0'
+        ; (wrapperDom as HTMLElement).style.display = 'block'
+          ; (wrapperDom as HTMLElement).style.position = 'fixed'
+          ; (wrapperDom as HTMLElement).style.top = '0'
+          ; (wrapperDom as HTMLElement).style.left = '0'
+          ; (wrapperDom as HTMLElement).style.right = '0'
+          ; (wrapperDom as HTMLElement).style.bottom = '0'
 
         const canvas = wrapperDom.querySelector('canvas')
         canvas.classList.add(s.saveMove)
@@ -71,7 +71,7 @@ const PreviewRoom = () => {
           a.remove()
 
           canvas.classList.remove(s.saveMove)
-          ;(wrapperDom as HTMLElement).style.display = 'none'
+            ; (wrapperDom as HTMLElement).style.display = 'none'
         }, 200)
       }
     }

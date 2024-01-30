@@ -1,5 +1,6 @@
 import cn from 'classnames'
 import React, { useRef, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 import { WalletProvider } from '@/providers/wallet'
 import useWalletContext from '@/providers/wallet/useWalletContext'
@@ -9,7 +10,9 @@ import { formatLongAddress } from '@/utils/address'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
 import useClickOutside from '@/hooks/useClickOutSide'
-import { IconCopy, IconLogout, IconWallet } from '../IconSvgs'
+import { WORKSHOP_URL } from '@/constant/route-path'
+
+import { IconCopy, IconLogout } from '../IconSvgs'
 import s from './styles.module.scss'
 
 type TWalletButton = {
@@ -18,6 +21,8 @@ type TWalletButton = {
 
 const WalletButton: React.FunctionComponent<TWalletButton> = ({ className }) => {
   const walletCtx = useWalletContext()
+  const pathname = usePathname()
+
   const [toggleState, setToggleState] = useState<boolean>(false)
   const walletButton = useRef<HTMLDivElement | null>(null)
   const account = useAppSelector(accountSelector)
@@ -38,7 +43,7 @@ const WalletButton: React.FunctionComponent<TWalletButton> = ({ className }) => 
       })
   }
 
-  if (!account) return null
+  if (!account || pathname !== WORKSHOP_URL) return null
 
   return (
     <div className={cn(s.walletButton, className)}>
