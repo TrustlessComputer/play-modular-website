@@ -129,7 +129,7 @@ export default function BottomBar() {
     if (projectName) {
       payload.projectName = projectName
     }
-    console.log('payload', JSON.stringify(payload.jsonFile))
+    // console.log('payload', JSON.stringify(payload.jsonFile))
     saveProject(payload)
   }
 
@@ -198,10 +198,10 @@ export default function BottomBar() {
     setBricks((bricks) => {
       const newBricks = bricks.filter((brick) => {
         const selectedClone = [...selectedBricks]
-        console.log('selectedClone', selectedClone)
+        // console.log('selectedClone', selectedClone)
 
         const uID = brick.uID
-        console.log('uID', uID)
+        // console.log('uID', uID)
         let should = true
         for (let i = 0; i < selectedClone.length; i++) {
           const selectedUID = selectedClone[i].userData.uID
@@ -216,7 +216,7 @@ export default function BottomBar() {
       })
       return newBricks
     })
-    console.log('newState', newState)
+    // console.log('newState', newState)
     // setBlockCurrentUpdate(newState)
     setSelectedBricks({})
   }

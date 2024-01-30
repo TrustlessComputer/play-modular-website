@@ -174,19 +174,19 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
 
   deleteSelected: (objectArray) =>
     set((state) => {
-      console.log('objectArray', objectArray)
+      // console.log('objectArray', objectArray)
       const currentStateIndex = state.currentStateIndex
       const stateCurrent = state.blocksState[currentStateIndex] || []
       // const selectedClone = [...objectArray];
 
-      console.log('selectedClone', objectArray)
+      // console.log('selectedClone', objectArray)
       const deleteBricks = stateCurrent.filter((brick) => {
         const uID = brick.uID
         let should = true
         for (let i = 0; i < objectArray.length; i++) {
           const selectedUID = objectArray[i].userData.uID
           if (uID === selectedUID) {
-            console.log('runnnnn', uID)
+            // console.log('runnnnn', uID)
             should = false
             objectArray.splice(i, 1)
           }
@@ -195,7 +195,7 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
       })
       const blocksState = [...state.blocksState.slice(0, currentStateIndex + 1), deleteBricks]
 
-      console.log('newBricks', deleteBricks)
+      // console.log('newBricks', deleteBricks)
 
       return {
         blocksState,
