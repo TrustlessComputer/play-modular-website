@@ -7,7 +7,7 @@ import { useModalStore, useProjectStore, useStoreGlobal } from '@/stores/blocks'
 import s from './styles.module.scss'
 
 import useApiInfinite from '@/hooks/useApiInfinite'
-import { getListModularByWallet } from '@/services/api/generative'
+import { getListModularByWallet, handleGetData } from '@/services/api/generative'
 import { TBlockData, TListCurrent } from '@/types'
 import instance from '@/utils/storage/local-storage'
 import { useAppSelector } from '@/stores/hooks'
@@ -59,7 +59,7 @@ export default function BottomBar() {
 
   const currentBlockStateRef = useRef(SHA256(JSON.stringify(blocksState)).toString() || '')
 
-  console.log("🚀 ~ BottomBar ~ currentBlockStateRef:", currentBlockStateRef)
+  console.log('🚀 ~ BottomBar ~ currentBlockStateRef:', currentBlockStateRef)
 
   const account = useAppSelector(accountSelector)
 
@@ -91,17 +91,12 @@ export default function BottomBar() {
   const redoAction = () => {
     redo()
   }
-  const deleteAction = () => {
-    // deleteSeletBlocks()
-  }
 
   const isAllowSave = useMemo(() => {
     const hashBlockState = SHA256(JSON.stringify(blocksState)).toString()
 
     return hashBlockState !== currentBlockStateRef.current && blocksState.length > 1
-  }
-    , [blocksState])
-
+  }, [blocksState])
 
   const saveAction = async () => {
     if (!isAllowSave) return
@@ -165,18 +160,18 @@ export default function BottomBar() {
       limit: 20,
     })) as any
     const listData = data.list as TListCurrent[]
-    console.log('data', listData)
-    setDataCurrent(listData)
+    return listData
   }
 
-  const handleClickCreateNewProject = () => {
+  const handleClickCreateNewProject = async () => {
     if (isAllowSave) {
       setShowUnsaveModal(true)
       return
     }
     createProject()
     deleteAlls()
-    handleGetData()
+    const data = await handleGetData() //reset new project
+    setDataCurrent(data)
   }
 
   useUndoRedoShortcut(undo, redo)
@@ -210,31 +205,7 @@ export default function BottomBar() {
 
 
   const handleDeleteSelected = () => {
-    // deleteSelected(selectedBricks)
-    const newState = []
-    setBricks((bricks) => {
-      const newBricks = bricks.filter((brick) => {
-        const selectedClone = [...selectedBricks]
-        console.log('selectedClone', selectedClone)
-
-        const uID = brick.uID
-        console.log('uID', uID)
-        let should = true
-        for (let i = 0; i < selectedClone.length; i++) {
-          const selectedUID = selectedClone[i].userData.uID
-          if (uID === selectedUID) {
-            should = false
-            selectedClone.splice(i, 1)
-          } else {
-            newState.push(selectedClone[i])
-          }
-        }
-        return should
-      })
-      return newBricks
-    })
-    console.log('newState', newState)
-    // setBlockCurrentUpdate(newState)
+    deleteSelected(selectedBricks)
     setSelectedBricks({})
   }
 

@@ -41,7 +41,7 @@ export const createProjectSlice: StateCreator<TProjectSlice> = (set) => ({
 
     // call API to save project
   },
-  
+
   loadProject: (params) => {
     const { projectId, projectName, renderFile } = params
 
@@ -49,7 +49,7 @@ export const createProjectSlice: StateCreator<TProjectSlice> = (set) => ({
   },
   createProject: () => {
     // call API to create project
-    set({ projectId: '', projectName: '', renderFile: ''})
+    set({ projectId: '', projectName: '', renderFile: '' })
   },
   setSelectedProject: (params) => {
     const { id, name } = params
