@@ -126,7 +126,7 @@ export default function BottomBar() {
     if (projectName) {
       payload.projectName = projectName
     }
-    console.log('payload', JSON.stringify(payload.jsonFile))
+    // console.log('payload', JSON.stringify(payload.jsonFile))
     saveProject(payload)
   }
 
