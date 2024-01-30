@@ -43,6 +43,12 @@ export async function generateMetadata(
     openGraph: {
       images: [thumbnail, ...previousImages],
     },
+    twitter: {
+      card: "summary_large_image",
+      title: data?.data?.name,
+      description: desc,
+      images: [thumbnail],
+    }
   }
 }
 

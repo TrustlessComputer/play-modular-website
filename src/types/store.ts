@@ -100,11 +100,13 @@ export type TProjectSlice = {
     id: string
     name: string
   }
+  loading: boolean
 
   saveProject: (params) => Promise<'success' | 'failed'>
   loadProject: (params) => void
   createProject: () => void
   setSelectedProject: (params) => void
+  setLoading: (loading: boolean) => void
 }
 
 export type ModalProps = {

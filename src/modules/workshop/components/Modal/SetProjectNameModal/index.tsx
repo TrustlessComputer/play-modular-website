@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import s from './SetProjectNameModal.module.scss'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { useModalStore, useProjectStore, useStoreGlobal } from '@/stores/blocks'
@@ -7,6 +7,9 @@ import { useAppSelector } from '@/stores/hooks'
 import { accountSelector } from '@/stores/states/wallet/selector'
 import { convertBase64ToFile } from '@/utils/file'
 import { uploadFile } from '@/services/api/generative'
+import { useRouter } from 'next/navigation'
+import { WORKSHOP_URL } from '@/constant/route-path'
+import Spinner from '@/components/Spinner'
 
 export const SET_PROJECT_NAME_MODAL_ID = 'SET_PROJECT_NAME_MODAL_ID'
 interface MyFormValues {
@@ -14,16 +17,18 @@ interface MyFormValues {
 }
 
 type Props = {
-  type: 'save' | 'save-as' | 'save-exit'
+  type: 'save' | 'save-as' | 'save-exit' | 'save-view'
 }
 
 const SetProjectNameModal = ({ type }: Props) => {
   const { blockCurrent, deleteAlls } = useStoreGlobal()
-  const { saveProject, createProject } = useProjectStore()
+  const { saveProject, createProject, projectId, setLoading } = useProjectStore()
   const { closeModal } = useModalStore()
   const account = useAppSelector(accountSelector)
+  const router = useRouter()
 
-  const [uploadFileUrl, setUploadFileUrl] = useState('')
+  const [processing, setProcessing] = useState(false)
+  console.log("🚀 ~ SetProjectNameModal ~ processing:", processing)
 
   const initialValues: MyFormValues = { modelName: '' }
 
@@ -34,7 +39,8 @@ const SetProjectNameModal = ({ type }: Props) => {
 
   const handleSubmit = async (values: MyFormValues, actions: any) => {
     console.log({ values, actions })
-    actions.setSubmitting(false)
+    setProcessing(true)
+    setLoading(true)
 
     const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
     // if (e.ctrlKey && e.key === 's') {
@@ -82,10 +88,26 @@ const SetProjectNameModal = ({ type }: Props) => {
           deleteAlls()
         }
 
+        if (type === 'save-view' && projectId) {
+          return;
+        }
+
         closeModal(SET_PROJECT_NAME_MODAL_ID)
+      }
+
+      if (!!res) {
+        setProcessing(false)
+        setLoading(false)
       }
     }, 200)
   }
+
+  useEffect(() => {
+    if (type === 'save-view' && projectId) {
+      router.push(`${WORKSHOP_URL}/${projectId}`)
+    }
+  }, [projectId, type])
+
 
   return (
     <div className={s.wrapper}>
@@ -108,8 +130,10 @@ const SetProjectNameModal = ({ type }: Props) => {
             <Field id='modelName' name='modelName' placeholder='Enter model name' className={s.input} />
             <ErrorMessage name='modelName' component='div' className='text-red-500' />
             <div className='mb-6'></div>
-            <button type='submit' disabled={isSubmitting} className={'btn_submit'}>
-              Submit
+            <button type='submit' disabled={processing} className={'btn_submit w-[150px]'}>
+              {processing ? (
+                'Saving...'
+              ) : 'Submit'}
             </button>
           </Form>
         )}

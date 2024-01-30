@@ -31,7 +31,7 @@ const ItemBlock: React.FunctionComponent<any> = ({ thumbnail, project, attribute
   }
   return (
     <div className={cn(s.itemBlock)} onClick={handleSetTraits}>
-      <Image src={thumbnail} width={50} height={50} alt={project?.name} />
+      <Image src={thumbnail} width={300} height={300} alt={project?.name} />
       {/* <div>{project?.name}</div> */}
       <div className={s.itemBlock_count}>
         <span>{props.items.length}</span>
