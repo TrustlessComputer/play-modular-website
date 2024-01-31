@@ -118,7 +118,7 @@ export default function BottomBar() {
     }
     setLoading(true)
 
-    const {dataURL: image} = captureCanvasImage({})
+    const { dataURL: image } = captureCanvasImage({})
     const file = convertBase64ToFile(image)
     const resUrl = await uploadFile({ file })
 
@@ -206,6 +206,7 @@ export default function BottomBar() {
       setLoading(true)
       setTimeout(() => {
         window.open(`${WORKSHOP_URL}/${projectId}`, '_blank')
+        setLoading(false)
       }, 3000)
       return
     }
