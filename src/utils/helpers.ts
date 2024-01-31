@@ -68,7 +68,7 @@ export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
   let isSomethingBelow = false
   let isFirstLayer = Math.floor(boundingBoxToCheck.max.y) === Math.floor(heightBase)
 
-  if (otherBoundingBoxes.length <= 1) return true
+  if (otherBoundingBoxes.length < 1) return true
 
   for (let index = 0; index < otherBoundingBoxes.length; index++) {
     if (!otherBoundingBoxes[index]) continue
@@ -78,6 +78,8 @@ export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
     const diffX = Math.round(boundingBoxToCheck.min.x - brickBoundingBox.min.x) - 1
     const diffZ = Math.round(boundingBoxToCheck.min.z - brickBoundingBox.min.z) - 1
     const diffY = Math.round(boundingBoxToCheck.min.y - brickBoundingBox.min.y)
+
+    console.log(diffX, diffY, diffZ)
 
     if (Math.abs(diffY) < heightBase) {
       // TOP LEFT CORNER
