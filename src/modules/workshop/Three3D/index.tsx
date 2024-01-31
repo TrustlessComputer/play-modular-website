@@ -33,7 +33,7 @@ const SaveToPng = () => {
         const a = document.createElement('a')
         a.href = dataURL
         a.download = 'project-xxxx.png'
-        a.click()
+        a.click() // TODO: Change bg
       }
     }
 
