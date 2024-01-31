@@ -35,7 +35,9 @@ const SaveToPng = () => {
         // a.download = 'project-xxxx.png'
         // a.click()
 
-        captureCanvasImage('.styles_workshop_main__CrQRd', 'project-xxxx.png')
+        captureCanvasImage({
+          download: true
+        })
       }
     }
 

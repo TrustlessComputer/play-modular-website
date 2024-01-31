@@ -39,11 +39,11 @@ const SetProjectNameModal = ({ type }: Props) => {
   // }
 
   const handleSubmit = async (values: MyFormValues, actions: any) => {
-    console.log({ values, actions })
     setProcessing(true)
     setLoading(true)
 
-    const image = captureCanvasImage()
+
+    const image = captureCanvasImage({})
     const file = convertBase64ToFile(image)
     const resUrl = await uploadFile({ file })
 
