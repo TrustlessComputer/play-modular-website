@@ -3,10 +3,65 @@
 import React, { Suspense } from 'react'
 import { ControlsWrapper } from '../components/Control'
 import { Scene } from '../components/Scene'
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useThree } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
-import { minWorkSpaceSize } from '@/utils'
-import { EffectComposer, BrightnessContrast, HueSaturation } from '@react-three/postprocessing'
+import { base, minWorkSpaceSize } from '@/utils'
+
+const SaveToPng = () => {
+  const [isSaving, setIsSaving] = React.useState(false)
+  const { camera } = useThree()
+
+  React.useEffect(() => {
+    const saveToPng = (e) => {
+      if (e.ctrlKey && e.key === 's') {
+        const prevPosition = camera.position.clone()
+        const prevRotation = camera.rotation.clone()
+        const prevZoom = camera.zoom
+
+        // position: [2900, 2400, 2900],
+        // near: 10,
+        // far: 100000,
+        // fov: 10,
+        camera.position.set(2900, 2400, 2900)
+        camera.rotation.set(0, 0, 0)
+        camera.zoom = 1
+        camera.lookAt(0, 0, 0)
+        camera.updateProjectionMatrix()
+
+        const wrapperDom = document.querySelector('.styles_workshop_main__CrQRd')
+        // setIsSaving(true)
+
+        const canvas = wrapperDom.querySelector('canvas')
+        const dataURL = canvas.toDataURL('image/png')
+        const a = document.createElement('a')
+        a.href = dataURL
+        a.download = 'project-xxxx.png'
+        a.click()
+
+        // setTimeout(() => {
+        // setIsSaving(false)
+        // camera.position.copy(prevPosition)
+        // camera.rotation.copy(prevRotation)
+        // camera.zoom = prevZoom
+        // camera.lookAt(0, 0, 0)
+        // camera.updateProjectionMatrix()
+        // }, 1000)
+      }
+    }
+
+    window.addEventListener('keydown', saveToPng)
+
+    return () => {
+      window.removeEventListener('keydown', saveToPng)
+    }
+  }, [camera])
+
+  return (
+    !isSaving && (
+      <gridHelper position={[0, 0, 0]} args={[minWorkSpaceSize, minWorkSpaceSize / base, 0xffffff, 0xffffff]} />
+    )
+  )
+}
 
 export default function Three3D() {
   const [aspect, setAspect] = React.useState(1)
@@ -31,6 +86,7 @@ export default function Three3D() {
       gl={{
         alpha: false,
         antialias: true,
+        preserveDrawingBuffer: true,
       }}
       shadows='basic'
       dpr={Math.min(2, 1)}
@@ -43,24 +99,8 @@ export default function Three3D() {
         aspect,
       }}
     >
-      {/* <color attach='background' args={['#001c57']} /> */}
+      <SaveToPng />
       <color attach='background' args={['#ffffff']} />
-      {/* <mesh rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[minWorkSpaceSize, minWorkSpaceSize]} />
-        <MeshReflectorMaterial
-          mirror={0.2}
-          blur={[25, 25]}
-          resolution={512}
-          mixBlur={100}
-          mixStrength={20}
-          depthScale={1.2}
-          minDepthThreshold={0.4}
-          maxDepthThreshold={1.6}
-          color='#001c57'
-          roughness={0.4}
-          metalness={0.8}
-        />
-      </mesh> */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
         <planeGeometry args={[50000, 50000]} />
         <meshPhysicalMaterial color='#cacaca' roughness={1} metalness={0.7} specularIntensity={0} />
@@ -69,10 +109,6 @@ export default function Three3D() {
         <Environment preset='city' />
         <Scene />
         <ControlsWrapper />
-        {/* <EffectComposer multisampling={0}>
-          <BrightnessContrast contrast={-0.4} />
-          <HueSaturation saturation={0.1} />
-        </EffectComposer> */}
       </Suspense>
     </Canvas>
   )

@@ -14,7 +14,7 @@ export default function Panel() {
       <ModeToggleBar />
       <ListBlocksApi />
       <BottomBar />
-      <ControlPanel />
+      {/* <ControlPanel /> */}
     </div>
   )
 }

@@ -11,7 +11,6 @@ type BrickCursorProps = {
   dimensions?: { x: number; y?: number; z: number }
   rotation?: number
   translation?: { x: number; z: number }
-  isHaventBlocks: boolean
 }
 
 const BrickCursor = forwardRef(
@@ -24,14 +23,12 @@ const BrickCursor = forwardRef(
       dimensions = { x: 1, z: 1 },
       rotation = 0,
       translation = { x: 0, z: 0 },
-      isHaventBlocks,
     }: BrickCursorProps,
     ref?: React.Ref<Group<Object3DEventMap>>,
   ) => {
-    const mode = useStoreGlobal((state) => state.mode)
-
+    const { mode, listCurrent, trait } = useStoreGlobal()
+    const numberBlocksCurrent = listCurrent.find((item) => item?.groupId === trait?.groupId)?.items?.length
     const visible = mode === CREATE_MODE
-
     const { height, width, depth } = getMeasurementsFromDimensions(dimensions)
 
     const position = useMemo(() => {
@@ -66,7 +63,7 @@ const BrickCursor = forwardRef(
         >
           <mesh position={[(offsetX * width) / dimensions.x, 0, (offsetZ * width) / dimensions.z]}>
             <boxGeometry args={[width, height, depth]} />
-            <meshBasicMaterial color={!isHaventBlocks ? 'white' : 'red'} transparent={true} opacity={0.3} />
+            <meshBasicMaterial color={numberBlocksCurrent !== 0 ? 'white' : 'red'} transparent={true} opacity={0.3} />
           </mesh>
         </group>
       </>

@@ -72,9 +72,7 @@ export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
 
   for (let index = 0; index < otherBoundingBoxes.length; index++) {
     if (!otherBoundingBoxes[index]) continue
-
     const brickBoundingBox = otherBoundingBoxes[index].brickBoundingBox
-
     const diffX = Math.round(boundingBoxToCheck.min.x - brickBoundingBox.min.x) - 1
     const diffZ = Math.round(boundingBoxToCheck.min.z - brickBoundingBox.min.z) - 1
     const diffY = Math.round(boundingBoxToCheck.min.y - brickBoundingBox.min.y)

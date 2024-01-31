@@ -95,9 +95,9 @@ export const Brick = ({
     let brickBoundingBox
     const timeoutID = setTimeout(() => {
       brickBoundingBox = new Box3().setFromObject(brickRef.current)
-
+      console.log('brickBoundingBox', brickBoundingBox)
       bricksBoundBox.current[uID] = { uID, brickBoundingBox }
-    }, 200)
+    }, 300)
 
     return () => {
       const newA = {}
@@ -147,7 +147,7 @@ export const Brick = ({
           <PivotControls
             key={resetKey}
             scale={base * dimensions.x + 5}
-            disableAxes={isSelected && mode === EDIT_MODE ? false : true}
+            disableAxes={isSelected && mode === EDIT_MODE && selectedBricks.length === 1 ? false : true}
             disableSliders
             disableRotations
             onDragStart={() => setIsDragging(true)}

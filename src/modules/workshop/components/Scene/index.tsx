@@ -52,10 +52,7 @@ export const Scene = () => {
   const brickCursorRef = useRef<Group>()
   const isDrag = useRef(false)
   const timeoutID = useRef(null)
-  const deboundeData = useDebounce(blockCurrent, 50)
   const isEditMode = mode === EDIT_MODE
-
-  const numberBlocksCurrent = listCurrent.find((item) => item.groupId === trait.groupId)?.items?.length
 
   const addBrick = (e) => {
     e.stopPropagation()
@@ -139,12 +136,6 @@ export const Scene = () => {
     }
   }, [])
 
-  useEffect(() => {
-    if (deboundeData.length >= 1) {
-      instance.set('DATA_BLOCKS', deboundeData)
-    }
-  }, [deboundeData.length])
-
   return (
     <>
       <Select box multiple>
@@ -186,7 +177,6 @@ export const Scene = () => {
         rotation={rotate ? Math.PI / 2 : 0}
         dimensions={{ x: width, z: depth }}
         translation={{ x: anchorX, z: anchorZ }}
-        isHaventBlocks={numberBlocksCurrent === 0}
       />
     </>
   )
