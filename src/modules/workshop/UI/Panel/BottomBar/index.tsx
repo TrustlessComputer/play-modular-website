@@ -294,7 +294,7 @@ export default function BottomBar() {
         </div>
 
         <div className={s.bottomBar}>
-          <button className={s.bottomBar_btn} onClick={viewAction}>
+          <button className={`${s.bottomBar_btn} ${s.icon_X}`} onClick={viewAction}>
             <IcTwitter /> Share
           </button>
           <button className={s.bottomBar_btn} onClick={saveAction} disabled={!isAllowSave}>
