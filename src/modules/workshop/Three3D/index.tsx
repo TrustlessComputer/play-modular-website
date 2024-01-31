@@ -18,13 +18,13 @@ const SaveToPng = () => {
         const prevRotation = camera.rotation.clone()
         const prevZoom = camera.zoom
 
-        // camera.position.set(2900, 2400, 2900)
-        // camera.rotation.set(0, 0, 0)
-        // camera.zoom = 1
-        // camera.lookAt(0, 0, 0)
-        // camera.updateProjectionMatrix()
-        // camera.updateMatrixWorld()
-        // camera.updateMatrix()
+        camera.position.set(2900, 2400, 2900)
+        camera.rotation.set(0, 0, 0)
+        camera.zoom = 1
+        camera.lookAt(0, 0, 0)
+        camera.updateProjectionMatrix()
+        camera.updateMatrixWorld()
+        camera.updateMatrix()
 
         const wrapperDom = document.querySelector('.styles_workshop_main__CrQRd')
 
