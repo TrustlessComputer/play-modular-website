@@ -8,7 +8,7 @@ const Banner = () => {
     <Link href={'https://bvm.network/'}  target='_blank' rel='noopener noreferrer' className={s.banner}>
       <div className={s.banner_content}>
         <IconBVM />
-        <p>Powered by Bitcoin Virtual Machinee</p>
+        <p>Powered by Bitcoin Virtual Machine</p>
       </div>
     </Link>
   )
