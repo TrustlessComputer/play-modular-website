@@ -205,11 +205,12 @@ export default function BottomBar() {
       await saveAction()
       setLoading(true)
       setTimeout(() => {
-        router.push(`${WORKSHOP_URL}/${projectId}`)
+        window.open(`${WORKSHOP_URL}/${projectId}`, '_blank')
       }, 3000)
       return
     }
-    router.push(`${WORKSHOP_URL}/${projectId}`)
+    window.open(`${WORKSHOP_URL}/${projectId}`, '_blank')
+
   }
 
   const loadInitialProject = async () => {

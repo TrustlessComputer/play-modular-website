@@ -6,7 +6,7 @@ import Fade from '@/interactive/Fade'
 import cn from 'classnames'
 import { usePathname } from 'next/navigation'
 import LogoIcon from '/public/imgs/logo.svg'
-import { WORKSHOP_URL } from '@/constant/route-path'
+import { HOME_URL, WORKSHOP_URL } from '@/constant/route-path'
 
 const MODULAR_TEXT = 'Modular'
 
@@ -23,7 +23,7 @@ export default function Header() {
             {pathname === '/' ? <Fade delay={1}>{MODULAR_TEXT}</Fade> : <div>{MODULAR_TEXT}</div>}
           </Link>
         </div>
-        {!isWorkshop && <Link href={WORKSHOP_URL} className={s.workshopBtn}> WorkShop </Link>}
+        {pathname === HOME_URL && <Link href={WORKSHOP_URL} className={s.workshopBtn}> WorkShop </Link>}
         <WalletButton />
       </div>
     </header>
