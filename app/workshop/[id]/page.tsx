@@ -58,13 +58,13 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
 
   return (
-    <div className={'relative'}>
+    <div className={'relative'} id='view-3d'>
       <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-[1000] pointer-events-auto flex gap-5 items-center">
-        <ExportImageBtn imageSrc={data?.data?.thumbnail} name={data?.data?.name} />
+        <ExportImageBtn imageSrc={data?.data?.thumbnail} name={data?.data?.name} ownerAddress={data?.data?.owner_addr} />
         <ShareTwitterBtn data={data} />
       </div>
       <ViewMap brickData={JSON.parse(data.data.meta_data)} id={params.id} />
-    </div>
+    </div >
   )
 }
 
