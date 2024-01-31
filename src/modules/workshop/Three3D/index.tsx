@@ -11,7 +11,15 @@ const SaveToPng = () => {
   const [isSaving, setIsSaving] = React.useState(false)
   const { camera } = useThree()
 
-  React.useEffect(() => {
+  React.useEffect( () => {
+
+   const onHandleCloseDownload = () => {
+
+     //todo jackie
+     console.log('____close popup download done');
+
+    }
+
     const saveToPng = (e) => {
       if (e.ctrlKey && e.key === 's') {
         const prevPosition = camera.position.clone()
@@ -29,11 +37,20 @@ const SaveToPng = () => {
         const wrapperDom = document.getElementById('canvas-3d')
 
         const canvas = wrapperDom.querySelector('canvas')
-        const dataURL = canvas.toDataURL('image/png')
+        canvas.style.filter = `blur(100px)`;
+        const dataURL = canvas.toDataURL('image/png');
+        const img: HTMLImageElement = new Image();
+        img.src = dataURL;
+        img.onload = () => {
+          img.remove();
+          canvas.style.filter = null;
+          onHandleCloseDownload();
+        };
         const a = document.createElement('a')
         a.href = dataURL
         a.download = 'project-xxxx.png'
-        a.click() // TODO: Change bg
+        a.click()
+
       }
     }
 
@@ -70,6 +87,9 @@ export default function Three3D() {
   }, [])
 
   return (
+
+
+
     <Canvas
       gl={{
         alpha: false,
