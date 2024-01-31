@@ -22,25 +22,25 @@ export const useAnchorShorcuts = () => {
 
     useKeyboardShortcut(['D'], anchorXPlus, {
         overrideSystem: true,
-        ignoreInputFields: false,
+        ignoreInputFields: true,
         repeatOnHold: false,
     })
 
     useKeyboardShortcut(['A'], anchorXMinus, {
         overrideSystem: true,
-        ignoreInputFields: false,
+        ignoreInputFields: true,
         repeatOnHold: false,
     })
 
     useKeyboardShortcut(['W'], anchorZPlus, {
         overrideSystem: true,
-        ignoreInputFields: false,
+        ignoreInputFields: true,
         repeatOnHold: false,
     })
 
     useKeyboardShortcut(['S'], anchorZMinus, {
         overrideSystem: true,
-        ignoreInputFields: false,
+        ignoreInputFields: true,
         repeatOnHold: false,
     })
 
@@ -50,13 +50,13 @@ export const useAnchorShorcuts = () => {
 export const useUndoRedoShortcut = (undo: () => void, redo: () => void) => {
     useKeyboardShortcut(['Control', 'Z'], undo, {
         overrideSystem: true,
-        ignoreInputFields: false,
+        ignoreInputFields: true,
         repeatOnHold: false,
     })
 
-    useKeyboardShortcut(['Control', 'R'], redo, {
+    useKeyboardShortcut(['Control', 'Y'], redo, {
         overrideSystem: true,
-        ignoreInputFields: false,
+        ignoreInputFields: true,
         repeatOnHold: false,
     })
 
@@ -87,7 +87,7 @@ export const useDeleteShortcut = (selected, setBricks, onDelete) => {
 
     useKeyboardShortcut(['Delete'], deleteSelectedBricks, {
         overrideSystem: true,
-        ignoreInputFields: false,
+        ignoreInputFields: true,
         repeatOnHold: false,
     })
 

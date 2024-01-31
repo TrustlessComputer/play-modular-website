@@ -31,14 +31,13 @@ export function Select({
   const [downed, down] = React.useState(false)
   const { setEvents, camera, raycaster, gl, controls, size, get } = useThree() as any
 
-  const { mode, setSelectedBricks, selectedBricks } = useStoreGlobal()
+  const { mode, setSelectedBricks, selectedBricks, blockCurrent } = useStoreGlobal()
 
   const enable = mode === EDIT_MODE
   const onClick = React.useCallback(
     (e) => {
       e.stopPropagation()
       if (!enable) return
-
       setSelectedBricks({
         object: customFilter([e.object])[0],
         shift: e.shiftKey,
@@ -185,7 +184,6 @@ export function Select({
       document.removeEventListener('pointerup', pointerUp)
     }
   }, [size.width, size.height, raycaster, camera, controls, gl, enable])
-  // console.log('selectedBricks', selectedBricks)
   return (
     <group ref={ref} onClick={onClick} onPointerMissed={onPointerMissed} {...props}>
       {children}

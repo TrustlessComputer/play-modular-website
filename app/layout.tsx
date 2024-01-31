@@ -1,9 +1,8 @@
+import { manrope, space_mono } from '@/constant/font'
+import Layout from '@/layouts'
+import StoreProvider from '@/providers/store'
 import '@/styles/style.scss'
 import { Metadata, Viewport } from 'next'
-import Layout from '@/layouts'
-import { manrope, space_mono } from '@/constant/font'
-import StoreProvider from '@/providers/store'
-import Web3Auth from '@/hocs/Web3Auth'
 
 export const metadata: Metadata = {
   metadataBase: new URL(`${process.env.NEXT_PUBLIC_DOMAIN_URL}`),
@@ -32,9 +31,9 @@ export default function RootLayout({ children }) {
     <html lang='en' className='antialiased'>
       <body className={`${manrope.variable} ${space_mono.variable}`}>
         <StoreProvider>
-          <Web3Auth>
-            <Layout>{children}</Layout>
-          </Web3Auth>
+          <Layout>
+            {children}
+          </Layout>
         </StoreProvider>
       </body>
     </html>

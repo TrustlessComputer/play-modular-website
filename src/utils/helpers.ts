@@ -1,5 +1,5 @@
 import { mergeBufferGeometries } from 'three-stdlib'
-import { base, knobSize } from '../constant/datablocks'
+import { base, heightBase, knobSize } from '../constant/datablocks'
 import { BoxGeometry, CylinderGeometry } from 'three'
 
 export function CSSToHex(cssColor) {
@@ -9,7 +9,7 @@ export function CSSToHex(cssColor) {
 export function getMeasurementsFromDimensions({ x, y, z }: { x: number; y?: number; z: number }) {
   return {
     width: base * x,
-    height: base * y || (base * 2) / 1.5,
+    height: base * y || heightBase,
     depth: base * z,
   }
 }
@@ -61,6 +61,48 @@ export function degToRad(angle) {
 
 export function radToDeg(angle) {
   return 360 - (angle / Math.PI) * 180
+}
+
+export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
+  let isCollied = false
+  let isSomethingBelow = false
+  let isFirstLayer = Math.floor(boundingBoxToCheck.max.y) === Math.floor(heightBase)
+
+  if (otherBoundingBoxes.length < 1) return true
+
+  for (let index = 0; index < otherBoundingBoxes.length; index++) {
+    if (!otherBoundingBoxes[index]) continue
+    const brickBoundingBox = otherBoundingBoxes[index].brickBoundingBox
+    const diffX = Math.round(boundingBoxToCheck.min.x - brickBoundingBox.min.x) - 1
+    const diffZ = Math.round(boundingBoxToCheck.min.z - brickBoundingBox.min.z) - 1
+    const diffY = Math.round(boundingBoxToCheck.min.y - brickBoundingBox.min.y)
+
+    if (Math.abs(diffY) < heightBase) {
+      // TOP LEFT CORNER
+      if (Math.abs(diffX) === base && Math.abs(diffZ) === base) {
+        isCollied = true
+        break
+      }
+
+      // BOTTOM LEFT CORNER
+      if ((Math.abs(diffX) === base || diffX === 0) && diffZ >= 0 && diffZ <= base) {
+        isCollied = true
+        break
+      }
+
+      // if ((Math.abs(diffZ) === base || diffZ === 0) && diffX >= 0 && diffX <= base) {
+      //   isCollied = true
+      //   break
+      // }
+    }
+
+    // Filter out the top layer
+    if (isFirstLayer || Math.abs(diffY) > heightBase) continue
+
+    if (diffY === heightBase && Math.abs(diffX) <= base && Math.abs(diffZ) <= base) isSomethingBelow = true
+  }
+  console.log('isCollied', isCollied)
+  return !isCollied //&& ((isSomethingBelow && !isFirstLayer) || isFirstLayer) // true if it is not colliding
 }
 
 export function uID(length = 8) {
@@ -116,4 +158,37 @@ export function generateSoftColors() {
 
 export function isBlank(str) {
   return !str || /^\s*$/.test(str)
+}
+
+export const isBrowser = (): boolean => {
+  return typeof window !== 'undefined'
+}
+
+// Using fetch
+export async function downloadImage(imageSrc, name) {
+  const image = await fetch(imageSrc)
+  const imageBlog = await image.blob()
+  const imageURL = URL.createObjectURL(imageBlog)
+
+  const link = document.createElement('a')
+  link.href = imageURL
+  link.download = name
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
+export function captureCanvasImage({ dom = '#canvas-3d', name = 'project-xxxx.png', download = false }) {
+  const wrapperDom = document.querySelector(dom)
+  const canvas = wrapperDom.querySelector('canvas')
+  const dataURL = canvas.toDataURL('image/png')
+  const a = document.createElement('a')
+  a.href = dataURL
+  a.download = name
+
+  if (download) {
+    a.click()
+  }
+
+  return {dataURL, canvas};
 }

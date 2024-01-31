@@ -1,10 +1,10 @@
 import WorkShop from '@/modules/workshop'
-import { WalletProvider } from '@/providers/wallet'
+import Web3Auth from '@/hocs/Web3Auth'
 
 export default function Page() {
   return (
-    <WalletProvider>
+    <Web3Auth>
       <WorkShop />
-    </WalletProvider>
+    </Web3Auth>
   )
 }
