@@ -1,6 +1,7 @@
 'use client'
 
 import { NONT_TEXTURE } from '@/constant/trait-data'
+import '../../../../utils/preloadTexture'
 import { useStoreGlobal } from '@/stores/blocks'
 import { TBlockAnimation, TBlockData } from '@/types'
 import { EDIT_MODE, base, createGeometry, uID as generateUId, getMeasurementsFromDimensions, heightBase } from '@/utils'
@@ -8,7 +9,6 @@ import { Decal, Outlines, PivotControls, useTexture } from '@react-three/drei'
 import { motion } from 'framer-motion-3d'
 import React from 'react'
 import { Box3, Matrix4, Vector3 } from 'three'
-import '../../../../utils/preloadTexture'
 
 type TBrickAction = {
   onClick?: (e: any) => void
