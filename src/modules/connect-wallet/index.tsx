@@ -11,7 +11,7 @@ const ConnectWallet: React.FunctionComponent = () => {
 
   return (
     <div className={s.connectWallet}>
-      <Image src='/imgs/group-block.svg' width={723} height={384} alt='blocks' />
+      <Image src='/imgs/group-block.png' width={723} height={384} alt='blocks' />
       <button className={s.connectWallet_btn} onClick={openConnectWalletModal}>
         Connect Wallet
       </button>
