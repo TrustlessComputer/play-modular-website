@@ -85,7 +85,8 @@ const SetProjectNameModal = ({ type }: Props) => {
 
   useEffect(() => {
     if (type === 'save-view' && projectId) {
-      router.push(`${WORKSHOP_URL}/${projectId}`)
+      window.open(`${WORKSHOP_URL}/${projectId}`, '_blank')
+
     }
   }, [projectId, type])
 

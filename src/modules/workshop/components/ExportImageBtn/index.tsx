@@ -12,7 +12,7 @@ const ExportImageBtn = ({ imageSrc, name }: Props) => {
     return (
         <div className={s.wrapper}>
             <button
-                className='flex items-center gap-1 btn_secondary'
+                className='flex items-center gap-1 btn_submit'
                 onClick={() => {
                     downloadImage(imageSrc, `${name}-model`)
                 }}
