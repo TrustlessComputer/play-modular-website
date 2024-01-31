@@ -40,7 +40,7 @@ export const Brick = ({
   const { setIsDragging, mode, blockCurrent, selectedBricks, setPositionBricks } = useStoreGlobal()
   const [resetKey, setResetKey] = React.useState(generateUId())
   const brickRef = React.useRef(null)
-  const isNontTexture = texture === null
+  const isNontTexture = texture === null || texture === NONT_TEXTURE
   const updateTexture = isNontTexture ? NONT_TEXTURE : texture
   const texturez = useTexture(updateTexture)
   const compansate = {
