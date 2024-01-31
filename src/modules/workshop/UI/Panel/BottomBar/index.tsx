@@ -60,6 +60,8 @@ export default function BottomBar() {
 
   const { setLoading, projectId, saveProject, createProject, projectName, renderFile, loadProject } = useProjectStore()
 
+
+
   const { openModal, modals } = useModalStore()
 
   const [showModal, setShowModal] = useState(false)
@@ -240,10 +242,10 @@ export default function BottomBar() {
     try {
       setLoading(true)
       const res = await getProjectDetail({ id: projectId })
-      const data = await handleGetData(account.address) // reset data when open new data
+      // const data = await handleGetData(account.address) // reset data when open new data
 
       if (!!res.metaData) {
-        setDataCurrent(data)
+        // setDataCurrent(data)
         loadProject({
           projectId: projectId,
           projectName: projectName,
