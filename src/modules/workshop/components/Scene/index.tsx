@@ -51,7 +51,7 @@ export const Scene = () => {
   const brickCursorRef = useRef<Group>()
   const isDrag = useRef(false)
   const timeoutID = useRef(null)
-  const deboundeData = useDebounce(blockCurrent, 1000)
+  const deboundeData = useDebounce(blockCurrent, 50)
   const isEditMode = mode === EDIT_MODE
 
   const addBrick = (e) => {
@@ -59,27 +59,27 @@ export const Scene = () => {
     if (isEditMode) return
     if (!e.face?.normal || !e.point) return
     if (!brickCursorRef.current) return
-    if (!isDrag.current) {
-      const boundingBoxOfBrickToBeAdded = new Box3().setFromObject(brickCursorRef.current)
+    // if (!isDrag.current) {
+    const boundingBoxOfBrickToBeAdded = new Box3().setFromObject(brickCursorRef.current)
 
-      if (checkCollision(boundingBoxOfBrickToBeAdded, Object.values(bricksBoundBox.current))) {
-        const brickData = {
-          intersect: { point: e.point, face: e.face },
-          uID: uID(),
-          dimensions: { x: width, z: depth },
-          rotation: rotate ? Math.PI / 2 : 0,
-          color: color,
-          texture: texture,
-          translation: { x: anchorX, y: 0, z: anchorZ },
-          type: trait.type,
-          groupId: trait.groupId,
-        }
-
-        if (trait?.color) addBlocks(brickData)
+    if (checkCollision(boundingBoxOfBrickToBeAdded, Object.values(bricksBoundBox.current))) {
+      const brickData = {
+        intersect: { point: e.point, face: e.face },
+        uID: uID(),
+        dimensions: { x: width, z: depth },
+        rotation: rotate ? Math.PI / 2 : 0,
+        color: color,
+        texture: texture,
+        translation: { x: anchorX, y: 0, z: anchorZ },
+        type: trait.type,
+        groupId: trait.groupId,
       }
-    } else {
-      isDrag.current = false
+
+      if (trait?.color) addBlocks(brickData)
     }
+    // } else {
+    //   isDrag.current = false
+    // }
   }
 
   const setBrickCursorPosition = (e): void => {
