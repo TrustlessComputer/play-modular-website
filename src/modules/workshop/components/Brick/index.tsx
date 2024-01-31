@@ -67,7 +67,8 @@ export const Brick = ({
       z: draggedOffset.z + Math.round(prevL.z / base) * base,
     }
 
-    const blockCurrentClone = [...blockCurrent]
+    const blockCurrentClone = JSON.parse(JSON.stringify(blockCurrent))
+
     for (let i = 0; i < blockCurrentClone.length; i++) {
       const element = blockCurrentClone[i]
       if (element.uID === uID) {
