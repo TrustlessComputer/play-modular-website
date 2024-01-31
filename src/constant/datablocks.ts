@@ -4,8 +4,8 @@ export const knobSize = 7
 export const outlineWidth = 1
 export const minWorkSpaceSize = 1000
 
-export const CREATE_MODE = 'Create Mode'
-export const EDIT_MODE = 'Edit Mode'
+export const CREATE_MODE = 'Place'
+export const EDIT_MODE = 'Adjust'
 
 export const views = {
   Isometric: 'Isometric',
