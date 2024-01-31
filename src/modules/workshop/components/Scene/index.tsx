@@ -51,7 +51,7 @@ export const Scene = () => {
   const brickCursorRef = useRef<Group>()
   const isDrag = useRef(false)
   const timeoutID = useRef(null)
-  const deboundeData = useDebounce(blockCurrent, 100)
+  const deboundeData = useDebounce(blockCurrent, 1000)
   const isEditMode = mode === EDIT_MODE
 
   const addBrick = (e) => {
@@ -121,7 +121,7 @@ export const Scene = () => {
       timeoutID.current && clearTimeout(timeoutID.current)
       timeoutID.current = setTimeout(() => {
         isDrag.current = true
-      }, 200)
+      }, 300)
     }
 
     const pointerUp = () => {

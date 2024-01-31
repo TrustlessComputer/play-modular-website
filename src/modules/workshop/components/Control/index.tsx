@@ -14,12 +14,12 @@ export const ControlsWrapper = () => {
 
   const onStart = (e) => {
     if (startTimeoutID.current) clearTimeout(startTimeoutID.current)
-    startTimeoutID.current = setTimeout(() => setEvents({ enabled: false }), 50)
+    startTimeoutID.current = setTimeout(() => setEvents({ enabled: false }), 500)
   }
 
   const onEnd = (e) => {
     if (endTimeoutID.current) clearTimeout(endTimeoutID.current)
-    endTimeoutID.current = setTimeout(() => setEvents({ enabled: true }), 50)
+    endTimeoutID.current = setTimeout(() => setEvents({ enabled: true }), 500)
   }
 
   return <OrbitControls enabled={!isDragging} makeDefault onEnd={onEnd} onStart={onStart} />
