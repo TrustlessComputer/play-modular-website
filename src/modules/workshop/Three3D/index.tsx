@@ -18,13 +18,13 @@ const SaveToPng = () => {
         const prevRotation = camera.rotation.clone()
         const prevZoom = camera.zoom
 
-        // camera.position.set(2900, 2400, 2900)
-        // camera.rotation.set(0, 0, 0)
-        // camera.zoom = 1
-        // camera.lookAt(0, 0, 0)
-        // camera.updateProjectionMatrix()
-        // camera.updateMatrixWorld()
-        // camera.updateMatrix()
+        camera.position.set(2900, 2400, 2900)
+        camera.rotation.set(0, 0, 0)
+        camera.zoom = 1
+        camera.lookAt(0, 0, 0)
+        camera.updateProjectionMatrix()
+        camera.updateMatrixWorld()
+        camera.updateMatrix()
 
         // const wrapperDom = document.querySelector('.styles_workshop_main__CrQRd')
 
@@ -59,7 +59,7 @@ export default function Three3D() {
   const [aspect, setAspect] = React.useState(1)
 
   React.useEffect(() => {
-    const wrapperDom = document.querySelector('.styles_workshop_main__CrQRd') // TODO: Pass ref to
+    const wrapperDom = document.querySelector('#canvas-3d') // TODO: Pass ref to
 
     const resize = () => {
       setAspect(wrapperDom.clientWidth / wrapperDom.clientHeight)
@@ -79,9 +79,10 @@ export default function Three3D() {
         alpha: false,
         antialias: true,
         preserveDrawingBuffer: true,
+        pixelRatio: Math.min(2, aspect),
       }}
       shadows='basic'
-      dpr={Math.min(2, 1)}
+      dpr={Math.min(2, aspect)}
       linear
       camera={{
         position: [2900, 2400, 2900],
@@ -90,6 +91,7 @@ export default function Three3D() {
         fov: 10,
         aspect,
       }}
+      id='canvas-3d'
     >
       <SaveToPng />
       <color attach='background' args={['#ffffff']} />

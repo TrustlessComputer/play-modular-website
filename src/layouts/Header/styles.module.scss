@@ -46,12 +46,21 @@
 }
 
 .workshopBtn {
-  font-size: rem(14px);
-  line-height: rem(19.12px);
-  width: rem(140px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: rem(12px);
+  font-weight: 500;
+  width: rem(120px);
+  height: rem(40px);
   text-align: center;
-  padding: rem(14.5px) 0;
   color: var(--white);
   background: #703EFC;
   text-transform: uppercase;
+
+  @include min-tablet {
+  width: rem(140px);
+  height: rem(48px);
+  font-size: rem(14px);
+  }
 }
