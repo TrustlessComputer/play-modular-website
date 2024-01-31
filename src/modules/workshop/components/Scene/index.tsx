@@ -33,6 +33,7 @@ export const Scene = () => {
 
   const {
     blockCurrent,
+    blocksState,
     addBlocks,
     mode,
     width,
@@ -46,7 +47,7 @@ export const Scene = () => {
     selectedBricks,
     setBricks,
   } = useStoreGlobal()
-
+  console.log(blocksState)
   const bricksBoundBox = useRef<any>({}) // hash map
   const brickCursorRef = useRef<Group>()
   const isDrag = useRef(false)

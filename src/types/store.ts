@@ -15,8 +15,8 @@ export type TBlockSlice = {
     groupId: string,
     listCurrent: TListCurrent[],
   ) => { listCurrent: TListCurrent[]; inscriptionId: string }
-  pushAllListCurrent: (blockCurrent: TBlockData[], listCurrent: TListCurrent[]) => any
-  deleteAllListCurrent: (blockCurrent: TBlockData[], listCurrent: TListCurrent[]) => any
+  pushMultiListCurrent: (blockCurrent: TBlockData[], listCurrent: TListCurrent[]) => TListCurrent[]
+  sliceMultiListCurrent: (blockCurrent: TBlockData[], listCurrent: TListCurrent[]) => TListCurrent[]
   pushListCurrent: (
     inscriptionId: string,
     groupId: string,
@@ -27,7 +27,7 @@ export type TBlockSlice = {
   deleteSelected: (d: any) => void
   setBlockCurrent: (d: TBlockData[]) => void
   setBlockCurrentUpdate: (d: any) => void
-  // deleteSeletBlocks: () => void
+  setPositionBricks: (d: TBlockData[]) => void
   setSelectedBricks: (d: any) => void
   undo: () => void
   redo: () => void
