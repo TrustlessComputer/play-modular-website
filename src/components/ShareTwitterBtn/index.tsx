@@ -3,12 +3,18 @@ import { DOMAIN_URL } from '@/constant/constant';
 import React from 'react'
 import s from './ShareTwitterBtn.module.scss'
 import IcTwitter from '@/icons/workshop/ic-twitter.svg'
+import { useAppSelector } from '@/stores/hooks';
+import { accountSelector } from '@/stores/states/wallet/selector';
 
 type Props = {
     data: any
 }
 
 const ShareTwitterBtn = ({ data }: Props) => {
+
+    const account = useAppSelector(accountSelector)
+
+
 
     const content = `Playing Lego at @BVMnetwork
     
@@ -31,7 +37,7 @@ Join me at the Modular Workshop`
         // setIsProcessing(true);
     };
 
-    // const han
+    if (account?.address === data?.data?.owner_addr) return <></>
 
     return (
         <div className={s.wrapper}>

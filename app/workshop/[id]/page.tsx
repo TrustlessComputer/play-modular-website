@@ -56,6 +56,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
     return null
   }
 
+
   return (
     <div className={'relative'}>
       <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-[1000] pointer-events-auto flex gap-5 items-center">
