@@ -179,7 +179,7 @@ export async function downloadImage(imageSrc, name) {
   document.body.removeChild(link)
 }
 
-export function captureCanvasImage({ dom = '#canvas-map-editor', name = 'project-xxxx.png', download = false }) {
+export function captureCanvasImage({ dom = '#canvas-3d', name = 'project-xxxx.png', download = false }) {
   const wrapperDom = document.querySelector(dom)
   const canvas = wrapperDom.querySelector('canvas')
   const dataURL = canvas.toDataURL('image/png')
