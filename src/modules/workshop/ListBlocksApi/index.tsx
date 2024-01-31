@@ -119,7 +119,7 @@ const ListBlocks: React.FunctionComponent = () => {
             {Array(12)
               .fill(0)
               .map((_, index) => (
-                <ImagePlaceholder key={index} imageWrapperSize='w-20' />
+                <ImagePlaceholder key={index} />
               ))}
           </div>
         ) : (

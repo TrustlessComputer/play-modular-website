@@ -18,7 +18,7 @@ const ImagePlaceholder: React.FunctionComponent<TImagePlaceholder> = ({ alignmen
     >
       <div
         className={cn(
-          'flex items-center justify-center w-full h-20 bg-gray-300 rounded  dark:bg-gray-700',
+          'flex items-center justify-center w-full px-5 h-20 bg-gray-300 rounded  dark:bg-gray-700',
           imageWrapperSize,
         )}
       >
