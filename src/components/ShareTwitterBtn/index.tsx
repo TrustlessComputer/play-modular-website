@@ -32,7 +32,7 @@ const ShareTwitterBtn = ({ data }: Props) => {
     return (
         <div className={s.wrapper}>
             <button
-                className='flex items-center gap-1 btn_secondary'
+                className='flex items-center gap-1 btn_submit'
                 onClick={handleShareTw}>
                 Share on
                 <IcTwitter />
