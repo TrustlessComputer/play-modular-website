@@ -3,6 +3,7 @@ import ViewMap from '@/modules/viewMap'
 import { getProjectDetail } from '@/services/api/generative'
 import { API_URL } from '@/constant/constant'
 import ShareTwitterBtn from '@/components/ShareTwitterBtn'
+import ExportImageBtn from '@/modules/workshop/components/ExportImageBtn'
 
 // export const revalidate = 0
 
@@ -32,21 +33,17 @@ export async function generateMetadata(
   // fetch data
   const data = await fetchModelData(id)
 
-  const desc = data?.data?.name || ''
-
   const thumbnail = data?.data?.thumbnail
 
 
   return {
     title: `Modular | ${data?.data?.name}`,
-    description: desc,
     openGraph: {
       images: [thumbnail],
     },
     twitter: {
       card: "summary_large_image",
       title: data?.data?.name,
-      description: desc,
       images: [thumbnail],
     }
   }
@@ -61,7 +58,10 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div className={'relative'}>
-      <ShareTwitterBtn data={data} />
+      <div className="absolute bottom-5 right-5 z-[1000] pointer-events-auto flex gap-5 items-center">
+        <ExportImageBtn imageSrc={data?.data?.thumbnail} name={data?.data?.name} />
+        <ShareTwitterBtn data={data} />
+      </div>
       <ViewMap brickData={JSON.parse(data.data.meta_data)} id={params.id} />
     </div>
   )
