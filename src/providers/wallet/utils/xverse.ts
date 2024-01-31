@@ -1,6 +1,6 @@
-import { getAddress, GetAddressOptions } from "sats-connect";
-import { IAccount, RequestAccountResponse, WalletType } from "@/providers/wallet/types";
-import { TypeCapabilityState } from "@/providers/wallet/hooks/useXverseState";
+import { getAddress, GetAddressOptions } from 'sats-connect'
+import { IAccount, RequestAccountResponse, WalletType } from '@/providers/wallet/types'
+import { TypeCapabilityState } from '@/providers/wallet/hooks/useXverseState'
 
 const openInstall = () => {
   window.open('https://www.xverse.app/download')
@@ -16,40 +16,40 @@ const connect = async () => {
           type: 'Mainnet',
         },
       },
-      onFinish: response => {
-        const addresses = response.addresses;
+      onFinish: (response) => {
+        const addresses = response.addresses
         if (!addresses || addresses.length < 2) {
-          return reject('Connect to xverse failed.');
+          return reject('Connect to xverse failed.')
         }
 
-        const address = addresses[0].address;
+        const address = addresses[0].address
 
         resolve({
           address: address,
           publicKey: addresses[0].publicKey,
-        });
+        })
       },
       onCancel: () => reject('User rejected the request.'),
-    } as GetAddressOptions);
-  });
-};
-
+    } as GetAddressOptions)
+  })
+}
 
 const requestAccount = async (params: { capabilityState: TypeCapabilityState }): Promise<IAccount> => {
-  const { capabilityState } = params;
+  const { capabilityState } = params
 
   switch (capabilityState) {
     case 'missing':
-      openInstall();
-      throw new Error('Kindly set up your wallet.');
-    case "loading":
-      throw new Error('Loading.');
+      openInstall()
+      throw new Error('Kindly set up your wallet.')
+    case 'loading':
+      openInstall()
+      throw new Error('Loading.')
     default:
-      const { address, publicKey } = await connect();
+      const { address, publicKey } = await connect()
       return {
         address,
         publicKey,
-        type: WalletType.Xverse
+        type: WalletType.Xverse,
       }
   }
 }
@@ -57,7 +57,7 @@ const requestAccount = async (params: { capabilityState: TypeCapabilityState }):
 const xverseHelper = {
   openInstall,
   connect,
-  requestAccount
+  requestAccount,
 }
 
 export default xverseHelper
