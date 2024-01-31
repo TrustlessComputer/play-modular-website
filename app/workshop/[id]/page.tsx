@@ -34,14 +34,12 @@ export async function generateMetadata(
 
   const thumbnail = data?.data?.thumbnail
 
-  // optionally access and extend (rather than replace) parent metadata
-  const previousImages = (await parent).openGraph?.images || []
 
   return {
     title: `Modular | ${data?.data?.name}`,
     description: desc,
     openGraph: {
-      images: [thumbnail, ...previousImages],
+      images: [thumbnail],
     },
     twitter: {
       card: "summary_large_image",
