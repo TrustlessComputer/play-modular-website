@@ -26,7 +26,7 @@ const SaveToPng = () => {
         camera.updateMatrixWorld()
         camera.updateMatrix()
 
-        const wrapperDom = document.querySelector('.styles_workshop_main__CrQRd')
+        const wrapperDom = document.getElementById('canvas-3d')
 
         const canvas = wrapperDom.querySelector('canvas')
         const dataURL = canvas.toDataURL('image/png')
@@ -75,9 +75,10 @@ export default function Three3D() {
         alpha: false,
         antialias: true,
         preserveDrawingBuffer: true,
+        pixelRatio: Math.min(2, aspect),
       }}
       shadows='basic'
-      dpr={Math.min(2, 1)}
+      dpr={Math.min(2, aspect)}
       linear
       camera={{
         position: [2900, 2400, 2900],
@@ -86,6 +87,7 @@ export default function Three3D() {
         fov: 10,
         aspect,
       }}
+      id='canvas-3d'
     >
       <SaveToPng />
       <color attach='background' args={['#ffffff']} />
