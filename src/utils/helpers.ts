@@ -63,6 +63,49 @@ export function radToDeg(angle) {
   return 360 - (angle / Math.PI) * 180
 }
 
+export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
+  let isCollied = false
+  let isSomethingBelow = false
+  let isFirstLayer = Math.floor(boundingBoxToCheck.max.y) === Math.floor(heightBase)
+
+  if (otherBoundingBoxes.length <= 1) return true
+
+  for (let index = 0; index < otherBoundingBoxes.length; index++) {
+    if (!otherBoundingBoxes[index]) continue
+
+    const brickBoundingBox = otherBoundingBoxes[index].brickBoundingBox
+
+    const diffX = Math.round(boundingBoxToCheck.min.x - brickBoundingBox.min.x) - 1
+    const diffZ = Math.round(boundingBoxToCheck.min.z - brickBoundingBox.min.z) - 1
+    const diffY = Math.round(boundingBoxToCheck.min.y - brickBoundingBox.min.y)
+
+    if (Math.abs(diffY) < heightBase) {
+      // TOP LEFT CORNER
+      if (Math.abs(diffX) === base && Math.abs(diffZ) === base) {
+        isCollied = true
+        break
+      }
+
+      // BOTTOM LEFT CORNER
+      if ((Math.abs(diffX) === base || diffX === 0) && diffZ >= 0 && diffZ <= base) {
+        isCollied = true
+        break
+      }
+
+      if ((Math.abs(diffZ) === base || diffZ === 0) && diffX >= 0 && diffX <= base) {
+        isCollied = true
+        break
+      }
+    }
+
+    // Filter out the top layer
+    if (isFirstLayer || Math.abs(diffY) > heightBase) continue
+
+    if (diffY === heightBase && Math.abs(diffX) <= base && Math.abs(diffZ) <= base) isSomethingBelow = true
+  }
+  return !isCollied && ((isSomethingBelow && !isFirstLayer) || isFirstLayer) // true if it is not colliding
+}
+
 export function uID(length = 8) {
   const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
   let result = ''
