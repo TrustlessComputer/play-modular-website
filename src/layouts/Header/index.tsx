@@ -6,6 +6,7 @@ import Fade from '@/interactive/Fade'
 import cn from 'classnames'
 import { usePathname } from 'next/navigation'
 import LogoIcon from '/public/imgs/logo.svg'
+import { WORKSHOP_URL } from '@/constant/route-path'
 
 const MODULAR_TEXT = 'Modular'
 
@@ -16,7 +17,7 @@ export default function Header() {
   return (
     <header className={s.header}>
       <div className={cn(isWorkshop ? s.containerWorkshop : s.container)}>
-        <div className={`${s.logo} js-header-logo`}>
+        <div className={`${s.logo} ${pathname === WORKSHOP_URL && s.isWorkshop} js-header-logo`}>
           <Link href='/' className='inline-flex justify-center items-center gap-[16px]'>
             <LogoIcon />
             {pathname === '/' ? <Fade delay={1}>{MODULAR_TEXT}</Fade> : <div>{MODULAR_TEXT}</div>}

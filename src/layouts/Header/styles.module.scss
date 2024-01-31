@@ -37,4 +37,8 @@
   line-height: 25px;
   text-align: left;
   text-transform: uppercase;
+
+  &.isWorkshop {
+    color: var(--black);
+  }
 }
