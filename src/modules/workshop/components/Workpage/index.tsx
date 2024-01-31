@@ -5,7 +5,7 @@ export const Workspace = ({ onClick = (e: any) => {}, mouseMove = (e: any) => {}
 
   return (
     <>
-      <gridHelper position={[0, 0, 0]} args={[workspaceSize, gridSize, 0xffffff, 0xffffff]} />
+      {/* <gridHelper position={[0, 0, 0]} args={[workspaceSize, gridSize, 0xffffff, 0xffffff]} /> */}
       {/* <gridHelper position={[0, 0, 0]} args={[workspaceSize, gridSize, 0x000000, 0xffffff]} /> */}
 
       <mesh
