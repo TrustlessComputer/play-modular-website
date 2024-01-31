@@ -20,6 +20,7 @@
     padding-left: 24px;
   }
 }
+
 .containerWorkshop {
   width: 100%;
   display: flex;
@@ -27,6 +28,7 @@
   justify-content: space-between;
   padding: 37px 55px;
 }
+
 .logo {
   display: flex;
   gap: 16px;
@@ -37,4 +39,28 @@
   line-height: 25px;
   text-align: left;
   text-transform: uppercase;
+
+  &.isWorkshop {
+    color: var(--black);
+  }
+}
+
+.workshopBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: rem(12px);
+  font-weight: 500;
+  width: rem(120px);
+  height: rem(40px);
+  text-align: center;
+  color: var(--white);
+  background: #703EFC;
+  text-transform: uppercase;
+
+  @include min-tablet {
+  width: rem(140px);
+  height: rem(48px);
+  font-size: rem(14px);
+  }
 }

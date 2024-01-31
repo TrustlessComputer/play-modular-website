@@ -7,9 +7,9 @@ import Load from '@/layouts/Load'
 import TimeLine from '@/modules/home2d/TimeLine'
 import useAnimationStore from '@/stores/useAnimationStore'
 import { useEffect, useRef } from 'react'
-import { WORKSHOP_URL } from '@/constant/route-path'
 
 import s from './styles.module.scss'
+import Banner from './Banner'
 
 export default function Home2d() {
   const refPlay = useRef<HTMLVideoElement>(null)
@@ -66,7 +66,11 @@ export default function Home2d() {
                   <a href='https://magiceden.io/ordinals/marketplace/modular' target='_blank' rel='noopener noreferrer'>
                     <Button bg='purple'>Collect</Button>
                   </a>
-                  <Link href={WORKSHOP_URL}>
+                  <Link
+                    href={'https://twitter.com/punk3700/status/1752291478901235915'}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
                     <Button bg='white'>Learn more</Button>
                   </Link>
                 </div>
@@ -75,6 +79,7 @@ export default function Home2d() {
             <TimeLine />
           </div>
         </div>
+        <Banner />
       </div>
       <Load />
     </>

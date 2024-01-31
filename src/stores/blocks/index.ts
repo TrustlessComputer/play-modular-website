@@ -1,7 +1,7 @@
 import { createBlocksSlice } from './slice/blockSlice'
 import { createModalSlice } from './slice/modalSlice'
 import { createProjectSlice } from './slice/projectSlice'
-import create from 'zustand'
+import { create } from 'zustand'
 import { createTraitBlockSlice } from './slice/traitBlockSlice'
 import { createPreviewSlice } from './slice/previewSlice'
 import { createCreatedBricksSlice } from './slice/createdBricksSlice'

@@ -177,3 +177,18 @@ export async function downloadImage(imageSrc, name) {
   link.click()
   document.body.removeChild(link)
 }
+
+export function captureCanvasImage({ dom = '#canvas-3d', name = 'project-xxxx.png', download = false }) {
+  const wrapperDom = document.querySelector(dom)
+  const canvas = wrapperDom.querySelector('canvas')
+  const dataURL = canvas.toDataURL('image/png')
+  const a = document.createElement('a')
+  a.href = dataURL
+  a.download = name
+
+  if (download) {
+    a.click()
+  }
+
+  return {dataURL, canvas};
+}
