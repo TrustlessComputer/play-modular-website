@@ -123,4 +123,4 @@ export const ALLOWED_ATTRIBUTES = {
   iframe: ['src', 'width', 'height'],
 }
 
-export const DELAY_SNAPSHOT = 300
+export const DELAY_SNAPSHOT = 2000
