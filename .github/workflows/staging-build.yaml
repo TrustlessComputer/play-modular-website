@@ -1,18 +1,17 @@
-name: Docker production with static assets build
+name: Docker staging build
 
 on:
   push:
-    tags:
-      - 'v[0-9].[0-9]+.[0-9]+'
+    branches:
+      - 'staging'
 
 jobs:
-  build-new-bitcoin-city-production-static:
+  build-alpha-lite-staging:
     uses: TrustlessComputer/tc-github-action-templates/.github/workflows/docker-build-and-push.yaml@main
     with:
       DOCKER_IMAGE_NAME: play-modular-website
       DOCKERFILE_NAME: Dockerfile
-      CONCURRENCY_GROUP: docker_build_production
-      RUNNER_TAG: ubuntu-latest-m
-      DOCKER_AUTOPUSH: true
+      CONCURRENCY_GROUP: docker_build_staging
+      RUNNER_TAG: ubuntu-latest
     secrets:
       GCLOUD_DEV_SERVICE_ACCOUNT_JSON: ${{ secrets.GCLOUD_DEV_SERVICE_ACCOUNT_JSON }}
