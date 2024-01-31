@@ -6,8 +6,8 @@ export let patterns = [
   ['Celestia', 5, 'Cel', 0, ['#6F42E2', '#40218F', '#AC8BFF']],
   ['Ordinals', 5, 'Ord', 0, ['#6C6C6C', '#404040', '#ADADAD']],
   ['Eigen Da', 5, 'Eig', 0, ['#222222', '#000000', '#444444']],
-  ["Avail", 50000, "Ava", 0, ["#ddd", "#aaa", "#eee"]],
-  ["Near", 50000, "Nea", 0, ["#00D05E", "#007334", "#50FF9F"]],
+  ['Avail', 50000, 'Ava', 0, ['#ddd', '#aaa', '#eee']],
+  ['Near', 50000, 'Nea', 0, ['#00D05E', '#007334', '#50FF9F']],
   ['Solid Orange', 50, 'Sol', 2, ['#FF6F00', '#9B4300', '#FF9646']],
   ['Solid Red', 50, 'Sol', 2, ['#c60000', '#990005', '#FF4B51']],
   ['Solid Yellow', 50, 'Sol', 2, ['#FFCC00', '#8D7100', '#FFDB4D']],
@@ -67,58 +67,58 @@ export const TEXTURE_LIST = [
   },
   {
     name: 'Solid Orange',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Red',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Yellow',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Azure',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Pink',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Blue',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Yellow Green',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Bright Green',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Brown',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Nougat',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Light Gray',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Dark Gray',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Dark',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Purple',
-    src: NONT_TEXTURE,
+    src: null,
   },
 ]
