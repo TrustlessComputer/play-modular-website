@@ -16,7 +16,7 @@ const Web3Auth: React.FC<PropsWithChildren> = ({ children }) => {
   if (typeof account === 'undefined' && isBrowser() === false) {
     return (
       <div className='w-full h-dvh flex flex-col justify-center items-center'>
-        <Image src='/imgs/group-block.svg' width={723} height={384} alt='blocks' />
+        <Image src='/imgs/group-block.png' width={723} height={384} alt='blocks' />
         <Spinner />
       </div>
     )
