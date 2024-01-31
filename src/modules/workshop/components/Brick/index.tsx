@@ -4,11 +4,19 @@ import { NONT_TEXTURE } from '@/constant/trait-data'
 import '../../../../utils/preloadTexture'
 import { useStoreGlobal } from '@/stores/blocks'
 import { TBlockAnimation, TBlockData } from '@/types'
-import { EDIT_MODE, base, createGeometry, uID as generateUId, getMeasurementsFromDimensions, heightBase } from '@/utils'
-import { Decal, Outlines, PivotControls, useTexture } from '@react-three/drei'
+import {
+  EDIT_MODE,
+  base,
+  createGeometry,
+  uID as generateUId,
+  getMeasurementsFromDimensions,
+  heightBase,
+  CREATE_MODE,
+} from '@/utils'
+import { Decal, Outlines, PivotControls, useTexture, RenderTexture } from '@react-three/drei'
 import { motion } from 'framer-motion-3d'
 import React from 'react'
-import { Box3, Matrix4, Vector3 } from 'three'
+import { Box3, Matrix4, Vector3, DoubleSide, FrontSide, BackSide } from 'three'
 
 type TBrickAction = {
   onClick?: (e: any) => void
@@ -176,15 +184,16 @@ export const Brick = ({
             >
               <Outlines visible={isSelected2 && mode === EDIT_MODE} scale={1.025} />
               <meshPhysicalMaterial color={color} metalness={0} roughness={1} specularIntensity={0} />
+
               {!isNontTexture && (
                 <Decal
                   map={texturez}
-                  position={[0, 0, brickGeometry.length > 1 ? 0.05 : 0.05]}
+                  position={[0, 0, brickGeometry.length > 1 ? 19 : 17]}
                   rotation={[0, 0, 0]}
                   scale={[
-                    brickGeometry.length > 1 ? base * 2.5 : base * 2.5,
+                    brickGeometry.length > 1 ? base * 3 : base * 3,
                     heightBase,
-                    brickGeometry.length > 1 ? base * 2 : base * 2,
+                    brickGeometry.length > 1 ? base * 2 : base * 1,
                   ]}
                 >
                   <meshPhysicalMaterial
@@ -194,7 +203,7 @@ export const Brick = ({
                     roughness={1}
                     specularIntensity={0}
                     polygonOffset
-                    polygonOffsetFactor={-1} // The material should take precedence over the original
+                    polygonOffsetFactor={-1}
                   />
                 </Decal>
               )}
