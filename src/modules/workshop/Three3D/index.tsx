@@ -5,36 +5,51 @@ import { ControlsWrapper } from '../components/Control'
 import { Scene } from '../components/Scene'
 import { Canvas, useThree } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
-import { base, minWorkSpaceSize } from '@/utils'
+import { base, captureCanvasImage, minWorkSpaceSize } from '@/utils'
 
 const SaveToPng = () => {
   const [isSaving, setIsSaving] = React.useState(false)
   const { camera } = useThree()
 
-  React.useEffect(() => {
+  React.useEffect( () => {
+
+   const onHandleCloseDownload = () => {
+
+     //todo jackie
+     console.log('____close popup download done');
+
+    }
+
     const saveToPng = (e) => {
       if (e.ctrlKey && e.key === 's') {
         const prevPosition = camera.position.clone()
         const prevRotation = camera.rotation.clone()
         const prevZoom = camera.zoom
 
-        // camera.position.set(2900, 2400, 2900)
-        // camera.rotation.set(0, 0, 0)
-        // camera.zoom = 1
-        // camera.lookAt(0, 0, 0)
-        // camera.updateProjectionMatrix()
-        // camera.updateMatrixWorld()
-        // camera.updateMatrix()
+        camera.position.set(2900, 2400, 2900)
+        camera.rotation.set(0, 0, 0)
+        camera.zoom = 1
+        camera.lookAt(0, 0, 0)
+        camera.updateProjectionMatrix()
+        camera.updateMatrixWorld()
+        camera.updateMatrix()
 
-        const wrapperDom = document.querySelector('.styles_workshop_main__CrQRd')
 
-        const canvas = wrapperDom.querySelector('canvas')
-        const dataURL = canvas.toDataURL('image/png')
-        const a = document.createElement('a')
-        a.href = dataURL
-        a.download = 'project-xxxx.png'
-        a.click()
+      const {dataURL, canvas} =  captureCanvasImage({
+          download: true
+        })
+
+        canvas.style.filter = `blur(100px)`;
+        const img: HTMLImageElement = new Image();
+        img.src = dataURL;
+        img.onload = () => {
+          img.remove();
+          canvas.style.filter = null;
+          onHandleCloseDownload();
+        };
       }
+
+
     }
 
     window.addEventListener('keydown', saveToPng)
@@ -55,7 +70,7 @@ export default function Three3D() {
   const [aspect, setAspect] = React.useState(1)
 
   React.useEffect(() => {
-    const wrapperDom = document.querySelector('.styles_workshop_main__CrQRd') // TODO: Pass ref to
+    const wrapperDom = document.querySelector('#canvas-3d') // TODO: Pass ref to
 
     const resize = () => {
       setAspect(wrapperDom.clientWidth / wrapperDom.clientHeight)
@@ -70,14 +85,18 @@ export default function Three3D() {
   }, [])
 
   return (
+
+
+
     <Canvas
       gl={{
         alpha: false,
         antialias: true,
         preserveDrawingBuffer: true,
+        pixelRatio: Math.min(2, aspect),
       }}
       shadows='basic'
-      dpr={Math.min(2, 1)}
+      dpr={Math.min(2, aspect)}
       linear
       camera={{
         position: [2900, 2400, 2900],
@@ -86,6 +105,7 @@ export default function Three3D() {
         fov: 10,
         aspect,
       }}
+      id='canvas-3d'
     >
       <SaveToPng />
       <color attach='background' args={['#ffffff']} />

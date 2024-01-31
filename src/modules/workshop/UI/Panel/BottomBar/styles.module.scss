@@ -45,14 +45,18 @@
       margin-left: 304px;
     }
 
-    svg {
-      width: rem(20px);
-      height: rem(20px);
+    &:not(.icon_X) {
+      svg {
+        width: rem(20px);
+        height: rem(20px);
 
-      path {
-        fill: var(--black)
+        path {
+          fill: var(--black)
+        }
       }
     }
+
+
 
     &.noFill {
       svg {

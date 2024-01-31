@@ -10,7 +10,11 @@ type Props = {
 
 const ShareTwitterBtn = ({ data }: Props) => {
 
-    const content = `Share Model`
+    const content = `Playing Lego at @BVMnetwork
+    
+This is my masterpiece, you can't beat me lol.
+
+Join me at the Modular Workshop`
 
     const handleShareTw = (e?: any) => {
         e.preventDefault();
@@ -32,7 +36,7 @@ const ShareTwitterBtn = ({ data }: Props) => {
     return (
         <div className={s.wrapper}>
             <button
-                className='flex items-center gap-1 btn_secondary'
+                className='flex items-center gap-1 btn_submit'
                 onClick={handleShareTw}>
                 Share on
                 <IcTwitter />
