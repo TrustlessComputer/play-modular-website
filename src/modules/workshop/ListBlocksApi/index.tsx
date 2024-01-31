@@ -17,6 +17,7 @@ import ItemBlock from './ItemBlock'
 import s from './styles.module.scss'
 import { isLocalhost } from '@/utils/browser'
 import { MOCK_ADDRESS } from '@/constant/mock-data'
+import ImagePlaceholder from '@/components/Skeleton/ImagePlaceholder'
 
 const GridList = forwardRef(({ children, ...props }: PropsWithChildren, ref: any) => (
   <div
@@ -68,10 +69,10 @@ const ListBlocks: React.FunctionComponent = () => {
     loadMore,
     hasFirstFetching,
     isEmpty,
+    isRefreshing,
   } = useApiInfinite(
     getListModularByWallet,
     {
-      // ownerAddress: 'account?.address', // 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
       ownerAddress: isLocalhost() ? MOCK_ADDRESS : account?.address,
       page: 1,
       limit: 20,
@@ -113,25 +114,37 @@ const ListBlocks: React.FunctionComponent = () => {
     <div className={s.wrapper}>
       <div className={s.inner}>
         <h3 className={s.title}>MODULAR</h3>
-        {hasFirstFetching && isEmpty ? (
-          <Empty />
+        {hasFirstFetching === false || isRefreshing ? (
+          <div className='grid grid-cols-2 gap-2'>
+            {Array(12)
+              .fill(0)
+              .map((_, index) => (
+                <ImagePlaceholder key={index} imageWrapperSize='w-20' />
+              ))}
+          </div>
         ) : (
-          <VirtuosoGrid
-            className={s.wrapper_listBlocks}
-            style={{ height: '100dvh', pointerEvents: 'auto' }}
-            data={listCurrent}
-            totalCount={listCurrent.length}
-            endReached={() => {
-              if (isReachingEnd === false) {
-                loadMore()
-              }
-            }}
-            overscan={1000}
-            components={GridComponents as any}
-            itemContent={(index, block) => {
-              return <ItemBlock key={index} {...block} />
-            }}
-          />
+          <>
+            {hasFirstFetching && isEmpty ? (
+              <Empty />
+            ) : (
+              <VirtuosoGrid
+                className={s.wrapper_listBlocks}
+                style={{ height: '100dvh', pointerEvents: 'auto' }}
+                data={listCurrent}
+                totalCount={listCurrent.length}
+                endReached={() => {
+                  if (isReachingEnd === false) {
+                    loadMore()
+                  }
+                }}
+                overscan={1000}
+                components={GridComponents as any}
+                itemContent={(index, block) => {
+                  return <ItemBlock key={index} {...block} />
+                }}
+              />
+            )}
+          </>
         )}
       </div>
     </div>
