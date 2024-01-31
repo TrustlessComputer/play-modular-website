@@ -23,7 +23,7 @@ Join me at the Modular Workshop`
     const handleShareTw = (e?: any) => {
         e.preventDefault();
         e.stopPropagation();
-        const shareUrl = `${DOMAIN_URL}/workshop/${data?.data?.id}`;
+        const shareUrl = `https://playmodular.com/workshop/${data?.data?.id}`;
 
         window.open(
             `https://twitter.com/intent/tweet?url=${shareUrl}&text=${encodeURIComponent(
