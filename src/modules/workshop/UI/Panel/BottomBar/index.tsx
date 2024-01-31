@@ -304,7 +304,7 @@ export default function BottomBar() {
             <IcSave /> Save As
           </button> */}
           <button className={s.bottomBar_btn} onClick={handleClickCreateNewProject}>
-            <IcCreate /> Create New
+            <IcCreate /> New
           </button>
           <button
             className={s.bottomBar_btn}
