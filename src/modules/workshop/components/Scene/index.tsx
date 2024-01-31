@@ -46,6 +46,7 @@ export const Scene = () => {
     trait,
     selectedBricks,
     setBricks,
+    listCurrent,
   } = useStoreGlobal()
   const bricksBoundBox = useRef<any>({}) // hash map
   const brickCursorRef = useRef<Group>()
@@ -53,6 +54,8 @@ export const Scene = () => {
   const timeoutID = useRef(null)
   const deboundeData = useDebounce(blockCurrent, 50)
   const isEditMode = mode === EDIT_MODE
+
+  const numberBlocksCurrent = listCurrent.find((item) => item.groupId === trait.groupId)?.items?.length
 
   const addBrick = (e) => {
     e.stopPropagation()
@@ -74,7 +77,6 @@ export const Scene = () => {
         type: trait.type,
         groupId: trait.groupId,
       }
-
       if (trait?.color) addBlocks(brickData)
     }
     // } else {
@@ -184,6 +186,7 @@ export const Scene = () => {
         rotation={rotate ? Math.PI / 2 : 0}
         dimensions={{ x: width, z: depth }}
         translation={{ x: anchorX, z: anchorZ }}
+        isHaventBlocks={numberBlocksCurrent === 0}
       />
     </>
   )

@@ -103,7 +103,8 @@ export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
 
     if (diffY === heightBase && Math.abs(diffX) <= base && Math.abs(diffZ) <= base) isSomethingBelow = true
   }
-  return !isCollied && ((isSomethingBelow && !isFirstLayer) || isFirstLayer) // true if it is not colliding
+  console.log('isCollied', isCollied)
+  return !isCollied //&& ((isSomethingBelow && !isFirstLayer) || isFirstLayer) // true if it is not colliding
 }
 
 export function uID(length = 8) {

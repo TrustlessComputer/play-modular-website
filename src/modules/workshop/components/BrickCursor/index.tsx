@@ -11,6 +11,7 @@ type BrickCursorProps = {
   dimensions?: { x: number; y?: number; z: number }
   rotation?: number
   translation?: { x: number; z: number }
+  isHaventBlocks: boolean
 }
 
 const BrickCursor = forwardRef(
@@ -23,6 +24,7 @@ const BrickCursor = forwardRef(
       dimensions = { x: 1, z: 1 },
       rotation = 0,
       translation = { x: 0, z: 0 },
+      isHaventBlocks,
     }: BrickCursorProps,
     ref?: React.Ref<Group<Object3DEventMap>>,
   ) => {
@@ -64,7 +66,7 @@ const BrickCursor = forwardRef(
         >
           <mesh position={[(offsetX * width) / dimensions.x, 0, (offsetZ * width) / dimensions.z]}>
             <boxGeometry args={[width, height, depth]} />
-            <meshBasicMaterial color={'white'} transparent={true} opacity={0.3} />
+            <meshBasicMaterial color={!isHaventBlocks ? 'white' : 'red'} transparent={true} opacity={0.3} />
           </mesh>
         </group>
       </>
