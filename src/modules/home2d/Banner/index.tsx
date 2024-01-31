@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 const Banner = () => {
   return (
-    <Link href={'https://bvm.network/'} className={s.banner}>
+    <Link href={'https://bvm.network/'}  target='_blank' rel='noopener noreferrer' className={s.banner}>
       <div className={s.banner_content}>
         <IconBVM />
         <p>Powered by blockchain Bitcoin Virtual Machine</p>
