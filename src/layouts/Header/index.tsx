@@ -13,7 +13,7 @@ const MODULAR_TEXT = 'Modular'
 export default function Header() {
   const pathname = usePathname()
   const isWorkshop = pathname === '/workshop'
-  const isWorkshopWithId = pathname.startsWith('/workshop/') && pathname !== '/workshop'
+  const isWorkshopWithId = pathname.startsWith('/workshop/') && pathname !== '/workshop';
 
   return (
     <header className={s.header}>
@@ -24,11 +24,7 @@ export default function Header() {
             {pathname === '/' ? <Fade delay={1}>{MODULAR_TEXT}</Fade> : <div>{MODULAR_TEXT}</div>}
           </Link>
         </div>
-        {isWorkshopWithId && (
-          <Link href={WORKSHOP_URL} className={s.workshopBtn}>
-            Back to workshop
-          </Link>
-        )}
+        {isWorkshopWithId && <Link href={WORKSHOP_URL} className={s.workshopBtn}>Back to WorkShop</Link>}
         <WalletButton />
       </div>
     </header>
