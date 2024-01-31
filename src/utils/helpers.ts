@@ -72,6 +72,7 @@ export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
 
   for (let index = 0; index < otherBoundingBoxes.length; index++) {
     if (!otherBoundingBoxes[index]) continue
+    if (otherBoundingBoxes[index].uID === boundingBoxToCheck.uID) continue
 
     const brickBoundingBox = otherBoundingBoxes[index].brickBoundingBox
 
@@ -177,4 +178,8 @@ export async function downloadImage(imageSrc, name) {
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)
+}
+
+export const roundToNearestMultiple = (value, multiple) => {
+  return Math.round(value / multiple) * multiple
 }

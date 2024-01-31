@@ -4,7 +4,15 @@ import { NONT_TEXTURE } from '@/constant/trait-data'
 import '../../../../utils/preloadTexture'
 import { useStoreGlobal } from '@/stores/blocks'
 import { TBlockAnimation, TBlockData } from '@/types'
-import { EDIT_MODE, base, createGeometry, uID as generateUId, getMeasurementsFromDimensions, heightBase } from '@/utils'
+import {
+  EDIT_MODE,
+  base,
+  checkCollision,
+  createGeometry,
+  uID as generateUId,
+  getMeasurementsFromDimensions,
+  heightBase,
+} from '@/utils'
 import { Decal, Outlines, PivotControls, useTexture } from '@react-three/drei'
 import { motion } from 'framer-motion-3d'
 import React from 'react'
@@ -13,6 +21,10 @@ import { Box3, Matrix4, Vector3 } from 'three'
 type TBrickAction = {
   onClick?: (e: any) => void
   mouseMove?: (e: any) => void
+}
+
+const roundToNearestMultiple = (value, multiple) => {
+  return Math.round(value / multiple) * multiple
 }
 
 export const Brick = ({
@@ -61,11 +73,36 @@ export const Brick = ({
   }
 
   const onDragEnd = () => {
+    // const boundingBox = new Box3().setFromObject(brickRef.current)
+    // console.log("BRICK'S BOUNDING BOX", Object.values(bricksBoundBox.current))
+
     // Make prevL awalys diveded by base to set the draggedOffset
     const newOffset = {
       x: draggedOffset.x + Math.round(prevL.x / base) * base,
       y: draggedOffset.y + Math.round(prevL.y / heightBase) * heightBase,
       z: draggedOffset.z + Math.round(prevL.z / base) * base,
+    }
+    const customBoundingBox = new Box3().setFromObject(brickRef.current)
+
+    customBoundingBox.min.x = roundToNearestMultiple(customBoundingBox.min.x, base)
+    customBoundingBox.min.y =
+      roundToNearestMultiple(customBoundingBox.min.y + heightBase, heightBase) < 0
+        ? 0
+        : roundToNearestMultiple(customBoundingBox.min.y + heightBase, heightBase)
+    customBoundingBox.min.z = roundToNearestMultiple(customBoundingBox.min.z, base)
+    customBoundingBox.max.x = roundToNearestMultiple(customBoundingBox.max.x, base)
+    customBoundingBox.max.y =
+      roundToNearestMultiple(customBoundingBox.max.y + heightBase, heightBase) < 0
+        ? 0
+        : roundToNearestMultiple(customBoundingBox.max.y + heightBase, heightBase)
+    customBoundingBox.max.z = roundToNearestMultiple(customBoundingBox.max.z, base)
+
+    const isNotColliding = checkCollision(customBoundingBox, Object.values(bricksBoundBox.current))
+
+    if (!isNotColliding) {
+      setResetKey(generateUId())
+      setIsDragging(false)
+      return
     }
 
     const blockCurrentClone = JSON.parse(JSON.stringify(blockCurrent))
