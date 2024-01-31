@@ -18,18 +18,15 @@ const SaveToPng = () => {
         const prevRotation = camera.rotation.clone()
         const prevZoom = camera.zoom
 
-        // position: [2900, 2400, 2900],
-        // near: 10,
-        // far: 100000,
-        // fov: 10,
-        camera.position.set(2900, 2400, 2900)
-        camera.rotation.set(0, 0, 0)
-        camera.zoom = 1
-        camera.lookAt(0, 0, 0)
-        camera.updateProjectionMatrix()
+        // camera.position.set(2900, 2400, 2900)
+        // camera.rotation.set(0, 0, 0)
+        // camera.zoom = 1
+        // camera.lookAt(0, 0, 0)
+        // camera.updateProjectionMatrix()
+        // camera.updateMatrixWorld()
+        // camera.updateMatrix()
 
         const wrapperDom = document.querySelector('.styles_workshop_main__CrQRd')
-        // setIsSaving(true)
 
         const canvas = wrapperDom.querySelector('canvas')
         const dataURL = canvas.toDataURL('image/png')
@@ -37,15 +34,6 @@ const SaveToPng = () => {
         a.href = dataURL
         a.download = 'project-xxxx.png'
         a.click()
-
-        // setTimeout(() => {
-        // setIsSaving(false)
-        // camera.position.copy(prevPosition)
-        // camera.rotation.copy(prevRotation)
-        // camera.zoom = prevZoom
-        // camera.lookAt(0, 0, 0)
-        // camera.updateProjectionMatrix()
-        // }, 1000)
       }
     }
 
