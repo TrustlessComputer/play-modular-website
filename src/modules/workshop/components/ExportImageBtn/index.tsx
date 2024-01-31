@@ -2,10 +2,13 @@
 import React from 'react'
 import s from './ExportImageBtn.module.scss'
 import { captureCanvasImage, downloadImage } from '@/utils'
+import { useAppSelector } from '@/stores/hooks'
+import { accountSelector } from '@/stores/states/wallet/selector'
 
 type Props = {
   imageSrc: string
   name: string
+  ownerAddress: string
 }
 
 const ExportImageBtn = ({ imageSrc, name }: Props) => {

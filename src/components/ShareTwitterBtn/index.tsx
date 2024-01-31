@@ -14,8 +14,6 @@ const ShareTwitterBtn = ({ data }: Props) => {
 
     const account = useAppSelector(accountSelector)
 
-
-
     const content = `Playing Lego at @BVMnetwork
     
 This is my masterpiece, you can't beat me lol.
@@ -37,7 +35,7 @@ Join me at the Modular Workshop`
         // setIsProcessing(true);
     };
 
-    if (account?.address === data?.data?.owner_addr) return <></>
+    if (account?.address !== data?.data?.owner_addr) return <></>
 
     return (
         <div className={s.wrapper}>
