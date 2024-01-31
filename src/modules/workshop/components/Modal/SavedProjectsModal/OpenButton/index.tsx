@@ -11,7 +11,7 @@ type Props = {}
 const OpenButton = (props: Props) => {
   const { selectedProject, loadProject, setLoading } = useProjectStore()
   const { closeModal } = useModalStore()
-  const { setDataCurrent } = useStoreGlobal()
+  const { setDataCurrent, setBlockCurrent } = useStoreGlobal()
   const account = useAppSelector(accountSelector)
 
   const handleClickOpen = async () => {
@@ -27,6 +27,7 @@ const OpenButton = (props: Props) => {
           projectName: selectedProject.name,
           renderFile: res.metaData,
         })
+        setBlockCurrent(JSON.parse(res.metaData))
         closeModal(SAVED_PROJECTS_MODAL_ID)
       }
     } catch (error) {

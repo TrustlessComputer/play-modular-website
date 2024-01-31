@@ -21,7 +21,7 @@ export default function WorkShop() {
         ></Spinner>
       </div>
       <main className={s.workshop}>
-        <div className={s.workshop_main}>
+        <div className={s.workshop_main} id='canvas-map-editor'>
           <UI />
           <Three3D />
         </div>

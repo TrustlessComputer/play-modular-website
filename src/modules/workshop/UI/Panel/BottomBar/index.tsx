@@ -1,38 +1,35 @@
 'use client'
 import { IconClear, IconRedo, IconTrash, IconUndo } from '@/components/IconSvgs'
 import { useUndoRedoShortcut } from '@/hooks/useShortcuts'
+import IcCreate from '@/icons/workshop/ic-create.svg'
 import IcOpen from '@/icons/workshop/ic-open.svg'
 import { default as IcSave } from '@/icons/workshop/ic-save.svg'
 import { useModalStore, useProjectStore, useStoreGlobal } from '@/stores/blocks'
 import s from './styles.module.scss'
-import IcCreate from '@/icons/workshop/ic-create.svg'
 
 import useApiInfinite from '@/hooks/useApiInfinite'
+import IcTwitter from '@/icons/workshop/ic-twitter.svg'
 import { getListModularByWallet, getProjectDetail, handleGetData, uploadFile } from '@/services/api/generative'
-import { TBlockData, TListCurrent } from '@/types'
-import instance from '@/utils/storage/local-storage'
 import { useAppSelector } from '@/stores/hooks'
 import { accountSelector } from '@/stores/states/wallet/selector'
-import { handleConvertData } from '@/utils/convertTraits'
+import { TListCurrent } from '@/types'
 import { useEffect, useMemo, useRef } from 'react'
-import IcEye from '@/icons/workshop/ic-eye.svg'
+
 
 type TDataFetch = {
   list: TListCurrent
 }
 
+import { WORKSHOP_URL } from '@/constant/route-path'
 import SavedProjectsModal, { SAVED_PROJECTS_MODAL_ID } from '@/modules/workshop/components/Modal/SavedProjectsModal'
+import SetProjectNameModal, { SET_PROJECT_NAME_MODAL_ID } from '@/modules/workshop/components/Modal/SetProjectNameModal'
+import UnsaveWarningModal from '@/modules/workshop/components/Modal/UnsaveWarningModal'
+import { EDIT_MODE, captureCanvasImage } from '@/utils'
+import { convertBase64ToFile } from '@/utils/file'
+import { SHA256 } from 'crypto-js'
+import { useRouter } from 'next/navigation'
 import { useId, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
-import jsonFile from './mock.json'
-import UnsaveWarningModal from '@/modules/workshop/components/Modal/UnsaveWarningModal'
-import SetProjectNameModal, { SET_PROJECT_NAME_MODAL_ID } from '@/modules/workshop/components/Modal/SetProjectNameModal'
-import { SHA256 } from 'crypto-js'
-import { convertBase64ToFile } from '@/utils/file'
-import { WORKSHOP_URL } from '@/constant/route-path'
-import { useRouter } from 'next/navigation'
-import { DELAY_SNAPSHOT } from '@/constant/constant'
-import { EDIT_MODE } from '@/utils'
 
 // const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
 
@@ -109,7 +106,6 @@ export default function BottomBar() {
   }, [blockCurrent])
 
   const saveAction = async () => {
-    // saveToPng()
 
     if (!isAllowSave) return
 
@@ -122,54 +118,32 @@ export default function BottomBar() {
     }
     setLoading(true)
 
-    const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
-    // if (e.ctrlKey && e.key === 's') {
-    ;(wrapperDom as HTMLElement).style.display = 'block'
-    ;(wrapperDom as HTMLElement).style.position = 'fixed'
-    ;(wrapperDom as HTMLElement).style.top = '0'
-    ;(wrapperDom as HTMLElement).style.left = '0'
-    ;(wrapperDom as HTMLElement).style.right = '0'
-    ;(wrapperDom as HTMLElement).style.bottom = '0'
+    const { dataURL: image } = captureCanvasImage({})
+    const file = convertBase64ToFile(image)
+    const resUrl = await uploadFile({ file })
 
-    const canvas = wrapperDom.querySelector('canvas')
-    canvas.classList.add(s.saveMove)
+    const payload: {
+      jsonFile: any
+      projectId?: string
+      projectName?: string
+      ownerAddress: string
+      thumbnail: string
+    } = {
+      jsonFile: blockCurrent,
+      ownerAddress: account?.address,
+      thumbnail: resUrl.url,
+    }
 
-    setTimeout(async () => {
-      const image = canvas.toDataURL('image/png')
-      const file = convertBase64ToFile(image)
-      const resUrl = await uploadFile({ file })
-      const a = document.createElement('a')
-      a.href = image
-      a.download = 'project-xxxx.png'
-      // a.click()
-      a.remove()
+    if (projectId) {
+      payload.projectId = projectId
+    }
 
-      canvas.classList.remove(s.saveMove)
-      ;(wrapperDom as HTMLElement).style.display = 'none'
+    if (projectName) {
+      payload.projectName = projectName
+    }
+    await saveProject(payload)
 
-      const payload: {
-        jsonFile: any
-        projectId?: string
-        projectName?: string
-        ownerAddress: string
-        thumbnail: string
-      } = {
-        jsonFile: blockCurrent,
-        ownerAddress: account?.address,
-        thumbnail: resUrl.url,
-      }
-
-      if (projectId) {
-        payload.projectId = projectId
-      }
-
-      if (projectName) {
-        payload.projectName = projectName
-      }
-      await saveProject(payload)
-
-      setLoading(false)
-    }, DELAY_SNAPSHOT)
+    setLoading(false)
   }
 
   const saveAsAction = async () => {
@@ -231,11 +205,13 @@ export default function BottomBar() {
       await saveAction()
       setLoading(true)
       setTimeout(() => {
-        router.push(`${WORKSHOP_URL}/${projectId}`)
+        window.open(`${WORKSHOP_URL}/${projectId}`, '_blank')
+        setLoading(false)
       }, 3000)
       return
     }
-    router.push(`${WORKSHOP_URL}/${projectId}`)
+    window.open(`${WORKSHOP_URL}/${projectId}`, '_blank')
+
   }
 
   const loadInitialProject = async () => {
@@ -287,13 +263,7 @@ export default function BottomBar() {
     }
   }, [projectId, projectName])
 
-  // useEffect(() => {
 
-  //   window.addEventListener('keydown', saveToPng)
-  //   return () => {
-  //     window.removeEventListener('keydown', saveToPng)
-  //   }
-  // }, [])
 
   const handleDeleteSelected = () => {
     deleteSelected(selectedBricks)
@@ -326,17 +296,17 @@ export default function BottomBar() {
         </div>
 
         <div className={s.bottomBar}>
-          <button className={s.bottomBar_btn} onClick={viewAction}>
-            <IcEye /> View Mode
+          <button className={`${s.bottomBar_btn} ${s.icon_X}`} onClick={viewAction}>
+            <IcTwitter /> Share
           </button>
           <button className={s.bottomBar_btn} onClick={saveAction} disabled={!isAllowSave}>
             <IcSave /> Save
           </button>
-          <button className={s.bottomBar_btn} onClick={saveAsAction} disabled={!isAllowSave}>
+          {/* <button className={s.bottomBar_btn} onClick={saveAsAction} disabled={!isAllowSave}>
             <IcSave /> Save As
-          </button>
+          </button> */}
           <button className={s.bottomBar_btn} onClick={handleClickCreateNewProject}>
-            <IcCreate /> Create New
+            <IcCreate /> New
           </button>
           <button
             className={s.bottomBar_btn}

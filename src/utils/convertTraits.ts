@@ -7,6 +7,7 @@ const handleConverTrait = (traits: TAtribute) => {
     const shape = traits.find((item) => item.traitType.includes(SHAPE))
     const size = shape.value.slice(1)
     const type = traits.find((item) => item.traitType.includes(TYPE))
+
     return {
         shape: size,
         type: type.value,

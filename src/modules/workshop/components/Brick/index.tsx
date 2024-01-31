@@ -15,8 +15,8 @@ import {
 } from '@/utils'
 import { Decal, Outlines, PivotControls, useTexture } from '@react-three/drei'
 import { motion } from 'framer-motion-3d'
-import React from 'react'
-import { Box3, Matrix4, Vector3 } from 'three'
+import React, { useEffect, useMemo, useState } from 'react'
+import { Box3, Matrix4, Vector3, DoubleSide, FrontSide, BackSide } from 'three'
 
 type TBrickAction = {
   onClick?: (e: any) => void
@@ -44,14 +44,17 @@ export const Brick = ({
   const { setIsDragging, mode, blockCurrent, selectedBricks, setPositionBricks } = useStoreGlobal()
   const [resetKey, setResetKey] = React.useState(generateUId())
   const brickRef = React.useRef(null)
-  const isNontTexture = texture === null
+  const isNontTexture = texture === null || texture === NONT_TEXTURE
   const updateTexture = isNontTexture ? NONT_TEXTURE : texture
   const texturez = useTexture(updateTexture)
+  const [opacity, setOpacity] = useState<number>(1)
   const compansate = {
     x: dimensions.x % 2 === 0 ? dimensions.x / 2 : (dimensions.x - 1) / 2,
     z: dimensions.z % 2 === 0 ? dimensions.z / 2 : (dimensions.z - 1) / 2,
   }
-  const isSelected2 = selectedBricks.find((brick) => brick.userData.uID === uID) ? true : false
+  const isSelected2 = useMemo((): boolean => {
+    return selectedBricks.find((brick) => brick.userData.uID === uID) ? true : false
+  }, [selectedBricks])
   const offset = {
     x: Math.sign(translation.x) < 0 ? Math.max(translation.x, -compansate.x) : Math.min(translation.x, compansate.x),
     z: Math.sign(translation.z) < 0 ? Math.max(translation.z, -compansate.z) : Math.min(translation.z, compansate.z),
@@ -104,7 +107,6 @@ export const Brick = ({
       setIsDragging(false)
       return
     }
-
     const blockCurrentClone = JSON.parse(JSON.stringify(blockCurrent))
 
     for (let i = 0; i < blockCurrentClone.length; i++) {
@@ -133,9 +135,9 @@ export const Brick = ({
     let brickBoundingBox
     const timeoutID = setTimeout(() => {
       brickBoundingBox = new Box3().setFromObject(brickRef.current)
-
+      console.log('brickBoundingBox', brickBoundingBox)
       bricksBoundBox.current[uID] = { uID, brickBoundingBox }
-    }, 100)
+    }, 300)
 
     return () => {
       const newA = {}
@@ -164,6 +166,16 @@ export const Brick = ({
     setPosition(vec3)
   }, [intersect, dimensions.x, dimensions.z, height, rotation, draggedOffset])
 
+  useEffect(() => {
+    if (isSelected2) {
+      setOpacity(1)
+    } else if (selectedBricks.length) {
+      setOpacity(0.5)
+    } else if (selectedBricks.length === 0) {
+      setOpacity(1)
+    }
+  }, [isSelected2, selectedBricks])
+
   return (
     <>
       {position && (
@@ -177,7 +189,7 @@ export const Brick = ({
             Math.abs(position.y) + translation.y * heightBase,
             position.z + translation.z * base,
           ]}
-          transition={{ type: 'spring', duration: 0.05 }}
+          transition={{ type: 'spring', duration: 0.25 }}
           userData={{
             uID,
           }}
@@ -212,16 +224,24 @@ export const Brick = ({
               onPointerMove={mouseMove}
             >
               <Outlines visible={isSelected2 && mode === EDIT_MODE} scale={1.025} />
-              <meshPhysicalMaterial color={color} metalness={0} roughness={1} specularIntensity={0} />
+              <meshPhysicalMaterial
+                opacity={opacity}
+                transparent
+                color={color}
+                metalness={0}
+                roughness={1}
+                specularIntensity={0}
+              />
+
               {!isNontTexture && (
                 <Decal
                   map={texturez}
-                  position={[0, 0, brickGeometry.length > 1 ? 0.05 : 0.05]}
+                  position={[0, 0, brickGeometry.length > 1 ? 19 : 17]}
                   rotation={[0, 0, 0]}
                   scale={[
-                    brickGeometry.length > 1 ? base * 2.5 : base * 2.5,
+                    brickGeometry.length > 1 ? base * 3 : base * 3,
                     heightBase,
-                    brickGeometry.length > 1 ? base * 2 : base * 2,
+                    brickGeometry.length > 1 ? base * 2 : base * 1,
                   ]}
                 >
                   <meshPhysicalMaterial
@@ -229,9 +249,10 @@ export const Brick = ({
                     transparent={true}
                     metalness={0}
                     roughness={1}
+                    opacity={opacity}
                     specularIntensity={0}
                     polygonOffset
-                    polygonOffsetFactor={-1} // The material should take precedence over the original
+                    polygonOffsetFactor={-1}
                   />
                 </Decal>
               )}
