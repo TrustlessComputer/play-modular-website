@@ -71,7 +71,7 @@ const PreviewRoom = () => {
 
           canvas.classList.remove(s.saveMove)
           ;(wrapperDom as HTMLElement).style.display = 'none'
-        }, 200)
+        }, 500)
       }
     }
 
