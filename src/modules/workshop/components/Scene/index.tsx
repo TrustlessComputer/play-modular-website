@@ -2,7 +2,15 @@
 
 import { useAnchorShorcuts } from '@/hooks/useShortcuts'
 import { useStoreGlobal } from '@/stores/blocks'
-import { EDIT_MODE, base, getMeasurementsFromDimensions, heightBase, minWorkSpaceSize, uID } from '@/utils'
+import {
+  EDIT_MODE,
+  base,
+  checkCollision,
+  getMeasurementsFromDimensions,
+  heightBase,
+  minWorkSpaceSize,
+  uID,
+} from '@/utils'
 import { useEffect, useRef } from 'react'
 import { Box3, Group, Vector3 } from 'three'
 import { Brick } from '../Brick'
@@ -22,8 +30,10 @@ const offsetVec = new Vector3()
 
 export const Scene = () => {
   useAnchorShorcuts()
+
   const {
     blockCurrent,
+    blocksState,
     addBlocks,
     mode,
     width,
@@ -34,18 +44,16 @@ export const Scene = () => {
     color,
     texture,
     trait,
-    setMode,
     selectedBricks,
     setBricks,
-    blocksState,
   } = useStoreGlobal()
-  const bricksBoundBox = useRef([])
+  const bricksBoundBox = useRef<any>({}) // hash map
   const brickCursorRef = useRef<Group>()
-  const isJustAdded = useRef(false)
   const isDrag = useRef(false)
   const timeoutID = useRef(null)
-  const isEditMode = mode === EDIT_MODE
   const deboundeData = useDebounce(blockCurrent, 1000)
+  const isEditMode = mode === EDIT_MODE
+
   const addBrick = (e) => {
     e.stopPropagation()
     if (isEditMode) return
@@ -53,92 +61,8 @@ export const Scene = () => {
     if (!brickCursorRef.current) return
     if (!isDrag.current) {
       const boundingBoxOfBrickToBeAdded = new Box3().setFromObject(brickCursorRef.current)
-      let isCollied = false
-      let isSomethingBelow = false
-      let isFirstLayer = Math.floor(boundingBoxOfBrickToBeAdded.max.y) === Math.floor(heightBase)
-      const acceptRange = 9
-      for (let index = 0; index < bricksBoundBox.current.length; index++) {
-        const brickBoundingBox = bricksBoundBox.current[index].brickBoundingBox
-        const collied = boundingBoxOfBrickToBeAdded.intersectsBox(brickBoundingBox)
-        const yIntsersect = brickBoundingBox.max.y - acceptRange > boundingBoxOfBrickToBeAdded.min.y
-        const isSameLayer = Math.floor(boundingBoxOfBrickToBeAdded.min.y) === Math.floor(brickBoundingBox.min.y)
 
-        // Check if brick is not on top of another brick
-        // Check if there is a brick below
-        const isBrickBelow = brickBoundingBox.max.y - acceptRange < boundingBoxOfBrickToBeAdded.min.y
-        const isOver2Bricks =
-          Math.floor(boundingBoxOfBrickToBeAdded.min.y + acceptRange - brickBoundingBox.max.y) > Math.floor(heightBase)
-
-        // Normalize width and depth for the brick below
-        let minCellXBelow = Math.round(Math.round(brickBoundingBox.min.x) / base)
-        let maxCellXBelow = Math.round(Math.round(brickBoundingBox.max.x) / base)
-        let minCellZBelow = Math.round(Math.round(brickBoundingBox.min.z) / base)
-        let maxCellZBelow = Math.round(Math.round(brickBoundingBox.max.z) / base)
-
-        minCellXBelow = minCellXBelow == -0 ? 0 : minCellXBelow
-        maxCellXBelow = maxCellXBelow == -0 ? 0 : maxCellXBelow
-        minCellZBelow = minCellZBelow == -0 ? 0 : minCellZBelow
-        maxCellZBelow = maxCellZBelow == -0 ? 0 : maxCellZBelow
-
-        let minCellXToBeAdded = Math.round(Math.round(boundingBoxOfBrickToBeAdded.min.x) / base)
-        let maxCellXToBeAdded = Math.round(Math.round(boundingBoxOfBrickToBeAdded.max.x) / base)
-        let minCellZToBeAdded = Math.round(Math.round(boundingBoxOfBrickToBeAdded.min.z) / base)
-        let maxCellZToBeAdded = Math.round(Math.round(boundingBoxOfBrickToBeAdded.max.z) / base)
-
-        minCellXToBeAdded = minCellXToBeAdded == -0 ? 0 : minCellXToBeAdded
-        maxCellXToBeAdded = maxCellXToBeAdded == -0 ? 0 : maxCellXToBeAdded
-        minCellZToBeAdded = minCellZToBeAdded == -0 ? 0 : minCellZToBeAdded
-        maxCellZToBeAdded = maxCellZToBeAdded == -0 ? 0 : maxCellZToBeAdded
-
-        // Convert minX, maxX of brick to array
-        const xBelow = []
-        const zBelow = []
-        for (let index = minCellXBelow; index <= maxCellXBelow; index++) {
-          xBelow.push(index)
-        }
-        for (let index = minCellZBelow; index <= maxCellZBelow; index++) {
-          zBelow.push(index)
-        }
-
-        const xToBeAdded = []
-        const zToBeAdded = []
-
-        for (let index = minCellXToBeAdded; index <= maxCellXToBeAdded; index++) {
-          xToBeAdded.push(index)
-        }
-        for (let index = minCellZToBeAdded; index <= maxCellZToBeAdded; index++) {
-          zToBeAdded.push(index)
-        }
-
-        const isOverlapX = xToBeAdded.some(
-          (x) => xBelow.includes(x) && x !== xBelow[0] && x !== xBelow[xBelow.length - 1],
-        )
-        const isOverlapZ = zToBeAdded.some(
-          (z) => zBelow.includes(z) && z !== zBelow[0] && z !== zBelow[zBelow.length - 1],
-        )
-        const isOverlapXWithoutFullCheck = xToBeAdded.some((x) => xBelow.includes(x))
-        const isOverlapZWithoutFullCheck = zToBeAdded.some((z) => zBelow.includes(z))
-        const isSameX = xToBeAdded.every((x) => xBelow.includes(x))
-        const isSameZ = zToBeAdded.every((z) => zBelow.includes(z))
-
-        if (collied && (isSameLayer || yIntsersect)) {
-          const diffX = Math.round(Math.abs(boundingBoxOfBrickToBeAdded.min.x - brickBoundingBox.min.x))
-          const diffZ = Math.round(Math.abs(boundingBoxOfBrickToBeAdded.min.z - brickBoundingBox.min.z))
-
-          if (diffX > 1 || diffZ > 1) {
-            isCollied = true
-            break
-          }
-        }
-
-        // Filter out the top layer
-        if (isFirstLayer || isOver2Bricks) {
-          continue
-        }
-
-        if ((isOverlapXWithoutFullCheck || isOverlapZWithoutFullCheck) && !isOver2Bricks) isSomethingBelow = true
-      }
-      if (!isCollied && ((isSomethingBelow && !isFirstLayer) || isFirstLayer)) {
+      if (checkCollision(boundingBoxOfBrickToBeAdded, Object.values(bricksBoundBox.current))) {
         const brickData = {
           intersect: { point: e.point, face: e.face },
           uID: uID(),
@@ -146,20 +70,12 @@ export const Scene = () => {
           rotation: rotate ? Math.PI / 2 : 0,
           color: color,
           texture: texture,
-          translation: { x: anchorX, z: anchorZ },
+          translation: { x: anchorX, y: 0, z: anchorZ },
           type: trait.type,
           groupId: trait.groupId,
         }
 
-        if (trait?.color) {
-          // setMode(EDIT_MODE)
-          addBlocks(brickData)
-          isJustAdded.current = true
-
-          setTimeout(() => {
-            isJustAdded.current = false
-          }, 100)
-        }
+        if (trait?.color) addBlocks(brickData)
       }
     } else {
       isDrag.current = false
@@ -193,7 +109,7 @@ export const Scene = () => {
   }
 
   const onClick = (e) => {
-    if (!isEditMode && !isJustAdded.current) addBrick(e)
+    if (!isEditMode) addBrick(e)
   }
 
   const mouseMove = (e) => {

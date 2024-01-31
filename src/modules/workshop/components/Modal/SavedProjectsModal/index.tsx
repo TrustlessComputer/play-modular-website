@@ -16,9 +16,7 @@ import Spinner from '@/components/Spinner'
 export const SAVED_PROJECTS_MODAL_ID = 'SAVED_PROJECTS_MODAL_ID'
 
 const SavedProjectsModal = () => {
-
   const { closeModal } = useModalStore()
-
 
   const account = useAppSelector(accountSelector)
 
@@ -47,7 +45,6 @@ const SavedProjectsModal = () => {
   useEffect(() => {
     refresh()
   }, [])
-
 
   const BodyContent = () => {
     return (
@@ -95,27 +92,21 @@ const SavedProjectsModal = () => {
                   overscan={200}
                   itemContent={(index, block) => {
                     return (
-                      <div
-                        key={index}
-                      >
+                      <div key={index}>
                         <ProjectItem
                           {...block}
                           onClose={() => {
                             closeModal(SAVED_PROJECTS_MODAL_ID)
-
                           }}
                         />
                       </div>
                     )
-
                   }}
                   onScroll={handleSaveSnapshot}
                 />
               )
-            }
-            }
+            }}
           </VirtualScrollKeepPosition>
-
         </div>
         <div className={s.footer}>
           <OpenButton />

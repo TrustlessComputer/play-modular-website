@@ -72,7 +72,7 @@ const PreviewRoom = () => {
 
           canvas.classList.remove(s.saveMove)
             ; (wrapperDom as HTMLElement).style.display = 'none'
-        }, DELAY_SNAPSHOT)
+        }, 500)
       }
     }
 

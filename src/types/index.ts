@@ -7,10 +7,10 @@ export type TBlockData = {
   dimensions: { x: number; y?: number; z: number }
   rotation: number
   position?: Vector3
-  translation: { x: number; z: number }
+  translation: { x: number; y: number; z: number }
   intersect: { point: any; face: any }
   uID: string
-  bricksBoundBox?: { current: any[] }
+  bricksBoundBox?: { current: any }
   isSelected?: boolean
   groupId: string
   inscriptionId?: string
