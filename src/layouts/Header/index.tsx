@@ -23,6 +23,7 @@ export default function Header() {
             {pathname === '/' ? <Fade delay={1}>{MODULAR_TEXT}</Fade> : <div>{MODULAR_TEXT}</div>}
           </Link>
         </div>
+        {!isWorkshop && <Link href={WORKSHOP_URL} className={s.workshopBtn}> WorkShop </Link>}
         <WalletButton />
       </div>
     </header>
