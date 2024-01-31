@@ -68,7 +68,8 @@ export const Brick = ({
       z: draggedOffset.z + Math.round(prevL.z / base) * base,
     }
 
-    const blockCurrentClone = [...blockCurrent]
+    const blockCurrentClone = JSON.parse(JSON.stringify(blockCurrent))
+
     for (let i = 0; i < blockCurrentClone.length; i++) {
       const element = blockCurrentClone[i]
       if (element.uID === uID) {
@@ -97,7 +98,7 @@ export const Brick = ({
       brickBoundingBox = new Box3().setFromObject(brickRef.current)
 
       bricksBoundBox.current[uID] = { uID, brickBoundingBox }
-    }, 200)
+    }, 100)
 
     return () => {
       const newA = {}
@@ -139,7 +140,7 @@ export const Brick = ({
             Math.abs(position.y) + translation.y * heightBase,
             position.z + translation.z * base,
           ]}
-          transition={{ type: 'spring', duration: 0.25 }}
+          transition={{ type: 'spring', duration: 0.05 }}
           userData={{
             uID,
           }}

@@ -79,8 +79,6 @@ export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
     const diffZ = Math.round(boundingBoxToCheck.min.z - brickBoundingBox.min.z) - 1
     const diffY = Math.round(boundingBoxToCheck.min.y - brickBoundingBox.min.y)
 
-    console.log(diffX, diffY, diffZ)
-
     if (Math.abs(diffY) < heightBase) {
       // TOP LEFT CORNER
       if (Math.abs(diffX) === base && Math.abs(diffZ) === base) {
