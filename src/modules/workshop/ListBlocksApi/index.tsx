@@ -113,7 +113,9 @@ const ListBlocks: React.FunctionComponent = () => {
   return (
     <div className={s.wrapper}>
       <div className={s.inner}>
-        <h3 className={s.title}>MODULAR</h3>
+        <div className={s.heading}>
+          <p className={s.count}>{`(${blockCurrent.length} used)`} </p>
+        </div>
         {hasFirstFetching === false || isRefreshing ? (
           <div className='grid grid-cols-2 gap-2'>
             {Array(12)
