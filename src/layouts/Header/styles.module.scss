@@ -20,6 +20,7 @@
     padding-left: 24px;
   }
 }
+
 .containerWorkshop {
   width: 100%;
   display: flex;
@@ -27,6 +28,7 @@
   justify-content: space-between;
   padding: 37px 55px;
 }
+
 .logo {
   display: flex;
   gap: 16px;
@@ -41,4 +43,15 @@
   &.isWorkshop {
     color: var(--black);
   }
+}
+
+.workshopBtn {
+  font-size: rem(14px);
+  line-height: rem(19.12px);
+  width: rem(140px);
+  text-align: center;
+  padding: rem(14.5px) 0;
+  color: var(--white);
+  background: #703EFC;
+  text-transform: uppercase;
 }
