@@ -2,7 +2,15 @@
 
 import { useAnchorShorcuts } from '@/hooks/useShortcuts'
 import { useStoreGlobal } from '@/stores/blocks'
-import { EDIT_MODE, base, getMeasurementsFromDimensions, minWorkSpaceSize, uID } from '@/utils'
+import {
+  EDIT_MODE,
+  base,
+  checkCollision,
+  getMeasurementsFromDimensions,
+  heightBase,
+  minWorkSpaceSize,
+  uID,
+} from '@/utils'
 import { useEffect, useRef } from 'react'
 import { Box3, Group, Vector3 } from 'three'
 import { Brick } from '../Brick'
@@ -13,6 +21,7 @@ import { Select } from '../Select'
 import instance from '@/utils/storage/local-storage'
 import { useDebounce } from '@/hooks/useDebounce'
 import BrickOutline from '../BrickOutline'
+import { DeleteBrick } from '@/modules/workshop/components/DeleteBrick'
 
 const mousePoint = new Vector3()
 const normal = new Vector3()
@@ -21,66 +30,56 @@ const offsetVec = new Vector3()
 
 export const Scene = () => {
   useAnchorShorcuts()
-  const { blockCurrent, addBlocks, mode, width, depth, anchorX, anchorZ, rotate, color, texture, trait, setMode } =
-    useStoreGlobal()
 
-  const bricksBoundBox = useRef([])
+  const {
+    blockCurrent,
+    blocksState,
+    addBlocks,
+    mode,
+    width,
+    depth,
+    anchorX,
+    anchorZ,
+    rotate,
+    color,
+    texture,
+    trait,
+    selectedBricks,
+    setBricks,
+  } = useStoreGlobal()
+  const bricksBoundBox = useRef<any>({}) // hash map
   const brickCursorRef = useRef<Group>()
   const isDrag = useRef(false)
   const timeoutID = useRef(null)
+  const deboundeData = useDebounce(blockCurrent, 50)
   const isEditMode = mode === EDIT_MODE
-  const deboundeData = useDebounce(blockCurrent, 1000)
 
   const addBrick = (e) => {
     e.stopPropagation()
     if (isEditMode) return
     if (!e.face?.normal || !e.point) return
     if (!brickCursorRef.current) return
-    if (!isDrag.current) {
-      const dimensions = getMeasurementsFromDimensions({
-        x: width,
-        z: depth,
-      })
-      const boundingBoxOfBrickToBeAdded = new Box3().setFromObject(brickCursorRef.current)
+    // if (!isDrag.current) {
+    const boundingBoxOfBrickToBeAdded = new Box3().setFromObject(brickCursorRef.current)
 
-      let canCreate = true
-
-      for (let index = 0; index < bricksBoundBox.current.length; index++) {
-        const brickBoundingBox = bricksBoundBox.current[index].brickBoundingBox
-        const collision = boundingBoxOfBrickToBeAdded.intersectsBox(brickBoundingBox)
-
-        if (collision) {
-          const dx = Math.abs(brickBoundingBox.max.x - boundingBoxOfBrickToBeAdded.max.x)
-          const dz = Math.abs(brickBoundingBox.max.z - boundingBoxOfBrickToBeAdded.max.z)
-          const yIntsersect = brickBoundingBox.max.y - 9 > boundingBoxOfBrickToBeAdded.min.y
-
-          if (yIntsersect && dx !== dimensions.width && dz !== dimensions.depth) {
-            canCreate = false
-            break
-          }
-        }
+    if (checkCollision(boundingBoxOfBrickToBeAdded, Object.values(bricksBoundBox.current))) {
+      const brickData = {
+        intersect: { point: e.point, face: e.face },
+        uID: uID(),
+        dimensions: { x: width, z: depth },
+        rotation: rotate ? Math.PI / 2 : 0,
+        color: color,
+        texture: texture,
+        translation: { x: anchorX, y: 0, z: anchorZ },
+        type: trait.type,
+        groupId: trait.groupId,
       }
 
-      if (canCreate) {
-        const brickData = {
-          intersect: { point: e.point, face: e.face },
-          uID: uID(),
-          dimensions: { x: width, z: depth },
-          rotation: rotate ? Math.PI / 2 : 0,
-          color: color,
-          texture: texture,
-          translation: { x: anchorX, z: anchorZ },
-          type: trait.type,
-        }
-
-        if (trait?.color) {
-          // setMode(EDIT_MODE)
-          addBlocks(brickData)
-        }
-      }
-    } else {
-      isDrag.current = false
+      if (trait?.color) addBlocks(brickData)
     }
+    // } else {
+    //   isDrag.current = false
+    // }
   }
 
   const setBrickCursorPosition = (e): void => {
@@ -148,14 +147,15 @@ export const Scene = () => {
     <>
       <Select box multiple>
         {blockCurrent.map((b, i) => {
+          const isSelected = selectedBricks.find((s) => s.userData.uID === b.uID) ? true : false
           const { dimensions, rotation, intersect } = b
           const height = 1
           const position = () => {
             const evenWidth = rotation === 0 ? dimensions.x % 2 === 0 : dimensions.z % 2 === 0
             const evenDepth = rotation === 0 ? dimensions.z % 2 === 0 : dimensions.x % 2 === 0
             return new Vector3()
-              .copy(intersect.point)
-              .add(intersect.face.normal)
+              .copy(intersect?.point)
+              .add(intersect?.face.normal)
               .divide(new Vector3(base, height, base))
               .floor()
               .multiply(new Vector3(base, height, base))
@@ -169,12 +169,13 @@ export const Scene = () => {
               onClick={onClick}
               bricksBoundBox={bricksBoundBox}
               mouseMove={mouseMove}
+              isSelected={isSelected}
               position={position()}
             />
           )
         })}
-        {/* <DeleteBrick setBricks={setBricks} /> */}
-        <BrickOutline />
+        <DeleteBrick setBricks={setBricks} />
+        {/* <BrickOutline /> */}
       </Select>
       <Lights />
       <Workspace onClick={onClick} mouseMove={mouseMove} workspaceSize={minWorkSpaceSize} />

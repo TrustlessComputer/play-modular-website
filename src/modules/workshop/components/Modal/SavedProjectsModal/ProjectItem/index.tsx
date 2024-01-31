@@ -1,40 +1,61 @@
-import React from 'react'
-import s from './SavedProjectItem.module.scss'
-import { getProjectDetail } from '@/services/api/generative'
+import IcSelected from '@/icons/workshop/ic-selected-check.svg'
 import { useProjectStore } from '@/stores/blocks'
+import cs from 'classnames'
+import dayjs from 'dayjs'
+import React, { useCallback, useMemo } from 'react'
+import s from './SavedProjectItem.module.scss'
+import Image from 'next/image'
 
 type Props = {
   name: string
   id: string
   onClose: () => void
+  // onClick: () => void
+  updatedAt?: string
+  createdAt?: string
+  thumbnail?: string
 }
 
 const ProjectItem = (props: Props) => {
-  const { loadProject } = useProjectStore()
-
-  const handleClickOpen = async () => {
-    try {
-      const res = await getProjectDetail({ id: props.id })
-
-      if (!!res.metaData) {
-        loadProject({
-          projectId: props.id,
-          projectName: props.name,
-          renderFile: res.metaData,
-        })
-        props.onClose()
+  const { selectedProject, setSelectedProject } = useProjectStore()
+  const handleOnClick = useCallback(
+    (block) => {
+      if (props.id === selectedProject.id) {
+        return
       }
-    } catch (error) {
-      //
-    }
-  }
+      setSelectedProject({
+        id: block.id,
+        name: block.name,
+      })
+    },
+    [selectedProject.id],
+  )
+
+  const showDate = useMemo(() => {
+    const date = dayjs(props.updatedAt || props.createdAt)
+    return date.format('DD/MM/YYYY')
+  }, [props.updatedAt, props.createdAt])
+
+  const isSelected = useMemo(() => {
+    return props.id === selectedProject.id
+  }, [props.id, selectedProject.id])
 
   return (
-    <div className={s.wrapper}>
-      {props.name}
-      <button onClick={handleClickOpen}>Open</button>
+    <div className={cs(s.wrapper, { [s.active]: isSelected })} onClick={() => handleOnClick(props)}>
+      <div className=''>
+        <p className={`${s.name} truncate`}>{props.name}</p>
+        <p className={`${s.time}`}>{showDate}</p>
+      </div>
+      <div className={s.thumbnail_wrapper}>
+        <Image
+          src={props.thumbnail}
+          alt='thumbnail'
+          fill={true}
+          className={s.thumbnail}
+        />
+      </div>
     </div>
   )
 }
 
-export default ProjectItem
+export default React.memo(ProjectItem)

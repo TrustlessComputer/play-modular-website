@@ -4,6 +4,7 @@ import React, { ReactNode, useEffect } from 'react'
 import Header from './Header'
 import { usePathname } from 'next/navigation'
 import useAnimationStore from '@/stores/useAnimationStore'
+import ModalManager from '@/modules/modal-manager'
 
 export default function Layout({ children }: { children: ReactNode }) {
   const pathName = usePathname()
@@ -15,6 +16,8 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <>
       <Header />
+      <ModalManager />
+
       {children}
     </>
   )

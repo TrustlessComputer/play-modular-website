@@ -5,6 +5,7 @@ import ListBlocksApi from '@/modules/workshop/ListBlocksApi'
 import s from './styles.module.scss'
 import cn from 'classnames'
 import ModeToggleBar from '../ModeToggleBar'
+import ControlPanel from '../ControlPanel'
 
 export default function Panel() {
   return (
@@ -13,6 +14,7 @@ export default function Panel() {
       <ModeToggleBar />
       <ListBlocksApi />
       <BottomBar />
+      {/* <ControlPanel /> */}
     </div>
   )
 }

@@ -7,11 +7,13 @@ export type TBlockData = {
   dimensions: { x: number; y?: number; z: number }
   rotation: number
   position?: Vector3
-  translation: { x: number; z: number }
+  translation: { x: number; y: number; z: number }
   intersect: { point: any; face: any }
   uID: string
-  bricksBoundBox?: { current: any[] }
+  bricksBoundBox?: { current: any }
   isSelected?: boolean
+  groupId: string
+  inscriptionId?: string
 }
 export type TBlocks = {
   blockCurrent: TBlockData[]
@@ -22,14 +24,22 @@ export type TBlocks = {
 }
 
 export type TListCurrent = {
+  totalLength: number
+  groupId: string
   thumbnail: string
-  // count: number
-  traits: TTraitBlocks
+  total_items: number
+  items: string[]
 }
 export type TAtribute = { traitType: string; value: string }[]
+
 export type TTraitBlocks = {
   color: string
   shape: string
   texture: string
   type: string
+  groupId: string
+}
+
+export type TBlockAnimation = {
+  disabledAnim?: boolean
 }

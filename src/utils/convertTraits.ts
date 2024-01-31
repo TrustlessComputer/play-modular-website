@@ -2,11 +2,11 @@ import { TEXTURE_LIST, patterns } from '@/constant/trait-data'
 import { TAtribute } from '@/types'
 
 const handleConverTrait = (traits: TAtribute) => {
-    const SHAPE = "Modular's Shape"
-    const TYPE = "Modular's Pattern"
-    const shape = traits.find((item) => item.traitType === SHAPE)
+    const SHAPE = 'Shape'
+    const TYPE = 'Pattern'
+    const shape = traits.find((item) => item.traitType.includes(SHAPE))
     const size = shape.value.slice(1)
-    const type = traits.find((item) => item.traitType === TYPE)
+    const type = traits.find((item) => item.traitType.includes(TYPE))
     return {
         shape: size,
         type: type.value,

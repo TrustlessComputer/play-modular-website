@@ -1,3 +1,5 @@
+'use client'
+
 import axios from 'axios'
 
 import LocalStorage from '@/utils/storage/local-storage'

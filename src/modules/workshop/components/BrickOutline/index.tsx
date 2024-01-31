@@ -22,9 +22,9 @@ const OutlineMesh = ({ meshesData }) => {
 
   const outlineGeometry = React.useMemo(() => {
     return createGeometry({
-      width: width + outlineWidth * 2,
-      height: height + outlineWidth * 2,
-      depth: depth + outlineWidth * 2,
+      width: width + outlineWidth * 5,
+      height: height + outlineWidth * 5,
+      depth: depth + outlineWidth * 5,
       dimensions,
       knobDim: knobSize,
     })
@@ -64,7 +64,7 @@ const OutlineMesh = ({ meshesData }) => {
     <>
       <instancedMesh
         ref={ref}
-        position={[0, 0, 0]}
+        position={[0.25, 0, 0]}
         args={[outlineGeometry, null, meshesData.length]}
         raycast={() => {}}
       >

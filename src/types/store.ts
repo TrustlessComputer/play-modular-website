@@ -1,4 +1,5 @@
-import { TBlockData, TListCurrent } from '.'
+import { ReactNode } from 'react'
+import { TBlockData, TListCurrent, TTraitBlocks } from '.'
 
 export type TBlockSlice = {
   selectedBricks: any
@@ -7,15 +8,30 @@ export type TBlockSlice = {
   currentStateIndex: number
   isUndo: boolean
   isRedo: boolean
+  listCurrent: TListCurrent[]
 
+  setDataCurrent: (list: TListCurrent[]) => void
+  sliceListCurrent: (
+    groupId: string,
+    listCurrent: TListCurrent[],
+  ) => { listCurrent: TListCurrent[]; inscriptionId: string }
+  pushMultiListCurrent: (blockCurrent: TBlockData[], listCurrent: TListCurrent[]) => TListCurrent[]
+  sliceMultiListCurrent: (blockCurrent: TBlockData[], listCurrent: TListCurrent[]) => TListCurrent[]
+  pushListCurrent: (
+    inscriptionId: string,
+    groupId: string,
+    listCurrent: TListCurrent[],
+  ) => { listCurrent: TListCurrent[] }
   addBlocks: (d: TBlockData) => void
   deleteAlls: () => void
+  deleteSelected: (d: any) => void
   setBlockCurrent: (d: TBlockData[]) => void
-  // deleteSeletBlocks: () => void
+  setBlockCurrentUpdate: (d: any) => void
+  setPositionBricks: (d: TBlockData[]) => void
   setSelectedBricks: (d: any) => void
   undo: () => void
   redo: () => void
-  setBricks: (d: TBlockData) => void
+  setBricks: (d: any) => void
 }
 
 export type TPreviewSlice = {
@@ -37,7 +53,7 @@ export type TAtributeBlock = {
   rotate: boolean
   color: string
   texture: string
-  trait: { color: string; texture: string; shape: string; type: string }
+  trait: TTraitBlocks
 
   setMode: (mode: string) => void
   setWidth: (w: number) => void
@@ -49,7 +65,19 @@ export type TAtributeBlock = {
   setRotate: (b: boolean) => void
   setColor: (color: string) => void
   setTexture: (t: string) => void
-  setTrait: ({ color, texture, shape, type }: { color: string; texture: string; shape: string; type: string }) => void
+  setTrait: ({
+    color,
+    texture,
+    shape,
+    type,
+    groupId,
+  }: {
+    color: string
+    texture: string
+    shape: string
+    type: string
+    groupId: string
+  }) => void
   // setSelectedBricks: (b: any) => void
 }
 
@@ -64,18 +92,35 @@ export type TCreatedBrickSlice = {
   setCreatedBricks: (b: TBrickResponse) => void
 }
 
-export type TListBlocksSlice = {
-  listCurrent: TListCurrent[]
-  setDataCurrent: (list: TListCurrent[]) => void
-}
-
 export type TProjectSlice = {
   projectName: string
   projectId: string
   renderFile: string
+  selectedProject: {
+    id: string
+    name: string
+  }
+  loading: boolean
 
-  saveProject: (params) => void
-  saveAsProject: (params) => void
+  saveProject: (params) => Promise<'success' | 'failed'>
   loadProject: (params) => void
   createProject: () => void
+  setSelectedProject: (params) => void
+  setLoading: (loading: boolean) => void
+}
+
+export type ModalProps = {
+  id: string
+  component: ReactNode
+}
+
+export type TModalSlice = {
+  modals: ModalProps[]
+  openModal: (params: ModalProps) => void
+  closeModal: (id: string) => void
+}
+
+export type TDragSlice = {
+  isDragging: boolean
+  setIsDragging: (b: boolean) => void
 }

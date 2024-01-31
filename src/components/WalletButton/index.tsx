@@ -1,13 +1,18 @@
-import React from 'react'
 import cn from 'classnames'
+import React, { useRef, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
+import { WalletProvider } from '@/providers/wallet'
+import useWalletContext from '@/providers/wallet/useWalletContext'
 import { useAppSelector } from '@/stores/hooks'
 import { accountSelector } from '@/stores/states/wallet/selector'
-import useWalletContext from '@/providers/wallet/useWalletContext'
-import { WalletType } from '@/providers/wallet/types'
-import { WalletProvider } from '@/providers/wallet'
 import { formatLongAddress } from '@/utils/address'
+import toast from 'react-hot-toast'
+import Image from 'next/image'
+import useClickOutside from '@/hooks/useClickOutSide'
+import { WORKSHOP_URL } from '@/constant/route-path'
 
+import { IconCopy, IconLogout } from '../IconSvgs'
 import s from './styles.module.scss'
 
 type TWalletButton = {
@@ -16,43 +21,67 @@ type TWalletButton = {
 
 const WalletButton: React.FunctionComponent<TWalletButton> = ({ className }) => {
   const walletCtx = useWalletContext()
+  const pathname = usePathname()
 
+  const [toggleState, setToggleState] = useState<boolean>(false)
+  const walletButton = useRef<HTMLDivElement | null>(null)
   const account = useAppSelector(accountSelector)
+  const hidePopupHandler = () => {
+    setToggleState(false)
+  }
+
+  useClickOutside(walletButton, hidePopupHandler)
+
+  const copyTextHanlder = (text: string) => {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        toast.success('Text successfully copied to clipboard')
+      })
+      .catch((err) => {
+        toast.error('Unable to copy text to clipboard')
+      })
+  }
+
+  if (!account || pathname !== WORKSHOP_URL) return null
 
   return (
     <div className={cn(s.walletButton, className)}>
-      {account ? (
-        <div className={s.walletButton_walletInfo}>
-          <div className={s.account}>Address: {formatLongAddress(account.address)}</div>
+      {/* <Image src='/imgs/wallet/wallet.svg' width={20} height={20} alt='wallet' />
+      <div className={s.walletButton_address}>{formatLongAddress(account.address)}</div> */}
+      {/* <button
+          className='btn btn__secondary'
+          onClick={() => {
+            walletCtx.requestSignOut()
+          }}
+        >
+          Disconnect {account.type}
+        </button> */}
+
+      <div className={s.walletButton_walletInfo} ref={walletButton}>
+        <button className={s.account} onClick={() => setToggleState(!toggleState)}>
+          <Image src='/imgs/wallet/wallet.svg' width={20} height={20} alt='wallet' />
+          {formatLongAddress(account.address)}
+        </button>
+        <div className={`${s.walletPopup} ${toggleState && s.active}`}>
+          <div className={s.walletPopup_address}>
+            <p>Bitcoin address</p>
+            <p onClick={() => copyTextHanlder(account.address)}>
+              {formatLongAddress(account.address)} <IconCopy />
+            </p>
+          </div>
           <button
-            className='btn btn__secondary'
+            className={`${s.walletPopup_btn}`}
             onClick={() => {
               walletCtx.requestSignOut()
+              hidePopupHandler()
             }}
           >
-            Disconnect {account.type}
+            <IconLogout />
+            Disconnect
           </button>
         </div>
-      ) : (
-        <>
-          <button
-            className='btn btn__secondary'
-            onClick={() => {
-              walletCtx.requestAccount({ walletType: WalletType.Unisat }).then()
-            }}
-          >
-            Connect Unisat
-          </button>
-          <button
-            className='btn btn__secondary'
-            onClick={() => {
-              walletCtx.requestAccount({ walletType: WalletType.Xverse }).then()
-            }}
-          >
-            Connect Xverse
-          </button>
-        </>
-      )}
+      </div>
     </div>
   )
 }

@@ -79,4 +79,4 @@ export const listMaterial = nfts.map((nft) => {
   return { color: nft.trait.color, texture: mapTexture[nft.trait.texture], shape: nft.trait.shape }
 })
 
-export const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
+export const MOCK_ADDRESS = process.env.NEXT_PUBLIC_MOCK_ADDRESS

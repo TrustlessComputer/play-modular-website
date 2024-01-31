@@ -1,13 +1,14 @@
 .wrapper {
   position: absolute;
-  bottom: 0;
-  padding: 20px 0;
+  left: 0;
+  bottom: rem(48px);
+  padding: 0 rem(48px);
   z-index: 1000;
   pointer-events: all;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: (calc(100vw - 80px));
+  width: 100vw;
   gap: 12px;
   flex-wrap: wrap;
 }
@@ -24,20 +25,47 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: rem(8px);
     font-weight: 500;
-    color: #fff;
-    min-width: 120px;
-    padding: 12px 28px;
-    height: 48px;
+    color: var(--black);
+    padding: rem(14px) rem(20px);
     text-transform: uppercase;
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
-    background: #ffffff1a;
+    background: rgba($color: #5b5b5b, $alpha: 0.1);
     white-space: nowrap;
+    border-radius: rem(4px);
+
+    &:disabled {
+      opacity: 0.6;
+    }
+
     &_preview {
       margin-left: 304px;
+    }
+
+    svg {
+      width: rem(20px);
+      height: rem(20px);
+
+      path {
+        fill: var(--black)
+      }
+    }
+
+    &.noFill {
+      svg {
+        path {
+          fill: none;
+          stroke: var(--black)
+        }
+      }
+    }
+
+    &.disable {
+      pointer-events: none;
+      opacity: 0.3;
     }
   }
 
@@ -59,6 +87,7 @@
     }
   }
 }
+
 .active {
   border: 1px solid #fff;
   color: #fff;

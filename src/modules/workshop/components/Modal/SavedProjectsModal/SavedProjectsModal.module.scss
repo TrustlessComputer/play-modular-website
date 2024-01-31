@@ -1,2 +1,19 @@
-.listBlocks {
+.wrapper {
+
+    pointer-events: all;
+    z-index: 1000;
+
+    .title {
+        color: #1C1C1C;
+        font-size: 24px;
+        font-weight: 500;
+        line-height: 34px;
+        margin-bottom: 24px;
+        /* 141.667% */
+    }
+
+    .button {
+        max-width: 180px;
+        margin-top: 24px;
+    }
 }

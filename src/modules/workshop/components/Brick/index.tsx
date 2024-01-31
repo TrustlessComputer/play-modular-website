@@ -1,12 +1,14 @@
 'use client'
 
-import React from 'react'
-import { Vector3, Box3, TextureLoader, Matrix4 } from 'three'
-import { motion } from 'framer-motion-3d'
-import { useLoader } from '@react-three/fiber'
-import { base, createGeometry, getMeasurementsFromDimensions, uID as generateUId } from '@/utils'
-import { TBlockData } from '@/types'
 import { NONT_TEXTURE } from '@/constant/trait-data'
+import '../../../../utils/preloadTexture'
+import { useStoreGlobal } from '@/stores/blocks'
+import { TBlockAnimation, TBlockData } from '@/types'
+import { EDIT_MODE, base, createGeometry, uID as generateUId, getMeasurementsFromDimensions, heightBase } from '@/utils'
+import { Decal, Outlines, PivotControls, useTexture } from '@react-three/drei'
+import { motion } from 'framer-motion-3d'
+import React from 'react'
+import { Box3, Matrix4, Vector3 } from 'three'
 
 type TBrickAction = {
   onClick?: (e: any) => void
@@ -19,23 +21,25 @@ export const Brick = ({
   texture,
   dimensions = { x: 1, z: 1 },
   rotation = 0,
-  translation = { x: 0, z: 0 },
-  bricksBoundBox = { current: [] },
+  translation = { x: 0, y: 0, z: 0 },
+  bricksBoundBox = { current: {} },
   uID = '',
   isSelected = false,
+  disabledAnim = false,
   onClick = (e: any) => {},
   mouseMove = (e: any) => {},
-}: TBrickAction & TBlockData) => {
-  // const { setCreatedBricks } = useStoreGlobal()
+}: TBrickAction & TBlockData & TBlockAnimation) => {
+  const { setIsDragging, mode, blockCurrent, selectedBricks, setPositionBricks } = useStoreGlobal()
   const [resetKey, setResetKey] = React.useState(generateUId())
   const brickRef = React.useRef(null)
-  const texturez = useLoader(TextureLoader, texture)
-  const isNontTexture = texture === NONT_TEXTURE
+  const isNontTexture = texture === null
+  const updateTexture = isNontTexture ? NONT_TEXTURE : texture
+  const texturez = useTexture(updateTexture)
   const compansate = {
     x: dimensions.x % 2 === 0 ? dimensions.x / 2 : (dimensions.x - 1) / 2,
     z: dimensions.z % 2 === 0 ? dimensions.z / 2 : (dimensions.z - 1) / 2,
   }
-
+  const isSelected2 = selectedBricks.find((brick) => brick.userData.uID === uID) ? true : false
   const offset = {
     x: Math.sign(translation.x) < 0 ? Math.max(translation.x, -compansate.x) : Math.min(translation.x, compansate.x),
     z: Math.sign(translation.z) < 0 ? Math.max(translation.z, -compansate.z) : Math.min(translation.z, compansate.z),
@@ -43,7 +47,7 @@ export const Brick = ({
 
   const [position, setPosition] = React.useState<Vector3 | null>(null)
   const [prevL, setPrevL] = React.useState(new Vector3(0, 0, 0))
-  const [draggedOffset, setDraggedOffset] = React.useState({ x: 0, z: 0 })
+  const [draggedOffset, setDraggedOffset] = React.useState({ x: 0, y: 0, z: 0 })
 
   const { height, width, depth } = getMeasurementsFromDimensions(dimensions)
 
@@ -60,11 +64,27 @@ export const Brick = ({
     // Make prevL awalys diveded by base to set the draggedOffset
     const newOffset = {
       x: draggedOffset.x + Math.round(prevL.x / base) * base,
+      y: draggedOffset.y + Math.round(prevL.y / heightBase) * heightBase,
       z: draggedOffset.z + Math.round(prevL.z / base) * base,
+    }
+
+    const blockCurrentClone = JSON.parse(JSON.stringify(blockCurrent))
+
+    for (let i = 0; i < blockCurrentClone.length; i++) {
+      const element = blockCurrentClone[i]
+      if (element.uID === uID) {
+        blockCurrentClone[i].translation = {
+          x: newOffset.x / base,
+          y: newOffset.y / heightBase < 0 ? 0 : newOffset.y / heightBase,
+          z: newOffset.z / base,
+        }
+      }
     }
 
     setDraggedOffset(newOffset)
     setResetKey(generateUId())
+    setIsDragging(false)
+    setPositionBricks(blockCurrentClone)
   }
 
   React.useEffect(() => {
@@ -73,19 +93,22 @@ export const Brick = ({
     if (!bricksBoundBox.current) return
     if (!position) return
 
-    const brickBoundingBox = new Box3().setFromObject(brickRef.current)
+    let brickBoundingBox
+    const timeoutID = setTimeout(() => {
+      brickBoundingBox = new Box3().setFromObject(brickRef.current)
 
-    bricksBoundBox.current.push({ uID, brickBoundingBox })
+      bricksBoundBox.current[uID] = { uID, brickBoundingBox }
+    }, 100)
 
     return () => {
-      const newA = []
-      for (let i = 0; i < bricksBoundBox.current.length; i++) {
-        const element = bricksBoundBox.current[i]
-        if (element.uID !== uID) {
-          newA.push(element)
+      const newA = {}
+      Object.keys(bricksBoundBox.current).forEach((key) => {
+        if (key !== uID) {
+          newA[key] = bricksBoundBox.current[key]
         }
-      }
+      })
       bricksBoundBox.current = newA
+      clearTimeout(timeoutID)
     }
   }, [uID, bricksBoundBox, position])
 
@@ -99,13 +122,7 @@ export const Brick = ({
       .divide(new Vector3(base, height, base))
       .floor()
       .multiply(new Vector3(base, height, base))
-      .add(
-        new Vector3(
-          (evenWidth ? base : base / 2) + draggedOffset.x,
-          height / 2,
-          (evenDepth ? base : base / 2) + draggedOffset.z,
-        ),
-      )
+      .add(new Vector3(evenWidth ? base : base / 2, height / 2, evenDepth ? base : base / 2))
 
     setPosition(vec3)
   }, [intersect, dimensions.x, dimensions.z, height, rotation, draggedOffset])
@@ -114,130 +131,75 @@ export const Brick = ({
     <>
       {position && (
         <motion.group
-          ref={brickRef}
-          rotation={[0, rotation, 0]}
-          position={[position.x, Math.abs(position.y), position.z]}
-          initial={{ opacity: 0, scale: 0.8 }}
+          rotation={[0, 0, 0]}
+          initial={{ opacity: 0, scale: disabledAnim ? 1 : 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ type: 'spring', stiffness: 250, duration: 2 }}
+          ref={brickRef}
+          position={[
+            position.x + translation.x * base,
+            Math.abs(position.y) + translation.y * heightBase,
+            position.z + translation.z * base,
+          ]}
+          transition={{ type: 'spring', duration: 0.05 }}
           userData={{
             uID,
           }}
         >
-          {/* <PivotControls
+          <PivotControls
             key={resetKey}
-            activeAxes={[true, false, true]}
-            scale={base + 5}
-            disableAxes={true}
+            scale={base * dimensions.x + 5}
+            disableAxes={isSelected && mode === EDIT_MODE && selectedBricks.length === 1 ? false : true}
+            disableSliders
             disableRotations
+            onDragStart={() => setIsDragging(true)}
             onDrag={onDrag}
             onDragEnd={onDragEnd}
-          > */}
-          <mesh
-            castShadow
-            receiveShadow
-            userData={{
-              uID,
-              dimensions,
-              offset,
-              width,
-              depth,
-              type: `${dimensions.x}-${dimensions.z}`,
-              position,
-              rotation,
-              translation,
-            }}
-            geometry={brickGeometry}
-            onClick={onClick}
-            onPointerMove={mouseMove}
           >
-            <meshPhysicalMaterial color={color} opacity={1} />
-          </mesh>
-          {/* {brickGeometry.map((geo, i) => (
-              <group
-                key={i}
-                position={[(offset.x * width) / dimensions.x, 0, (offset.z * depth) / dimensions.z]}
-                onClick={onClick}
-                onPointerMove={mouseMove}
-              >
-                <mesh
-                  castShadow
-                  receiveShadow
-                  userData={{
-                    uID,
-                    dimensions,
-                    offset,
-                    width,
-                    depth,
-                    type: `${dimensions.x}-${dimensions.z}`,
-                    position,
-                    rotation,
-                    translation,
-                  }}
-                  geometry={geo.cube}
+            <mesh
+              castShadow
+              receiveShadow
+              rotation={[0, rotation, 0]}
+              userData={{
+                uID,
+                dimensions,
+                offset,
+                width,
+                depth,
+                type: `${dimensions.x}-${dimensions.z}`,
+                position,
+                rotation,
+                translation,
+              }}
+              geometry={brickGeometry}
+              onClick={onClick}
+              onPointerMove={mouseMove}
+            >
+              <Outlines visible={isSelected2 && mode === EDIT_MODE} scale={1.025} />
+              <meshPhysicalMaterial color={color} metalness={0} roughness={1} specularIntensity={0} />
+              {!isNontTexture && (
+                <Decal
+                  map={texturez}
+                  position={[0, 0, brickGeometry.length > 1 ? 0.05 : 0.05]}
+                  rotation={[0, 0, 0]}
+                  scale={[
+                    brickGeometry.length > 1 ? base * 2.5 : base * 2.5,
+                    heightBase,
+                    brickGeometry.length > 1 ? base * 2 : base * 2,
+                  ]}
                 >
-                  {!isNontTexture ? (
-                    <>
-                      <meshPhysicalMaterial color={color} roughness={0.9} metalness={0.94} />
-                      <Decal
-                        map={texturez}
-                        position={[0, 0, brickGeometry.length > 1 ? 0.05 : 0.05]}
-                        rotation={[0, 0, 0]}
-                        scale={[
-                          brickGeometry.length > 1 ? base * 2.5 : base * 2.5,
-                          (base * 2) / 1.5,
-                          brickGeometry.length > 1 ? base * 2 : base,
-                        ]}
-                      >
-                        <meshPhysicalMaterial
-                          map={texturez}
-                          transparent={true}
-                          metalness={0.94}
-                          roughness={0.9}
-                          polygonOffset
-                          polygonOffsetFactor={-1} // The material should take precedence over the original
-                        />
-                      </Decal>
-                    </>
-                  ) : (
-                    <meshPhysicalMaterial
-                      color={color}
-                      polygonOffset
-                      polygonOffsetFactor={-1} // The material should take precedence over the original
-                    />
-                  )}
-                </mesh>
-                <mesh
-                  castShadow
-                  receiveShadow
-                  userData={{
-                    uID,
-                    dimensions,
-                    offset,
-                    width,
-                    depth,
-                    type: `${dimensions.x}-${dimensions.z}`,
-                    position,
-                    rotation,
-                    translation,
-                  }}
-                  geometry={geo.cylinder}
-                >
-                  {!isNontTexture ? (
-                    <meshPhysicalMaterial
-                      color={color}
-                      roughness={0.9}
-                      metalness={0.94}
-                      polygonOffset
-                      polygonOffsetFactor={-1}
-                    />
-                  ) : (
-                    <meshPhysicalMaterial color={color} opacity={1} />
-                  )}
-                </mesh>
-              </group>
-            ))} */}
-          {/* </PivotControls> */}
+                  <meshPhysicalMaterial
+                    map={texturez}
+                    transparent={true}
+                    metalness={0}
+                    roughness={1}
+                    specularIntensity={0}
+                    polygonOffset
+                    polygonOffsetFactor={-1} // The material should take precedence over the original
+                  />
+                </Decal>
+              )}
+            </mesh>
+          </PivotControls>
         </motion.group>
       )}
     </>
