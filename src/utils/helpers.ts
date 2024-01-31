@@ -78,24 +78,29 @@ export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
     const diffX = Math.round(boundingBoxToCheck.min.x - brickBoundingBox.min.x) - 1
     const diffZ = Math.round(boundingBoxToCheck.min.z - brickBoundingBox.min.z) - 1
     const diffY = Math.round(boundingBoxToCheck.min.y - brickBoundingBox.min.y)
+    const widthToCheck = Math.round(boundingBoxToCheck.max.x - boundingBoxToCheck.min.x)
+    const depthToCheck = Math.round(boundingBoxToCheck.max.z - boundingBoxToCheck.min.z)
 
     if (Math.abs(diffY) < heightBase) {
       // TOP LEFT CORNER
       if (Math.abs(diffX) === base && Math.abs(diffZ) === base) {
+        console.log('COLLIED CASE 1')
         isCollied = true
         break
       }
 
       // BOTTOM LEFT CORNER
-      if ((Math.abs(diffX) === base || diffX === 0) && diffZ >= 0 && diffZ <= base) {
+      if ((Math.abs(diffX) === base || diffX === 0) && diffZ >= 0 && diffZ <= base && widthToCheck !== base) {
+        console.log('COLLIED CASE 2')
         isCollied = true
         break
       }
 
-      // if ((Math.abs(diffZ) === base || diffZ === 0) && diffX >= 0 && diffX <= base) {
-      //   isCollied = true
-      //   break
-      // }
+      if ((Math.abs(diffZ) === base || diffZ === 0) && diffX >= 0 && diffX <= base && widthToCheck !== base) {
+        console.log('COLLIED CASE 3')
+        isCollied = true
+        break
+      }
     }
 
     // Filter out the top layer
@@ -103,8 +108,7 @@ export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
 
     if (diffY === heightBase && Math.abs(diffX) <= base && Math.abs(diffZ) <= base) isSomethingBelow = true
   }
-  console.log('isCollied', isCollied)
-  return !isCollied //&& ((isSomethingBelow && !isFirstLayer) || isFirstLayer) // true if it is not colliding
+  return !isCollied && ((isSomethingBelow && !isFirstLayer) || isFirstLayer) // true if it is not colliding
 }
 
 export function uID(length = 8) {
@@ -186,10 +190,8 @@ export const roundToNearestMultiple = (value, multiple) => {
 
 export function captureCanvasImage({ dom = '#canvas-3d', name = 'project-xxxx.png', download = false }) {
   const wrapperDom = document.querySelector(dom)
-  console.log('wrapperDom', wrapperDom)
   const canvas = wrapperDom.querySelector('canvas')
   const dataURL = canvas.toDataURL('image/png')
-  console.log('dataURL', dataURL)
   const a = document.createElement('a')
   a.href = dataURL
   a.download = name

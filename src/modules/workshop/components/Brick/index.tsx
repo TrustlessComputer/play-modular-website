@@ -88,16 +88,10 @@ export const Brick = ({
     const customBoundingBox = new Box3().setFromObject(brickRef.current)
 
     customBoundingBox.min.x = roundToNearestMultiple(customBoundingBox.min.x, base)
-    customBoundingBox.min.y =
-      roundToNearestMultiple(customBoundingBox.min.y + heightBase, heightBase) < 0
-        ? 0
-        : roundToNearestMultiple(customBoundingBox.min.y + heightBase, heightBase)
+    customBoundingBox.min.y = roundToNearestMultiple(customBoundingBox.min.y + heightBase, heightBase)
     customBoundingBox.min.z = roundToNearestMultiple(customBoundingBox.min.z, base)
     customBoundingBox.max.x = roundToNearestMultiple(customBoundingBox.max.x, base)
-    customBoundingBox.max.y =
-      roundToNearestMultiple(customBoundingBox.max.y + heightBase, heightBase) < 0
-        ? 0
-        : roundToNearestMultiple(customBoundingBox.max.y + heightBase, heightBase)
+    customBoundingBox.max.y = roundToNearestMultiple(customBoundingBox.max.y + heightBase, heightBase)
     customBoundingBox.max.z = roundToNearestMultiple(customBoundingBox.max.z, base)
 
     const isNotColliding = checkCollision(customBoundingBox, Object.values(bricksBoundBox.current))
@@ -135,9 +129,8 @@ export const Brick = ({
     let brickBoundingBox
     const timeoutID = setTimeout(() => {
       brickBoundingBox = new Box3().setFromObject(brickRef.current)
-      console.log('brickBoundingBox', brickBoundingBox)
       bricksBoundBox.current[uID] = { uID, brickBoundingBox }
-    }, 300)
+    }, 50)
 
     return () => {
       const newA = {}
@@ -179,17 +172,14 @@ export const Brick = ({
   return (
     <>
       {position && (
-        <motion.group
+        <group
           rotation={[0, 0, 0]}
-          initial={{ opacity: 0, scale: disabledAnim ? 1 : 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
           ref={brickRef}
           position={[
             position.x + translation.x * base,
             Math.abs(position.y) + translation.y * heightBase,
             position.z + translation.z * base,
           ]}
-          transition={{ type: 'spring', duration: 0.25 }}
           userData={{
             uID,
           }}
@@ -258,7 +248,7 @@ export const Brick = ({
               )}
             </mesh>
           </PivotControls>
-        </motion.group>
+        </group>
       )}
     </>
   )
