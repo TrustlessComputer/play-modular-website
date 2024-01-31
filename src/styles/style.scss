@@ -88,6 +88,17 @@ body {
   border-radius: 4px;
 }
 
+.btn_inscribe {
+  background-color: #5B5B5B1A;
+  padding: 0 28px;
+  opacity: 0.5;
+
+  span {
+    font-size: 10px;
+    line-height: 13px;
+  }
+}
+
 .formik-form {
   input {
     padding: 11px 14px;

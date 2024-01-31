@@ -45,6 +45,25 @@
       margin-left: 304px;
     }
 
+    &.icon_X {
+      background: #703EFC;
+      color: #fff;
+      width: rem(160px);
+    }
+
+    &.inscribe {
+      padding-top: 7px;
+      padding-bottom: 7px;
+      height: 49px;
+      opacity: 0.4;
+      line-height: 19.12px;
+
+      span {
+        font-size: 10px;
+        line-height: 13.66px;
+      }
+    }
+
     &:not(.icon_X) {
       svg {
         width: rem(20px);

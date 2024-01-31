@@ -9,6 +9,7 @@ import s from './styles.module.scss'
 
 import useApiInfinite from '@/hooks/useApiInfinite'
 import IcTwitter from '@/icons/workshop/ic-twitter.svg'
+import IcPublish from '@/icons/workshop/ic-publish.svg'
 import { getListModularByWallet, getProjectDetail, handleGetData, uploadFile } from '@/services/api/generative'
 import { useAppSelector } from '@/stores/hooks'
 import { accountSelector } from '@/stores/states/wallet/selector'
@@ -298,6 +299,12 @@ export default function BottomBar() {
         <div className={s.bottomBar}>
           <button className={`${s.bottomBar_btn} ${s.icon_X}`} onClick={viewAction}>
             <IcTwitter /> Share
+          </button>
+          <button className={`${s.bottomBar_btn} ${s.inscribe}`}>
+            <p>
+              <p className='flex items-center gap-2'><IcPublish /> Inscribe Your Build</p>
+              <span>(Coming soon)</span>
+            </p>
           </button>
           <button className={s.bottomBar_btn} onClick={saveAction} disabled={!isAllowSave}>
             <IcSave /> Save
