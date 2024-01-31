@@ -90,10 +90,10 @@ export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
         break
       }
 
-      if ((Math.abs(diffZ) === base || diffZ === 0) && diffX >= 0 && diffX <= base) {
-        isCollied = true
-        break
-      }
+      // if ((Math.abs(diffZ) === base || diffZ === 0) && diffX >= 0 && diffX <= base) {
+      //   isCollied = true
+      //   break
+      // }
     }
 
     // Filter out the top layer
