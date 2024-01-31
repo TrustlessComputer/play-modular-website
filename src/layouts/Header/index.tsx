@@ -26,7 +26,7 @@ export default function Header() {
         </div>
         {isWorkshopWithId && (
           <Link href={WORKSHOP_URL} className={s.workshopBtn}>
-            WorkShop
+            Back to workshop
           </Link>
         )}
         <WalletButton />
