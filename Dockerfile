@@ -21,9 +21,10 @@ ARG NODE_ENV=production
 
 ENV NODE_ENV $NODE_ENV
 
-COPY envs/.env.$BUILD_ENV .env
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+COPY envs/.env.$BUILD_ENV .env
+
 RUN yarn build
 
 EXPOSE 3000
