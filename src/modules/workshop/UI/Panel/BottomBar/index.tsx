@@ -32,6 +32,7 @@ import { convertBase64ToFile } from '@/utils/file'
 import { WORKSHOP_URL } from '@/constant/route-path'
 import { useRouter } from 'next/navigation'
 import { DELAY_SNAPSHOT } from '@/constant/constant'
+import { EDIT_MODE } from '@/utils'
 
 // const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
 
@@ -69,7 +70,7 @@ export default function BottomBar() {
   const currentBlockStateRef = useRef(SHA256(JSON.stringify(blockCurrent)).toString() || '')
 
   const account = useAppSelector(accountSelector)
-
+  const isEditMode = mode === EDIT_MODE
   const id = useId()
 
   const {
@@ -120,13 +121,13 @@ export default function BottomBar() {
     setLoading(true)
 
     const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
-      // if (e.ctrlKey && e.key === 's') {
-      ; (wrapperDom as HTMLElement).style.display = 'block'
-      ; (wrapperDom as HTMLElement).style.position = 'fixed'
-      ; (wrapperDom as HTMLElement).style.top = '0'
-      ; (wrapperDom as HTMLElement).style.left = '0'
-      ; (wrapperDom as HTMLElement).style.right = '0'
-      ; (wrapperDom as HTMLElement).style.bottom = '0'
+    // if (e.ctrlKey && e.key === 's') {
+    ;(wrapperDom as HTMLElement).style.display = 'block'
+    ;(wrapperDom as HTMLElement).style.position = 'fixed'
+    ;(wrapperDom as HTMLElement).style.top = '0'
+    ;(wrapperDom as HTMLElement).style.left = '0'
+    ;(wrapperDom as HTMLElement).style.right = '0'
+    ;(wrapperDom as HTMLElement).style.bottom = '0'
 
     const canvas = wrapperDom.querySelector('canvas')
     canvas.classList.add(s.saveMove)
@@ -142,8 +143,7 @@ export default function BottomBar() {
       a.remove()
 
       canvas.classList.remove(s.saveMove)
-        ; (wrapperDom as HTMLElement).style.display = 'none'
-
+      ;(wrapperDom as HTMLElement).style.display = 'none'
 
       const payload: {
         jsonFile: any
@@ -167,12 +167,7 @@ export default function BottomBar() {
       await saveProject(payload)
 
       setLoading(false)
-
-
-
     }, DELAY_SNAPSHOT)
-
-
   }
 
   const saveAsAction = async () => {
@@ -235,11 +230,10 @@ export default function BottomBar() {
       setLoading(true)
       setTimeout(() => {
         router.push(`${WORKSHOP_URL}/${projectId}`)
-      }, 3000);
+      }, 3000)
       return
     }
     router.push(`${WORKSHOP_URL}/${projectId}`)
-
   }
 
   const loadInitialProject = async () => {
@@ -271,7 +265,6 @@ export default function BottomBar() {
     }
   }, [renderFile])
 
-
   useEffect(() => {
     // detect click browser back button or closing tab
     if (!isAllowSave) return
@@ -291,7 +284,6 @@ export default function BottomBar() {
       loadInitialProject()
     }
   }, [projectId, projectName])
-
 
   // useEffect(() => {
 
@@ -320,13 +312,15 @@ export default function BottomBar() {
           <button className={s.bottomBar_btn} onClick={() => handleDeleteAll()}>
             <IconClear />
           </button>
-          <button
-            className={`${s.bottomBar_btn} ${selectedBricks.length === 0 && s.disable}`}
-            disabled={selectedBricks.length === 0 && true}
-            onClick={handleDeleteSelected}
-          >
-            <IconTrash />
-          </button>
+          {isEditMode && (
+            <button
+              className={`${s.bottomBar_btn} ${selectedBricks.length === 0 && s.disable}`}
+              disabled={selectedBricks.length === 0 && true}
+              onClick={handleDeleteSelected}
+            >
+              <IconTrash />
+            </button>
+          )}
         </div>
 
         <div className={s.bottomBar}>
