@@ -43,7 +43,7 @@ const SetProjectNameModal = ({ type }: Props) => {
     setLoading(true)
 
 
-    const image = captureCanvasImage({})
+    const {dataURL: image} = captureCanvasImage({})
     const file = convertBase64ToFile(image)
     const resUrl = await uploadFile({ file })
 

@@ -26,10 +26,9 @@ const BrickCursor = forwardRef(
     }: BrickCursorProps,
     ref?: React.Ref<Group<Object3DEventMap>>,
   ) => {
-    const mode = useStoreGlobal((state) => state.mode)
-
+    const { mode, listCurrent, trait } = useStoreGlobal()
+    const numberBlocksCurrent = listCurrent.find((item) => item?.groupId === trait?.groupId)?.items?.length
     const visible = mode === CREATE_MODE
-
     const { height, width, depth } = getMeasurementsFromDimensions(dimensions)
 
     const position = useMemo(() => {
@@ -53,7 +52,6 @@ const BrickCursor = forwardRef(
 
     const offsetZ =
       Math.sign(translation.z) < 0 ? Math.max(translation.z, -compansateZ) : Math.min(translation.z, compansateZ)
-
     return (
       <>
         <group
@@ -64,7 +62,7 @@ const BrickCursor = forwardRef(
         >
           <mesh position={[(offsetX * width) / dimensions.x, 0, (offsetZ * width) / dimensions.z]}>
             <boxGeometry args={[width, height, depth]} />
-            <meshBasicMaterial color={'black'} transparent={true} opacity={0.3} />
+            <meshBasicMaterial color={numberBlocksCurrent !== 0 ? 'white' : 'red'} transparent={true} opacity={0.3} />
           </mesh>
         </group>
       </>

@@ -46,12 +46,12 @@ export const Scene = () => {
     trait,
     selectedBricks,
     setBricks,
+    listCurrent,
   } = useStoreGlobal()
   const bricksBoundBox = useRef<any>({}) // hash map
   const brickCursorRef = useRef<Group>()
   const isDrag = useRef(false)
   const timeoutID = useRef(null)
-  const deboundeData = useDebounce(blockCurrent, 50)
   const isEditMode = mode === EDIT_MODE
 
   const addBrick = (e) => {
@@ -74,7 +74,6 @@ export const Scene = () => {
         type: trait.type,
         groupId: trait.groupId,
       }
-
       if (trait?.color) addBlocks(brickData)
     }
     // } else {
@@ -136,12 +135,6 @@ export const Scene = () => {
       window.removeEventListener('pointerup', pointerUp)
     }
   }, [])
-
-  useEffect(() => {
-    if (deboundeData.length >= 1) {
-      instance.set('DATA_BLOCKS', deboundeData)
-    }
-  }, [deboundeData.length])
 
   return (
     <>
