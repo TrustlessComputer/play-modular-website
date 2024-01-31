@@ -1,22 +1,14 @@
 export const IconCheck = () => {
   return (
-    <svg
-      xmlns='http://www.w3.org/2000/svg'
-      version='1.1'
-      width='512'
-      height='512'
-      x='0'
-      y='0'
-      viewBox='0 0 21 21'
-      fillRule='evenodd'
-    >
-      <g>
-        <path
-          fill='#00ba00'
-          d='M10.504 1.318a9.189 9.189 0 0 1 0 18.375 9.189 9.189 0 0 1 0-18.375zM8.596 13.49l-2.25-2.252a.986.986 0 0 1 0-1.392.988.988 0 0 1 1.393 0l1.585 1.587 3.945-3.945a.986.986 0 0 1 1.392 0 .987.987 0 0 1 0 1.392l-4.642 4.642a.987.987 0 0 1-1.423-.032z'
-          opacity='1'
-        ></path>
-      </g>
+    <svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48' fill='none'>
+      <path
+        d='M24 40C15.1776 40 8 32.8224 8 24C8 15.1776 15.1776 8 24 8C32.8224 8 40 15.1776 40 24C40 32.8224 32.8224 40 24 40Z'
+        fill='#72C472'
+      />
+      <path
+        d='M21.1123 29.021L16.8456 24.7544C16.4291 24.3379 16.4291 23.6626 16.8456 23.246C17.2621 22.8295 17.9374 22.8295 18.3539 23.246L21.8664 26.7585L29.6456 18.9794C30.0621 18.5629 30.7374 18.5629 31.1539 18.9794C31.5704 19.3959 31.5704 20.0712 31.1539 20.4877L22.6206 29.021C22.2041 29.4376 21.5288 29.4376 21.1123 29.021Z'
+        fill='white'
+      />
     </svg>
   )
 }
@@ -51,13 +43,7 @@ export const IconClear = () => {
 export const IconRedo = () => {
   return (
     <svg width='21' height='20' viewBox='0 0 21 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <path
-        d='M13 12.5L18 7.5L13 2.5'
-        stroke='white'
-        strokeWidth='1.5'
-        stroke-linecap='round'
-        strokeLinejoin='round'
-      />
+      <path d='M13 12.5L18 7.5L13 2.5' stroke='white' strokeWidth='1.5' stroke-linecap='round' strokeLinejoin='round' />
       <path
         d='M13 15.8333H7.16667C6.0616 15.8333 5.00179 15.3943 4.22039 14.6129C3.43899 13.8315 3 12.7717 3 11.6667V11.6667C3 10.5616 3.43899 9.50179 4.22039 8.72039C5.00179 7.93899 6.0616 7.5 7.16667 7.5H17.1667'
         stroke='white'
