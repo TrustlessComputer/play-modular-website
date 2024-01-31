@@ -52,7 +52,6 @@ const BrickCursor = forwardRef(
 
     const offsetZ =
       Math.sign(translation.z) < 0 ? Math.max(translation.z, -compansateZ) : Math.min(translation.z, compansateZ)
-
     return (
       <>
         <group
