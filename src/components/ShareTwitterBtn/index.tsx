@@ -10,7 +10,11 @@ type Props = {
 
 const ShareTwitterBtn = ({ data }: Props) => {
 
-    const content = `Share Model`
+    const content = `Playing Lego at @BVMnetwork
+    
+This is my masterpiece, you can't beat me lol.
+
+Join me at the Modular Workshop`
 
     const handleShareTw = (e?: any) => {
         e.preventDefault();
