@@ -10,6 +10,7 @@ import { useEffect, useRef } from 'react'
 
 import s from './styles.module.scss'
 import Banner from './Banner'
+import { WORKSHOP_URL } from '@/constant/route-path'
 
 export default function Home2d() {
   const refPlay = useRef<HTMLVideoElement>(null)
@@ -66,12 +67,8 @@ export default function Home2d() {
                   <a href='https://magiceden.io/ordinals/marketplace/modular' target='_blank' rel='noopener noreferrer'>
                     <Button bg='purple'>Collect</Button>
                   </a>
-                  <Link
-                    href={'https://twitter.com/punk3700/status/1752291478901235915'}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    <Button bg='white'>Learn more</Button>
+                  <Link href={WORKSHOP_URL}>
+                    <Button bg='white'>Build</Button>
                   </Link>
                 </div>
               </div>
