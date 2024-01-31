@@ -7,6 +7,8 @@ import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import { minWorkSpaceSize } from '@/utils'
 import { EffectComposer, BrightnessContrast, HueSaturation } from '@react-three/postprocessing'
+import {Vector3} from "three";
+import number from "leva/src/components/Number";
 
 export default function Three3D() {
   const [aspect, setAspect] = React.useState(1)

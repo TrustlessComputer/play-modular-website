@@ -3,7 +3,7 @@
 
 import React, { forwardRef, PropsWithChildren, useEffect } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso'
-
+import { TEXTURE_LIST } from '@/constant/trait-data'
 import useApiInfinite from '@/hooks/useApiInfinite'
 import { getListModularByWallet } from '@/services/api/generative'
 import { useAppSelector } from '@/stores/hooks'

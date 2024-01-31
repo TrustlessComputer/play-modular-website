@@ -67,58 +67,58 @@ export const TEXTURE_LIST = [
   },
   {
     name: 'Solid Orange',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Red',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Yellow',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Azure',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Pink',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Blue',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Yellow Green',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Bright Green',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Brown',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Nougat',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Light Gray',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Dark Gray',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Dark',
-    src: NONT_TEXTURE,
+    src: null,
   },
   {
     name: 'Solid Purple',
-    src: NONT_TEXTURE,
+    src: null,
   },
 ]

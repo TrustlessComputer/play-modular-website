@@ -31,18 +31,20 @@ const ItemBlock: React.FunctionComponent<any> = ({ thumbnail, project, attribute
   }
   return (
     <div className={cn(s.itemBlock)} onClick={handleSetTraits}>
-      <Image src={thumbnail} width={300} height={300} alt={project?.name} />
+      <div className={s.itemBlock_img}>
+        <Image src={thumbnail} width={300} height={300} alt={project?.name} />
+        {isActiveBlocks && !isHaventBlocks && (
+          <span className={s.itemBlock__isActive}>
+            <IconCheck />
+          </span>
+        )}
+        {isHaventBlocks && <span className={s.itemBlock__isHaventBlocks}></span>}
+      </div>
       {/* <div>{project?.name}</div> */}
       <div className={s.itemBlock_count}>
         <span>{props.items.length}</span>
         <span>/{props.totalItems}</span>
       </div>
-      {isActiveBlocks && !isHaventBlocks && (
-        <span className={s.itemBlock__isActive}>
-          <IconCheck />
-        </span>
-      )}
-      {isHaventBlocks && <span className={s.itemBlock__isHaventBlocks}></span>}
     </div>
   )
 }

@@ -1,14 +1,14 @@
 'use client'
 
-import React from 'react'
-import { Vector3, Box3, TextureLoader, Matrix4 } from 'three'
-import { motion } from 'framer-motion-3d'
-import { useLoader } from '@react-three/fiber'
-import { base, createGeometry, getMeasurementsFromDimensions, uID as generateUId, EDIT_MODE, heightBase } from '@/utils'
-import { TBlockAnimation, TBlockData } from '@/types'
 import { NONT_TEXTURE } from '@/constant/trait-data'
-import { Decal, Outlines, PivotControls } from '@react-three/drei'
+import '../../../../utils/preloadTexture'
 import { useStoreGlobal } from '@/stores/blocks'
+import { TBlockAnimation, TBlockData } from '@/types'
+import { EDIT_MODE, base, createGeometry, uID as generateUId, getMeasurementsFromDimensions, heightBase } from '@/utils'
+import { Decal, Outlines, PivotControls, useTexture } from '@react-three/drei'
+import { motion } from 'framer-motion-3d'
+import React from 'react'
+import { Box3, Matrix4, Vector3 } from 'three'
 
 type TBrickAction = {
   onClick?: (e: any) => void
@@ -32,8 +32,9 @@ export const Brick = ({
   const { setIsDragging, mode, blockCurrent, selectedBricks, setPositionBricks } = useStoreGlobal()
   const [resetKey, setResetKey] = React.useState(generateUId())
   const brickRef = React.useRef(null)
-  const texturez = useLoader(TextureLoader, texture)
-  const isNontTexture = texture === NONT_TEXTURE
+  const isNontTexture = texture === null
+  const updateTexture = isNontTexture ? NONT_TEXTURE : texture
+  const texturez = useTexture(updateTexture)
   const compansate = {
     x: dimensions.x % 2 === 0 ? dimensions.x / 2 : (dimensions.x - 1) / 2,
     z: dimensions.z % 2 === 0 ? dimensions.z / 2 : (dimensions.z - 1) / 2,
