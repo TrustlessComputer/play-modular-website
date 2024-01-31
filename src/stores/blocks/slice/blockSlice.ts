@@ -90,9 +90,14 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
     const newList = []
     let inscriptionId: string
     if (idGroup !== -1) {
-      for (let i = 0; i < listDataCurrent.length; i++) {
-        if (i === idGroup) {
-          inscriptionId = listDataCurrent[i].items.pop()
+      for (let i = 0; i < listCurrent.length; i++) {
+        if (listCurrent[i].groupId === groupId) {
+          inscriptionId = listCurrent[i].items.pop()
+          // listDataCurrent[i].items.splice(i, 1)
+          if (listCurrent[i].items.indexOf(inscriptionId) !== -1) {
+            console.log('test ________')
+            listCurrent[i].items.splice(i, 1)
+          }
         }
         newList.push(listDataCurrent[i])
       }
@@ -107,7 +112,8 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
     const idGroup = listDataCurrent.findIndex((item) => item.groupId === groupId)
     const newListPush = []
     for (let i = 0; i < listDataCurrent.length; i++) {
-      if (i === idGroup) {
+      const isHaventInList = listDataCurrent[i].items.indexOf(inscriptionID) === -1
+      if (i === idGroup && isHaventInList) {
         listDataCurrent[i].items.push(inscriptionID)
       }
       newListPush.push(listDataCurrent[i])
@@ -206,12 +212,10 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
           const inscriptionIdLastItem = lastBlocks.inscriptionId
           get().pushListCurrent(inscriptionIdLastItem, groupIdLastItem, listCurrentPrev)
         } else if (blocksCurrent.length < prevListBlocks.length) {
-          const lastBlocks = blocksCurrent[blocksCurrent.length - 1]
+          const prevBlocks = state.blocksState[prevStateIndex - 1]
+          const lastBlocks = prevBlocks[prevBlocks.length - 1]
           const groupIdLastItem = lastBlocks?.groupId
-          const { inscriptionId } = get().sliceListCurrent(groupIdLastItem, listCurrentPrev)
-          if (!inscriptionId || !groupIdLastItem) {
-            return state
-          }
+          get().sliceListCurrent(groupIdLastItem, listCurrentPrev)
         }
         return {
           currentStateIndex: prevStateIndex - 1,
@@ -234,13 +238,12 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
           const newArr = blocksCurrent.filter((item) => !nextBlocks.includes(item))
           get().pushMultiListCurrent(newArr, listCurrent)
         } else if (blocksCurrent.length < nextBlocks.length) {
+          console.log('redocase1')
           const lastBlocks = nextBlocks[nextBlocks.length - 1]
           const groupIdLastItem = lastBlocks?.groupId
-          const { inscriptionId } = get().sliceListCurrent(groupIdLastItem, listCurrent)
-          if (!inscriptionId || !groupIdLastItem) {
-            return state
-          }
+          get().sliceListCurrent(groupIdLastItem, listCurrent)
         } else if (blocksCurrent.length > nextBlocks.length) {
+          console.log('redocase2')
           const prevBlocks = blocksCurrent[blocksCurrent.length - 1]
           const groupIdLastItem = prevBlocks.groupId
           const inscriptionIdLastItem = prevBlocks.inscriptionId

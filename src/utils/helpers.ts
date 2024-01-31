@@ -190,5 +190,5 @@ export function captureCanvasImage({ dom = '#canvas-3d', name = 'project-xxxx.pn
     a.click()
   }
 
-  return {dataURL, canvas};
+  return { dataURL, canvas };
 }
