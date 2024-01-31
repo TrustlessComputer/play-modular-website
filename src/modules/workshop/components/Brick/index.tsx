@@ -15,7 +15,7 @@ import {
 } from '@/utils'
 import { Decal, Outlines, PivotControls, useTexture, RenderTexture } from '@react-three/drei'
 import { motion } from 'framer-motion-3d'
-import React from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import { Box3, Matrix4, Vector3, DoubleSide, FrontSide, BackSide } from 'three'
 
 type TBrickAction = {
@@ -40,14 +40,17 @@ export const Brick = ({
   const { setIsDragging, mode, blockCurrent, selectedBricks, setPositionBricks } = useStoreGlobal()
   const [resetKey, setResetKey] = React.useState(generateUId())
   const brickRef = React.useRef(null)
-  const isNontTexture = texture === null
+  const isNontTexture = texture === null || texture === NONT_TEXTURE
   const updateTexture = isNontTexture ? NONT_TEXTURE : texture
   const texturez = useTexture(updateTexture)
+  const [opacity, setOpacity] = useState<number>(1);
   const compansate = {
     x: dimensions.x % 2 === 0 ? dimensions.x / 2 : (dimensions.x - 1) / 2,
     z: dimensions.z % 2 === 0 ? dimensions.z / 2 : (dimensions.z - 1) / 2,
   }
-  const isSelected2 = selectedBricks.find((brick) => brick.userData.uID === uID) ? true : false
+  const isSelected2 = useMemo((): boolean=>{
+    return selectedBricks.find((brick) => brick.userData.uID === uID) ? true : false;
+  }, [selectedBricks]);
   const offset = {
     x: Math.sign(translation.x) < 0 ? Math.max(translation.x, -compansate.x) : Math.min(translation.x, compansate.x),
     z: Math.sign(translation.z) < 0 ? Math.max(translation.z, -compansate.z) : Math.min(translation.z, compansate.z),
@@ -134,6 +137,18 @@ export const Brick = ({
     setPosition(vec3)
   }, [intersect, dimensions.x, dimensions.z, height, rotation, draggedOffset])
 
+
+  useEffect(() => {
+
+    if(isSelected2){
+      setOpacity(1)
+    }else if(selectedBricks.length){
+      setOpacity(.5)
+    }else if(selectedBricks.length ===0){
+      setOpacity(1)
+    }
+  }, [isSelected2, selectedBricks]);
+
   return (
     <>
       {position && (
@@ -182,7 +197,7 @@ export const Brick = ({
               onPointerMove={mouseMove}
             >
               <Outlines visible={isSelected2 && mode === EDIT_MODE} scale={1.025} />
-              <meshPhysicalMaterial color={color} metalness={0} roughness={1} specularIntensity={0} />
+              <meshPhysicalMaterial opacity={opacity} transparent color={color} metalness={0} roughness={1} specularIntensity={0} />
 
               {!isNontTexture && (
                 <Decal
@@ -200,6 +215,7 @@ export const Brick = ({
                     transparent={true}
                     metalness={0}
                     roughness={1}
+                    opacity={opacity}
                     specularIntensity={0}
                     polygonOffset
                     polygonOffsetFactor={-1}
