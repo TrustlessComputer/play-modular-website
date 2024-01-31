@@ -10,6 +10,7 @@ import { uploadFile } from '@/services/api/generative'
 import { useRouter } from 'next/navigation'
 import { WORKSHOP_URL } from '@/constant/route-path'
 import Spinner from '@/components/Spinner'
+import { DELAY_SNAPSHOT } from '@/constant/constant'
 
 export const SET_PROJECT_NAME_MODAL_ID = 'SET_PROJECT_NAME_MODAL_ID'
 interface MyFormValues {
@@ -28,7 +29,6 @@ const SetProjectNameModal = ({ type }: Props) => {
   const router = useRouter()
 
   const [processing, setProcessing] = useState(false)
-  console.log("🚀 ~ SetProjectNameModal ~ processing:", processing)
 
   const initialValues: MyFormValues = { modelName: '' }
 
@@ -103,7 +103,7 @@ const SetProjectNameModal = ({ type }: Props) => {
         setProcessing(false)
         setLoading(false)
       }
-    }, 200)
+    }, DELAY_SNAPSHOT)
   }
 
   useEffect(() => {

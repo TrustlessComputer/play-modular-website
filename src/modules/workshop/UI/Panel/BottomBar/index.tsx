@@ -8,7 +8,7 @@ import s from './styles.module.scss'
 import IcCreate from '@/icons/workshop/ic-create.svg'
 
 import useApiInfinite from '@/hooks/useApiInfinite'
-import { getListModularByWallet, handleGetData, uploadFile } from '@/services/api/generative'
+import { getListModularByWallet, getProjectDetail, handleGetData, uploadFile } from '@/services/api/generative'
 import { TBlockData, TListCurrent } from '@/types'
 import instance from '@/utils/storage/local-storage'
 import { useAppSelector } from '@/stores/hooks'
@@ -31,6 +31,7 @@ import { SHA256 } from 'crypto-js'
 import { convertBase64ToFile } from '@/utils/file'
 import { WORKSHOP_URL } from '@/constant/route-path'
 import { useRouter } from 'next/navigation'
+import { DELAY_SNAPSHOT } from '@/constant/constant'
 
 // const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
 
@@ -56,7 +57,7 @@ export default function BottomBar() {
 
   const router = useRouter()
 
-  const { setLoading, projectId, saveProject, createProject, projectName, renderFile } = useProjectStore()
+  const { setLoading, projectId, saveProject, createProject, projectName, renderFile, loadProject } = useProjectStore()
 
   const { openModal, modals } = useModalStore()
 
@@ -169,7 +170,7 @@ export default function BottomBar() {
 
 
 
-    }, 200)
+    }, DELAY_SNAPSHOT)
 
 
   }
@@ -218,7 +219,7 @@ export default function BottomBar() {
     setDataCurrent(data)
   }
 
-  const viewAction = () => {
+  const viewAction = async () => {
     if (!projectId && !isAllowSave) return
 
     if (!projectId && isAllowSave) {
@@ -229,8 +230,37 @@ export default function BottomBar() {
       return
     }
 
+    if (isAllowSave) {
+      await saveAction()
+      setLoading(true)
+      setTimeout(() => {
+        router.push(`${WORKSHOP_URL}/${projectId}`)
+      }, 3000);
+      return
+    }
     router.push(`${WORKSHOP_URL}/${projectId}`)
 
+  }
+
+  const loadInitialProject = async () => {
+    try {
+      setLoading(true)
+      const res = await getProjectDetail({ id: projectId })
+      const data = await handleGetData(account.address) // reset data when open new data
+
+      if (!!res.metaData) {
+        setDataCurrent(data)
+        loadProject({
+          projectId: projectId,
+          projectName: projectName,
+          renderFile: res.metaData,
+        })
+      }
+    } catch (error) {
+      //
+    } finally {
+      setLoading(false)
+    }
   }
 
   useUndoRedoShortcut(undo, redo)
@@ -241,12 +271,6 @@ export default function BottomBar() {
     }
   }, [renderFile])
 
-  // First load, trigger create new project
-  useEffect(() => {
-    if (!projectId) {
-      createProject()
-    }
-  }, [projectId, createProject])
 
   useEffect(() => {
     // detect click browser back button or closing tab
@@ -261,6 +285,13 @@ export default function BottomBar() {
       })
     }
   }, [isAllowSave])
+
+  useEffect(() => {
+    if (projectId && projectName) {
+      loadInitialProject()
+    }
+  }, [projectId, projectName])
+
 
   // useEffect(() => {
 

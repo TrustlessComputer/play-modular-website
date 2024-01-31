@@ -9,6 +9,7 @@ import PreviewScene from './PreviewSence'
 import { BrightnessContrast, EffectComposer, HueSaturation } from '@react-three/postprocessing'
 import { OrthographicCamera } from '@react-three/drei'
 import s from './styles.module.scss'
+import { DELAY_SNAPSHOT } from '@/constant/constant'
 
 const CameraController = () => {
   const { view } = useStoreGlobal()
@@ -51,12 +52,12 @@ const PreviewRoom = () => {
     const saveToPng = (e) => {
       const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
       if (e.ctrlKey && e.key === 's') {
-        ;(wrapperDom as HTMLElement).style.display = 'block'
-        ;(wrapperDom as HTMLElement).style.position = 'fixed'
-        ;(wrapperDom as HTMLElement).style.top = '0'
-        ;(wrapperDom as HTMLElement).style.left = '0'
-        ;(wrapperDom as HTMLElement).style.right = '0'
-        ;(wrapperDom as HTMLElement).style.bottom = '0'
+        ; (wrapperDom as HTMLElement).style.display = 'block'
+          ; (wrapperDom as HTMLElement).style.position = 'fixed'
+          ; (wrapperDom as HTMLElement).style.top = '0'
+          ; (wrapperDom as HTMLElement).style.left = '0'
+          ; (wrapperDom as HTMLElement).style.right = '0'
+          ; (wrapperDom as HTMLElement).style.bottom = '0'
 
         const canvas = wrapperDom.querySelector('canvas')
         canvas.classList.add(s.saveMove)
@@ -70,8 +71,8 @@ const PreviewRoom = () => {
           a.remove()
 
           canvas.classList.remove(s.saveMove)
-          ;(wrapperDom as HTMLElement).style.display = 'none'
-        }, 200)
+            ; (wrapperDom as HTMLElement).style.display = 'none'
+        }, DELAY_SNAPSHOT)
       }
     }
 

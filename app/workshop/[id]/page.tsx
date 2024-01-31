@@ -4,9 +4,11 @@ import { getProjectDetail } from '@/services/api/generative'
 import { API_URL } from '@/constant/constant'
 import ShareTwitterBtn from '@/components/ShareTwitterBtn'
 
+// export const revalidate = 0
+
 const fetchModelData = async (id: string) => {
   try {
-    const res: any = await fetch(`${API_URL}/modular-workshop/detail?id=${id}`)
+    const res: any = await fetch(`${API_URL}/modular-workshop/detail?id=${id}`, { next: { revalidate: 0 } })
 
     if (!res.ok) {
       // This will activate the closest `error.js` Error Boundary
