@@ -167,7 +167,7 @@ export const Scene = () => {
             />
           )
         })}
-        <DeleteBrick setBricks={setBricks} />
+        <DeleteBrick />
         {/* <BrickOutline /> */}
       </Select>
       <Lights />
