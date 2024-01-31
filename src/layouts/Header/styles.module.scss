@@ -51,7 +51,7 @@
   align-items: center;
   font-size: rem(12px);
   font-weight: 500;
-  width: rem(120px);
+  width: rem(140px);
   height: rem(40px);
   text-align: center;
   color: var(--white);
@@ -59,7 +59,7 @@
   text-transform: uppercase;
 
   @include min-tablet {
-  width: rem(140px);
+  width: rem(180px);
   height: rem(48px);
   font-size: rem(14px);
   }
