@@ -14,7 +14,7 @@ const DATA_CONTENTS: {
     {
         id: 'phase-1',
         time: 'Jan 2024',
-        title: 'The Module Factory',
+        title: 'Modular Inscriptions',
         label: 'Phase I'
     },
     {
