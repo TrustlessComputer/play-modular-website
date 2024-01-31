@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 import { WORKSHOP_URL } from '@/constant/route-path'
 import Spinner from '@/components/Spinner'
 import { DELAY_SNAPSHOT } from '@/constant/constant'
+import { captureCanvasImage } from '@/utils'
 
 export const SET_PROJECT_NAME_MODAL_ID = 'SET_PROJECT_NAME_MODAL_ID'
 interface MyFormValues {
@@ -42,64 +43,44 @@ const SetProjectNameModal = ({ type }: Props) => {
     setProcessing(true)
     setLoading(true)
 
-    const wrapperDom = document.querySelector('.styles_workshop_preview__cFkSM') // TODO: Pass ref to
-    // if (e.ctrlKey && e.key === 's') {
-    ;(wrapperDom as HTMLElement).style.display = 'block'
-    ;(wrapperDom as HTMLElement).style.position = 'fixed'
-    ;(wrapperDom as HTMLElement).style.top = '0'
-    ;(wrapperDom as HTMLElement).style.left = '0'
-    ;(wrapperDom as HTMLElement).style.right = '0'
-    ;(wrapperDom as HTMLElement).style.bottom = '0'
+    const image = captureCanvasImage()
+    const file = convertBase64ToFile(image)
+    const resUrl = await uploadFile({ file })
 
-    const canvas = wrapperDom.querySelector('canvas')
-    canvas.classList.add(s.saveMove)
+    const payload: {
+      jsonFile: any
+      projectName?: string
+      ownerAddress: string
+      thumbnail: string
+    } = {
+      projectName: values.modelName,
+      jsonFile: blockCurrent,
+      // ownerAddress: MOCK_ADDRESS, //account?.address,
+      ownerAddress: account?.address,
+      // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+      thumbnail: resUrl.url,
+    }
 
-    setTimeout(async () => {
-      const image = canvas.toDataURL('image/png')
-      const file = convertBase64ToFile(image)
-      const resUrl = await uploadFile({ file })
-      const a = document.createElement('a')
-      a.href = image
-      a.download = 'project-xxxx.png'
-      // a.click()
-      a.remove()
-
-      canvas.classList.remove(s.saveMove)
-      ;(wrapperDom as HTMLElement).style.display = 'none'
-
-      const payload: {
-        jsonFile: any
-        projectName?: string
-        ownerAddress: string
-        thumbnail: string
-      } = {
-        projectName: values.modelName,
-        jsonFile: blockCurrent,
-        // ownerAddress: MOCK_ADDRESS, //account?.address,
-        ownerAddress: account?.address,
-        // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
-        thumbnail: resUrl.url,
+    const res = await saveProject(payload)
+    if (res === 'success') {
+      if (type === 'save-exit') {
+        createProject()
+        deleteAlls()
       }
 
-      const res = await saveProject(payload)
-      if (res === 'success') {
-        if (type === 'save-exit') {
-          createProject()
-          deleteAlls()
-        }
-
-        if (type === 'save-view' && projectId) {
-          return;
-        }
-
-        closeModal(SET_PROJECT_NAME_MODAL_ID)
+      if (type === 'save-view' && projectId) {
+        return;
       }
 
-      if (!!res) {
-        setProcessing(false)
-        setLoading(false)
-      }
-    }, DELAY_SNAPSHOT)
+      closeModal(SET_PROJECT_NAME_MODAL_ID)
+    }
+
+    if (!!res) {
+      setProcessing(false)
+      setLoading(false)
+    }
+
+
   }
 
   useEffect(() => {

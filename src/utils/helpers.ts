@@ -178,3 +178,15 @@ export async function downloadImage(imageSrc, name) {
   link.click()
   document.body.removeChild(link)
 }
+
+export function captureCanvasImage(dom = '.styles_workshop_main__CrQRd', name = 'project-xxxx.png') {
+  const wrapperDom = document.querySelector(dom)
+  const canvas = wrapperDom.querySelector('canvas')
+  const dataURL = canvas.toDataURL('image/png')
+  const a = document.createElement('a')
+  a.href = dataURL
+  a.download = name
+  a.click()
+
+  return dataURL
+}

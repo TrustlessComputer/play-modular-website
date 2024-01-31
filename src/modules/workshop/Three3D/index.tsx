@@ -5,7 +5,7 @@ import { ControlsWrapper } from '../components/Control'
 import { Scene } from '../components/Scene'
 import { Canvas, useThree } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
-import { base, minWorkSpaceSize } from '@/utils'
+import { base, captureCanvasImage, minWorkSpaceSize } from '@/utils'
 
 const SaveToPng = () => {
   const [isSaving, setIsSaving] = React.useState(false)
@@ -26,14 +26,16 @@ const SaveToPng = () => {
         // camera.updateMatrixWorld()
         // camera.updateMatrix()
 
-        const wrapperDom = document.querySelector('.styles_workshop_main__CrQRd')
+        // const wrapperDom = document.querySelector('.styles_workshop_main__CrQRd')
 
-        const canvas = wrapperDom.querySelector('canvas')
-        const dataURL = canvas.toDataURL('image/png')
-        const a = document.createElement('a')
-        a.href = dataURL
-        a.download = 'project-xxxx.png'
-        a.click()
+        // const canvas = wrapperDom.querySelector('canvas')
+        // const dataURL = canvas.toDataURL('image/png')
+        // const a = document.createElement('a')
+        // a.href = dataURL
+        // a.download = 'project-xxxx.png'
+        // a.click()
+
+        captureCanvasImage('.styles_workshop_main__CrQRd', 'project-xxxx.png')
       }
     }
 
