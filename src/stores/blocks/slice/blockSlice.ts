@@ -95,7 +95,7 @@ export const createBlocksSlice: StateCreator<TBlockSlice> = (set, get) => ({
           inscriptionId = listCurrent[i].items.pop()
           // listDataCurrent[i].items.splice(i, 1)
           if (listCurrent[i].items.indexOf(inscriptionId) !== -1) {
-            console.log('test ________')
+            // console.log('test ________')
             listCurrent[i].items.splice(i, 1)
           }
         }
