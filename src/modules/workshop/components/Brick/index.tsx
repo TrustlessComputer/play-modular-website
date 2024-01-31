@@ -156,7 +156,7 @@ export const Brick = ({
           <PivotControls
             key={resetKey}
             scale={base * dimensions.x + 5}
-            disableAxes={isSelected && mode === EDIT_MODE ? false : true}
+            disableAxes={isSelected && mode === EDIT_MODE && selectedBricks.length === 1 ? false : true}
             disableSliders
             disableRotations
             onDragStart={() => setIsDragging(true)}

@@ -1,11 +1,11 @@
 export let patterns = [
   ['Bitcoin', 15, 'Btc', 0, ['#FF6F00', '#9B4300', '#FF9646']],
-  ['Optimism', 5, 'Op', 0, ['#FF010A', '#990005', '#FF4B51']],
+  ['Optimism', 5, 'Op', 0, ['#c60000', '#990005', '#FF4B51']],
   ['Polygon', 5, 'Pol', 0, ['#6F42E2', '#40218F', '#AC8BFF']],
   ['Uniswap', 5, 'Uni', 0, ['#FF007B', '#900046', '#FF73B7']],
   ['Celestia', 5, 'Cel', 0, ['#6F42E2', '#40218F', '#AC8BFF']],
   ['Ordinals', 5, 'Ord', 0, ['#6C6C6C', '#404040', '#ADADAD']],
-  ['Eigen Da', 5, 'Eig', 0, ['#222222', '#000000', '#444444']],
+  ['Eigen Da', 5, 'Eig', 0, ['#2d2d2d ', '#000000', '#444444']],
   ['Avail', 50000, 'Ava', 0, ['#ddd', '#aaa', '#eee']],
   ['Near', 50000, 'Nea', 0, ['#00D05E', '#007334', '#50FF9F']],
   ['Solid Orange', 50, 'Sol', 2, ['#FF6F00', '#9B4300', '#FF9646']],
@@ -20,7 +20,7 @@ export let patterns = [
   ['Solid Nougat', 50, 'Sol', 2, ['#DF901A', '#935800', '#F6B578']],
   ['Solid Light Gray', 50, 'Sol', 2, ['#B8B8B8', '#9D9D9D', '#E0E0E0']],
   ['Solid Dark Gray', 50, 'Sol', 2, ['#6C6C6C', '#404040', '#ADADAD']],
-  ['Solid Dark', 50, 'Sol', 2, ['#222222', '#000000', '#444444']],
+  ['Solid Dark', 50, 'Sol', 2, ['#2d2d2d  ', '#000000', '#444444']],
   ['Solid Purple', 50, 'Sol', 2, ['#6F42E2', '#40218F', '#AC8BFF']],
 ]
 
