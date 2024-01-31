@@ -2,7 +2,7 @@
   position: relative;
   display: flex;
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 44px);
 
   &_main {
     position: relative;

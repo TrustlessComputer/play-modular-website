@@ -20,7 +20,7 @@ const ExportImageBtn = ({ imageSrc, name, ownerAddress }: Props) => {
     return (
         <div className={s.wrapper}>
             <button
-                className='flex items-center gap-1 btn_submit'
+                className='flex items-center gap-1 btn_secondary'
                 onClick={() => {
                     // captureCanvasImage({ dom: '#view-3d', name: `${name}-model`, download: true })
                     downloadImage(imageSrc, `${name}-model`)
