@@ -18,6 +18,19 @@
     padding: rem(24px) 0;
   }
 
+  .heading {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .count {
+    color: #000;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
   .inner {
     overflow-y: overlay;
     overflow-x: hidden;
