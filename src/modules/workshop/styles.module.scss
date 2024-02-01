@@ -2,7 +2,8 @@
   position: relative;
   display: flex;
   width: 100vw;
-  height: calc(100vh - 44px);
+  height: 100vh;
+  padding-top: var(--height-banner);
 
   &_main {
     position: relative;
