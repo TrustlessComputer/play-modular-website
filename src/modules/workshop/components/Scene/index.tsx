@@ -1,9 +1,11 @@
 'use client'
 
 import { useAnchorShorcuts } from '@/hooks/useShortcuts'
-import { useStoreGlobal } from '@/stores/blocks'
+import { useProjectStore, useStoreGlobal } from '@/stores/blocks'
 import {
   EDIT_MODE,
+  LOCAL_DATA,
+  TIME_SAVE,
   base,
   checkCollision,
   getMeasurementsFromDimensions,
@@ -20,7 +22,6 @@ import { Workspace } from '../Workpage'
 import { Select } from '../Select'
 import instance from '@/utils/storage/local-storage'
 import { useDebounce } from '@/hooks/useDebounce'
-import BrickOutline from '../BrickOutline'
 import { DeleteBrick } from '@/modules/workshop/components/DeleteBrick'
 
 const mousePoint = new Vector3()
@@ -48,11 +49,13 @@ export const Scene = () => {
     setBricks,
     listCurrent,
   } = useStoreGlobal()
+  const { projectId, projectName } = useProjectStore()
   const bricksBoundBox = useRef<any>({}) // hash map
   const brickCursorRef = useRef<Group>()
   const isDrag = useRef(false)
   const timeoutID = useRef(null)
   const isEditMode = mode === EDIT_MODE
+  const debounceData = useDebounce(blockCurrent, TIME_SAVE) // save data local after 1min
 
   const addBrick = (e) => {
     e.stopPropagation()
@@ -135,6 +138,19 @@ export const Scene = () => {
       window.removeEventListener('pointerup', pointerUp)
     }
   }, [])
+
+  useEffect(() => {
+    if (debounceData.length > 0) {
+      instance.set(
+        LOCAL_DATA,
+        JSON.stringify({
+          projectId,
+          projectName,
+          data: debounceData,
+        }),
+      )
+    }
+  }, [debounceData.length])
 
   return (
     <>

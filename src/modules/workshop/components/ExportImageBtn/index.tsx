@@ -11,14 +11,18 @@ type Props = {
   ownerAddress: string
 }
 
-const ExportImageBtn = ({ imageSrc, name }: Props) => {
+const ExportImageBtn = ({ imageSrc, name, ownerAddress }: Props) => {
+  const account = useAppSelector(accountSelector)
+
+  if (account?.address !== ownerAddress) return <></>
+
   return (
     <div className={s.wrapper}>
       <button
         className='flex items-center gap-1 btn_submit'
         onClick={() => {
-          // downloadImage(imageSrc, `${name}-model`)
-          captureCanvasImage({ download: true })
+          // captureCanvasImage({ dom: '#view-3d', name: `${name}-model`, download: true })
+          downloadImage(imageSrc, `${name}-model`)
         }}
       >
         Export Image

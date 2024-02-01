@@ -8,13 +8,13 @@ import { useModalStore, useProjectStore, useStoreGlobal } from '@/stores/blocks'
 import s from './styles.module.scss'
 
 import useApiInfinite from '@/hooks/useApiInfinite'
+import IcPublish from '@/icons/workshop/ic-publish.svg'
 import IcTwitter from '@/icons/workshop/ic-twitter.svg'
 import { getListModularByWallet, getProjectDetail, handleGetData, uploadFile } from '@/services/api/generative'
 import { useAppSelector } from '@/stores/hooks'
 import { accountSelector } from '@/stores/states/wallet/selector'
 import { TListCurrent } from '@/types'
 import { useEffect, useMemo, useRef } from 'react'
-
 
 type TDataFetch = {
   list: TListCurrent
@@ -24,8 +24,9 @@ import { WORKSHOP_URL } from '@/constant/route-path'
 import SavedProjectsModal, { SAVED_PROJECTS_MODAL_ID } from '@/modules/workshop/components/Modal/SavedProjectsModal'
 import SetProjectNameModal, { SET_PROJECT_NAME_MODAL_ID } from '@/modules/workshop/components/Modal/SetProjectNameModal'
 import UnsaveWarningModal from '@/modules/workshop/components/Modal/UnsaveWarningModal'
-import { EDIT_MODE, captureCanvasImage } from '@/utils'
+import { EDIT_MODE, LOCAL_DATA, captureCanvasImage } from '@/utils'
 import { convertBase64ToFile } from '@/utils/file'
+import instance from '@/utils/storage/local-storage'
 import { SHA256 } from 'crypto-js'
 import { useRouter } from 'next/navigation'
 import { useId, useState } from 'react'
@@ -51,13 +52,12 @@ export default function BottomBar() {
     setBricks,
     blockCurrent,
     setBlockCurrentUpdate,
+    listCurrent,
   } = useStoreGlobal()
 
   const router = useRouter()
 
   const { setLoading, projectId, saveProject, createProject, projectName, renderFile, loadProject } = useProjectStore()
-
-
 
   const { openModal, modals } = useModalStore()
 
@@ -106,7 +106,6 @@ export default function BottomBar() {
   }, [blockCurrent])
 
   const saveAction = async () => {
-
     if (!isAllowSave) return
 
     if (!projectName) {
@@ -211,7 +210,6 @@ export default function BottomBar() {
       return
     }
     window.open(`${WORKSHOP_URL}/${projectId}`, '_blank')
-
   }
 
   const loadInitialProject = async () => {
@@ -234,7 +232,6 @@ export default function BottomBar() {
       setLoading(false)
     }
   }
-
   useUndoRedoShortcut(undo, redo)
 
   useEffect(() => {
@@ -243,6 +240,15 @@ export default function BottomBar() {
     }
   }, [renderFile])
 
+  useEffect(() => {
+    const dataLocal: string = instance.get(LOCAL_DATA)
+    if (listCurrent.length && dataLocal) {
+      const { projectId, projectName, data } = JSON.parse(dataLocal)
+      const JSON_BLOCKS = JSON.stringify(data)
+      loadProject({ projectId, projectName, JSON_BLOCKS })
+      setBlockCurrent(data)
+    }
+  }, [listCurrent.length])
   useEffect(() => {
     // detect click browser back button or closing tab
     if (!isAllowSave) return
@@ -257,13 +263,11 @@ export default function BottomBar() {
     }
   }, [isAllowSave])
 
-  useEffect(() => {
-    if (projectId && projectName) {
-      loadInitialProject()
-    }
-  }, [projectId, projectName])
-
-
+  // useEffect(() => {
+  //   if (projectId && projectName) {
+  //     loadInitialProject()
+  //   }
+  // }, [])
 
   const handleDeleteSelected = () => {
     deleteSelected(selectedBricks)
@@ -298,6 +302,14 @@ export default function BottomBar() {
         <div className={s.bottomBar}>
           <button className={`${s.bottomBar_btn} ${s.icon_X}`} onClick={viewAction}>
             <IcTwitter /> Share
+          </button>
+          <button className={`${s.bottomBar_btn} ${s.inscribe}`}>
+            <p>
+              <p className='flex items-center gap-2'>
+                <IcPublish /> Inscribe Your Build
+              </p>
+              <span>(Coming soon)</span>
+            </p>
           </button>
           <button className={s.bottomBar_btn} onClick={saveAction} disabled={!isAllowSave}>
             <IcSave /> Save
