@@ -102,7 +102,7 @@ export type TProjectSlice = {
   }
   loading: boolean
 
-  saveProject: (params) => Promise<'success' | 'failed'>
+  saveProject: (params) => Promise<string>
   loadProject: (params) => void
   createProject: () => void
   setSelectedProject: (params) => void
