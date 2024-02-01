@@ -62,7 +62,7 @@ const SetProjectNameModal = ({ type }: Props) => {
     }
 
     const res = await saveProject(payload)
-    if (res !== 'failed') {
+    if (!!res && res !== 'failed') {
       if (type === 'save-exit') {
         createProject()
         deleteAlls()
