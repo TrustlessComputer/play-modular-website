@@ -15,21 +15,21 @@
     line-height: normal;
     text-transform: uppercase;
     color: var(--black);
-    padding: rem(24px) 0;
   }
 
   .heading {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
   }
   .count {
     color: #000;
-    font-size: 14px;
+    font-size: rem(14px);
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    padding: rem(24px) 0;
   }
   .inner {
     overflow-y: overlay;
