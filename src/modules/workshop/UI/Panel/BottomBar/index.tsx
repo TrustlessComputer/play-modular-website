@@ -13,7 +13,7 @@ import IcTwitter from '@/icons/workshop/ic-twitter.svg'
 import { getListModularByWallet, getProjectDetail, handleGetData, uploadFile } from '@/services/api/generative'
 import { useAppSelector } from '@/stores/hooks'
 import { accountSelector } from '@/stores/states/wallet/selector'
-import { TListCurrent } from '@/types'
+import { TBlockData, TListCurrent } from '@/types'
 import { useEffect, useMemo, useRef } from 'react'
 
 type TDataFetch = {
@@ -243,10 +243,13 @@ export default function BottomBar() {
   useEffect(() => {
     const dataLocal: string = instance.get(LOCAL_DATA)
     if (listCurrent.length && dataLocal) {
-      const { projectId, projectName, data } = JSON.parse(dataLocal)
-      const JSON_BLOCKS = JSON.stringify(data)
-      loadProject({ projectId, projectName, JSON_BLOCKS })
-      setBlockCurrent(data)
+      // const { projectId, projectName, data } = JSON.parse(dataLocal)
+      const data = JSON.parse(dataLocal) as { data: TBlockData[]; projectId: string; projectName: string }
+      if (data.data.length > 0) {
+        const JSON_BLOCKS = JSON.stringify(data?.data)
+        loadProject({ projectId, projectName, JSON_BLOCKS })
+        setBlockCurrent(data?.data)
+      }
     }
   }, [listCurrent.length])
   useEffect(() => {
@@ -277,14 +280,11 @@ export default function BottomBar() {
   return (
     <>
       <Toaster
-        toastOptions={
-          {
-            style: {
-              zIndex: 9999,
-
-            }
-          }
-        }
+        toastOptions={{
+          style: {
+            zIndex: 9999,
+          },
+        }}
       />
       <div className={s.wrapper}>
         <div className={s.bottomBar}>
