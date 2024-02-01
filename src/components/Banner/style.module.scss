@@ -12,12 +12,6 @@
   padding-left: 16px;
   padding-right: 16px;
 
-  &.isHome {
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-image: url('/imgs/banner.jpg');
-  }
-
   &_content {
     display: flex;
     justify-content: center;
