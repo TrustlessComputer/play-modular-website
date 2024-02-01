@@ -134,8 +134,8 @@ export const Brick = ({
       setPositionBricks(currentBrickSelected.current.blockCurrentClone)
       setDraggedOffset(currentBrickSelected.current.prevOffset)
       brickBoundBoxClone[uID] = { uID, brickBoundingBox: currentBrickSelected.current.boundingBox }
-      bricksBoundBox.current = currentBrickSelected.current.brickBoundBoxClone
-      setPositionBricks(currentBrickSelected.current.brickBoundBoxClone)
+      bricksBoundBox.current = currentBrickSelected.current.blockCurrentClone
+      setPositionBricks(currentBrickSelected.current.blockCurrentClone)
     }
 
     if (selectedBricks.length === 1 && isNotColliding) {
