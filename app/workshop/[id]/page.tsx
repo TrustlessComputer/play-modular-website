@@ -62,7 +62,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
 
   return (
-    <WorkshopViewPage data={data} />
+    <WorkshopViewPage data={data} id={params.id} />
   )
 }
 
