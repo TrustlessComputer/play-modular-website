@@ -245,7 +245,7 @@ export const Brick = ({
                   {/*  polygonOffset*/}
                   {/*  polygonOffsetFactor={-1}*/}
                   {/*/>*/}
-                  <meshStandardMaterial map={texturez} polygonOffset polygonOffsetFactor={-1} alphaHash={true} transparent alphaTest={0}/>
+                  <meshStandardMaterial map={texturez} polygonOffset roughness={1} metalness={0.35} color={'#fff'} emissive={'#000'}  alphaHash={true} transparent alphaTest={0}/>
                 </Decal>
               )}
             </mesh>
