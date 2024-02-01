@@ -1,5 +1,6 @@
 import { createOrSaveProject } from '@/services/api/generative'
 import { TProjectSlice } from '@/types/store'
+import { id } from 'ethers'
 import toast from 'react-hot-toast'
 import { StateCreator } from 'zustand'
 
@@ -37,8 +38,8 @@ export const createProjectSlice: StateCreator<TProjectSlice> = (set) => ({
       const res = await createOrSaveProject(payload)
       if (res) {
         set({ projectId: res as string, projectName: name })
-        toast.success('Saved successfully!')
-        return 'success'
+        toast.success('Saved', { id: 'save-project-success' })
+        return res
       }
     } catch (error) {
       toast.error('Something went wrong! Please try again!')
