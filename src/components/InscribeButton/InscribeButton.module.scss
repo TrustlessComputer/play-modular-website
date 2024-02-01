@@ -1,0 +1,20 @@
+.button {
+    display: flex;
+    align-items: center;
+    gap: rem(8px);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.40);
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 500;
+
+    >* {
+        opacity: 0.3;
+    }
+
+
+    .subText {
+        margin-left: 4px;
+        font-size: 10px;
+    }
+}

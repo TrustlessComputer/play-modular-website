@@ -12,6 +12,7 @@ import { WORKSHOP_URL } from '@/constant/route-path'
 import Spinner from '@/components/Spinner'
 import { DELAY_SNAPSHOT } from '@/constant/constant'
 import { captureCanvasImage } from '@/utils'
+import { TSaveTypes } from '@/interface/project'
 
 export const SET_PROJECT_NAME_MODAL_ID = 'SET_PROJECT_NAME_MODAL_ID'
 interface MyFormValues {
@@ -19,7 +20,7 @@ interface MyFormValues {
 }
 
 type Props = {
-  type: 'save' | 'save-as' | 'save-exit' | 'save-view'
+  type: TSaveTypes
 }
 
 const SetProjectNameModal = ({ type }: Props) => {
@@ -42,8 +43,7 @@ const SetProjectNameModal = ({ type }: Props) => {
     setProcessing(true)
     setLoading(true)
 
-
-    const {dataURL: image} = captureCanvasImage({})
+    const { dataURL: image } = captureCanvasImage({})
     const file = convertBase64ToFile(image)
     const resUrl = await uploadFile({ file })
 
@@ -62,14 +62,14 @@ const SetProjectNameModal = ({ type }: Props) => {
     }
 
     const res = await saveProject(payload)
-    if (res === 'success') {
+    if (res !== 'failed') {
       if (type === 'save-exit') {
         createProject()
         deleteAlls()
       }
 
       if (type === 'save-view' && projectId) {
-        return;
+        return
       }
 
       closeModal(SET_PROJECT_NAME_MODAL_ID)
@@ -79,17 +79,13 @@ const SetProjectNameModal = ({ type }: Props) => {
       setProcessing(false)
       setLoading(false)
     }
-
-
   }
 
   useEffect(() => {
     if (type === 'save-view' && projectId) {
       window.open(`${WORKSHOP_URL}/${projectId}`, '_blank')
-
     }
   }, [projectId, type])
-
 
   return (
     <div className={s.wrapper}>
@@ -113,9 +109,7 @@ const SetProjectNameModal = ({ type }: Props) => {
             <ErrorMessage name='modelName' component='div' className='text-red-500' />
             <div className='mb-6'></div>
             <button type='submit' disabled={processing} className={'btn_submit w-[150px]'}>
-              {processing ? (
-                'Saving...'
-              ) : 'Submit'}
+              {processing ? 'Saving...' : 'Submit'}
             </button>
           </Form>
         )}

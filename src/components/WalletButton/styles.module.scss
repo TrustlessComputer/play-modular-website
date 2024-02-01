@@ -5,7 +5,7 @@
   gap: rem(5px);
   z-index: 1001;
   position: absolute;
-  top: rem(54px);
+  top: rem(24px);
   right: rem(48px);
 
   &_walletInfo {
@@ -13,15 +13,14 @@
 
     .account {
       display: flex;
-      gap: rem(8px);
+      gap: rem(4px);
       align-items: center;
       justify-content: center;
       font-size: rem(14px);
       min-width: rem(180px);
-      padding: rem(14px) 0;
-      background-color: rgba($color: #5b5b5b, $alpha: 0.05);
+      padding: rem(8px) 0;
+      background: rgba(91, 91, 91, 0.10);
       border-radius: rem(4px);
-      border: rem(1px) solid var(--black-20);
       cursor: pointer;
       color: var(--black);
     }
