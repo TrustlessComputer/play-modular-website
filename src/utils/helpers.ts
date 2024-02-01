@@ -1,7 +1,8 @@
+import { DOMAIN_URL } from '@/constant/constant'
+import toast from 'react-hot-toast'
+import { BoxGeometry, CylinderGeometry } from 'three'
 import { mergeBufferGeometries } from 'three-stdlib'
 import { base, heightBase, knobSize } from '../constant/datablocks'
-import { BoxGeometry, CylinderGeometry } from 'three'
-import { diffProps } from '@react-three/fiber/dist/declarations/src/core/utils'
 
 export function CSSToHex(cssColor) {
   return parseInt(`0x${cssColor.substring(1)}`, 16)
@@ -201,4 +202,23 @@ export function captureCanvasImage({ dom = '#canvas-3d', name = 'project-xxxx.pn
   }
 
   return { dataURL, canvas }
+}
+
+export function copyToClipboard(text) {
+  const el = document.createElement('textarea')
+  el.value = text
+  document.body.appendChild(el)
+  el.select()
+  document.execCommand('copy')
+  document.body.removeChild(el)
+}
+
+export function copyShareTW(id: string, shareFn: () => void) {
+  copyToClipboard(`${DOMAIN_URL}/workshop/${id}`)
+  toast.success(`Copied to clipboard`, { id: 'save-project-success' })
+  setTimeout(
+    () => shareFn(),
+    // setLoading(false)
+    1500,
+  )
 }

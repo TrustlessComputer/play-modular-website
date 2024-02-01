@@ -1,8 +1,8 @@
 import React from 'react'
 import AlertDialog from '@/components/AlertDialog'
 import { useModalStore, useProjectStore, useStoreGlobal } from '@/stores/blocks'
-import jsonFile from '@/modules/workshop/UI/Panel/BottomBar/mock.json'
 import SetProjectNameModal, { SET_PROJECT_NAME_MODAL_ID } from '../SetProjectNameModal'
+import useSaveAction from '@/hooks/useSaveAction'
 
 type Props = {
   show: boolean
@@ -16,8 +16,9 @@ const UnsaveWarningModal = ({ show, setIsOpen }: Props) => {
 
   const { openModal } = useModalStore()
 
+  const { isAllowSave, handleSaveFile } = useSaveAction()
+
   // update current json file
-  const currentJsonFile = jsonFile
 
   const BodyModal = () => {
     return (
@@ -25,16 +26,13 @@ const UnsaveWarningModal = ({ show, setIsOpen }: Props) => {
         <p>You have unsave work. Save current work?</p>
         <div className='flex items-center justify-between mt-6'>
           <button
-            onClick={() => {
-
-              setIsOpen(false)
-
-              openModal({
-                id: SET_PROJECT_NAME_MODAL_ID,
-                component: <SetProjectNameModal type='save-exit' />,
-              })
-              return
-
+            onClick={async () => {
+              const res = await handleSaveFile()
+              if (res !== 'failed') {
+                createProject()
+                deleteAlls()
+                setIsOpen(false)
+              }
             }}
             className='btn_submit'
           >
@@ -54,7 +52,7 @@ const UnsaveWarningModal = ({ show, setIsOpen }: Props) => {
     )
   }
 
-  if (!show) return null
+  if (!show || !isAllowSave) return null
 
   return (
     <AlertDialog isOpen={show} closeModal={() => setIsOpen(false)}>
