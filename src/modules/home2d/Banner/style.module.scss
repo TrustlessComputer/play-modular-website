@@ -1,13 +1,19 @@
 .banner {
-  position: absolute;
-  bottom: 0;
+  position: fixed;
+  top: 0;
   left: 0;
   width: 100%;
-  padding: rem(22px) 0;
-  border-top: 1px solid rgba(255, 41, 41, 0.00);
-  background-image: url('/imgs/banner.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
+  height: var(--height-banner);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #459443;
+
+  &.isHome{
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url('/imgs/banner.jpg');
+  }
 
   &_content {
     display: flex;
@@ -25,14 +31,57 @@
       }
     }
 
-    p {
+
+    div {
       font-size: rem(12px);
       line-height: rem(26px);
+      font-weight: 500;
+
+      b {
+        font-weight: 600;
+      }
 
       @include min-tablet {
         font-size: rem(20px);
         line-height: rem(36px);
       }
     }
+
+    .countdown {
+      display: inline;
+      font-weight: 500;
+
+      * {
+
+        font-size: rem(12px);
+        line-height: rem(26px);
+
+        font-weight: 600 !important;
+        @include min-tablet {
+          font-size: rem(20px);
+          line-height: rem(36px);
+        }
+      }
+    }
+  }
+}
+
+.workshopBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: rem(12px);
+  font-weight: 500;
+  width: rem(120px);
+  height: rem(40px);
+  text-align: center;
+  color: var(--white);
+  background: #703EFC;
+  text-transform: uppercase;
+
+  @include min-tablet {
+    width: rem(140px);
+    height: rem(48px);
+    font-size: rem(14px);
   }
 }

@@ -1,9 +1,10 @@
 .header {
   position: fixed;
   z-index: 2;
-  top: 0;
+  top: var(--height-banner);
   left: 0;
   width: 100%;
+
 }
 
 .container {
