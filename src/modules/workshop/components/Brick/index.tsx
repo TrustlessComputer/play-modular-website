@@ -227,14 +227,15 @@ export const Brick = ({
               onPointerMove={mouseMove}
             >
               <Outlines visible={isSelected2 && mode === EDIT_MODE} scale={1.025} />
-              <meshPhysicalMaterial
-                opacity={opacity}
-                transparent
-                color={color}
-                metalness={0}
-                roughness={1}
-                specularIntensity={0}
-              />
+              <meshStandardMaterial roughness={1} metalness={.35} opacity={opacity} transparent color={color} emissive={'#000'}/>
+              {/*<meshPhysicalMaterial*/}
+              {/*  opacity={opacity}*/}
+              {/*  transparent*/}
+              {/*  color={color}*/}
+              {/*  metalness={0}*/}
+              {/*  roughness={.1}*/}
+              {/*  specularIntensity={0}*/}
+              {/*/>*/}
 
               {!isNontTexture && (
                 <Decal
@@ -258,7 +259,7 @@ export const Brick = ({
                   {/*  polygonOffset*/}
                   {/*  polygonOffsetFactor={-1}*/}
                   {/*/>*/}
-                  <meshStandardMaterial map={texturez} polygonOffset roughness={1} metalness={0.35} color={'#fff'} emissive={'#000'}  alphaHash={true} transparent alphaTest={0}/>
+                  <meshStandardMaterial map={texturez} polygonOffset roughness={1} metalness={.35} color={'#fff'} emissive={'#000'}  alphaHash={true} transparent alphaTest={0}/>
                 </Decal>
               )}
             </mesh>

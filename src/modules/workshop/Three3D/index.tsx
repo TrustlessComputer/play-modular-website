@@ -6,6 +6,7 @@ import { Scene } from '../components/Scene'
 import { Canvas, useThree } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import { base, captureCanvasImage, minWorkSpaceSize } from '@/utils'
+import { EffectComposer, N8AO, SMAA } from "@react-three/postprocessing"
 
 const SaveToPng = () => {
   const [isSaving, setIsSaving] = React.useState(false)
@@ -99,15 +100,21 @@ export default function Three3D() {
       id='canvas-3d'
     >
       <SaveToPng />
-      <color attach='background' args={['#ffffff']} />
+      {/*<color attach='background' args={['#ffffff']} />*/}
+      <ambientLight intensity={.5} />
+      <color attach="background" args={["#dfdfdf"]} />
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
         <planeGeometry args={[50000, 50000]} />
         <meshPhysicalMaterial color='#cacaca' roughness={1} metalness={0.7} specularIntensity={0} />
       </mesh>
       <Suspense fallback={null}>
-        <Environment preset='city' />
+        <Environment preset='city' background />
         <Scene />
         <ControlsWrapper />
+        <EffectComposer disableNormalPass multisampling={0}>
+          <N8AO halfRes color="black" aoRadius={2} intensity={1} aoSamples={6} denoiseSamples={4} />
+          {/*<SMAA />*/}
+        </EffectComposer>
       </Suspense>
     </Canvas>
   )
