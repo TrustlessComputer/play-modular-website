@@ -19,7 +19,7 @@ const ExportImageBtn = ({ imageSrc, name, ownerAddress }: Props) => {
   return (
     <div className={s.wrapper}>
       <button
-        className='flex items-center gap-1 btn_secondary'
+        className='flex items-center gap-1 btn_secondary uppercase'
         onClick={() => {
           captureCanvasImage({ download: true })
           // downloadImage(imageSrc, `${name}-model`)

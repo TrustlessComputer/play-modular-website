@@ -1,0 +1,20 @@
+.wrapper {
+    padding: 20px;
+    border-radius: 8px;
+    background: #FFF;
+    box-shadow: 0px 0px 24px -6px rgba(0, 0, 0, 0.16);
+    max-width: rem(548px);
+    font-size: 16px;
+    line-height: 140%;
+    z-index: 1;
+    // margin-bottom: 18px;
+
+    .list {
+        display: flex;
+        flex-direction: column;
+        gap: rem(8px);
+        list-style-type: disc;
+        margin-left: rem(20px);
+    }
+
+}
