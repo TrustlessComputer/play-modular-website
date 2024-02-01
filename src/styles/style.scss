@@ -90,8 +90,12 @@ body {
 
 .btn_inscribe {
   background-color: #5B5B5B1A;
-  padding: 0 28px;
+  padding: 9px 28px;
   opacity: 0.5;
+
+  p {
+    line-height: 6px;
+  }
 
   span {
     font-size: 10px;
