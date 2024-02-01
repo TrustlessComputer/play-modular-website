@@ -62,10 +62,13 @@ export const Scene = () => {
     // if (!isDrag.current) {
     const boundingBoxOfBrickToBeAdded = new Box3().setFromObject(brickCursorRef.current)
 
-    if (checkCollision(boundingBoxOfBrickToBeAdded, Object.values(bricksBoundBox.current))) {
+    const uId = uID()
+    if (
+      checkCollision({ uID: uId, brickBoundingBox: boundingBoxOfBrickToBeAdded }, Object.values(bricksBoundBox.current))
+    ) {
       const brickData = {
         intersect: { point: e.point, face: e.face },
-        uID: uID(),
+        uID: uId,
         dimensions: { x: width, z: depth },
         rotation: rotate ? Math.PI / 2 : 0,
         color: color,

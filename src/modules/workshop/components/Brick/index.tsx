@@ -7,20 +7,24 @@ import { TBlockAnimation, TBlockData } from '@/types'
 import {
   EDIT_MODE,
   base,
+  checkCollision,
   createGeometry,
   uID as generateUId,
   getMeasurementsFromDimensions,
   heightBase,
-  CREATE_MODE,
 } from '@/utils'
-import { Decal, Outlines, PivotControls, useTexture, RenderTexture } from '@react-three/drei'
+import { Decal, Outlines, PivotControls, useTexture } from '@react-three/drei'
 import { motion } from 'framer-motion-3d'
-import React, {useEffect, useMemo, useState} from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Box3, Matrix4, Vector3, DoubleSide, FrontSide, BackSide } from 'three'
 
 type TBrickAction = {
   onClick?: (e: any) => void
   mouseMove?: (e: any) => void
+}
+
+const roundToNearestMultiple = (value, multiple) => {
+  return Math.round(value / multiple) * multiple
 }
 
 export const Brick = ({
@@ -43,14 +47,14 @@ export const Brick = ({
   const isNontTexture = texture === null || texture === NONT_TEXTURE
   const updateTexture = isNontTexture ? NONT_TEXTURE : texture
   const texturez = useTexture(updateTexture)
-  const [opacity, setOpacity] = useState<number>(1);
+  const [opacity, setOpacity] = useState<number>(1)
   const compansate = {
     x: dimensions.x % 2 === 0 ? dimensions.x / 2 : (dimensions.x - 1) / 2,
     z: dimensions.z % 2 === 0 ? dimensions.z / 2 : (dimensions.z - 1) / 2,
   }
-  const isSelected2 = useMemo((): boolean=>{
-    return selectedBricks.find((brick) => brick.userData.uID === uID) ? true : false;
-  }, [selectedBricks]);
+  const isSelected2 = useMemo((): boolean => {
+    return selectedBricks.find((brick) => brick.userData.uID === uID) ? true : false
+  }, [selectedBricks])
   const offset = {
     x: Math.sign(translation.x) < 0 ? Math.max(translation.x, -compansate.x) : Math.min(translation.x, compansate.x),
     z: Math.sign(translation.z) < 0 ? Math.max(translation.z, -compansate.z) : Math.min(translation.z, compansate.z),
@@ -72,14 +76,38 @@ export const Brick = ({
   }
 
   const onDragEnd = () => {
+    // const boundingBox = new Box3().setFromObject(brickRef.current)
+    // console.log("BRICK'S BOUNDING BOX", Object.values(bricksBoundBox.current))
+
     // Make prevL awalys diveded by base to set the draggedOffset
     const newOffset = {
       x: draggedOffset.x + Math.round(prevL.x / base) * base,
       y: draggedOffset.y + Math.round(prevL.y / heightBase) * heightBase,
       z: draggedOffset.z + Math.round(prevL.z / base) * base,
     }
+    const customBoundingBox = new Box3().setFromObject(brickRef.current)
 
-    const blockCurrentClone = [...blockCurrent]
+    customBoundingBox.min.x = roundToNearestMultiple(customBoundingBox.min.x, base)
+    customBoundingBox.min.y = roundToNearestMultiple(customBoundingBox.min.y, heightBase)
+    customBoundingBox.min.z = roundToNearestMultiple(customBoundingBox.min.z, base)
+    customBoundingBox.max.x = roundToNearestMultiple(customBoundingBox.max.x, base)
+    customBoundingBox.max.y = roundToNearestMultiple(customBoundingBox.max.y, heightBase)
+    customBoundingBox.max.z = roundToNearestMultiple(customBoundingBox.max.z, base)
+
+    const brickBoundBoxClone = JSON.parse(JSON.stringify(bricksBoundBox.current))
+    brickBoundBoxClone[uID] = null
+    const isNotColliding = checkCollision(
+      { uID, brickBoundingBox: customBoundingBox },
+      Object.values(brickBoundBoxClone),
+    )
+
+    if (!isNotColliding) {
+      setResetKey(generateUId())
+      setIsDragging(false)
+      return
+    }
+    const blockCurrentClone = JSON.parse(JSON.stringify(blockCurrent))
+
     for (let i = 0; i < blockCurrentClone.length; i++) {
       const element = blockCurrentClone[i]
       if (element.uID === uID) {
@@ -95,6 +123,8 @@ export const Brick = ({
     setResetKey(generateUId())
     setIsDragging(false)
     setPositionBricks(blockCurrentClone)
+    brickBoundBoxClone[uID] = { uID, brickBoundingBox: customBoundingBox }
+    bricksBoundBox.current = brickBoundBoxClone
   }
 
   React.useEffect(() => {
@@ -104,11 +134,17 @@ export const Brick = ({
     if (!position) return
 
     let brickBoundingBox
-    const timeoutID = setTimeout(() => {
-      brickBoundingBox = new Box3().setFromObject(brickRef.current)
-      console.log('brickBoundingBox', brickBoundingBox)
-      bricksBoundBox.current[uID] = { uID, brickBoundingBox }
-    }, 300)
+    brickBoundingBox = new Box3().setFromObject(brickRef.current)
+    brickBoundingBox.min.x = roundToNearestMultiple(brickBoundingBox.min.x, base)
+    brickBoundingBox.min.y = Math.abs(roundToNearestMultiple(brickBoundingBox.min.y, heightBase))
+    brickBoundingBox.min.z = roundToNearestMultiple(brickBoundingBox.min.z, base)
+    brickBoundingBox.max.x = roundToNearestMultiple(brickBoundingBox.max.x, base)
+    brickBoundingBox.max.y = roundToNearestMultiple(brickBoundingBox.max.y, heightBase)
+    brickBoundingBox.max.z = roundToNearestMultiple(brickBoundingBox.max.z, base)
+
+    console.log('ADD : ', uID, ' :::: ', brickBoundingBox)
+
+    bricksBoundBox.current[uID] = { uID, brickBoundingBox }
 
     return () => {
       const newA = {}
@@ -118,7 +154,6 @@ export const Brick = ({
         }
       })
       bricksBoundBox.current = newA
-      clearTimeout(timeoutID)
     }
   }, [uID, bricksBoundBox, position])
 
@@ -137,32 +172,27 @@ export const Brick = ({
     setPosition(vec3)
   }, [intersect, dimensions.x, dimensions.z, height, rotation, draggedOffset])
 
-
   useEffect(() => {
-
-    if(isSelected2){
+    if (isSelected2) {
       setOpacity(1)
-    }else if(selectedBricks.length){
-      setOpacity(.5)
-    }else if(selectedBricks.length ===0){
+    } else if (selectedBricks.length) {
+      setOpacity(0.5)
+    } else if (selectedBricks.length === 0) {
       setOpacity(1)
     }
-  }, [isSelected2, selectedBricks]);
+  }, [isSelected2, selectedBricks])
 
   return (
     <>
       {position && (
-        <motion.group
+        <group
           rotation={[0, 0, 0]}
-          initial={{ opacity: 0, scale: disabledAnim ? 1 : 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
           ref={brickRef}
           position={[
             position.x + translation.x * base,
             Math.abs(position.y) + translation.y * heightBase,
             position.z + translation.z * base,
           ]}
-          transition={{ type: 'spring', duration: 0.25 }}
           userData={{
             uID,
           }}
@@ -197,34 +227,43 @@ export const Brick = ({
               onPointerMove={mouseMove}
             >
               <Outlines visible={isSelected2 && mode === EDIT_MODE} scale={1.025} />
-              <meshPhysicalMaterial opacity={opacity} transparent color={color} metalness={0} roughness={1} specularIntensity={0} />
+              <meshPhysicalMaterial
+                opacity={opacity}
+                transparent
+                color={color}
+                metalness={0}
+                roughness={1}
+                specularIntensity={0}
+              />
 
               {!isNontTexture && (
                 <Decal
-                  map={texturez}
-                  position={[0, 0, brickGeometry.length > 1 ? 19 : 17]}
+                  position={[0, 0, dimensions.x == 2 ? base + 0.005 : 13 + 0.005  ]}
                   rotation={[0, 0, 0]}
                   scale={[
-                    brickGeometry.length > 1 ? base * 3 : base * 3,
+                    base * 3,
                     heightBase,
-                    brickGeometry.length > 1 ? base * 2 : base * 1,
+                    5,
                   ]}
                 >
-                  <meshPhysicalMaterial
-                    map={texturez}
-                    transparent={true}
-                    metalness={0}
-                    roughness={1}
-                    opacity={opacity}
-                    specularIntensity={0}
-                    polygonOffset
-                    polygonOffsetFactor={-1}
-                  />
+                  {/*<meshPhysicalMaterial*/}
+                  {/*  map={texturez}*/}
+                  {/*  transparent={true}*/}
+                  {/*  metalness={0}*/}
+                  {/*  roughness={1}*/}
+                  {/*  opacity={opacity}*/}
+                  {/*  alphaHash={true}*/}
+                  {/*  alphaTest={0}*/}
+                  {/*  specularIntensity={0}*/}
+                  {/*  polygonOffset*/}
+                  {/*  polygonOffsetFactor={-1}*/}
+                  {/*/>*/}
+                  <meshStandardMaterial map={texturez} polygonOffset roughness={1} metalness={0.35} color={'#fff'} emissive={'#000'}  alphaHash={true} transparent alphaTest={0}/>
                 </Decal>
               )}
             </mesh>
           </PivotControls>
-        </motion.group>
+        </group>
       )}
     </>
   )

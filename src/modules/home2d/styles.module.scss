@@ -33,8 +33,11 @@
   &_inner {
     width: 100%;
     position: absolute;
-    bottom: rem(120px);
     left: 0;
+    bottom: rem(34px);
+    @include min-tablet{
+      bottom: rem(48px);
+    }
   }
 
   &_title {

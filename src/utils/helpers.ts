@@ -68,18 +68,26 @@ export function radToDeg(angle) {
 export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
   let isCollied = false
   let isSomethingBelow = false
-  let isFirstLayer = Math.floor(boundingBoxToCheck.max.y) === Math.floor(heightBase)
+  let isFirstLayer = boundingBoxToCheck.brickBoundingBox.min.y === 0
 
   if (otherBoundingBoxes.length < 1) return true
 
   for (let index = 0; index < otherBoundingBoxes.length; index++) {
     if (!otherBoundingBoxes[index]) continue
-    const brickBoundingBox = otherBoundingBoxes[index].brickBoundingBox
-    const diffX = Math.round(boundingBoxToCheck.min.x - brickBoundingBox.min.x) - 1
-    const diffZ = Math.round(boundingBoxToCheck.min.z - brickBoundingBox.min.z) - 1
-    const diffY = Math.round(boundingBoxToCheck.min.y - brickBoundingBox.min.y)
+    if (otherBoundingBoxes[index].uID === boundingBoxToCheck.uID) continue
 
-    if (Math.abs(diffY) < heightBase) {
+    const brickBoundingBox = otherBoundingBoxes[index].brickBoundingBox
+    const diffX = boundingBoxToCheck.brickBoundingBox.min.x - brickBoundingBox.min.x
+    const diffZ = boundingBoxToCheck.brickBoundingBox.min.z - brickBoundingBox.min.z
+    const diffY = boundingBoxToCheck.brickBoundingBox.min.y - brickBoundingBox.min.y
+    const widthToCheck = Math.round(
+      boundingBoxToCheck.brickBoundingBox.max.x - boundingBoxToCheck.brickBoundingBox.min.x,
+    )
+    const depthToCheck = Math.round(
+      boundingBoxToCheck.brickBoundingBox.max.z - boundingBoxToCheck.brickBoundingBox.min.z,
+    )
+
+    if (diffY <= 0) {
       // TOP LEFT CORNER
       if (Math.abs(diffX) === base && Math.abs(diffZ) === base) {
         isCollied = true
@@ -87,15 +95,15 @@ export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
       }
 
       // BOTTOM LEFT CORNER
-      if ((Math.abs(diffX) === base || diffX === 0) && diffZ >= 0 && diffZ <= base) {
+      if ((Math.abs(diffX) === base || diffX === 0) && diffZ >= 0 && diffZ <= base && widthToCheck !== base) {
         isCollied = true
         break
       }
 
-      // if ((Math.abs(diffZ) === base || diffZ === 0) && diffX >= 0 && diffX <= base) {
-      //   isCollied = true
-      //   break
-      // }
+      if ((Math.abs(diffZ) === base || diffZ === 0) && diffX >= 0 && diffX <= base && widthToCheck !== base) {
+        isCollied = true
+        break
+      }
     }
 
     // Filter out the top layer
@@ -103,8 +111,8 @@ export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
 
     if (diffY === heightBase && Math.abs(diffX) <= base && Math.abs(diffZ) <= base) isSomethingBelow = true
   }
-  console.log('isCollied', isCollied)
-  return !isCollied //&& ((isSomethingBelow && !isFirstLayer) || isFirstLayer) // true if it is not colliding
+
+  return !isCollied && ((isSomethingBelow && !isFirstLayer) || isFirstLayer) // true if it is not colliding
 }
 
 export function uID(length = 8) {
@@ -178,6 +186,10 @@ export async function downloadImage(imageSrc, name) {
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)
+}
+
+export const roundToNearestMultiple = (value, multiple) => {
+  return Math.round(value / multiple) * multiple
 }
 
 export function captureCanvasImage({ dom = '#canvas-3d', name = 'project-xxxx.png', download = false }) {
