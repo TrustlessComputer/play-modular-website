@@ -11,13 +11,10 @@ const SaveToPng = () => {
   const [isSaving, setIsSaving] = React.useState(false)
   const { camera } = useThree()
 
-  React.useEffect( () => {
-
-   const onHandleCloseDownload = () => {
-
-     //todo jackie
-     console.log('____close popup download done');
-
+  React.useEffect(() => {
+    const onHandleCloseDownload = () => {
+      //todo jackie
+      console.log('____close popup download done')
     }
 
     const saveToPng = (e) => {
@@ -34,22 +31,19 @@ const SaveToPng = () => {
         camera.updateMatrixWorld()
         camera.updateMatrix()
 
-
-      const {dataURL, canvas} =  captureCanvasImage({
-          download: true
+        const { dataURL, canvas } = captureCanvasImage({
+          download: true,
         })
 
-        canvas.style.filter = `blur(100px)`;
-        const img: HTMLImageElement = new Image();
-        img.src = dataURL;
+        canvas.style.filter = `blur(100px)`
+        const img: HTMLImageElement = new Image()
+        img.src = dataURL
         img.onload = () => {
-          img.remove();
-          canvas.style.filter = null;
-          onHandleCloseDownload();
-        };
+          img.remove()
+          canvas.style.filter = null
+          onHandleCloseDownload()
+        }
       }
-
-
     }
 
     window.addEventListener('keydown', saveToPng)
@@ -85,9 +79,6 @@ export default function Three3D() {
   }, [])
 
   return (
-
-
-
     <Canvas
       gl={{
         alpha: false,
