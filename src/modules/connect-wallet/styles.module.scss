@@ -9,11 +9,13 @@
 
   &_btn {
     display: flex;
+    width: 220px;
     height: 48px;
     padding: 16px 40px;
     justify-content: center;
     align-items: center;
     gap: 8px;
+    border-radius: 4px;
     background: #703efc;
 
     color: #fff;
@@ -23,5 +25,10 @@
     font-weight: 500;
     line-height: normal;
     text-transform: uppercase;
+  }
+
+  &_guestMode {
+    background: #fff;
+    color: #000;
   }
 }
