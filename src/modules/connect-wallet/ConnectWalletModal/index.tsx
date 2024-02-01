@@ -42,7 +42,7 @@ const ConnectWalletModal = () => {
           <Image src='/imgs/wallet/xverse.svg' width={48} height={48} alt='xverse' />
           <div className={s.itemWallet_title}>XVERSE</div>
         </div>
-        <div
+        {/* <div
           className={s.itemWallet}
           onClick={() => {
             walletCtx.requestAccount({ walletType: WalletType.GuestMode }).then(() => {
@@ -54,7 +54,7 @@ const ConnectWalletModal = () => {
             <Image src='/imgs/wallet/guest-mode.svg' width={20} height={20} alt='guest-mode' />
           </div>
           <div className={s.itemWallet_title}>GUEST MODE</div>
-        </div>
+        </div> */}
       </div>
     </>
   )
