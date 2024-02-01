@@ -68,6 +68,7 @@ export const Brick = ({
     prevOffset: translation,
     boundingBox: null,
     blockCurrentClone: null,
+    boundBricks: JSON.parse(JSON.stringify(bricksBoundBox.current)),
   })
 
   const { height, width, depth } = getMeasurementsFromDimensions(dimensions)
@@ -102,6 +103,7 @@ export const Brick = ({
 
     const brickBoundBoxClone = JSON.parse(JSON.stringify(bricksBoundBox.current))
     brickBoundBoxClone[uID] = null
+    console.log(brickBoundBoxClone, 'BRICK BOUND BOX CLONE')
     const isNotColliding = checkCollision(
       { uID, brickBoundingBox: customBoundingBox },
       Object.values(brickBoundBoxClone),
@@ -120,7 +122,7 @@ export const Brick = ({
       }
     }
 
-    if (selectedBricks === 1) {
+    if (selectedBricks.length === 1) {
       setDraggedOffset(newOffset)
       setResetKey(generateUId())
       setIsDragging(false)
@@ -133,15 +135,15 @@ export const Brick = ({
       setResetKey(generateUId())
       setPositionBricks(currentBrickSelected.current.blockCurrentClone)
       setDraggedOffset(currentBrickSelected.current.prevOffset)
-      brickBoundBoxClone[uID] = { uID, brickBoundingBox: currentBrickSelected.current.boundingBox }
-      bricksBoundBox.current = currentBrickSelected.current.blockCurrentClone
-      setPositionBricks(currentBrickSelected.current.blockCurrentClone)
+      bricksBoundBox.current = currentBrickSelected.current.boundBricks
     }
 
     if (selectedBricks.length === 1 && isNotColliding) {
       currentBrickSelected.current.prevOffset = newOffset
       currentBrickSelected.current.boundingBox = customBoundingBox
       currentBrickSelected.current.blockCurrentClone = blockCurrentClone
+      brickBoundBoxClone[uID] = { uID, brickBoundingBox: customBoundingBox }
+      currentBrickSelected.current.boundBricks = brickBoundBoxClone
     }
   }
 
@@ -149,15 +151,18 @@ export const Brick = ({
     if (selectedBricks.length === 0) {
       if (brickRef.current) onDragEnd()
     } else {
-      const boundingBox = new Box3().setFromObject(brickRef.current)
-      boundingBox.min.x = roundToNearestMultiple(boundingBox.min.x, base)
-      boundingBox.min.y = roundToNearestMultiple(boundingBox.min.y, heightBase)
-      boundingBox.min.z = roundToNearestMultiple(boundingBox.min.z, base)
-      boundingBox.max.x = roundToNearestMultiple(boundingBox.max.x, base)
-      boundingBox.max.y = roundToNearestMultiple(boundingBox.max.y, heightBase)
-      boundingBox.max.z = roundToNearestMultiple(boundingBox.max.z, base)
-      currentBrickSelected.current.boundingBox = boundingBox
-      currentBrickSelected.current.blockCurrentClone = JSON.parse(JSON.stringify(blockCurrent))
+      if (brickRef.current) {
+        const boundingBox = new Box3().setFromObject(brickRef.current)
+        boundingBox.min.x = roundToNearestMultiple(boundingBox.min.x, base)
+        boundingBox.min.y = roundToNearestMultiple(boundingBox.min.y, heightBase)
+        boundingBox.min.z = roundToNearestMultiple(boundingBox.min.z, base)
+        boundingBox.max.x = roundToNearestMultiple(boundingBox.max.x, base)
+        boundingBox.max.y = roundToNearestMultiple(boundingBox.max.y, heightBase)
+        boundingBox.max.z = roundToNearestMultiple(boundingBox.max.z, base)
+        currentBrickSelected.current.boundingBox = boundingBox
+        currentBrickSelected.current.blockCurrentClone = JSON.parse(JSON.stringify(blockCurrent))
+        console.log('SETTING BOUNDING BOX', boundingBox, blockCurrent)
+      }
     }
   }, [selectedBricks])
 
@@ -167,16 +172,13 @@ export const Brick = ({
     if (!bricksBoundBox.current) return
     if (!position) return
 
-    let brickBoundingBox
-    brickBoundingBox = new Box3().setFromObject(brickRef.current)
+    const brickBoundingBox = new Box3().setFromObject(brickRef.current)
     brickBoundingBox.min.x = roundToNearestMultiple(brickBoundingBox.min.x, base)
     brickBoundingBox.min.y = Math.abs(roundToNearestMultiple(brickBoundingBox.min.y, heightBase))
     brickBoundingBox.min.z = roundToNearestMultiple(brickBoundingBox.min.z, base)
     brickBoundingBox.max.x = roundToNearestMultiple(brickBoundingBox.max.x, base)
     brickBoundingBox.max.y = roundToNearestMultiple(brickBoundingBox.max.y, heightBase)
     brickBoundingBox.max.z = roundToNearestMultiple(brickBoundingBox.max.z, base)
-
-    console.log('ADD : ', uID, ' :::: ', brickBoundingBox)
 
     bricksBoundBox.current[uID] = { uID, brickBoundingBox }
 
@@ -189,7 +191,7 @@ export const Brick = ({
       })
       bricksBoundBox.current = newA
     }
-  }, [uID, bricksBoundBox, position])
+  }, [uID, bricksBoundBox, position, brickRef])
 
   React.useEffect(() => {
     const evenWidth = rotation === 0 ? dimensions.x % 2 === 0 : dimensions.z % 2 === 0
