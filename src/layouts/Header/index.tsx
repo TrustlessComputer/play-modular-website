@@ -19,7 +19,7 @@ export default function Header() {
   return (
     <header className={s.header}>
       <div className={cn(isWorkshop ? s.containerWorkshop : s.container)}>
-        <div className={`${s.logo} ${pathname === WORKSHOP_URL && s.isWorkshop} js-header-logo`}>
+        <div className={`${s.logo} ${isWorkshop || isWorkshopWithId ? s.isWorkshop : null} js-header-logo`}>
           <Link href='/' className='inline-flex justify-center items-center gap-[16px]'>
             <LogoIcon />
             {pathname === '/' ? <Fade delay={1}>{MODULAR_TEXT}</Fade> : <div>{MODULAR_TEXT}</div>}

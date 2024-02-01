@@ -66,7 +66,7 @@ export function radToDeg(angle) {
 export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
   let isCollied = false
   let isSomethingBelow = false
-  let isFirstLayer = Math.floor(boundingBoxToCheck.max.y) === Math.floor(heightBase)
+  let isFirstLayer = boundingBoxToCheck.brickBoundingBox.min.y === 0
 
   if (otherBoundingBoxes.length < 1) return true
 
@@ -75,29 +75,30 @@ export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
     if (otherBoundingBoxes[index].uID === boundingBoxToCheck.uID) continue
 
     const brickBoundingBox = otherBoundingBoxes[index].brickBoundingBox
-    const diffX = Math.round(boundingBoxToCheck.min.x - brickBoundingBox.min.x) - 1
-    const diffZ = Math.round(boundingBoxToCheck.min.z - brickBoundingBox.min.z) - 1
-    const diffY = Math.round(boundingBoxToCheck.min.y - brickBoundingBox.min.y)
-    const widthToCheck = Math.round(boundingBoxToCheck.max.x - boundingBoxToCheck.min.x)
-    const depthToCheck = Math.round(boundingBoxToCheck.max.z - boundingBoxToCheck.min.z)
+    const diffX = boundingBoxToCheck.brickBoundingBox.min.x - brickBoundingBox.min.x
+    const diffZ = boundingBoxToCheck.brickBoundingBox.min.z - brickBoundingBox.min.z
+    const diffY = boundingBoxToCheck.brickBoundingBox.min.y - brickBoundingBox.min.y
+    const widthToCheck = Math.round(
+      boundingBoxToCheck.brickBoundingBox.max.x - boundingBoxToCheck.brickBoundingBox.min.x,
+    )
+    const depthToCheck = Math.round(
+      boundingBoxToCheck.brickBoundingBox.max.z - boundingBoxToCheck.brickBoundingBox.min.z,
+    )
 
-    if (Math.abs(diffY) < heightBase) {
+    if (diffY <= 0) {
       // TOP LEFT CORNER
       if (Math.abs(diffX) === base && Math.abs(diffZ) === base) {
-        console.log('COLLIED CASE 1')
         isCollied = true
         break
       }
 
       // BOTTOM LEFT CORNER
       if ((Math.abs(diffX) === base || diffX === 0) && diffZ >= 0 && diffZ <= base && widthToCheck !== base) {
-        console.log('COLLIED CASE 2')
         isCollied = true
         break
       }
 
       if ((Math.abs(diffZ) === base || diffZ === 0) && diffX >= 0 && diffX <= base && widthToCheck !== base) {
-        console.log('COLLIED CASE 3')
         isCollied = true
         break
       }
@@ -108,6 +109,7 @@ export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
 
     if (diffY === heightBase && Math.abs(diffX) <= base && Math.abs(diffZ) <= base) isSomethingBelow = true
   }
+
   return !isCollied && ((isSomethingBelow && !isFirstLayer) || isFirstLayer) // true if it is not colliding
 }
 
