@@ -1,11 +1,11 @@
 import WorkShop from '@/modules/workshop'
 import Web3Auth from '@/hocs/Web3Auth'
-import BVMBanner from '@/components/BVMBanner'
+import Banner from '@/components/Banner'
 
 export default function Page() {
   return (
     <Web3Auth>
-      <BVMBanner />
+      <Banner />
       <WorkShop />
     </Web3Auth>
   )
