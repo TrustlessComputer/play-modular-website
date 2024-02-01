@@ -142,18 +142,32 @@ export const Scene = () => {
     }
   }, [])
 
+  // useEffect(() => {
+  //   if (debounceData.length >= 0) {
+  //     instance.set(
+  //       LOCAL_DATA,
+  //       JSON.stringify({
+  //         projectId,
+  //         projectName,
+  //         data: debounceData,
+  //       }),
+  //     )
+  //   }
+  // }, [debounceData.length])
+
   useEffect(() => {
-    if (debounceData.length > 0) {
+    const intervalId = setTimeout(() => {
       instance.set(
         LOCAL_DATA,
         JSON.stringify({
           projectId,
           projectName,
-          data: debounceData,
+          data: blockCurrent,
         }),
       )
-    }
-  }, [debounceData.length])
+    }, TIME_SAVE)
+    return () => clearTimeout(intervalId) // Clear interval when component unmounts
+  }, [blockCurrent.length])
 
   return (
     <>
