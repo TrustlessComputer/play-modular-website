@@ -4,6 +4,10 @@ import { getProjectDetail } from '@/services/api/generative'
 import { API_URL } from '@/constant/constant'
 import ShareTwitterBtn from '@/components/ShareTwitterBtn'
 import ExportImageBtn from '@/modules/workshop/components/ExportImageBtn'
+import IcPublish from '@/icons/workshop/ic-publish.svg'
+import BVMBanner from '@/components/BVMBanner'
+import s from './style.module.scss'
+import WorkshopViewPage from '@/modules/workshop/ViewPage'
 
 // export const revalidate = 0
 
@@ -58,13 +62,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
 
   return (
-    <div className={'relative'} id='view-3d'>
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-[1000] pointer-events-auto flex gap-5 items-center">
-        <ExportImageBtn imageSrc={data?.data?.thumbnail} name={data?.data?.name} ownerAddress={data?.data?.owner_addr} />
-        <ShareTwitterBtn data={data} />
-      </div>
-      <ViewMap brickData={JSON.parse(data.data.meta_data)} id={params.id} />
-    </div >
+    <WorkshopViewPage data={data} id={params.id} />
   )
 }
 

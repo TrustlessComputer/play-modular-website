@@ -11,7 +11,7 @@ import toast from 'react-hot-toast'
 import Image from 'next/image'
 import useClickOutside from '@/hooks/useClickOutSide'
 import { WORKSHOP_URL } from '@/constant/route-path'
-
+import IcLegoHead from '@/icons/workshop/ic-lego-head.svg'
 import { IconCopy, IconLogout } from '../IconSvgs'
 import s from './styles.module.scss'
 
@@ -60,7 +60,8 @@ const WalletButton: React.FunctionComponent<TWalletButton> = ({ className }) => 
 
       <div className={s.walletButton_walletInfo} ref={walletButton}>
         <button className={s.account} onClick={() => setToggleState(!toggleState)}>
-          <Image src='/imgs/wallet/wallet.svg' width={20} height={20} alt='wallet' />
+          {/* <Image src='/imgs/wallet/wallet.svg' width={20} height={20} alt='wallet' /> */}
+          <IcLegoHead />
           {formatLongAddress(account.address)}
         </button>
         <div className={`${s.walletPopup} ${toggleState && s.active}`}>
