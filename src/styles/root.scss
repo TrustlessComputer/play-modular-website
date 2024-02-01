@@ -4,5 +4,9 @@
   --gray-2: rgba(255, 255, 255, 0.5);
   --black: #000;
   --black-20: rgba(0, 0, 0, 0.2);
-  --height-banner: 80px;
+
+  --height-banner: 64px;
+  @include min-tablet{
+    --height-banner: 80px;
+  }
 }

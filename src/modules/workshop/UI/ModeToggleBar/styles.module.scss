@@ -7,7 +7,7 @@
   box-shadow: 0 2px 10px var(--black-a7);
   pointer-events: auto;
   left: 50%;
-  top: rem(54px);
+  top: calc(#{rem(30px)} + var(--height-banner));
   transform: translateX(-50%);
   z-index: 1000;
   padding: rem(4px);

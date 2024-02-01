@@ -1,10 +1,11 @@
+'use client';
+
 import React, {useMemo} from 'react'
 import s from './style.module.scss'
 import { IconBVM } from '@/components/IconSvgs'
 import Link from 'next/link'
 import Countdown from "@/components/Countdown";
 import dayjs from "dayjs";
-import {HOME_URL, WORKSHOP_URL} from "@/constant/route-path";
 import {usePathname} from "next/navigation";
 const Banner = () => {
     const pathname = usePathname()
@@ -21,7 +22,7 @@ const Banner = () => {
                 .utc('Fri Feb 02 2024 03:30:00 GMT+0000')
                 .toString()}
         />!</div>
-          {pathname === HOME_URL && <span className={s.workshopBtn}> Join Now </span>}
+           <span className={s.workshopBtn}> Join Now </span>
       </div>
     </Link>
   )

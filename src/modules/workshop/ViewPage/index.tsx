@@ -8,6 +8,7 @@ import IcPublish from '@/icons/workshop/ic-publish.svg'
 import { useAppSelector } from '@/stores/hooks'
 import { accountSelector } from '@/stores/states/wallet/selector'
 import s from './style.module.scss'
+import Banner from '@/components/Banner'
 
 type Props = {
     data: any
@@ -17,12 +18,11 @@ type Props = {
 const WorkshopViewPage = ({ data, id }: Props) => {
 
     const account = useAppSelector(accountSelector)
-
     const isOwner = account?.address.toLowerCase() == data?.data?.owner_addr.toLowerCase()
 
     return (
         <>
-            <BVMBanner />
+            <Banner />
             <div className={`relative h-[calc(100vh - 44px)] ${s.container}`} id='view-3d'>
                 {isOwner && (
                     <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-[1000] pointer-events-auto flex gap-5 items-center">
