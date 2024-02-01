@@ -37,7 +37,13 @@ export function Select({
   const onClick = React.useCallback(
     (e) => {
       e.stopPropagation()
-      if (!enable) return
+      if (!enable || selectedBricks.length) {
+        if (selectedBricks[0].uuid !== e.object.uuid) {
+          setSelectedBricks({})
+        }
+
+        return
+      }
       setSelectedBricks({
         object: customFilter([e.object])[0],
         // shift:  multiple && e.shiftKey,

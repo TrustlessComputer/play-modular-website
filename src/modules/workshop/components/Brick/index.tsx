@@ -17,6 +17,7 @@ import { Decal, Outlines, PivotControls, useTexture } from '@react-three/drei'
 import { motion } from 'framer-motion-3d'
 import React, { useEffect, useMemo, useState } from 'react'
 import { Box3, Matrix4, Vector3, DoubleSide, FrontSide, BackSide } from 'three'
+import { proxy } from 'valtio'
 
 type TBrickAction = {
   onClick?: (e: any) => void
@@ -63,6 +64,11 @@ export const Brick = ({
   const [position, setPosition] = React.useState<Vector3 | null>(null)
   const [prevL, setPrevL] = React.useState(new Vector3(0, 0, 0))
   const [draggedOffset, setDraggedOffset] = React.useState({ x: 0, y: 0, z: 0 })
+  const currentBrickSelected = React.useRef<any>({
+    prevOffset: translation,
+    boundingBox: null,
+    blockCurrentClone: null,
+  })
 
   const { height, width, depth } = getMeasurementsFromDimensions(dimensions)
 
@@ -101,11 +107,6 @@ export const Brick = ({
       Object.values(brickBoundBoxClone),
     )
 
-    if (!isNotColliding) {
-      setResetKey(generateUId())
-      setIsDragging(false)
-      return
-    }
     const blockCurrentClone = JSON.parse(JSON.stringify(blockCurrent))
 
     for (let i = 0; i < blockCurrentClone.length; i++) {
@@ -119,13 +120,46 @@ export const Brick = ({
       }
     }
 
-    setDraggedOffset(newOffset)
-    setResetKey(generateUId())
-    setIsDragging(false)
-    setPositionBricks(blockCurrentClone)
-    brickBoundBoxClone[uID] = { uID, brickBoundingBox: customBoundingBox }
-    bricksBoundBox.current = brickBoundBoxClone
+    if (selectedBricks === 1) {
+      setDraggedOffset(newOffset)
+      setResetKey(generateUId())
+      setIsDragging(false)
+      setPositionBricks(blockCurrentClone)
+      brickBoundBoxClone[uID] = { uID, brickBoundingBox: customBoundingBox }
+      bricksBoundBox.current = brickBoundBoxClone
+    }
+
+    if (!isNotColliding && selectedBricks.length === 0) {
+      setResetKey(generateUId())
+      setPositionBricks(currentBrickSelected.current.blockCurrentClone)
+      setDraggedOffset(currentBrickSelected.current.prevOffset)
+      brickBoundBoxClone[uID] = { uID, brickBoundingBox: currentBrickSelected.current.boundingBox }
+      bricksBoundBox.current = currentBrickSelected.current.brickBoundBoxClone
+      setPositionBricks(currentBrickSelected.current.brickBoundBoxClone)
+    }
+
+    if (selectedBricks.length === 1 && isNotColliding) {
+      currentBrickSelected.current.prevOffset = newOffset
+      currentBrickSelected.current.boundingBox = customBoundingBox
+      currentBrickSelected.current.blockCurrentClone = blockCurrentClone
+    }
   }
+
+  React.useEffect(() => {
+    if (selectedBricks.length === 0) {
+      if (brickRef.current) onDragEnd()
+    } else {
+      const boundingBox = new Box3().setFromObject(brickRef.current)
+      boundingBox.min.x = roundToNearestMultiple(boundingBox.min.x, base)
+      boundingBox.min.y = roundToNearestMultiple(boundingBox.min.y, heightBase)
+      boundingBox.min.z = roundToNearestMultiple(boundingBox.min.z, base)
+      boundingBox.max.x = roundToNearestMultiple(boundingBox.max.x, base)
+      boundingBox.max.y = roundToNearestMultiple(boundingBox.max.y, heightBase)
+      boundingBox.max.z = roundToNearestMultiple(boundingBox.max.z, base)
+      currentBrickSelected.current.boundingBox = boundingBox
+      currentBrickSelected.current.blockCurrentClone = JSON.parse(JSON.stringify(blockCurrent))
+    }
+  }, [selectedBricks])
 
   React.useEffect(() => {
     if (!brickRef.current) return
