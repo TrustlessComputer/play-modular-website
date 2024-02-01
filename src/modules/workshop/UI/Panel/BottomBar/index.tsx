@@ -247,7 +247,7 @@ export default function BottomBar() {
       const data = JSON.parse(dataLocal) as { data: TBlockData[]; projectId: string; projectName: string }
       if (data.data.length > 0) {
         const JSON_BLOCKS = JSON.stringify(data?.data)
-        loadProject({ projectId, projectName, JSON_BLOCKS })
+        loadProject({ projectId, projectName, renderFile: JSON_BLOCKS })
         setBlockCurrent(data?.data)
       }
     }
