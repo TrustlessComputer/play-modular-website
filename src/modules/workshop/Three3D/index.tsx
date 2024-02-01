@@ -1,16 +1,16 @@
 'use client'
 
-import React, { Suspense } from 'react'
-import { ControlsWrapper } from '../components/Control'
-import { Scene } from '../components/Scene'
-import { Canvas, useThree } from '@react-three/fiber'
-import { Environment } from '@react-three/drei'
-import { base, captureCanvasImage, minWorkSpaceSize } from '@/utils'
-import { EffectComposer, N8AO, SMAA } from "@react-three/postprocessing"
+import React, {Suspense} from 'react'
+import {ControlsWrapper} from '../components/Control'
+import {Scene} from '../components/Scene'
+import {Canvas, useThree} from '@react-three/fiber'
+import {Environment, Stage} from '@react-three/drei'
+import {base, captureCanvasImage, minWorkSpaceSize} from '@/utils'
+import {EffectComposer, N8AO, SMAA, ToneMapping} from "@react-three/postprocessing"
 
 const SaveToPng = () => {
   const [isSaving, setIsSaving] = React.useState(false)
-  const { camera } = useThree()
+  const {camera} = useThree()
 
   React.useEffect(() => {
     const onHandleCloseDownload = () => {
@@ -32,7 +32,7 @@ const SaveToPng = () => {
         camera.updateMatrixWorld()
         camera.updateMatrix()
 
-        const { dataURL, canvas } = captureCanvasImage({
+        const {dataURL, canvas} = captureCanvasImage({
           download: true,
         })
 
@@ -56,7 +56,7 @@ const SaveToPng = () => {
 
   return (
     !isSaving && (
-      <gridHelper position={[0, 0, 0]} args={[minWorkSpaceSize, minWorkSpaceSize / base, 0xffffff, 0xffffff]} />
+      <gridHelper position={[0, 0, 0]} args={[minWorkSpaceSize, minWorkSpaceSize / base, 0xffffff, 0xffffff]}/>
     )
   )
 }
@@ -82,14 +82,13 @@ export default function Three3D() {
   return (
     <Canvas
       gl={{
-        alpha: false,
-        antialias: true,
+        // alpha: false,
+        // antialias: true,
         preserveDrawingBuffer: true,
         pixelRatio: Math.min(2, aspect),
       }}
-      shadows='basic'
-      dpr={Math.min(2, aspect)}
-      linear
+      // dpr={Math.min(2, aspect)}
+      flat shadows
       camera={{
         position: [2900, 2400, 2900],
         near: 10,
@@ -99,21 +98,22 @@ export default function Three3D() {
       }}
       id='canvas-3d'
     >
-      <SaveToPng />
+      <SaveToPng/>
       {/*<color attach='background' args={['#ffffff']} />*/}
-      <ambientLight intensity={.5} />
-      <color attach="background" args={["#dfdfdf"]} />
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
-        <planeGeometry args={[50000, 50000]} />
-        <meshPhysicalMaterial color='#cacaca' roughness={1} metalness={0.7} specularIntensity={0} />
+      {/*<fog attach="fog" args={['black', 15, 22.5]} />*/}
+      <ambientLight intensity={0.1}/>
+      <color attach="background" args={["#dfdfdf"]}/>
+      <mesh castShadow receiveShadow scale={20} rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
+        <planeGeometry args={[50, 50]} />
+        <meshStandardMaterial color='#cacaca' roughness={1} metalness={0.5} />
       </mesh>
       <Suspense fallback={null}>
-        <Environment preset='city' background />
-        <Scene />
-        <ControlsWrapper />
+        <Environment preset="sunset" blur={0.8}/>
+        <Scene/>
+        <ControlsWrapper/>
         <EffectComposer disableNormalPass multisampling={0}>
-          <N8AO halfRes color="black" aoRadius={2} intensity={1} aoSamples={6} denoiseSamples={4} />
-          {/*<SMAA />*/}
+          <N8AO halfRes color="black" aoRadius={2} intensity={1} aoSamples={6} denoiseSamples={4}/>
+          {/*<SMAA/>*/}
         </EffectComposer>
       </Suspense>
     </Canvas>

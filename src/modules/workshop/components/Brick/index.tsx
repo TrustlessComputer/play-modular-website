@@ -208,8 +208,7 @@ export const Brick = ({
             onDragEnd={onDragEnd}
           >
             <mesh
-              castShadow
-              receiveShadow
+              castShadow receiveShadow
               rotation={[0, rotation, 0]}
               userData={{
                 uID,
@@ -241,6 +240,7 @@ export const Brick = ({
                 <Decal
                   position={[0, 0, dimensions.x == 2 ? base + 0.005 : 13 + 0.005  ]}
                   rotation={[0, 0, 0]}
+                  castShadow receiveShadow
                   scale={[
                     base * 3,
                     heightBase,
