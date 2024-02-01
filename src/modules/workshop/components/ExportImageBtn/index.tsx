@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import s from './ExportImageBtn.module.scss'
 import { captureCanvasImage, downloadImage } from '@/utils'
 import { useAppSelector } from '@/stores/hooks'
