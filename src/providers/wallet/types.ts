@@ -3,10 +3,11 @@ import { IXverseState } from '@/providers/wallet/hooks/useXverseState'
 export enum WalletType {
   Unisat = 'Unisat',
   Xverse = 'Xverse',
+  GuestMode = 'GuestMode',
 }
 
 export interface RequestAccountResponse {
-  address: string,
+  address: string
   publicKey: string
 }
 
@@ -19,7 +20,7 @@ export interface IRequestAccount {
 }
 
 export interface IWalletContext {
-  xverseState?: IXverseState,
+  xverseState?: IXverseState
   requestAccount: (_: IRequestAccount) => Promise<void>
   requestSignOut: () => void
 }

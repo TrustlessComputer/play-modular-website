@@ -273,7 +273,16 @@ export default function BottomBar() {
 
   return (
     <>
-      <Toaster />
+      <Toaster
+        toastOptions={
+          {
+            style: {
+              zIndex: 9999,
+
+            }
+          }
+        }
+      />
       <div className={s.wrapper}>
         <div className={s.bottomBar}>
           <button className={`${s.bottomBar_btn} ${s.noFill}`} onClick={undoAction}>
