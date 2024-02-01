@@ -24,13 +24,16 @@ import { WORKSHOP_URL } from '@/constant/route-path'
 import SavedProjectsModal, { SAVED_PROJECTS_MODAL_ID } from '@/modules/workshop/components/Modal/SavedProjectsModal'
 import SetProjectNameModal, { SET_PROJECT_NAME_MODAL_ID } from '@/modules/workshop/components/Modal/SetProjectNameModal'
 import UnsaveWarningModal from '@/modules/workshop/components/Modal/UnsaveWarningModal'
-import { EDIT_MODE, LOCAL_DATA, captureCanvasImage } from '@/utils'
+import { EDIT_MODE, captureCanvasImage, copyShareTW, copyToClipboard, LOCAL_DATA } from '@/utils'
 import { convertBase64ToFile } from '@/utils/file'
 import instance from '@/utils/storage/local-storage'
 import { SHA256 } from 'crypto-js'
 import { useRouter } from 'next/navigation'
 import { useId, useState } from 'react'
-import { Toaster } from 'react-hot-toast'
+import toast, { Toaster } from 'react-hot-toast'
+import useSaveAction from '@/hooks/useSaveAction'
+import InscribeButton from '@/components/InscribeButton'
+import { DOMAIN_URL } from '@/constant/constant'
 
 // const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
 
@@ -61,12 +64,12 @@ export default function BottomBar() {
 
   const { openModal, modals } = useModalStore()
 
+  const { isAllowSave, handleSaveFile, handleShareFile } = useSaveAction()
+
   const [showModal, setShowModal] = useState(false)
   const [showUnsaveModal, setShowUnsaveModal] = useState(false)
   const [showSetProjectNameModal, setShowSetProjectNameModal] = useState(false)
   const [clickView, setClickView] = useState(false)
-
-  const currentBlockStateRef = useRef(SHA256(JSON.stringify(blockCurrent)).toString() || '')
 
   const account = useAppSelector(accountSelector)
   const isEditMode = mode === EDIT_MODE
@@ -99,50 +102,8 @@ export default function BottomBar() {
     redo()
   }
 
-  const isAllowSave = useMemo(() => {
-    const hashBlockCurrent = SHA256(JSON.stringify(blockCurrent)).toString()
-
-    return hashBlockCurrent !== currentBlockStateRef.current
-  }, [blockCurrent])
-
-  const saveAction = async () => {
-    if (!isAllowSave) return
-
-    if (!projectName) {
-      openModal({
-        id: SET_PROJECT_NAME_MODAL_ID,
-        component: <SetProjectNameModal type='save' />,
-      })
-      return
-    }
-    setLoading(true)
-
-    const { dataURL: image } = captureCanvasImage({})
-    const file = convertBase64ToFile(image)
-    const resUrl = await uploadFile({ file })
-
-    const payload: {
-      jsonFile: any
-      projectId?: string
-      projectName?: string
-      ownerAddress: string
-      thumbnail: string
-    } = {
-      jsonFile: blockCurrent,
-      ownerAddress: account?.address,
-      thumbnail: resUrl.url,
-    }
-
-    if (projectId) {
-      payload.projectId = projectId
-    }
-
-    if (projectName) {
-      payload.projectName = projectName
-    }
-    await saveProject(payload)
-
-    setLoading(false)
+  const saveAction = () => {
+    handleSaveFile()
   }
 
   const saveAsAction = async () => {
@@ -167,17 +128,6 @@ export default function BottomBar() {
     deleteAlls()
   }
 
-  // const handleGetData = async () => {
-  //   const data = (await getListModularByWallet({
-  //     ownerAddress: account?.address,
-  //     // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
-  //     page: 1,
-  //     limit: 20,
-  //   })) as any
-  //   const listData = data.list as TListCurrent[]
-  //   return listData
-  // }
-
   const handleClickCreateNewProject = async () => {
     if (isAllowSave) {
       setShowUnsaveModal(true)
@@ -189,24 +139,42 @@ export default function BottomBar() {
     setDataCurrent(data)
   }
 
-  const viewAction = async () => {
-    if (!projectId && !isAllowSave) return
+  // function copyShareTW(id: string) {
+  //   copyToClipboard(`${DOMAIN_URL}/workshop/${id}`)
+  //   toast.success(`Copied to clipboard`, { id: 'save-project-success' })
+  //   setTimeout(() => {
+  //     handleShareTw()
+  //     setLoading(false)
+  //   }, 2000)
+  // }
 
-    if (!projectId && isAllowSave) {
-      openModal({
-        id: SET_PROJECT_NAME_MODAL_ID,
-        component: <SetProjectNameModal type='save-view' />,
-      })
+  const viewAction = async () => {
+    // if (!projectId) return
+
+    // if (!projectId && isAllowSave) {
+    //   openModal({
+    //     id: SET_PROJECT_NAME_MODAL_ID,
+    //     component: <SetProjectNameModal type='save-view' />,
+    //   })
+    //   return
+    // }
+    setLoading(true)
+    if (isAllowSave) {
+      const _projectId = await handleShareFile()
+      if (!!_projectId && _projectId !== 'failed') {
+        copyShareTW(_projectId, () => {
+          handleShareTw()
+          setLoading(false)
+        })
+      }
       return
     }
 
-    if (isAllowSave) {
-      await saveAction()
-      setLoading(true)
-      setTimeout(() => {
-        window.open(`${WORKSHOP_URL}/${projectId}`, '_blank')
+    if (!!projectId) {
+      copyShareTW(projectId, () => {
+        handleShareTw()
         setLoading(false)
-      }, 3000)
+      })
       return
     }
     window.open(`${WORKSHOP_URL}/${projectId}`, '_blank')
@@ -215,6 +183,7 @@ export default function BottomBar() {
   const loadInitialProject = async () => {
     try {
       setLoading(true)
+
       const res = await getProjectDetail({ id: projectId })
       // const data = await handleGetData(account.address) // reset data when open new data
 
@@ -265,12 +234,27 @@ export default function BottomBar() {
       })
     }
   }, [isAllowSave])
+  const content = `Check out my on-chain LEGO masterpiece with Modular Workshop by @BVMnetwork 🧱 
+    
+With $BVM, just connect some Lego pieces and you have your own Bitcoin L2 blockchain 🤯🤯🤯
+  
+Join Modular Workshop and build the future of Bitcoin with me:
+`
 
-  // useEffect(() => {
-  //   if (projectId && projectName) {
-  //     loadInitialProject()
-  //   }
-  // }, [])
+  const handleShareTw = () => {
+    // e.preventDefault()
+    // e.stopPropagation()
+    // const shareUrl = `${DOMAIN_URL}/workshop/${projectId}`
+
+    window.open(`https://twitter.com/BVMnetwork/status/1752952381007171646`, '_blank')
+    // setTriggerSubmit(true);
+    // setIsProcessing(true);
+  }
+  useEffect(() => {
+    if (projectId && projectName) {
+      loadInitialProject()
+    }
+  }, [projectId, projectName])
 
   const handleDeleteSelected = () => {
     deleteSelected(selectedBricks)
@@ -340,6 +324,7 @@ export default function BottomBar() {
           >
             <IcOpen /> Open
           </button>
+          <InscribeButton className='h-[49px] px-5' />
         </div>
       </div>
       <UnsaveWarningModal show={showUnsaveModal} setIsOpen={setShowUnsaveModal} />
