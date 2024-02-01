@@ -10,7 +10,7 @@ import { accountSelector } from '@/stores/states/wallet/selector'
 
 const useSaveAction = (): {
   isAllowSave: boolean
-  handleSaveFile: () => Promise<string>
+  handleSaveFile: (type?: 'save' | 'save-as' | 'save-exit' | 'save-view') => Promise<string>
   handleShareFile: () => Promise<string>
 } => {
   const account = useAppSelector(accountSelector)
@@ -24,16 +24,18 @@ const useSaveAction = (): {
   const isAllowSave = useMemo(() => {
     const hashBlockCurrent = SHA256(JSON.stringify(blockCurrent)).toString()
 
+    if (blocksState.length < 2) return false
+
     return hashBlockCurrent !== currentBlockStateRef.current
   }, [blockCurrent, blocksState.length, currentBlockStateRef.current])
 
-  const handleSaveFile = async () => {
+  const handleSaveFile = async (type = 'save') => {
     if (!isAllowSave) return
 
     if (!projectName) {
       openModal({
         id: SET_PROJECT_NAME_MODAL_ID,
-        component: <SetProjectNameModal type='save' />,
+        component: <SetProjectNameModal type={type} />,
       })
       return
     }
