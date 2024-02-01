@@ -7,7 +7,7 @@ type Props = {}
 
 const BVMBanner = (props: Props) => {
     return (
-        <Link className='h-[44px] w-[100vw] relative z-[2] block' href={'https://bvm.network/'} target="_blank">
+        <Link className='h-[44px] w-[100vw] relative z-[2] block' href={'https://bvm.network/public-sale?source=playmodular'} target="_blank">
             <Image
                 fill={true}
                 src={'/icons/workshop/modular-banner.png'}
