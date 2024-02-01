@@ -80,37 +80,23 @@ export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
     const diffX = boundingBoxToCheck.brickBoundingBox.min.x - brickBoundingBox.min.x
     const diffZ = boundingBoxToCheck.brickBoundingBox.min.z - brickBoundingBox.min.z
     const diffY = boundingBoxToCheck.brickBoundingBox.min.y - brickBoundingBox.min.y
-    console.log(
-      otherBoundingBoxes[index].uID,
-      ' ::: ',
-      boundingBoxToCheck.brickBoundingBox.min.y - brickBoundingBox.min.y,
-    )
-    const widthToCheck = Math.round(
-      boundingBoxToCheck.brickBoundingBox.max.x - boundingBoxToCheck.brickBoundingBox.min.x,
-    )
-    const depthToCheck = Math.round(
-      boundingBoxToCheck.brickBoundingBox.max.z - boundingBoxToCheck.brickBoundingBox.min.z,
-    )
-
-    console.log(diffY)
+    const widthToCheck = boundingBoxToCheck.brickBoundingBox.max.x - boundingBoxToCheck.brickBoundingBox.min.x
+    const depthToCheck = boundingBoxToCheck.brickBoundingBox.max.z - boundingBoxToCheck.brickBoundingBox.min.z
 
     if (diffY === 0) {
       // TOP LEFT CORNER
       if (Math.abs(diffX) === base && Math.abs(diffZ) === base) {
-        console.log('collied case 1', diffX, diffZ, diffY, widthToCheck, depthToCheck)
         isCollied = true
         break
       }
 
       // BOTTOM LEFT CORNER
       if ((Math.abs(diffX) === base || diffX === 0) && diffZ >= 0 && diffZ <= base && widthToCheck !== base) {
-        console.log('collied case 2', diffX, diffZ, diffY, widthToCheck, depthToCheck)
         isCollied = true
         break
       }
 
       if ((Math.abs(diffZ) === base || diffZ === 0) && diffX >= 0 && diffX <= base && widthToCheck !== base) {
-        console.log('collied case 3', diffX, diffZ, diffY, widthToCheck, depthToCheck)
         isCollied = true
         break
       }
@@ -120,7 +106,7 @@ export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
 
     if (diffY > 0 && Math.abs(diffX) <= base && Math.abs(diffZ) <= base) isSomethingBelow = true
 
-    if (diffY < 0 && diffY === -heightBase) isSomethingTop = true
+    if (diffY < 0 && diffY === -heightBase && Math.abs(diffX) <= base && Math.abs(diffZ) <= base) isSomethingTop = true
   }
   return !isCollied && (((isSomethingBelow || isSomethingTop) && !isFirstLayer) || isFirstLayer) // true if it is not colliding
 }
