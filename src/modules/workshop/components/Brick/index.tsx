@@ -10,13 +10,12 @@ import {
   createGeometry,
   uID as generateUId,
   getMeasurementsFromDimensions,
-  heightBase,
-  CREATE_MODE,
+  heightBase
 } from '@/utils'
 import { Decal, Outlines, PivotControls, useTexture, RenderTexture } from '@react-three/drei'
 import { motion } from 'framer-motion-3d'
 import React, {useEffect, useMemo, useState} from 'react'
-import { Box3, Matrix4, Vector3, DoubleSide, FrontSide, BackSide } from 'three'
+import { Box3, Matrix4, Vector3 } from 'three'
 
 type TBrickAction = {
   onClick?: (e: any) => void
@@ -198,28 +197,29 @@ export const Brick = ({
             >
               <Outlines visible={isSelected2 && mode === EDIT_MODE} scale={1.025} />
               <meshPhysicalMaterial opacity={opacity} transparent color={color} metalness={0} roughness={1} specularIntensity={0} />
-
               {!isNontTexture && (
                 <Decal
-                  map={texturez}
-                  position={[0, 0, brickGeometry.length > 1 ? 19 : 17]}
+                  position={[0, 0, dimensions.x == 2 ? base + 0.005 : 13 + 0.005  ]}
                   rotation={[0, 0, 0]}
                   scale={[
-                    brickGeometry.length > 1 ? base * 3 : base * 3,
+                    base * 3,
                     heightBase,
-                    brickGeometry.length > 1 ? base * 2 : base * 1,
+                    5,
                   ]}
                 >
-                  <meshPhysicalMaterial
-                    map={texturez}
-                    transparent={true}
-                    metalness={0}
-                    roughness={1}
-                    opacity={opacity}
-                    specularIntensity={0}
-                    polygonOffset
-                    polygonOffsetFactor={-1}
-                  />
+                  {/*<meshPhysicalMaterial*/}
+                  {/*  map={texturez}*/}
+                  {/*  // transparent={true}*/}
+                  {/*  metalness={0}*/}
+                  {/*  roughness={1}*/}
+                  {/*  opacity={opacity}*/}
+                  {/*  // color={color}*/}
+                  {/*  depthTest={true}*/}
+                  {/*  specularIntensity={0}*/}
+                  {/*  polygonOffset*/}
+                  {/*  polygonOffsetFactor={-1}*/}
+                  {/*/>*/}
+                  <meshBasicMaterial map={texturez} polygonOffset polygonOffsetFactor={-1} alphaHash={true} transparent alphaTest={0}/>
                 </Decal>
               )}
             </mesh>
