@@ -28,7 +28,7 @@ const UnsaveWarningModal = ({ show, setIsOpen }: Props) => {
           <button
             onClick={async () => {
               const res = await handleSaveFile()
-              if (res !== 'failed') {
+              if (!!res && res !== 'failed') {
                 createProject()
                 deleteAlls()
                 setIsOpen(false)

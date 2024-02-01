@@ -15,6 +15,7 @@ import { useAppSelector } from '@/stores/hooks'
 import { accountSelector } from '@/stores/states/wallet/selector'
 import { TListCurrent } from '@/types'
 import { useEffect, useMemo, useRef } from 'react'
+import IcInfo from '@/icons/workshop/ic-info.svg'
 
 type TDataFetch = {
   list: TListCurrent
@@ -33,6 +34,8 @@ import toast, { Toaster } from 'react-hot-toast'
 import useSaveAction from '@/hooks/useSaveAction'
 import InscribeButton from '@/components/InscribeButton'
 import { DOMAIN_URL } from '@/constant/constant'
+import Tooltip from '@/components/Tooltip'
+import ShareInfo from '../ShareInfo'
 
 // const MOCK_ADDRESS = 'bc1p4psqwcglffqz87kl0ynzx26dtxvu3ep75a02d09fshy90awnpewqvkt7er'
 
@@ -68,6 +71,7 @@ export default function BottomBar() {
   const [showUnsaveModal, setShowUnsaveModal] = useState(false)
   const [showSetProjectNameModal, setShowSetProjectNameModal] = useState(false)
   const [clickView, setClickView] = useState(false)
+  const [showShareTooltip, setShowShareTooltip] = useState(true)
 
   const account = useAppSelector(accountSelector)
   const isEditMode = mode === EDIT_MODE
@@ -281,9 +285,28 @@ Join Modular Workshop and build the future of Bitcoin with me:
         </div>
 
         <div className={s.bottomBar}>
-          <button className={`${s.bottomBar_btn} ${s.icon_X}`} onClick={viewAction}>
-            <IcTwitter /> Share
-          </button>
+          <div className='relative'>
+            <Tooltip
+              triggerEl={
+                <button className={`${s.bottomBar_btn} ${s.icon_X} relative`} onClick={viewAction}>
+                  <IcTwitter /> Share <IcInfo />
+                </button>
+              }
+            >
+              <ShareInfo show={true} showClose />
+            </Tooltip>
+
+            <div className={s.shareTooltip}>
+              <ShareInfo
+                show={showShareTooltip}
+                showClose
+                onClose={() => {
+                  setShowShareTooltip(false)
+                }}
+              />
+            </div>
+          </div>
+
           <button className={s.bottomBar_btn} onClick={saveAction} disabled={!isAllowSave}>
             <IcSave /> Save
           </button>

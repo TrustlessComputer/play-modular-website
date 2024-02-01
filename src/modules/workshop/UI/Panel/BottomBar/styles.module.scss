@@ -21,6 +21,12 @@
   align-items: center;
   margin-top: 15px;
 
+  .shareTooltip {
+    position: absolute;
+    top: -300px;
+    left: -100%;
+  }
+
   &_btn {
     display: inline-flex;
     align-items: center;
@@ -40,6 +46,8 @@
     &:disabled {
       opacity: 0.6;
     }
+
+
 
     &_preview {
       margin-left: 304px;
