@@ -7,13 +7,13 @@ import { TBlockAnimation, TBlockData } from '@/types'
 import {
   EDIT_MODE,
   base,
+  checkCollision,
   createGeometry,
   uID as generateUId,
   getMeasurementsFromDimensions,
   heightBase,
-  CREATE_MODE,
 } from '@/utils'
-import { Decal, Outlines, PivotControls, useTexture, RenderTexture } from '@react-three/drei'
+import { Decal, Outlines, PivotControls, useTexture } from '@react-three/drei'
 import { motion } from 'framer-motion-3d'
 import React, { useEffect, useMemo, useState } from 'react'
 import { Box3, Matrix4, Vector3, DoubleSide, FrontSide, BackSide } from 'three'
@@ -21,6 +21,10 @@ import { Box3, Matrix4, Vector3, DoubleSide, FrontSide, BackSide } from 'three'
 type TBrickAction = {
   onClick?: (e: any) => void
   mouseMove?: (e: any) => void
+}
+
+const roundToNearestMultiple = (value, multiple) => {
+  return Math.round(value / multiple) * multiple
 }
 
 export const Brick = ({
@@ -72,14 +76,33 @@ export const Brick = ({
   }
 
   const onDragEnd = () => {
+    // const boundingBox = new Box3().setFromObject(brickRef.current)
+    // console.log("BRICK'S BOUNDING BOX", Object.values(bricksBoundBox.current))
+
     // Make prevL awalys diveded by base to set the draggedOffset
     const newOffset = {
       x: draggedOffset.x + Math.round(prevL.x / base) * base,
       y: draggedOffset.y + Math.round(prevL.y / heightBase) * heightBase,
       z: draggedOffset.z + Math.round(prevL.z / base) * base,
     }
+    const customBoundingBox = new Box3().setFromObject(brickRef.current)
 
-    const blockCurrentClone = [...blockCurrent]
+    customBoundingBox.min.x = roundToNearestMultiple(customBoundingBox.min.x, base)
+    customBoundingBox.min.y = roundToNearestMultiple(customBoundingBox.min.y + heightBase, heightBase)
+    customBoundingBox.min.z = roundToNearestMultiple(customBoundingBox.min.z, base)
+    customBoundingBox.max.x = roundToNearestMultiple(customBoundingBox.max.x, base)
+    customBoundingBox.max.y = roundToNearestMultiple(customBoundingBox.max.y + heightBase, heightBase)
+    customBoundingBox.max.z = roundToNearestMultiple(customBoundingBox.max.z, base)
+
+    const isNotColliding = checkCollision(customBoundingBox, Object.values(bricksBoundBox.current))
+
+    if (!isNotColliding) {
+      setResetKey(generateUId())
+      setIsDragging(false)
+      return
+    }
+    const blockCurrentClone = JSON.parse(JSON.stringify(blockCurrent))
+
     for (let i = 0; i < blockCurrentClone.length; i++) {
       const element = blockCurrentClone[i]
       if (element.uID === uID) {
@@ -106,9 +129,8 @@ export const Brick = ({
     let brickBoundingBox
     const timeoutID = setTimeout(() => {
       brickBoundingBox = new Box3().setFromObject(brickRef.current)
-      console.log('brickBoundingBox', brickBoundingBox)
       bricksBoundBox.current[uID] = { uID, brickBoundingBox }
-    }, 300)
+    }, 50)
 
     return () => {
       const newA = {}
@@ -150,17 +172,14 @@ export const Brick = ({
   return (
     <>
       {position && (
-        <motion.group
+        <group
           rotation={[0, 0, 0]}
-          initial={{ opacity: 0, scale: disabledAnim ? 1 : 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
           ref={brickRef}
           position={[
             position.x + translation.x * base,
             Math.abs(position.y) + translation.y * heightBase,
             position.z + translation.z * base,
           ]}
-          transition={{ type: 'spring', duration: 0.25 }}
           userData={{
             uID,
           }}
@@ -203,32 +222,35 @@ export const Brick = ({
                 roughness={1}
                 specularIntensity={0}
               />
+
               {!isNontTexture && (
                 <Decal
-                  map={texturez}
-                  position={[0, 0, brickGeometry.length > 1 ? 19 : 17]}
+                  position={[0, 0, dimensions.x == 2 ? base + 0.005 : 13 + 0.005  ]}
                   rotation={[0, 0, 0]}
                   scale={[
-                    brickGeometry.length > 1 ? base * 3 : base * 3,
+                    base * 3,
                     heightBase,
-                    brickGeometry.length > 1 ? base * 2 : base * 1,
+                    5,
                   ]}
                 >
-                  <meshPhysicalMaterial
-                    map={texturez}
-                    transparent={true}
-                    metalness={0}
-                    roughness={1}
-                    opacity={opacity}
-                    specularIntensity={0}
-                    polygonOffset
-                    polygonOffsetFactor={-1}
-                  />
+                  {/*<meshPhysicalMaterial*/}
+                  {/*  map={texturez}*/}
+                  {/*  transparent={true}*/}
+                  {/*  metalness={0}*/}
+                  {/*  roughness={1}*/}
+                  {/*  opacity={opacity}*/}
+                  {/*  alphaHash={true}*/}
+                  {/*  alphaTest={0}*/}
+                  {/*  specularIntensity={0}*/}
+                  {/*  polygonOffset*/}
+                  {/*  polygonOffsetFactor={-1}*/}
+                  {/*/>*/}
+                  <meshStandardMaterial map={texturez} polygonOffset polygonOffsetFactor={-1} alphaHash={true} transparent alphaTest={0}/>
                 </Decal>
               )}
             </mesh>
           </PivotControls>
-        </motion.group>
+        </group>
       )}
     </>
   )
