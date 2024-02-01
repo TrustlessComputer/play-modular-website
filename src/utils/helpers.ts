@@ -1,6 +1,7 @@
 import { mergeBufferGeometries } from 'three-stdlib'
 import { base, heightBase, knobSize } from '../constant/datablocks'
 import { BoxGeometry, CylinderGeometry } from 'three'
+import { diffProps } from '@react-three/fiber/dist/declarations/src/core/utils'
 
 export function CSSToHex(cssColor) {
   return parseInt(`0x${cssColor.substring(1)}`, 16)
@@ -66,6 +67,7 @@ export function radToDeg(angle) {
 export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
   let isCollied = false
   let isSomethingBelow = false
+  let isSomethingTop = false
   let isFirstLayer = boundingBoxToCheck.brickBoundingBox.min.y === 0
 
   if (otherBoundingBoxes.length < 1) return true
@@ -78,6 +80,11 @@ export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
     const diffX = boundingBoxToCheck.brickBoundingBox.min.x - brickBoundingBox.min.x
     const diffZ = boundingBoxToCheck.brickBoundingBox.min.z - brickBoundingBox.min.z
     const diffY = boundingBoxToCheck.brickBoundingBox.min.y - brickBoundingBox.min.y
+    console.log(
+      otherBoundingBoxes[index].uID,
+      ' ::: ',
+      boundingBoxToCheck.brickBoundingBox.min.y - brickBoundingBox.min.y,
+    )
     const widthToCheck = Math.round(
       boundingBoxToCheck.brickBoundingBox.max.x - boundingBoxToCheck.brickBoundingBox.min.x,
     )
@@ -85,32 +92,37 @@ export const checkCollision = (boundingBoxToCheck, otherBoundingBoxes) => {
       boundingBoxToCheck.brickBoundingBox.max.z - boundingBoxToCheck.brickBoundingBox.min.z,
     )
 
-    if (diffY <= 0) {
+    console.log(diffY)
+
+    if (diffY === 0) {
       // TOP LEFT CORNER
       if (Math.abs(diffX) === base && Math.abs(diffZ) === base) {
+        console.log('collied case 1', diffX, diffZ, diffY, widthToCheck, depthToCheck)
         isCollied = true
         break
       }
 
       // BOTTOM LEFT CORNER
       if ((Math.abs(diffX) === base || diffX === 0) && diffZ >= 0 && diffZ <= base && widthToCheck !== base) {
+        console.log('collied case 2', diffX, diffZ, diffY, widthToCheck, depthToCheck)
         isCollied = true
         break
       }
 
       if ((Math.abs(diffZ) === base || diffZ === 0) && diffX >= 0 && diffX <= base && widthToCheck !== base) {
+        console.log('collied case 3', diffX, diffZ, diffY, widthToCheck, depthToCheck)
         isCollied = true
         break
       }
     }
 
-    // Filter out the top layer
     if (isFirstLayer || Math.abs(diffY) > heightBase) continue
 
-    if (diffY === heightBase && Math.abs(diffX) <= base && Math.abs(diffZ) <= base) isSomethingBelow = true
-  }
+    if (diffY > 0 && Math.abs(diffX) <= base && Math.abs(diffZ) <= base) isSomethingBelow = true
 
-  return !isCollied && ((isSomethingBelow && !isFirstLayer) || isFirstLayer) // true if it is not colliding
+    if (diffY < 0 && diffY === -heightBase) isSomethingTop = true
+  }
+  return !isCollied && (((isSomethingBelow || isSomethingTop) && !isFirstLayer) || isFirstLayer) // true if it is not colliding
 }
 
 export function uID(length = 8) {
