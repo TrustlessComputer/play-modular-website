@@ -235,17 +235,17 @@ export const Brick = ({
                 >
                   {/*<meshPhysicalMaterial*/}
                   {/*  map={texturez}*/}
-                  {/*  // transparent={true}*/}
+                  {/*  transparent={true}*/}
                   {/*  metalness={0}*/}
                   {/*  roughness={1}*/}
                   {/*  opacity={opacity}*/}
-                  {/*  // color={color}*/}
-                  {/*  depthTest={true}*/}
+                  {/*  alphaHash={true}*/}
+                  {/*  alphaTest={0}*/}
                   {/*  specularIntensity={0}*/}
                   {/*  polygonOffset*/}
                   {/*  polygonOffsetFactor={-1}*/}
                   {/*/>*/}
-                  <meshBasicMaterial map={texturez} polygonOffset polygonOffsetFactor={-1} alphaHash={true} transparent alphaTest={0}/>
+                  <meshStandardMaterial map={texturez} polygonOffset polygonOffsetFactor={-1} alphaHash={true} transparent alphaTest={0}/>
                 </Decal>
               )}
             </mesh>
