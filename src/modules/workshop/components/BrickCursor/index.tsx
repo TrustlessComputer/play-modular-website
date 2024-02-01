@@ -62,7 +62,7 @@ const BrickCursor = forwardRef(
         >
           <mesh position={[(offsetX * width) / dimensions.x, 0, (offsetZ * width) / dimensions.z]}>
             <boxGeometry args={[width, height, depth]} />
-            <meshBasicMaterial color={numberBlocksCurrent !== 0 ? 'white' : 'red'} transparent={true} opacity={0.3} />
+            <meshBasicMaterial color={numberBlocksCurrent !== 0 ? '#acacac' : 'red'} transparent={true} opacity={0.3} />
           </mesh>
         </group>
       </>
