@@ -9,7 +9,7 @@ import useAnimationStore from '@/stores/useAnimationStore'
 import { useEffect, useRef } from 'react'
 
 import s from './styles.module.scss'
-import Banner from './Banner'
+import Banner from '@/components/Banner'
 import { WORKSHOP_URL } from '@/constant/route-path'
 
 export default function Home2d() {
