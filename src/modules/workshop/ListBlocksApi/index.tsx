@@ -114,7 +114,6 @@ const ListBlocks: React.FunctionComponent = () => {
     <div className={s.wrapper}>
       <div className={s.inner}>
         <div className={s.heading}>
-          <h3 className={s.title}>Bricks </h3>
           <p className={s.count}>{`(${blockCurrent.length} used)`} </p>
         </div>
         {hasFirstFetching === false || isRefreshing ? (

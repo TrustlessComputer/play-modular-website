@@ -50,18 +50,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: rem(8px);
   font-size: rem(12px);
   font-weight: 500;
-  width: rem(140px);
-  height: rem(40px);
   text-align: center;
-  color: var(--white);
-  background: #703EFC;
+  color: var(--black);
+  background: rgba($color: #5b5b5b, $alpha: 0.1);
   text-transform: uppercase;
+  border-radius: rem(4px);
+  padding: rem(10px) rem(25px);
 
   @include min-tablet {
-  width: rem(180px);
-  height: rem(48px);
-  font-size: rem(14px);
+    font-size: rem(14px);
+    padding: rem(14.5px) rem(29px);
   }
 }
