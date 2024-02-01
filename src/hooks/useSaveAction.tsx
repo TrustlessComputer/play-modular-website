@@ -7,10 +7,11 @@ import { convertBase64ToFile } from '@/utils/file'
 import { uploadFile } from '@/services/api/generative'
 import { useAppSelector } from '@/stores/hooks'
 import { accountSelector } from '@/stores/states/wallet/selector'
+import { TSaveTypes } from '@/interface/project'
 
 const useSaveAction = (): {
   isAllowSave: boolean
-  handleSaveFile: (type?: 'save' | 'save-as' | 'save-exit' | 'save-view') => Promise<string>
+  handleSaveFile: (type?: TSaveTypes) => Promise<string>
   handleShareFile: () => Promise<string>
 } => {
   const account = useAppSelector(accountSelector)
@@ -29,13 +30,13 @@ const useSaveAction = (): {
     return hashBlockCurrent !== currentBlockStateRef.current
   }, [blockCurrent, blocksState.length, currentBlockStateRef.current])
 
-  const handleSaveFile = async (type = 'save') => {
+  const handleSaveFile = async (type: TSaveTypes) => {
     if (!isAllowSave) return
 
     if (!projectName) {
       openModal({
         id: SET_PROJECT_NAME_MODAL_ID,
-        component: <SetProjectNameModal type={type} />,
+        component: <SetProjectNameModal type={type || 'save'} />,
       })
       return
     }
