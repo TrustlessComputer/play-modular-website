@@ -7,6 +7,7 @@ import ExportImageBtn from '@/modules/workshop/components/ExportImageBtn'
 import IcPublish from '@/icons/workshop/ic-publish.svg'
 import BVMBanner from '@/components/BVMBanner'
 import s from './style.module.scss'
+import WorkshopViewPage from '@/modules/workshop/ViewPage'
 
 // export const revalidate = 0
 
@@ -61,23 +62,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
 
   return (
-    <>
-      <BVMBanner />
-      <div className={`relative h-[calc(100vh - 44px)] ${s.container}`} id='view-3d'>
-        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-[1000] pointer-events-auto flex gap-5 items-center">
-          <ShareTwitterBtn data={data} />
-          <ExportImageBtn imageSrc={data?.data?.thumbnail} name={data?.data?.name} ownerAddress={data?.data?.owner_addr} />
-          <button className={`h-[48px]  btn_inscribe`}>
-            <p>
-              <p className='flex items-center gap-2 h-[20px]'><IcPublish /> Inscribe Your Build</p>
-              <span>(Coming soon)</span>
-            </p>
-          </button>
-        </div>
-        <ViewMap brickData={JSON.parse(data.data.meta_data)} id={params.id} />
-      </div >
-    </>
-
+    <WorkshopViewPage data={data} />
   )
 }
 
