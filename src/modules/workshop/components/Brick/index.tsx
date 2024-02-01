@@ -238,25 +238,27 @@ export const Brick = ({
 
               {!isNontTexture && (
                 <Decal
-                  map={texturez}
-                  position={[0, 0, brickGeometry.length > 1 ? 19 : 17]}
+                  position={[0, 0, dimensions.x == 2 ? base + 0.005 : 13 + 0.005  ]}
                   rotation={[0, 0, 0]}
                   scale={[
-                    brickGeometry.length > 1 ? base * 3 : base * 3,
+                    base * 3,
                     heightBase,
-                    brickGeometry.length > 1 ? base * 2 : base * 1,
+                    5,
                   ]}
                 >
-                  <meshPhysicalMaterial
-                    map={texturez}
-                    transparent={true}
-                    metalness={0}
-                    roughness={1}
-                    opacity={opacity}
-                    specularIntensity={0}
-                    polygonOffset
-                    polygonOffsetFactor={-1}
-                  />
+                  {/*<meshPhysicalMaterial*/}
+                  {/*  map={texturez}*/}
+                  {/*  transparent={true}*/}
+                  {/*  metalness={0}*/}
+                  {/*  roughness={1}*/}
+                  {/*  opacity={opacity}*/}
+                  {/*  alphaHash={true}*/}
+                  {/*  alphaTest={0}*/}
+                  {/*  specularIntensity={0}*/}
+                  {/*  polygonOffset*/}
+                  {/*  polygonOffsetFactor={-1}*/}
+                  {/*/>*/}
+                  <meshStandardMaterial map={texturez} polygonOffset polygonOffsetFactor={-1} alphaHash={true} transparent alphaTest={0}/>
                 </Decal>
               )}
             </mesh>
