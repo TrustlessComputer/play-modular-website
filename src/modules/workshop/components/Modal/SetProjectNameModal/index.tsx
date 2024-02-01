@@ -12,6 +12,7 @@ import { WORKSHOP_URL } from '@/constant/route-path'
 import Spinner from '@/components/Spinner'
 import { DELAY_SNAPSHOT } from '@/constant/constant'
 import { captureCanvasImage } from '@/utils'
+import { TSaveTypes } from '@/interface/project'
 
 export const SET_PROJECT_NAME_MODAL_ID = 'SET_PROJECT_NAME_MODAL_ID'
 interface MyFormValues {
@@ -19,7 +20,7 @@ interface MyFormValues {
 }
 
 type Props = {
-  type: 'save' | 'save-as' | 'save-exit' | 'save-view'
+  type: TSaveTypes
 }
 
 const SetProjectNameModal = ({ type }: Props) => {

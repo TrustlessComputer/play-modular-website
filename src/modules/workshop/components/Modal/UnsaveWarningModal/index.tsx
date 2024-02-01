@@ -27,7 +27,7 @@ const UnsaveWarningModal = ({ show, setIsOpen }: Props) => {
         <div className='flex items-center justify-between mt-6'>
           <button
             onClick={async () => {
-              const res = await handleSaveFile()
+              const res = await handleSaveFile('save-exit')
               if (!!res && res !== 'failed') {
                 createProject()
                 deleteAlls()

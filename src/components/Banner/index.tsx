@@ -8,12 +8,9 @@ import Countdown from "@/components/Countdown";
 import dayjs from "dayjs";
 import {usePathname} from "next/navigation";
 const Banner = () => {
-    const pathname = usePathname()
-    const isHome = useMemo((): boolean=>{
-        return pathname === '/'
-    }, [pathname])
+
   return (
-    <Link href={'https://bvm.network/public-sale?source=playmodular'}  target='_blank' rel='noopener noreferrer' className={`${s.banner} ${isHome && s.isHome}`}>
+    <Link href={'https://bvm.network/public-sale?source=playmodular'}  target='_blank' rel='noopener noreferrer' className={`${s.banner}`}>
       <div className={s.banner_content}>
         <IconBVM />
         <div>Exclusive for Modular Builders: <strong>20% Boost</strong> for $BVM Public Sale within the next <Countdown
