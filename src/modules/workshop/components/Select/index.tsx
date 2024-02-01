@@ -40,7 +40,7 @@ export function Select({
       if (!enable) return
       setSelectedBricks({
         object: customFilter([e.object])[0],
-        shift: e.shiftKey,
+        // shift:  multiple && e.shiftKey,
       })
     },
     [customFilter, enable, setSelectedBricks],
@@ -132,23 +132,23 @@ export function Select({
     }
 
     function pointerDown(event) {
-      if (event.shiftKey) {
-        var vec = new THREE.Vector3()
-        var pos = new THREE.Vector3()
-
-        vec.set((event.offsetX / window.innerWidth) * 2 - 1, -(event.offsetY / window.innerHeight) * 2 + 1, 0.5)
-
-        vec.unproject(camera)
-
-        vec.sub(camera.position).normalize()
-
-        var distance = -camera.position.z / vec.z
-
-        pos.copy(camera.position).add(vec.multiplyScalar(distance))
-
-        onSelectStart(event)
-        prepareRay(event, selBox.startPoint)
-      }
+      // if (event.shiftKey) {
+      //   var vec = new THREE.Vector3()
+      //   var pos = new THREE.Vector3()
+      //
+      //   vec.set((event.offsetX / window.innerWidth) * 2 - 1, -(event.offsetY / window.innerHeight) * 2 + 1, 0.5)
+      //
+      //   vec.unproject(camera)
+      //
+      //   vec.sub(camera.position).normalize()
+      //
+      //   var distance = -camera.position.z / vec.z
+      //
+      //   pos.copy(camera.position).add(vec.multiplyScalar(distance))
+      //
+      //   onSelectStart(event)
+      //   prepareRay(event, selBox.startPoint)
+      // }
     }
 
     let previous = []

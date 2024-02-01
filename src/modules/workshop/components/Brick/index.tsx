@@ -142,8 +142,6 @@ export const Brick = ({
     brickBoundingBox.max.y = roundToNearestMultiple(brickBoundingBox.max.y, heightBase)
     brickBoundingBox.max.z = roundToNearestMultiple(brickBoundingBox.max.z, base)
 
-    console.log('ADD : ', uID, ' :::: ', brickBoundingBox)
-
     bricksBoundBox.current[uID] = { uID, brickBoundingBox }
 
     return () => {
