@@ -204,7 +204,7 @@ export const Brick = ({
               />
               {!isNontTexture && (
                 <Decal
-                  position={[0, 0, dimensions.x == 2 ? base + 0.005 : 13 + 0.005  ]}
+                  position={[0, 0, dimensions.x == 2 ? base + 0.005 : 13 + 0.005]}
                   rotation={[0, 0, 0]}
                   scale={[
                     base * 3,
@@ -224,7 +224,8 @@ export const Brick = ({
                   {/*  polygonOffset*/}
                   {/*  polygonOffsetFactor={-1}*/}
                   {/*/>*/}
-                  <meshStandardMaterial map={texturez} polygonOffset roughness={1} metalness={0.35} color={'#fff'} emissive={'#000'}  alphaHash={true} transparent alphaTest={0}/>
+                  <meshStandardMaterial map={texturez} polygonOffset roughness={1} metalness={0.35} color={'#fff'}
+                                        emissive={'#000'} alphaHash={true} transparent alphaTest={0} />
                 </Decal>
               )}
             </mesh>
