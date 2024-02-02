@@ -37,7 +37,7 @@ export function Select({
   const onClick = React.useCallback(
     (e) => {
       e.stopPropagation()
-      if (!enable || selectedBricks.length) {
+      if (!enable && selectedBricks.length) {
         if (selectedBricks[0].userData.uID !== e.object.userData.uID) {
           setSelectedBricks({})
         }
