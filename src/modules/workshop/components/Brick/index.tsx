@@ -65,6 +65,7 @@ export const Brick = ({
   const [prevL, setPrevL] = React.useState(new Vector3(0, 0, 0))
   const [draggedOffset, setDraggedOffset] = React.useState({ x: 0, y: 0, z: 0 })
   const currentBrickSelected = React.useRef<any>({
+    prevUidChange: null,
     prevOffset: translation,
     boundingBox: null,
     blockCurrentClone: null,
@@ -83,87 +84,95 @@ export const Brick = ({
   }
 
   const onDragEnd = React.useCallback(() => {
-    if (selectedBricks[0] && selectedBricks[0].userData.uID === uID) {
-      console.log('CHECK')
-      // Make prevL awalys diveded by base to set the draggedOffset
-      const newOffset = {
-        x: draggedOffset.x + Math.round(prevL.x / base) * base,
-        y: draggedOffset.y + Math.round(prevL.y / heightBase) * heightBase,
-        z: draggedOffset.z + Math.round(prevL.z / base) * base,
-      }
-      const customBoundingBox = new Box3().setFromObject(brickRef.current)
+    console.log('CHECK')
+    // Make prevL awalys diveded by base to set the draggedOffset
+    const newOffset = {
+      x: draggedOffset.x + Math.round(prevL.x / base) * base,
+      y: draggedOffset.y + Math.round(prevL.y / heightBase) * heightBase,
+      z: draggedOffset.z + Math.round(prevL.z / base) * base,
+    }
+    const customBoundingBox = new Box3().setFromObject(brickRef.current)
 
-      customBoundingBox.min.x = roundToNearestMultiple(customBoundingBox.min.x, base)
-      customBoundingBox.min.y = roundToNearestMultiple(customBoundingBox.min.y, heightBase)
-      customBoundingBox.min.z = roundToNearestMultiple(customBoundingBox.min.z, base)
-      customBoundingBox.max.x = roundToNearestMultiple(customBoundingBox.max.x, base)
-      customBoundingBox.max.y = roundToNearestMultiple(customBoundingBox.max.y, heightBase)
-      customBoundingBox.max.z = roundToNearestMultiple(customBoundingBox.max.z, base)
+    customBoundingBox.min.x = roundToNearestMultiple(customBoundingBox.min.x, base)
+    customBoundingBox.min.y = roundToNearestMultiple(customBoundingBox.min.y, heightBase)
+    customBoundingBox.min.z = roundToNearestMultiple(customBoundingBox.min.z, base)
+    customBoundingBox.max.x = roundToNearestMultiple(customBoundingBox.max.x, base)
+    customBoundingBox.max.y = roundToNearestMultiple(customBoundingBox.max.y, heightBase)
+    customBoundingBox.max.z = roundToNearestMultiple(customBoundingBox.max.z, base)
 
-      const brickBoundBoxClone = JSON.parse(JSON.stringify(bricksBoundBox.current))
-      brickBoundBoxClone[uID] = null
-      const isNotColliding = checkCollision(
-        { uID, brickBoundingBox: customBoundingBox },
-        Object.values(brickBoundBoxClone),
-      )
+    const brickBoundBoxClone = JSON.parse(JSON.stringify(bricksBoundBox.current))
+    brickBoundBoxClone[uID] = null
+    const isNotColliding = checkCollision(
+      { uID, brickBoundingBox: customBoundingBox },
+      Object.values(brickBoundBoxClone),
+    )
 
-      const blockCurrentClone = JSON.parse(JSON.stringify(blockCurrent))
+    const blockCurrentClone = JSON.parse(JSON.stringify(blockCurrent))
 
-      for (let i = 0; i < blockCurrentClone.length; i++) {
-        const element = blockCurrentClone[i]
-        if (element.uID === uID) {
-          blockCurrentClone[i].translation = {
-            x: newOffset.x / base,
-            y: newOffset.y / heightBase < 0 ? 0 : newOffset.y / heightBase,
-            z: newOffset.z / base,
-          }
+    for (let i = 0; i < blockCurrentClone.length; i++) {
+      const element = blockCurrentClone[i]
+      if (element.uID === uID) {
+        blockCurrentClone[i].translation = {
+          x: newOffset.x / base,
+          y: newOffset.y / heightBase < 0 ? 0 : newOffset.y / heightBase,
+          z: newOffset.z / base,
         }
       }
+    }
 
-      if (selectedBricks.length === 1) {
-        setDraggedOffset(newOffset)
-        setResetKey(generateUId())
-        setIsDragging(false)
-        if (blockCurrentClone) setPositionBricks(blockCurrentClone)
-        brickBoundBoxClone[uID] = { uID, brickBoundingBox: customBoundingBox }
-        bricksBoundBox.current = brickBoundBoxClone
-      }
+    if (selectedBricks.length === 1) {
+      setDraggedOffset(newOffset)
+      setResetKey(generateUId())
+      setIsDragging(false)
+      if (blockCurrentClone) setPositionBricks(blockCurrentClone)
+      brickBoundBoxClone[uID] = { uID, brickBoundingBox: customBoundingBox }
+      bricksBoundBox.current = brickBoundBoxClone
+    }
 
-      if (!isNotColliding && selectedBricks.length === 0) {
-        setResetKey(generateUId())
-        if (currentBrickSelected.current.blockCurrentClone)
-          setPositionBricks(currentBrickSelected.current.blockCurrentClone)
-        setDraggedOffset(currentBrickSelected.current.prevOffset)
-        bricksBoundBox.current = currentBrickSelected.current.boundBricks
-      }
+    if (!isNotColliding && selectedBricks.length === 0) {
+      setResetKey(generateUId())
+      if (currentBrickSelected.current.blockCurrentClone)
+        setPositionBricks(currentBrickSelected.current.blockCurrentClone)
+      setDraggedOffset(currentBrickSelected.current.prevOffset)
+      bricksBoundBox.current = currentBrickSelected.current.boundBricks
+    }
 
-      if (selectedBricks.length === 1 && isNotColliding) {
-        currentBrickSelected.current.prevOffset = newOffset
-        currentBrickSelected.current.boundingBox = customBoundingBox
-        currentBrickSelected.current.blockCurrentClone = blockCurrentClone
-        brickBoundBoxClone[uID] = { uID, brickBoundingBox: customBoundingBox }
-        currentBrickSelected.current.boundBricks = brickBoundBoxClone
+    if (selectedBricks.length === 1 && isNotColliding) {
+      currentBrickSelected.current.prevOffset = newOffset
+      currentBrickSelected.current.boundingBox = customBoundingBox
+      currentBrickSelected.current.blockCurrentClone = blockCurrentClone
+      brickBoundBoxClone[uID] = { uID, brickBoundingBox: customBoundingBox }
+      currentBrickSelected.current.boundBricks = brickBoundBoxClone
+    }
+
+    if (selectedBricks.length === 1) {
+      if (selectedBricks[0].userData.uID === uID) {
+        currentBrickSelected.current.prevUidChange = uID
+      } else {
+        currentBrickSelected.current.prevUidChange = null
       }
     }
   }, [selectedBricks, uID, draggedOffset, prevL, bricksBoundBox, blockCurrent])
 
   React.useEffect(() => {
-    if (brickRef.current && brickRef.current.userData.uID === uID) {
+    if (brickRef.current && mode === EDIT_MODE) {
       if (selectedBricks.length === 0) {
-        onDragEnd()
+        if (currentBrickSelected.current.prevUidChange === uID) onDragEnd()
       } else {
-        const boundingBox = new Box3().setFromObject(brickRef.current)
-        boundingBox.min.x = roundToNearestMultiple(boundingBox.min.x, base)
-        boundingBox.min.y = roundToNearestMultiple(boundingBox.min.y, heightBase)
-        boundingBox.min.z = roundToNearestMultiple(boundingBox.min.z, base)
-        boundingBox.max.x = roundToNearestMultiple(boundingBox.max.x, base)
-        boundingBox.max.y = roundToNearestMultiple(boundingBox.max.y, heightBase)
-        boundingBox.max.z = roundToNearestMultiple(boundingBox.max.z, base)
-        currentBrickSelected.current.boundingBox = boundingBox
-        currentBrickSelected.current.blockCurrentClone = JSON.parse(JSON.stringify(blockCurrent))
+        if (selectedBricks[0].userData.uID === uID) {
+          const boundingBox = new Box3().setFromObject(brickRef.current)
+          boundingBox.min.x = roundToNearestMultiple(boundingBox.min.x, base)
+          boundingBox.min.y = roundToNearestMultiple(boundingBox.min.y, heightBase)
+          boundingBox.min.z = roundToNearestMultiple(boundingBox.min.z, base)
+          boundingBox.max.x = roundToNearestMultiple(boundingBox.max.x, base)
+          boundingBox.max.y = roundToNearestMultiple(boundingBox.max.y, heightBase)
+          boundingBox.max.z = roundToNearestMultiple(boundingBox.max.z, base)
+          currentBrickSelected.current.boundingBox = boundingBox
+          currentBrickSelected.current.blockCurrentClone = JSON.parse(JSON.stringify(blockCurrent))
+        }
       }
     }
-  }, [selectedBricks])
+  }, [selectedBricks.length, mode])
 
   React.useEffect(() => {
     if (!brickRef.current) return
@@ -215,7 +224,7 @@ export const Brick = ({
     } else if (selectedBricks.length === 0) {
       setOpacity(1)
     }
-  }, [isSelected2, selectedBricks])
+  }, [isSelected2, selectedBricks.length])
 
   return (
     <>
