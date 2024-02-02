@@ -16,7 +16,7 @@ const Banner = () => {
         <div>Exclusive for Modular Builders: <strong>20% Boost</strong> for $BVM Public Sale within the next <Countdown
             className={s.countdown}
             expiredTime={dayjs
-                .utc('Fri Feb 02 2024 03:30:00 GMT+0000')
+                .utc('Mon Feb 05 2024 03:30:00 GMT+0000')
                 .toString()}
         />!</div>
            <span className={s.workshopBtn}> Join Now </span>
