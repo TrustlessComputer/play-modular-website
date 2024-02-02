@@ -36,7 +36,7 @@ const Countdown: React.FC<IProps> = ({
         <div className={clsx(s.countdown, className)}>
             {ended && <span className={s.text}>Ended</span>}
             {!ended && (
-                <span className={s.text}>{`${hours}h:${minutes}m`}</span>
+                <span className={s.text}>{`${days}d:${hours}h:${minutes}m`}</span>
             )}
         </div>
     );
