@@ -38,7 +38,7 @@ export function Select({
     (e) => {
       e.stopPropagation()
       if (!enable || selectedBricks.length) {
-        if (selectedBricks[0].uuid !== e.object.uuid) {
+        if (selectedBricks[0].userData.uID !== e.object.userData.uID) {
           setSelectedBricks({})
         }
 
