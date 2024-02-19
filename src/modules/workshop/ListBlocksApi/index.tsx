@@ -18,6 +18,7 @@ import s from './styles.module.scss'
 import { isLocalhost } from '@/utils/browser'
 import { MOCK_ADDRESS } from '@/constant/mock-data'
 import ImagePlaceholder from '@/components/Skeleton/ImagePlaceholder'
+import { WalletType } from '@/providers/wallet/types'
 
 const GridList = forwardRef(({ children, ...props }: PropsWithChildren, ref: any) => (
   <div
@@ -73,7 +74,7 @@ const ListBlocks: React.FunctionComponent = () => {
   } = useApiInfinite(
     getListModularByWallet,
     {
-      ownerAddress: isLocalhost() ? MOCK_ADDRESS : account?.address,
+      ownerAddress: isLocalhost() ? MOCK_ADDRESS : account?.type === WalletType.GuestMode ? '' : account?.address,
       page: 1,
       limit: 20,
     },

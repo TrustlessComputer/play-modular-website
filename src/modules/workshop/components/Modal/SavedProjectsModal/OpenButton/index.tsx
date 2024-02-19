@@ -5,6 +5,7 @@ import { useModalStore, useProjectStore, useStoreGlobal } from '@/stores/blocks'
 import { SAVED_PROJECTS_MODAL_ID } from '..'
 import { accountSelector } from '@/stores/states/wallet/selector'
 import { useAppSelector } from '@/stores/hooks'
+import { WalletType } from '@/providers/wallet/types'
 
 type Props = {}
 
@@ -18,7 +19,7 @@ const OpenButton = (props: Props) => {
     try {
       setLoading(true)
       const res = await getProjectDetail({ id: selectedProject.id })
-      const data = await handleGetData(account.address) // reset data when open new data
+      const data = await handleGetData(account?.type === WalletType.GuestMode ? '' : account?.address) // reset data when open new data
 
       if (!!res.metaData) {
         setDataCurrent(data)
