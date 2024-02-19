@@ -52,10 +52,12 @@ const useSaveAction = (): {
       projectName?: string
       ownerAddress: string
       thumbnail: string
+      isGuestMode?: boolean
     } = {
       jsonFile: blockCurrent,
       ownerAddress: account?.address,
       thumbnail: resUrl.url,
+      isGuestMode: account.type === 'GuestMode' ? true : false,
     }
 
     if (projectId) {
@@ -82,11 +84,13 @@ const useSaveAction = (): {
       projectName?: string
       ownerAddress: string
       thumbnail: string
+      isGuestMode?: boolean
     } = {
       jsonFile: blockCurrent,
       ownerAddress: account?.address,
       thumbnail: resUrl.url,
       projectName: `${new Date().getTime()}`,
+      isGuestMode: account.type === 'GuestMode' ? true : false,
     }
 
     // if (projectId) {
