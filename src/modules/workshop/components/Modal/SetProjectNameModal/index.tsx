@@ -52,6 +52,7 @@ const SetProjectNameModal = ({ type }: Props) => {
       projectName?: string
       ownerAddress: string
       thumbnail: string
+      isGuestMode: boolean
     } = {
       projectName: values.modelName,
       jsonFile: blockCurrent,
@@ -59,6 +60,7 @@ const SetProjectNameModal = ({ type }: Props) => {
       ownerAddress: account?.address,
       // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
       thumbnail: resUrl.url,
+      isGuestMode: account.type === 'GuestMode' ? true : false,
     }
 
     const res = await saveProject(payload)
