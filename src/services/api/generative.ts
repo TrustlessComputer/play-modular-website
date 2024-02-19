@@ -15,8 +15,6 @@ export const apiClient = createAxiosInstance({ baseURL: API_URL })
 const MODULAR_API_PATH = 'modular/inscriptions'
 const MODULAT_WORKSHOP_API_PATH = 'modular-workshop'
 
-const FILE_API_PATH = 'files'
-
 export const getListModularByWallet = async (payload: {
   ownerAddress: string
   page: number

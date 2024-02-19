@@ -16,6 +16,7 @@ import { accountSelector } from '@/stores/states/wallet/selector'
 import { TListCurrent } from '@/types'
 import { useEffect, useMemo, useRef } from 'react'
 import IcInfo from '@/icons/workshop/ic-info.svg'
+import { WalletType } from '@/providers/wallet/types'
 
 type TDataFetch = {
   list: TListCurrent
@@ -84,8 +85,7 @@ export default function BottomBar() {
   } = useApiInfinite(
     getListModularByWallet,
     {
-      ownerAddress: account?.address,
-      // ownerAddress: 'bc1pafhpvjgj5x7era4cv55zdhpl57qvj0c60z084zsl7cwlmn3gq9tq3hqdmn',
+      ownerAddress: account?.type === WalletType.GuestMode ? '' : account?.address,
       page: 1,
       limit: 20,
     },
@@ -137,7 +137,7 @@ export default function BottomBar() {
     }
     createProject()
     deleteAlls()
-    const data = await handleGetData(account?.address) //reset new project
+    const data = await handleGetData(account?.type === WalletType.GuestMode ? '' : account?.address) //reset new project
     setDataCurrent(data)
   }
 
