@@ -90,6 +90,7 @@ export const createOrSaveProject = async (payload: {
   owner_addr: string
   meta_data: string
   thumbnail: string
+  is_guest_mode?: boolean
 }): Promise<string> => {
   try {
     const res = (await apiClient.post(`${MODULAT_WORKSHOP_API_PATH}/save`, payload)) as any
