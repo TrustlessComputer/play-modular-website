@@ -1,5 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react'
 import React, { Fragment } from 'react'
+import IcClose from '@/icons/workshop/ic-close.svg'
 
 const Modal: React.FunctionComponent<any> = ({ isOpen, closeModal, children }) => {
   return (
@@ -30,6 +31,9 @@ const Modal: React.FunctionComponent<any> = ({ isOpen, closeModal, children }) =
                 leaveTo='opacity-0 scale-95'
               >
                 <Dialog.Panel className='w-full max-w-xl transform overflow-hidden bg-white p-10 text-left align-middle shadow-xl transition-all'>
+                  <div className='absolute p-4 right-0 top-0 cursor-pointer' onClick={closeModal}>
+                    <IcClose />
+                  </div>
                   {children}
                 </Dialog.Panel>
               </Transition.Child>

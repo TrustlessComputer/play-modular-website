@@ -15,6 +15,7 @@ const ModalManager = (props: Props) => {
         const { component, id } = modal
         const show = modals[0].id === id
         const onClose = () => {
+          console.log('🚀 ~ onClose ~ id:', id)
           closeModal(id)
         }
 
